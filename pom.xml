@@ -277,32 +277,32 @@
         </plugins>
       </build>
     </profile>
-	<profile>
+    <profile>
       <id>doc-folder-generation</id>
       <build>
         <plugins>
           <!-- Copy javadocs -->
-		  <plugin>
-			<artifactId>maven-resources-plugin</artifactId>
-			<version>2.5</version>
-			<executions>
-			  <execution>
-				<id>copy-resources</id>
-				<phase>validate</phase>
-				<goals>
-				  <goal>copy-resources</goal>
-				</goals>
-				<configuration>
-				  <outputDirectory>doc</outputDirectory>
-				  <resources>          
-					<resource>
-					  <directory>target/apidocs</directory>
-					</resource>
-				  </resources>
-				</configuration>
-			  </execution>
-			</executions>
-		  </plugin>
+          <plugin>
+              <artifactId>maven-resources-plugin</artifactId>
+              <version>2.7</version>
+              <executions>
+                  <execution>
+                      <id>copy-resources</id>
+                      <phase>validate</phase>
+                      <goals>
+                          <goal>copy-resources</goal>
+                      </goals>
+                      <configuration>
+                          <outputDirectory>doc</outputDirectory>
+                          <resources>          
+                              <resource>
+                                  <directory>target/apidocs</directory>
+                              </resource>
+                          </resources>
+                      </configuration>
+                  </execution>
+              </executions>
+            </plugin>
         </plugins>
       </build>
     </profile>
