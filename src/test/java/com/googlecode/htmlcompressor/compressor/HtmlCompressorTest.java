@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.javascript.jscomp.CompilationLevel;
 
@@ -38,6 +40,8 @@ public class HtmlCompressorTest {
 
     private static final String resPath = "./src/test/resources/html/";
 
+    /** The Constant logger. */
+    private static final Logger logger  = LoggerFactory.getLogger(HtmlCompressorTest.class);
 
 
     /**
@@ -453,7 +457,7 @@ public class HtmlCompressorTest {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("", e);
         }
 
         return builder.toString();

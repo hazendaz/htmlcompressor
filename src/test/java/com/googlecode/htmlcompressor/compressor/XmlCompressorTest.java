@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class XmlCompressorTest.
@@ -31,6 +33,8 @@ import org.junit.Test;
 public class XmlCompressorTest {
 
     private static final String resPath = "./src/test/resources/xml/";
+    /** The Constant logger. */
+    private static final Logger logger  = LoggerFactory.getLogger(XmlCompressorTest.class);
 
 
     /**
@@ -125,7 +129,7 @@ public class XmlCompressorTest {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("", e);
         }
 
         return builder.toString();

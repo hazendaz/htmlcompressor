@@ -21,6 +21,9 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
 import com.googlecode.htmlcompressor.compressor.YuiCssCompressor;
 
@@ -37,6 +40,8 @@ import com.googlecode.htmlcompressor.compressor.YuiCssCompressor;
 public class CssCompressorTag extends BodyTagSupport {
 
     private boolean enabled         = true;
+    /** The Constant logger. */
+    private static final Logger logger          = LoggerFactory.getLogger(CssCompressorTag.class);
 
     // YUICompressor settings
     private int     yuiCssLineBreak = -1;
@@ -63,9 +68,7 @@ public class CssCompressorTag extends BodyTagSupport {
                 bodyContent.writeOut(pageContext.getOut());
             }
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("", e);
         }
 
         return super.doEndTag();

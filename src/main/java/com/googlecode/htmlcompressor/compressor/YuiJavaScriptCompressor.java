@@ -21,6 +21,8 @@ import java.io.StringWriter;
 
 import org.mozilla.javascript.ErrorReporter;
 import org.mozilla.javascript.EvaluatorException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 
@@ -34,6 +36,9 @@ import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
  * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
  */
 public class YuiJavaScriptCompressor implements Compressor {
+
+    /** The Constant logger. */
+    private static final Logger logger        = LoggerFactory.getLogger(YuiJavaScriptCompressor.class);
 
     // YUICompressor default settings
     private boolean       noMunge               = false;
@@ -53,7 +58,7 @@ public class YuiJavaScriptCompressor implements Compressor {
             compressor.compress(result, lineBreak, !noMunge, false, preserveAllSemiColons, disableOptimizations);
         } catch (IOException e) {
             result.write(source);
-            e.printStackTrace();
+            logger.error("", e);
         }
         return result.toString();
 
@@ -72,18 +77,18 @@ public class YuiJavaScriptCompressor implements Compressor {
 
         public void warning(String message, String sourceName, int line, String lineSource, int lineOffset) {
             if (line < 0) {
-                System.err.println("[WARNING] HtmlCompressor: \"" + message + "\" during JavaScript compression");
+                logger.error("[WARNING] HtmlCompressor: \"" + message + "\" during JavaScript compression");
             } else {
-                System.err.println("[WARNING] HtmlCompressor: \"" + message + "\" at line [" + line + ":" + lineOffset
+                logger.error("[WARNING] HtmlCompressor: \"" + message + "\" at line [" + line + ":" + lineOffset
                         + "] during JavaScript compression" + (lineSource != null ? ": " + lineSource : ""));
             }
         }
 
         public void error(String message, String sourceName, int line, String lineSource, int lineOffset) {
             if (line < 0) {
-                System.err.println("[ERROR] HtmlCompressor: \"" + message + "\" during JavaScript compression");
+                logger.error("[ERROR] HtmlCompressor: \"" + message + "\" during JavaScript compression");
             } else {
-                System.err.println("[ERROR] HtmlCompressor: \"" + message + "\" at line [" + line + ":" + lineOffset
+                logger.error("[ERROR] HtmlCompressor: \"" + message + "\" at line [" + line + ":" + lineOffset
                         + "] during JavaScript compression" + (lineSource != null ? ": " + lineSource : ""));
             }
         }

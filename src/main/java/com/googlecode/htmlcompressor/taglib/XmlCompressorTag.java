@@ -21,6 +21,9 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.googlecode.htmlcompressor.compressor.XmlCompressor;
 
 /**
@@ -35,6 +38,8 @@ public class XmlCompressorTag extends BodyTagSupport {
     /** The Constant serialVersionUID. */
     private static final long   serialVersionUID     = 1L;
 
+    /** The Constant logger. */
+    private static final Logger logger               = LoggerFactory.getLogger(XmlCompressorTag.class);
     // default settings
     private boolean removeComments       = true;
     private boolean removeIntertagSpaces = true;
@@ -55,9 +60,7 @@ public class XmlCompressorTag extends BodyTagSupport {
             bodyContent.append(compressor.compress(content));
             bodyContent.writeOut(pageContext.getOut());
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("", e);
         }
 
         return super.doEndTag();

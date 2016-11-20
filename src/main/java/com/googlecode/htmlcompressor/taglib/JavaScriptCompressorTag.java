@@ -21,6 +21,9 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.javascript.jscomp.CompilationLevel;
 import com.googlecode.htmlcompressor.compressor.ClosureJavaScriptCompressor;
 import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
@@ -42,6 +45,8 @@ public class JavaScriptCompressorTag extends BodyTagSupport {
     private static final long   serialVersionUID = 1L;
 
     private String  jsCompressor               = HtmlCompressor.JS_COMPRESSOR_YUI;
+    /** The Constant logger. */
+    private static final Logger logger           = LoggerFactory.getLogger(JavaScriptCompressorTag.class);
 
     // YUICompressor settings
     private boolean yuiJsNoMunge               = false;
@@ -98,9 +103,7 @@ public class JavaScriptCompressorTag extends BodyTagSupport {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("", e);
         }
 
         return super.doEndTag();

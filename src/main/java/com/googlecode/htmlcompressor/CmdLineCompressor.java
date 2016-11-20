@@ -40,6 +40,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.javascript.jscomp.CompilationLevel;
 import com.google.javascript.jscomp.JSSourceFile;
 import com.googlecode.htmlcompressor.analyzer.HtmlAnalyzer;
@@ -61,6 +64,9 @@ import com.googlecode.htmlcompressor.compressor.XmlCompressor;
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  */
 public class CmdLineCompressor {
+
+    /** The Constant logger. */
+    private static final Logger  logger     = LoggerFactory.getLogger(CmdLineCompressor.class);
 
     /** The Constant urlPattern. */
     private static final Pattern urlPattern = Pattern.compile("^https?://.*$", Pattern.CASE_INSENSITIVE);
@@ -318,7 +324,7 @@ public class CmdLineCompressor {
             }
 
         } catch (OptionException e) {
-            System.out.println("ERROR: " + e.getMessage());
+            logger.info("ERROR: " + e.getMessage());
             printUsage();
         }
 
@@ -379,7 +385,7 @@ public class CmdLineCompressor {
 
         } catch (NoClassDefFoundError e) {
             if (HtmlCompressor.JS_COMPRESSOR_CLOSURE.equalsIgnoreCase(jsCompressorOpt)) {
-                System.out.println("ERROR: For JavaScript compression using Google Closure Compiler\n"
+                logger.info("ERROR: For JavaScript compression using Google Closure Compiler\n"
                         + "additional jar file called compiler.jar must be present\n"
                         + "in the same directory as HtmlCompressor jar");
             } else {
@@ -389,12 +395,12 @@ public class CmdLineCompressor {
                                 + "in the same directory as HtmlCompressor jar");
             }
         } catch (OptionException e) {
-            System.out.println("ERROR: " + e.getMessage());
+            logger.info("ERROR: " + e.getMessage());
             printUsage();
         } catch (IOException e) {
-            System.out.println("ERROR: " + e.getMessage());
+            logger.info("ERROR: " + e.getMessage());
         } catch (IllegalArgumentException e) {
-            System.out.println("ERROR: " + e.getMessage());
+            logger.info("ERROR: " + e.getMessage());
         }
 
     }
@@ -741,7 +747,7 @@ public class CmdLineCompressor {
      * Prints the usage.
      */
     private void printUsage() {
-        System.out.println("Usage: java -jar htmlcompressor.jar [options] [input]\n\n"
+        logger.info("Usage: java -jar htmlcompressor.jar [options] [input]\n\n"
 
         + "[input]                        URL, filename, directory, or space separated list\n"
                 + "                               of files and directories to compress.\n"
