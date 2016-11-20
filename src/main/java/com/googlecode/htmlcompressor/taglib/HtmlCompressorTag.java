@@ -38,15 +38,22 @@ import com.googlecode.htmlcompressor.compressor.YuiJavaScriptCompressor;
  */
 public class HtmlCompressorTag extends BodyTagSupport {
 
-    private boolean enabled                    = true;
     /** The Constant serialVersionUID. */
     private static final long   serialVersionUID  = 1L;
 
     /** The Constant logger. */
     private static final Logger logger            = LoggerFactory.getLogger(HtmlCompressorTag.class);
+
+    /** The enabled. */
+    private boolean             enabled           = true;
+
     // default settings
-    private boolean removeComments             = true;
-    private boolean removeMultiSpaces          = true;
+
+    /** The remove comments. */
+    private boolean             removeComments    = true;
+
+    /** The remove multi spaces. */
+    private boolean             removeMultiSpaces = true;
 
     // optional settings
     private boolean removeIntertagSpaces       = false;
@@ -64,18 +71,24 @@ public class HtmlCompressorTag extends BodyTagSupport {
     private boolean removeHttpsProtocol        = false;
     private boolean compressJavaScript         = false;
     private boolean compressCss                = false;
-
-    private String  jsCompressor               = HtmlCompressor.JS_COMPRESSOR_YUI;
+    /** The js compressor. */
+    private String              jsCompressor      = HtmlCompressor.JS_COMPRESSOR_YUI;
 
     // YUICompressor settings
     private boolean yuiJsNoMunge               = false;
     private boolean yuiJsPreserveAllSemiColons = false;
     private boolean yuiJsDisableOptimizations  = false;
-    private int     yuiJsLineBreak             = -1;
-    private int     yuiCssLineBreak            = -1;
+
+    /** The yui js line break. */
+    private int                 yuiJsLineBreak    = -1;
+
+    /** The yui css line break. */
+    private int                 yuiCssLineBreak   = -1;
 
     // Closure compressor settings
-    private String  closureOptLevel            = ClosureJavaScriptCompressor.COMPILATION_LEVEL_SIMPLE;
+
+    /** The closure opt level. */
+    private String              closureOptLevel   = ClosureJavaScriptCompressor.COMPILATION_LEVEL_SIMPLE;
 
     @Override
     public int doEndTag() throws JspException {

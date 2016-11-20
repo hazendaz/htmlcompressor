@@ -39,12 +39,16 @@ import com.googlecode.htmlcompressor.compressor.YuiCssCompressor;
 @SuppressWarnings("serial")
 public class CssCompressorTag extends BodyTagSupport {
 
-    private boolean enabled         = true;
     /** The Constant logger. */
     private static final Logger logger          = LoggerFactory.getLogger(CssCompressorTag.class);
 
+    /** The enabled. */
+    private boolean             enabled         = true;
+
     // YUICompressor settings
-    private int     yuiCssLineBreak = -1;
+
+    /** The yui css line break. */
+    private int                 yuiCssLineBreak = -1;
 
     @Override
     public int doEndTag() throws JspException {

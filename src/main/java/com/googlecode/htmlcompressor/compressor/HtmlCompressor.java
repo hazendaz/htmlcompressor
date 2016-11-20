@@ -136,6 +136,7 @@ public class HtmlCompressor implements Compressor {
     /** The yui css line break. */
     private int                      yuiCssLineBreak              = -1;
 
+    /** The yui error reporter. */
     // error reporter implementation for YUI compressor
     private ErrorReporter            yuiErrorReporter             = null;
 
@@ -343,7 +344,9 @@ public class HtmlCompressor implements Compressor {
                                                                           .compile(
                                                                                   "(\\son[a-z]+\\s*=\\s*\")([^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*)(\")",
                                                                                   Pattern.CASE_INSENSITIVE);                                                                                          // unmasked:
-                                                                                                                                                                                                       // \son[a-z]+\s*=\s*"[^"\\\r\n]*(?:\\.[^"\\\r\n]*)*"
+
+    /** The Constant eventPattern2. */
+    // \son[a-z]+\s*=\s*"[^"\\\r\n]*(?:\\.[^"\\\r\n]*)*"
     protected static final Pattern   eventPattern2                = Pattern
                                                                           .compile(
                                                                                   "(\\son[a-z]+\\s*=\\s*')([^'\\\\\\r\\n]*(?:\\\\.[^'\\\\\\r\\n]*)*)(')",
@@ -1993,7 +1996,7 @@ public class HtmlCompressor implements Compressor {
      * <code>&lt;!DOCTYPE html&gt;</code> declaration. Default is <code>false</code>.
      * 
      * @param simpleDoctype
-     *            set <code>true</code> to replace existing DOCTYPE declaration with <code>&lt;!DOCTYPE html></code>
+     *            set <code>true</code> to replace existing DOCTYPE declaration with <code>&lt;!DOCTYPE html&gt;</code>
      */
     public void setSimpleDoctype(boolean simpleDoctype) {
         this.simpleDoctype = simpleDoctype;

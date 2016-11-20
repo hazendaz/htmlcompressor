@@ -31,12 +31,17 @@ import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
  */
 public class HtmlAnalyzer {
 
-    private String jsCompressor = HtmlCompressor.JS_COMPRESSOR_YUI;
     /** The Constant logger. */
     private static final Logger logger       = LoggerFactory.getLogger(HtmlAnalyzer.class);
 
-    public HtmlAnalyzer() {
+    /** The js compressor. */
+    private String              jsCompressor = HtmlCompressor.JS_COMPRESSOR_YUI;
 
+    /**
+     * Instantiates a new html analyzer.
+     */
+    public HtmlAnalyzer() {
+        // Required for override
     }
 
     /**

@@ -33,6 +33,12 @@ import java.util.Vector;
  */
 public class CmdLineParser {
 
+    /** The options. */
+    private Hashtable options       = new Hashtable(10);
+
+    /** The values. */
+    private Hashtable values        = new Hashtable(10);
+
     /**
      * Base class for exceptions that may be thrown when options are parsed.
      */
@@ -57,6 +63,10 @@ public class CmdLineParser {
      * an error string suitable for reporting the error to the user (in English).
      */
     public static class UnknownOptionException extends OptionException {
+
+        /** The Constant serialVersionUID. */
+        private static final long serialVersionUID = 1L;
+
         /**
          * Instantiates a new unknown option exception.
          *
@@ -101,6 +111,10 @@ public class CmdLineParser {
     public static class UnknownSuboptionException extends UnknownOptionException {
         private char suboption;
 
+        /** The Constant serialVersionUID. */
+        private static final long serialVersionUID = 1L;
+
+
         /**
          * Instantiates a new unknown suboption exception.
          *
@@ -133,6 +147,10 @@ public class CmdLineParser {
     public static class NotFlagException extends UnknownOptionException {
         private char notflag;
 
+        /** The Constant serialVersionUID. */
+        private static final long serialVersionUID = 1L;
+
+
         /**
          * Instantiates a new not flag exception.
          *
@@ -147,6 +165,8 @@ public class CmdLineParser {
         }
 
         /**
+         * Gets the option char.
+         *
          * @return the first character which wasn't a boolean (e.g 'c')
          */
         public char getOptionChar() {
@@ -814,6 +834,4 @@ public class CmdLineParser {
     }
 
     private String[]  remainingArgs = null;
-    private Hashtable options       = new Hashtable(10);
-    private Hashtable values        = new Hashtable(10);
 }

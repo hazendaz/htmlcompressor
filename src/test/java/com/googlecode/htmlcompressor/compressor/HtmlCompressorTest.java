@@ -38,11 +38,11 @@ import com.google.javascript.jscomp.CompilationLevel;
  */
 public class HtmlCompressorTest {
 
-    private static final String resPath = "./src/test/resources/html/";
-
     /** The Constant logger. */
     private static final Logger logger  = LoggerFactory.getLogger(HtmlCompressorTest.class);
 
+    /** The Constant resPath. */
+    private static final String resPath = "./src/test/resources/html/";
 
     /**
      * Test enabled.

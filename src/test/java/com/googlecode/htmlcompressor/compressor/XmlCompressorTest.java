@@ -32,10 +32,11 @@ import org.slf4j.LoggerFactory;
  */
 public class XmlCompressorTest {
 
-    private static final String resPath = "./src/test/resources/xml/";
     /** The Constant logger. */
     private static final Logger logger  = LoggerFactory.getLogger(XmlCompressorTest.class);
 
+    /** The Constant resPath. */
+    private static final String resPath = "./src/test/resources/xml/";
 
     /**
      * Test compress.

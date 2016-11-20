@@ -44,10 +44,13 @@ public class YuiJavaScriptCompressor implements Compressor {
     private boolean       noMunge               = false;
     private boolean       preserveAllSemiColons = false;
     private boolean       disableOptimizations  = false;
-    private int           lineBreak             = -1;
 
-    private ErrorReporter errorReporter         = new DefaultErrorReporter();
 
+    /** The line break. */
+    private int                 lineBreak     = -1;
+
+    /** The error reporter. */
+    private ErrorReporter       errorReporter = new DefaultErrorReporter();
 
     @Override
     public String compress(String source) {
@@ -75,6 +78,7 @@ public class YuiJavaScriptCompressor implements Compressor {
      */
     public static class DefaultErrorReporter implements ErrorReporter {
 
+        @Override
         public void warning(String message, String sourceName, int line, String lineSource, int lineOffset) {
             if (line < 0) {
                 logger.error("[WARNING] HtmlCompressor: \"" + message + "\" during JavaScript compression");
@@ -84,6 +88,7 @@ public class YuiJavaScriptCompressor implements Compressor {
             }
         }
 
+        @Override
         public void error(String message, String sourceName, int line, String lineSource, int lineOffset) {
             if (line < 0) {
                 logger.error("[ERROR] HtmlCompressor: \"" + message + "\" during JavaScript compression");

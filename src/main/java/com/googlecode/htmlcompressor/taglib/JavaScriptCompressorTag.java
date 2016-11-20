@@ -40,22 +40,29 @@ import com.googlecode.htmlcompressor.compressor.YuiJavaScriptCompressor;
  */
 public class JavaScriptCompressorTag extends BodyTagSupport {
 
-    private boolean enabled                    = true;
     /** The Constant serialVersionUID. */
     private static final long   serialVersionUID = 1L;
 
-    private String  jsCompressor               = HtmlCompressor.JS_COMPRESSOR_YUI;
     /** The Constant logger. */
     private static final Logger logger           = LoggerFactory.getLogger(JavaScriptCompressorTag.class);
+
+    /** The enabled. */
+    private boolean             enabled          = true;
+
+    /** The js compressor. */
+    private String              jsCompressor     = HtmlCompressor.JS_COMPRESSOR_YUI;
 
     // YUICompressor settings
     private boolean yuiJsNoMunge               = false;
     private boolean yuiJsPreserveAllSemiColons = false;
     private boolean yuiJsDisableOptimizations  = false;
-    private int     yuiJsLineBreak             = -1;
+    /** The yui js line break. */
+    private int                 yuiJsLineBreak   = -1;
 
     // Closure compressor settings
-    private String  closureOptLevel            = ClosureJavaScriptCompressor.COMPILATION_LEVEL_SIMPLE;
+
+    /** The closure opt level. */
+    private String              closureOptLevel  = ClosureJavaScriptCompressor.COMPILATION_LEVEL_SIMPLE;
 
     @Override
     public int doEndTag() throws JspException {

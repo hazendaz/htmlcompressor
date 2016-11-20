@@ -34,15 +34,21 @@ import com.googlecode.htmlcompressor.compressor.XmlCompressor;
  */
 public class XmlCompressorTag extends BodyTagSupport {
 
-    private boolean enabled              = true;
     /** The Constant serialVersionUID. */
     private static final long   serialVersionUID     = 1L;
 
     /** The Constant logger. */
     private static final Logger logger               = LoggerFactory.getLogger(XmlCompressorTag.class);
+
+    /** The enabled. */
+    private boolean             enabled              = true;
+
+    /** The remove comments. */
     // default settings
-    private boolean removeComments       = true;
-    private boolean removeIntertagSpaces = true;
+    private boolean             removeComments       = true;
+
+    /** The remove intertag spaces. */
+    private boolean             removeIntertagSpaces = true;
 
     @Override
     public int doEndTag() throws JspException {
