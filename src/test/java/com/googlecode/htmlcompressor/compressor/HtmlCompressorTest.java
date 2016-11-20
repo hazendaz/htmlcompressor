@@ -18,20 +18,15 @@ package com.googlecode.htmlcompressor.compressor;
 import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import com.google.javascript.jscomp.CompilationLevel;
@@ -43,13 +38,7 @@ public class HtmlCompressorTest {
 
     private static final String resPath = "./src/test/resources/html/";
 
-    @Before
-    public void setUp() {
-    }
 
-    @After
-    public void tearDown() {
-    }
 
     /**
      * Test enabled.
@@ -468,20 +457,6 @@ public class HtmlCompressorTest {
         }
 
         return builder.toString();
-
-    }
-
-    private void writeResource(String filename, String content) {
-        try {
-            Writer output = new BufferedWriter(new FileWriter(new File(resPath + filename)));
-            try {
-                output.write(content);
-            } finally {
-                output.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 }

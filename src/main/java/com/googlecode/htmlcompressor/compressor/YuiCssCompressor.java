@@ -35,9 +35,6 @@ public class YuiCssCompressor implements Compressor {
     /** The line break. */
     private int lineBreak = -1;
 
-    public YuiCssCompressor() {
-    }
-
     @Override
     public String compress(String source) {
         StringWriter result = new StringWriter();

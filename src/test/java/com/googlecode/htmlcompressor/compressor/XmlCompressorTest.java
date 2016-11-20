@@ -18,17 +18,11 @@ package com.googlecode.htmlcompressor.compressor;
 import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.Writer;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -38,13 +32,6 @@ public class XmlCompressorTest {
 
     private static final String resPath = "./src/test/resources/xml/";
 
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
 
     /**
      * Test compress.
@@ -144,16 +131,4 @@ public class XmlCompressorTest {
         return builder.toString();
     }
 
-    private void writeResource(String filename, String content) {
-        try {
-            Writer output = new BufferedWriter(new FileWriter(new File(resPath + filename)));
-            try {
-                output.write(content);
-            } finally {
-                output.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

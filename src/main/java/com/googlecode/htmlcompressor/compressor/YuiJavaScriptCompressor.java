@@ -43,8 +43,6 @@ public class YuiJavaScriptCompressor implements Compressor {
 
     private ErrorReporter errorReporter         = new DefaultErrorReporter();
 
-    public YuiJavaScriptCompressor() {
-    }
 
     @Override
     public String compress(String source) {
