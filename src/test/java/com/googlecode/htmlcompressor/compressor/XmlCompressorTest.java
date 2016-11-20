@@ -114,19 +114,13 @@ public class XmlCompressorTest {
      */
     private String readResource(String filename) {
         StringBuilder builder = new StringBuilder();
-        try {
-            FileInputStream stream = new FileInputStream(new File(resPath + filename));
-            try {
-                Reader reader = new BufferedReader(new InputStreamReader(stream));
+        try (Reader reader = new BufferedReader(
+                new InputStreamReader(new FileInputStream(new File(resPath + filename))))) {
 
-                char[] buffer = new char[8192];
-                int read;
-                while ((read = reader.read(buffer, 0, buffer.length)) > 0) {
-                    builder.append(buffer, 0, read);
-                }
-
-            } finally {
-                stream.close();
+            char[] buffer = new char[8192];
+            int read;
+            while ((read = reader.read(buffer, 0, buffer.length)) > 0) {
+                builder.append(buffer, 0, read);
             }
 
         } catch (IOException e) {

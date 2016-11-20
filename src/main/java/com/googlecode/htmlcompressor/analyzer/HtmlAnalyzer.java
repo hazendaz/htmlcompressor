@@ -241,10 +241,13 @@ public class HtmlAnalyzer {
      * @return the string
      */
     private String formatLine(String descr, int originalSize, int compressedSize, int prevSize) {
-        Formatter fmt = new Formatter();
-        fmt.format("%-25s | %16s | %16s | %12s |", descr, formatDecrease(prevSize, compressedSize),
-                formatDecrease(originalSize, compressedSize), formatSize(compressedSize));
-        return fmt.toString();
+        String result;
+        try (Formatter fmt = new Formatter()) {
+            fmt.format("%-25s | %16s | %16s | %12s |", descr, formatDecrease(prevSize, compressedSize),
+                    formatDecrease(originalSize, compressedSize), formatSize(compressedSize));
+            result = fmt.toString();
+        }
+        return result;
     }
 
     /**
@@ -255,9 +258,12 @@ public class HtmlAnalyzer {
      * @return the string
      */
     private String formatEmptyLine(String descr) {
-        Formatter fmt = new Formatter();
-        fmt.format("%-25s | %16s | %16s | %12s |", descr, "-", "-", "-");
-        return fmt.toString();
+        String result;
+        try (Formatter fmt = new Formatter()) {
+            fmt.format("%-25s | %16s | %16s | %12s |", descr, "-", "-", "-");
+            result = fmt.toString();
+        }
+        return result;
     }
 
     /**

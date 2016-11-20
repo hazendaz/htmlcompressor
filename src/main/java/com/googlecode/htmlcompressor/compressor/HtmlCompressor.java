@@ -91,8 +91,12 @@ public class HtmlCompressor implements Compressor {
     private boolean                  enabled                      = true;
 
     // javascript and css compressor implementations
-    private Compressor               javaScriptCompressor         = null;
-    private Compressor               cssCompressor                = null;
+
+    /** The java script compressor. */
+    private Compressor               javaScriptCompressor;
+
+    /** The css compressor. */
+    private Compressor               cssCompressor;
 
     // default settings
 
@@ -103,33 +107,77 @@ public class HtmlCompressor implements Compressor {
     private boolean                  removeMultiSpaces            = true;
 
     // optional settings
-    private boolean                  removeIntertagSpaces         = false;
-    private boolean                  removeQuotes                 = false;
-    private boolean                  compressJavaScript           = false;
-    private boolean                  compressCss                  = false;
-    private boolean                  simpleDoctype                = false;
-    private boolean                  removeScriptAttributes       = false;
-    private boolean                  removeStyleAttributes        = false;
-    private boolean                  removeLinkAttributes         = false;
-    private boolean                  removeFormAttributes         = false;
-    private boolean                  removeInputAttributes        = false;
-    private boolean                  simpleBooleanAttributes      = false;
-    private boolean                  removeJavaScriptProtocol     = false;
-    private boolean                  removeHttpProtocol           = false;
-    private boolean                  removeHttpsProtocol          = false;
-    private boolean                  preserveLineBreaks           = false;
-    private String                   removeSurroundingSpaces      = null;
 
-    private List<Pattern>            preservePatterns             = null;
+    /** The remove intertag spaces. */
+    private boolean                  removeIntertagSpaces;
+
+    /** The remove quotes. */
+    private boolean                  removeQuotes;
+
+    /** The compress java script. */
+    private boolean                  compressJavaScript;
+
+    /** The compress css. */
+    private boolean                  compressCss;
+
+    /** The simple doctype. */
+    private boolean                  simpleDoctype;
+
+    /** The remove script attributes. */
+    private boolean                  removeScriptAttributes;
+
+    /** The remove style attributes. */
+    private boolean                  removeStyleAttributes;
+
+    /** The remove link attributes. */
+    private boolean                  removeLinkAttributes;
+
+    /** The remove form attributes. */
+    private boolean                  removeFormAttributes;
+
+    /** The remove input attributes. */
+    private boolean                  removeInputAttributes;
+
+    /** The simple boolean attributes. */
+    private boolean                  simpleBooleanAttributes;
+
+    /** The remove java script protocol. */
+    private boolean                  removeJavaScriptProtocol;
+
+    /** The remove http protocol. */
+    private boolean                  removeHttpProtocol;
+
+    /** The remove https protocol. */
+    private boolean                  removeHttpsProtocol;
+
+    /** The preserve line breaks. */
+    private boolean                  preserveLineBreaks;
+
+    /** The remove surrounding spaces. */
+    private String                   removeSurroundingSpaces;
+
+    /** The preserve patterns. */
+    private List<Pattern>            preservePatterns;
 
     // statistics
-    private boolean                  generateStatistics           = false;
-    private HtmlCompressorStatistics statistics                   = null;
+
+    /** The generate statistics. */
+    private boolean                  generateStatistics;
+
+    /** The statistics. */
+    private HtmlCompressorStatistics statistics;
 
     // YUICompressor settings
-    private boolean                  yuiJsNoMunge                 = false;
-    private boolean                  yuiJsPreserveAllSemiColons   = false;
-    private boolean                  yuiJsDisableOptimizations    = false;
+
+    /** The yui js no munge. */
+    private boolean                  yuiJsNoMunge;
+
+    /** The yui js preserve all semi colons. */
+    private boolean                  yuiJsPreserveAllSemiColons;
+
+    /** The yui js disable optimizations. */
+    private boolean                  yuiJsDisableOptimizations;
+
     /** The yui js line break. */
     private int                      yuiJsLineBreak               = -1;
 
@@ -138,7 +186,7 @@ public class HtmlCompressor implements Compressor {
 
     /** The yui error reporter. */
     // error reporter implementation for YUI compressor
-    private ErrorReporter            yuiErrorReporter             = null;
+    private ErrorReporter            yuiErrorReporter;
 
     /** The Constant tempCondCommentBlock. */
     // temp replacements for preserved blocks

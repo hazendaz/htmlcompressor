@@ -41,10 +41,15 @@ public class YuiJavaScriptCompressor implements Compressor {
     private static final Logger logger        = LoggerFactory.getLogger(YuiJavaScriptCompressor.class);
 
     // YUICompressor default settings
-    private boolean       noMunge               = false;
-    private boolean       preserveAllSemiColons = false;
-    private boolean       disableOptimizations  = false;
 
+    /** The no munge. */
+    private boolean             noMunge;
+
+    /** The preserve all semi colons. */
+    private boolean             preserveAllSemiColons;
+
+    /** The disable optimizations. */
+    private boolean             disableOptimizations;
 
     /** The line break. */
     private int                 lineBreak     = -1;

@@ -33,11 +33,14 @@ import java.util.Vector;
  */
 public class CmdLineParser {
 
+    /** The remaining args. */
+    private String[]  remainingArgs;
+
     /** The options. */
-    private Hashtable options       = new Hashtable(10);
+    private Hashtable options = new Hashtable(10);
 
     /** The values. */
-    private Hashtable values        = new Hashtable(10);
+    private Hashtable values  = new Hashtable(10);
 
     /**
      * Base class for exceptions that may be thrown when options are parsed.
@@ -66,6 +69,9 @@ public class CmdLineParser {
 
         /** The Constant serialVersionUID. */
         private static final long serialVersionUID = 1L;
+
+        /** The option name. */
+        private String            optionName;
 
         /**
          * Instantiates a new unknown option exception.
@@ -98,8 +104,6 @@ public class CmdLineParser {
         public String getOptionName() {
             return this.optionName;
         }
-
-        private String optionName = null;
     }
 
     /**
@@ -109,11 +113,12 @@ public class CmdLineParser {
      * @author Vidar Holen
      */
     public static class UnknownSuboptionException extends UnknownOptionException {
-        private char suboption;
 
         /** The Constant serialVersionUID. */
         private static final long serialVersionUID = 1L;
 
+        /** The suboption. */
+        private final char        suboption;
 
         /**
          * Instantiates a new unknown suboption exception.
@@ -145,11 +150,12 @@ public class CmdLineParser {
      * @author Vidar Holen
      */
     public static class NotFlagException extends UnknownOptionException {
-        private char notflag;
 
         /** The Constant serialVersionUID. */
         private static final long serialVersionUID = 1L;
 
+        /** The notflag. */
+        private final char        notflag;
 
         /**
          * Instantiates a new not flag exception.
@@ -182,6 +188,13 @@ public class CmdLineParser {
 
         /** The Constant serialVersionUID. */
         private static final long serialVersionUID = 1L;
+
+        /** The option. */
+        private Option            option;
+
+        /** The value. */
+        private String            value;
+
         /**
          * Instantiates a new illegal option value exception.
          *
@@ -215,14 +228,21 @@ public class CmdLineParser {
             return this.value;
         }
 
-        private Option option;
-        private String value;
     }
 
     /**
      * Representation of a command-line option.
      */
     public abstract static class Option {
+
+        /** The short form. */
+        private String  shortForm;
+
+        /** The long form. */
+        private String  longForm;
+
+        /** The wants value. */
+        private boolean wantsValue;
 
         /**
          * Instantiates a new option.
@@ -331,10 +351,6 @@ public class CmdLineParser {
         protected Object parseValue(String arg, Locale locale) throws IllegalOptionValueException {
             return null;
         }
-
-        private String  shortForm  = null;
-        private String  longForm   = null;
-        private boolean wantsValue = false;
 
         /**
          * The Class BooleanOption.
@@ -468,8 +484,8 @@ public class CmdLineParser {
             protected Object parseValue(String arg, Locale locale) throws IllegalOptionValueException {
                 try {
                     NumberFormat format = NumberFormat.getNumberInstance(locale);
-                    Number num = (Number) format.parse(arg);
-                    return new Double(num.doubleValue());
+                    Number num = format.parse(arg);
+                    return num.doubleValue();
                 } catch (ParseException e) {
                     throw new IllegalOptionValueException(this, arg);
                 }
@@ -518,8 +534,9 @@ public class CmdLineParser {
      * @return the option
      */
     public final Option addOption(Option opt) {
-        if (opt.shortForm() != null)
+        if (opt.shortForm() != null) {
             this.options.put("-" + opt.shortForm(), opt);
+        }
         this.options.put("--" + opt.longForm(), opt);
         return opt;
     }
@@ -665,7 +682,7 @@ public class CmdLineParser {
      * @return the parsed value of the given Option, or the given default 'def' if the option was not set
      */
     public final Object getOptionValue(Option o, Object def) {
-        Vector v = (Vector) values.get(o.longForm());
+        Vector<?> v = (Vector<?>) values.get(o.longForm());
 
         if (v == null) {
             return def;
@@ -748,9 +765,9 @@ public class CmdLineParser {
         // backwards compatibility with old user code we throw the two
         // exceptions above instead.
 
-        Vector otherArgs = new Vector();
+        Vector<String> otherArgs = new Vector<String>();
         int position = 0;
-        this.values = new Hashtable(10);
+        this.values = new Hashtable<String, Vector<Object>>(10);
         while (position < argv.length) {
             String curArg = argv[position];
             if (curArg.startsWith("-")) {
@@ -783,7 +800,7 @@ public class CmdLineParser {
                 if (opt == null) {
                     throw new UnknownOptionException(curArg);
                 }
-                Object value = null;
+                Object value;
                 if (opt.wantsValue()) {
                     if (valueArg == null) {
                         position += 1;
@@ -823,15 +840,14 @@ public class CmdLineParser {
     private void addValue(Option opt, Object value) {
         String lf = opt.longForm();
 
-        Vector v = (Vector) values.get(lf);
+        Vector<Object> v = (Vector<Object>) values.get(lf);
 
         if (v == null) {
-            v = new Vector();
+            v = new Vector<Object>();
             values.put(lf, v);
         }
 
         v.addElement(value);
     }
 
-    private String[]  remainingArgs = null;
 }

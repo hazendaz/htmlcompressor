@@ -53,9 +53,16 @@ public class JavaScriptCompressorTag extends BodyTagSupport {
     private String              jsCompressor     = HtmlCompressor.JS_COMPRESSOR_YUI;
 
     // YUICompressor settings
-    private boolean yuiJsNoMunge               = false;
-    private boolean yuiJsPreserveAllSemiColons = false;
-    private boolean yuiJsDisableOptimizations  = false;
+
+    /** The yui js no munge. */
+    private boolean             yuiJsNoMunge;
+
+    /** The yui js preserve all semi colons. */
+    private boolean             yuiJsPreserveAllSemiColons;
+
+    /** The yui js disable optimizations. */
+    private boolean             yuiJsDisableOptimizations;
+
     /** The yui js line break. */
     private int                 yuiJsLineBreak   = -1;
 
@@ -73,7 +80,7 @@ public class JavaScriptCompressorTag extends BodyTagSupport {
         try {
             if (enabled) {
 
-                String result = content;
+                String result;
 
                 if (jsCompressor.equalsIgnoreCase(HtmlCompressor.JS_COMPRESSOR_CLOSURE)) {
                     // call Closure compressor

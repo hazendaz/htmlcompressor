@@ -56,28 +56,65 @@ public class HtmlCompressorTag extends BodyTagSupport {
     private boolean             removeMultiSpaces = true;
 
     // optional settings
-    private boolean removeIntertagSpaces       = false;
-    private boolean removeQuotes               = false;
-    private boolean preserveLineBreaks         = false;
-    private boolean simpleDoctype              = false;
-    private boolean removeScriptAttributes     = false;
-    private boolean removeStyleAttributes      = false;
-    private boolean removeLinkAttributes       = false;
-    private boolean removeFormAttributes       = false;
-    private boolean removeInputAttributes      = false;
-    private boolean simpleBooleanAttributes    = false;
-    private boolean removeJavaScriptProtocol   = false;
-    private boolean removeHttpProtocol         = false;
-    private boolean removeHttpsProtocol        = false;
-    private boolean compressJavaScript         = false;
-    private boolean compressCss                = false;
+
+    /** The remove intertag spaces. */
+    private boolean             removeIntertagSpaces;
+
+    /** The remove quotes. */
+    private boolean             removeQuotes;
+
+    /** The preserve line breaks. */
+    private boolean             preserveLineBreaks;
+
+    /** The simple doctype. */
+    private boolean             simpleDoctype;
+
+    /** The remove script attributes. */
+    private boolean             removeScriptAttributes;
+
+    /** The remove style attributes. */
+    private boolean             removeStyleAttributes;
+
+    /** The remove link attributes. */
+    private boolean             removeLinkAttributes;
+
+    /** The remove form attributes. */
+    private boolean             removeFormAttributes;
+
+    /** The remove input attributes. */
+    private boolean             removeInputAttributes;
+
+    /** The simple boolean attributes. */
+    private boolean             simpleBooleanAttributes;
+
+    /** The remove java script protocol. */
+    private boolean             removeJavaScriptProtocol;
+
+    /** The remove http protocol. */
+    private boolean             removeHttpProtocol;
+
+    /** The remove https protocol. */
+    private boolean             removeHttpsProtocol;
+
+    /** The compress java script. */
+    private boolean             compressJavaScript;
+
+    /** The compress css. */
+    private boolean             compressCss;
+
     /** The js compressor. */
     private String              jsCompressor      = HtmlCompressor.JS_COMPRESSOR_YUI;
 
     // YUICompressor settings
-    private boolean yuiJsNoMunge               = false;
-    private boolean yuiJsPreserveAllSemiColons = false;
-    private boolean yuiJsDisableOptimizations  = false;
+
+    /** The yui js no munge. */
+    private boolean             yuiJsNoMunge;
+
+    /** The yui js preserve all semi colons. */
+    private boolean             yuiJsPreserveAllSemiColons;
+
+    /** The yui js disable optimizations. */
+    private boolean             yuiJsDisableOptimizations;
 
     /** The yui js line break. */
     private int                 yuiJsLineBreak    = -1;

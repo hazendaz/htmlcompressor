@@ -65,8 +65,12 @@ public class ClosureJavaScriptCompressor implements Compressor {
 
     /** The warning level. */
     private WarningLevel       warningLevel                 = WarningLevel.DEFAULT;
-    private boolean            customExternsOnly            = false;
-    private List<JSSourceFile> externs                      = null;
+
+    /** The custom externs only. */
+    private boolean            customExternsOnly;
+
+    /** The externs. */
+    private List<JSSourceFile> externs;
 
     /**
      * Instantiates a new closure java script compressor.
