@@ -36,7 +36,7 @@ public class CmdLineParser {
     /**
      * Base class for exceptions that may be thrown when options are parsed
      */
-    public static abstract class OptionException extends Exception {
+    public abstract static class OptionException extends Exception {
         OptionException(String msg) { super(msg); }
     }
 
@@ -134,7 +134,7 @@ public class CmdLineParser {
     /**
      * Representation of a command-line option
      */
-    public static abstract class Option {
+    public abstract static class Option {
 
         protected Option( String longForm, boolean wantsValue ) {
             this(null, longForm, wantsValue);
