@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 
        Copyright 2009-2016 the original author or authors.
@@ -17,24 +18,80 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  
+
   <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>9</version>
+    <groupId>com.github.hazendaz</groupId>
+    <artifactId>base-parent</artifactId>
+    <version>10-SNAPSHOT</version>
   </parent>
 
-  <!-- ====================================================================== -->
-  <!-- Basic Information                                                      -->
-  <!-- ====================================================================== -->
-  <groupId>com.googlecode.htmlcompressor</groupId>
+  <groupId>com.github.hazendaz</groupId>
   <artifactId>htmlcompressor</artifactId>
-  <version>1.5.3-SNAPSHOT</version>
+  <version>1.6.0-SNAPSHOT</version>
   <packaging>jar</packaging>
-  
-  <!-- ====================================================================== -->
-  <!-- Dependencies                                                           -->
-  <!-- ====================================================================== -->
+
+  <name>HTML Compressor and Minifier</name>
+  <description>HtmlCompressor is a small, fast and very easy to use Java library that minifies given HTML or XML source by
+               removing extra whitespaces, comments and other unneeded characters without breaking the content structure.
+               As a result pages become smaller in size and load faster. A command-line version of the compressor is also
+               available.
+  </description>
+  <url>https://github.com/hazendaz/htmlcompressor/</url>
+  <inceptionYear>2009</inceptionYear>
+  <organization>
+    <name>Jeremy Landis</name>
+    <url>https://github.com/hazendaz/htmlcompressor/</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>Apache License 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+      <distribution>repo</distribution>
+      <comments>htmlcompressor is distributed under Apache License 2.0</comments>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>serg472</id>
+	  <name>Sergiy Kovalchuk</name>
+      <email>serg472@gmail.com</email>
+      <url>http://code.google.com/p/htmlcompressor/</url>
+      <organization>Sergiy Kovalchuk</organization>
+      <organizationUrl>http://code.google.com/p/htmlcompressor/</organizationUrl>
+      <roles>
+        <role>owner</role>
+        <role>developer</role>
+      </roles>
+      <timezone>-8</timezone>
+    </developer>
+  </developers>
+  <contributors>
+    <contributor>
+      <name>Alex Tunyk</name>
+      <email>alextunyk@gmail.com</email>
+      <url>http://alex.tunyk.com</url>
+      <organization>TUNYK.COM</organization>
+      <organizationUrl>http://tunyk.com</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>+2</timezone>
+	</contributor>
+  </contributors>
+
+  <scm>
+    <connection>scm:git:ssh://git@github.com/hazendaz/htmlcompressor.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/hazendaz/htmlcompressor.git</developerConnection>
+    <url>https://github.com/hazendaz/htmlcompressor/</url>
+    <tag>HEAD</tag>
+  </scm>
+  <issueManagement>
+    <system>Github</system>
+    <url>https://github.com/hazendaz/htmlcompressor/issues</url>
+  </issueManagement>
+
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -78,59 +135,24 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  
-  <!-- ====================================================================== -->
-  <!-- Common Properties                                                      -->
-  <!-- ====================================================================== -->
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
 
-  <!-- ====================================================================== -->
-  <!-- Build Settings                                                         -->
-  <!-- ====================================================================== -->
   <build>
-    <finalName>${project.artifactId}-${project.version}</finalName>
     <plugins>
-      <!-- Check Prerequisites -->
+
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <version>1.4.1</version>
-        <executions>
-          <execution>
-            <id>enforce-versions</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <requireMavenVersion>
-                  <version>3.2.5</version>
-                </requireMavenVersion>
-                <requireJavaVersion>
-                  <version>1.6</version>
-                </requireJavaVersion>
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- Configure Compiler -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.6.0</version>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
         <configuration>
-          <target>1.6</target>
-          <encoding>UTF-8</encoding>
+          <excludes>
+            <exclude>**/src/test/resources/html/*</exclude>
+            <exclude>**/src/test/resources/xml/*</exclude>
+          </excludes>
         </configuration>
       </plugin>
-	  <!-- Configure JAR Plugin -->
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.0.2</version>
         <configuration>
           <archive>
             <manifest>
@@ -138,40 +160,29 @@
               <mainClass>com.googlecode.htmlcompressor.CmdLineCompressor</mainClass>
             </manifest>
             <manifestEntries>
-              <Class-Path>yuicompressor-2.4.2.jar yuicompressor-2.4.3.jar yuicompressor-2.4.4.jar yuicompressor-2.4.5.jar yuicompressor-2.4.6.jar yuicompressor-2.4.7.jar yuicompressor-2.4.8.jar yuicompressor-2.4.9.jar yuicompressor.jar compiler.jar</Class-Path>
+              <Class-Path>yuicompressor-2.4.8.jar yuicompressor.jar compiler.jar</Class-Path>
             </manifestEntries>
           </archive>
         </configuration>
       </plugin>
-	  <!-- Configure Install Plugin -->
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-install-plugin</artifactId>
-        <version>2.5.2</version>
         <configuration>
           <createChecksum>true</createChecksum>
         </configuration>
       </plugin>
-	  <!-- Configure Release Plugin -->
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.2</version>
+        <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
-          <mavenExecutorId>forked-path</mavenExecutorId>
-		  <connectionUrl>scm:svn:http://htmlcompressor.googlecode.com/svn/trunk/</connectionUrl>
-        </configuration>
-      </plugin>
-	  <!-- Assemble distribution package -->
-	  <plugin>
-	    <artifactId>maven-assembly-plugin</artifactId>
-	    <version>3.0.0</version>
-	    <configuration>
-	      <appendAssemblyId>false</appendAssemblyId>
-	      <descriptors>
-            <descriptor>src/main/assembly/distributive.xml</descriptor>
+          <appendAssemblyId>false</appendAssemblyId>
+          <descriptors>
+            <descriptor>${project.basedir}/src/main/assembly/distributive.xml</descriptor>
           </descriptors>
-	    </configuration>
+        </configuration>
         <executions>
           <execution>
             <id>make-assembly</id>
@@ -182,166 +193,6 @@
           </execution>
         </executions>
       </plugin>
-	  <!-- Configure Javadoc Plugin -->
-	  <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.4</version>
-        <configuration>
-          <show>public</show>
-          <excludePackageNames>jargs</excludePackageNames>
-          <notimestamp>true</notimestamp>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
-
-  <!-- ====================================================================== -->
-  <!-- Configure Reporting                                                    -->
-  <!-- ====================================================================== -->
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.17</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.4</version>
-        <configuration>
-          <show>public</show>
-          <excludePackageNames>jargs</excludePackageNames>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
-  
-  <!-- ====================================================================== -->
-  <!-- More Information                                                       -->
-  <!-- ====================================================================== -->
-  <name>HTML Compressor and Minifier</name>
-  <description>HtmlCompressor is a small, fast and very easy to use Java library that minifies given HTML or XML source by
-               removing extra whitespaces, comments and other unneeded characters without breaking the content structure.
-               As a result pages become smaller in size and load faster. A command-line version of the compressor is also
-               available.
-  </description>
-  <url>http://code.google.com/p/htmlcompressor/</url>
-  <inceptionYear>2009</inceptionYear>
-  <licenses>
-    <license>
-      <name>Apache License 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
-      <distribution>repo</distribution>
-      <comments>htmlcompressor is distributed under Apache License 2.0</comments>
-    </license>
-  </licenses>
-  <organization>
-    <name>Sergiy Kovalchuk</name>
-    <url>http://code.google.com/p/htmlcompressor/</url>
-  </organization>
-  <developers>
-    <developer>
-      <id>serg472</id>
-	  <name>Sergiy Kovalchuk</name>
-      <email>serg472@gmail.com</email>
-      <url>http://code.google.com/p/htmlcompressor/</url>
-      <organization>Sergiy Kovalchuk</organization>
-      <organizationUrl>http://code.google.com/p/htmlcompressor/</organizationUrl>
-      <roles>
-        <role>owner</role>
-        <role>developer</role>
-      </roles>
-      <timezone>-8</timezone>
-    </developer>
-  </developers>
-  <contributors>
-    <contributor>
-      <name>Alex Tunyk</name>
-      <email>alextunyk@gmail.com</email>
-      <url>http://alex.tunyk.com</url>
-      <organization>TUNYK.COM</organization>
-      <organizationUrl>http://tunyk.com</organizationUrl>
-      <roles>
-        <role>developer</role>
-      </roles>
-      <timezone>+2</timezone>
-	</contributor>
-  </contributors>
-  
-  <!-- ====================================================================== -->
-  <!-- Environment Settings                                                   -->
-  <!-- ====================================================================== -->
-  <issueManagement>
-    <system>Google Code - Issue Tracking</system>
-    <url>http://code.google.com/p/htmlcompressor/issues/list</url>
-  </issueManagement>
-  <scm>
-    <connection>scm:svn:http://htmlcompressor.googlecode.com/svn/trunk/</connection>
-    <developerConnection>scm:svn:https://htmlcompressor.googlecode.com/svn/trunk/</developerConnection>
-    <url>http://code.google.com/p/htmlcompressor/source/browse/</url>
-  </scm>
-
-  <!-- ====================================================================== -->
-  <!-- Profile Settings                                                       -->
-  <!-- ====================================================================== -->
-  <profiles>
-    <profile>
-      <id>release-sign-artifacts</id>
-      <activation>
-        <property>
-          <name>performRelease</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.6</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>doc-folder-generation</id>
-      <build>
-        <plugins>
-          <!-- Copy javadocs -->
-          <plugin>
-              <artifactId>maven-resources-plugin</artifactId>
-              <version>3.0.1</version>
-              <executions>
-                  <execution>
-                      <id>copy-resources</id>
-                      <phase>validate</phase>
-                      <goals>
-                          <goal>copy-resources</goal>
-                      </goals>
-                      <configuration>
-                          <outputDirectory>doc</outputDirectory>
-                          <resources>          
-                              <resource>
-                                  <directory>target/apidocs</directory>
-                              </resource>
-                          </resources>
-                      </configuration>
-                  </execution>
-              </executions>
-            </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>
