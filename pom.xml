@@ -144,7 +144,16 @@
             <descriptor>src/main/assembly/distributive.xml</descriptor>
           </descriptors>
 	    </configuration>
-	  </plugin>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>install</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 	  <!-- Configure Javadoc Plugin -->
 	  <plugin>
         <groupId>org.apache.maven.plugins</groupId>
