@@ -62,57 +62,143 @@ import com.googlecode.htmlcompressor.compressor.XmlCompressor;
  */
 public class CmdLineCompressor {
 
+    /** The Constant urlPattern. */
     private static final Pattern urlPattern = Pattern.compile("^https?://.*$", Pattern.CASE_INSENSITIVE);
 
+    /** The help opt. */
     private boolean              helpOpt;
+
+    /** The analyze opt. */
     private boolean              analyzeOpt;
+
+    /** The charset opt. */
     private String               charsetOpt;
+
+    /** The output filename opt. */
     private String               outputFilenameOpt;
+
+    /** The patterns filename opt. */
     private String               patternsFilenameOpt;
+
+    /** The type opt. */
     private String               typeOpt;
+
+    /** The filemask opt. */
     private String               filemaskOpt;
+
+    /** The recursive opt. */
     private boolean              recursiveOpt;
+
+    /** The preserve comments opt. */
     private boolean              preserveCommentsOpt;
+
+    /** The preserve intertag spaces opt. */
     private boolean              preserveIntertagSpacesOpt;
+
+    /** The preserve multi spaces opt. */
     private boolean              preserveMultiSpacesOpt;
+
+    /** The remove intertag spaces opt. */
     private boolean              removeIntertagSpacesOpt;
+
+    /** The remove quotes opt. */
     private boolean              removeQuotesOpt;
+
+    /** The remove surrounding spaces opt. */
     private String               removeSurroundingSpacesOpt;
+
+    /** The preserve line breaks opt. */
     private boolean              preserveLineBreaksOpt;
+
+    /** The preserve php tags opt. */
     private boolean              preservePhpTagsOpt;
+
+    /** The preserve server script tags opt. */
     private boolean              preserveServerScriptTagsOpt;
+
+    /** The preserve ssi tags opt. */
     private boolean              preserveSsiTagsOpt;
+
+    /** The compress js opt. */
     private boolean              compressJsOpt;
+
+    /** The compress css opt. */
     private boolean              compressCssOpt;
+
+    /** The js compressor opt. */
     private String               jsCompressorOpt;
 
+    /** The simple doctype opt. */
     private boolean              simpleDoctypeOpt;
+
+    /** The remove script attributes opt. */
     private boolean              removeScriptAttributesOpt;
+
+    /** The remove style attributes opt. */
     private boolean              removeStyleAttributesOpt;
+
+    /** The remove link attributes opt. */
     private boolean              removeLinkAttributesOpt;
+
+    /** The remove form attributes opt. */
     private boolean              removeFormAttributesOpt;
+
+    /** The remove input attributes opt. */
     private boolean              removeInputAttributesOpt;
+
+    /** The simple boolean attributes opt. */
     private boolean              simpleBooleanAttributesOpt;
+
+    /** The remove java script protocol opt. */
     private boolean              removeJavaScriptProtocolOpt;
+
+    /** The remove http protocol opt. */
     private boolean              removeHttpProtocolOpt;
+
+    /** The remove https protocol opt. */
     private boolean              removeHttpsProtocolOpt;
 
+    /** The nomunge opt. */
     private boolean              nomungeOpt;
+
+    /** The linebreak opt. */
     private int                  linebreakOpt;
+
+    /** The preserve semi opt. */
     private boolean              preserveSemiOpt;
+
+    /** The disable optimizations opt. */
     private boolean              disableOptimizationsOpt;
 
+    /** The closure opt level opt. */
     private String               closureOptLevelOpt;
+
+    /** The closure custom externs only opt. */
     private boolean              closureCustomExternsOnlyOpt;
+
+    /** The closure externs opt. */
     private List<String>         closureExternsOpt;
 
+    /** The file args opt. */
     private String[]             fileArgsOpt;
 
+    /**
+     * The main method.
+     *
+     * @param args
+     *            the arguments
+     */
     public static void main(String[] args) {
         CmdLineCompressor cmdLineCompressor = new CmdLineCompressor(args);
         cmdLineCompressor.process(args);
     }
 
+    /**
+     * Instantiates a new cmd line compressor.
+     *
+     * @param args
+     *            the args
+     */
     public CmdLineCompressor(String[] args) {
         CmdLineParser parser = new CmdLineParser();
 
@@ -238,6 +324,12 @@ public class CmdLineCompressor {
 
     }
 
+    /**
+     * Process.
+     *
+     * @param args
+     *            the args
+     */
     public void process(String[] args) {
         try {
 
@@ -307,6 +399,15 @@ public class CmdLineCompressor {
 
     }
 
+    /**
+     * Creates the html compressor.
+     *
+     * @return the compressor
+     * @throws IllegalArgumentException
+     *             the illegal argument exception
+     * @throws OptionException
+     *             the option exception
+     */
     private Compressor createHtmlCompressor() throws IllegalArgumentException, OptionException {
 
         boolean useClosureCompressor = HtmlCompressor.JS_COMPRESSOR_CLOSURE.equalsIgnoreCase(jsCompressorOpt);
@@ -413,6 +514,15 @@ public class CmdLineCompressor {
         return htmlCompressor;
     }
 
+    /**
+     * Creates the xml compressor.
+     *
+     * @return the compressor
+     * @throws IllegalArgumentException
+     *             the illegal argument exception
+     * @throws OptionException
+     *             the option exception
+     */
     private Compressor createXmlCompressor() throws IllegalArgumentException, OptionException {
         XmlCompressor xmlCompressor = new XmlCompressor();
         xmlCompressor.setRemoveComments(!preserveCommentsOpt);
@@ -421,6 +531,15 @@ public class CmdLineCompressor {
         return xmlCompressor;
     }
 
+    /**
+     * Builds the input output map.
+     *
+     * @return the map
+     * @throws IllegalArgumentException
+     *             the illegal argument exception
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
     private Map<String, String> buildInputOutputMap() throws IllegalArgumentException, IOException {
         Map<String, String> map = new HashMap<String, String>();
 
@@ -511,6 +630,15 @@ public class CmdLineCompressor {
         return map;
     }
 
+    /**
+     * Builds the reader.
+     *
+     * @param filename
+     *            the filename
+     * @return the buffered reader
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
     private BufferedReader buildReader(String filename) throws IOException {
 
         if (filename == null) {
@@ -522,6 +650,15 @@ public class CmdLineCompressor {
         }
     }
 
+    /**
+     * Builds the writer.
+     *
+     * @param filename
+     *            the filename
+     * @return the writer
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
     private Writer buildWriter(String filename) throws IOException {
         if (filename == null) {
             return new OutputStreamWriter(System.out, charsetOpt);
@@ -530,6 +667,15 @@ public class CmdLineCompressor {
         }
     }
 
+    /**
+     * Read resource.
+     *
+     * @param input
+     *            the input
+     * @return the string
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
     private String readResource(BufferedReader input) throws IOException {
 
         StringBuilder source = new StringBuilder();
@@ -547,6 +693,16 @@ public class CmdLineCompressor {
         return source.toString();
     }
 
+    /**
+     * Write resource.
+     *
+     * @param content
+     *            the content
+     * @param output
+     *            the output
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
     private void writeResource(String content, Writer output) throws IOException {
         try {
             output.write(content);
@@ -555,6 +711,12 @@ public class CmdLineCompressor {
         }
     }
 
+    /**
+     * Close stream.
+     *
+     * @param stream
+     *            the stream
+     */
     private void closeStream(Closeable stream) {
         if (stream != null) {
             try {
@@ -564,10 +726,20 @@ public class CmdLineCompressor {
         }
     }
 
+    /**
+     * Esc reg ex.
+     *
+     * @param inStr
+     *            the in str
+     * @return the string
+     */
     private String escRegEx(String inStr) {
         return inStr.replaceAll("([\\\\*+\\[\\](){}\\$.?\\^|])", "\\\\$1");
     }
 
+    /**
+     * Prints the usage.
+     */
     private void printUsage() {
         System.out.println("Usage: java -jar htmlcompressor.jar [options] [input]\n\n"
 
@@ -639,11 +811,27 @@ public class CmdLineCompressor {
         );
     }
 
+    /**
+     * The Class CompressorFileFilter.
+     */
     private class CompressorFileFilter implements FileFilter {
 
+        /** The filemask pattern. */
         private Pattern filemaskPattern;
+
+        /** The with dirs. */
         private boolean withDirs;
 
+        /**
+         * Instantiates a new compressor file filter.
+         *
+         * @param type
+         *            the type
+         * @param filemask
+         *            the filemask
+         * @param withDirs
+         *            the with dirs
+         */
         public CompressorFileFilter(String type, String filemask, boolean withDirs) {
 
             this.withDirs = withDirs;

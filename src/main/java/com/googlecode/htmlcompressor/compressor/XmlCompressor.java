@@ -29,29 +29,46 @@ import java.util.regex.Pattern;
  */
 public class XmlCompressor implements Compressor {
 
+    /** The enabled. */
     private boolean                enabled              = true;
 
+    /** The remove comments. */
     // default settings
     private boolean                removeComments       = true;
+
+    /** The remove intertag spaces. */
     private boolean                removeIntertagSpaces = true;
 
+    /** The Constant tempCdataBlock. */
     // temp replacements for preserved blocks
     protected static final String  tempCdataBlock       = "%%%COMPRESS~CDATA~{0,number,#}%%%";
 
+    /** The Constant cdataPattern. */
     // compiled regex patterns
     protected static final Pattern cdataPattern         = Pattern.compile("<!\\[CDATA\\[.*?\\]\\]>", Pattern.DOTALL
                                                                 | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant commentPattern. */
     protected static final Pattern commentPattern       = Pattern.compile("<!--.*?-->", Pattern.DOTALL
                                                                 | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant intertagPattern. */
     protected static final Pattern intertagPattern      = Pattern.compile(">\\s+<", Pattern.DOTALL
                                                                 | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant tagEndSpacePattern. */
     protected static final Pattern tagEndSpacePattern   = Pattern.compile("(<(?:[^>]+?))(?:\\s+?)(/?>)", Pattern.DOTALL
                                                                 | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant multispacePattern. */
     protected static final Pattern multispacePattern    = Pattern.compile("\\s+(?=[^<]*?>)", Pattern.DOTALL
                                                                 | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant tagPropertyPattern. */
     protected static final Pattern tagPropertyPattern   = Pattern.compile("(\\s\\w+)\\s*=\\s*(?=[^<]*?>)",
                                                                 Pattern.CASE_INSENSITIVE);
 
+    /** The Constant tempCdataPattern. */
     protected static final Pattern tempCdataPattern     = Pattern.compile("%%%COMPRESS~CDATA~(\\d+?)%%%",
                                                                 Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
@@ -83,6 +100,15 @@ public class XmlCompressor implements Compressor {
         return xml.trim();
     }
 
+    /**
+     * Preserve blocks.
+     *
+     * @param xml
+     *            the xml
+     * @param cdataBlocks
+     *            the cdata blocks
+     * @return the string
+     */
     protected String preserveBlocks(String xml, List<String> cdataBlocks) {
         // preserve CDATA blocks
         Matcher matcher = cdataPattern.matcher(xml);
@@ -98,6 +124,15 @@ public class XmlCompressor implements Compressor {
         return xml;
     }
 
+    /**
+     * Return blocks.
+     *
+     * @param xml
+     *            the xml
+     * @param cdataBlocks
+     *            the cdata blocks
+     * @return the string
+     */
     protected String returnBlocks(String xml, List<String> cdataBlocks) {
         // put CDATA blocks back
         Matcher matcher = tempCdataPattern.matcher(xml);
@@ -111,6 +146,13 @@ public class XmlCompressor implements Compressor {
         return xml;
     }
 
+    /**
+     * Process xml.
+     *
+     * @param xml
+     *            the xml
+     * @return the string
+     */
     protected String processXml(String xml) {
         // remove comments
         xml = removeComments(xml);
@@ -124,6 +166,13 @@ public class XmlCompressor implements Compressor {
         return xml;
     }
 
+    /**
+     * Removes the spaces inside tags.
+     *
+     * @param xml
+     *            the xml
+     * @return the string
+     */
     protected String removeSpacesInsideTags(String xml) {
         // replace miltiple spaces inside tags with single spaces
         xml = multispacePattern.matcher(xml).replaceAll(" ");
@@ -136,6 +185,13 @@ public class XmlCompressor implements Compressor {
         return xml;
     }
 
+    /**
+     * Removes the intertag spaces.
+     *
+     * @param xml
+     *            the xml
+     * @return the string
+     */
     protected String removeIntertagSpaces(String xml) {
         // remove inter-tag spaces
         if (removeIntertagSpaces) {
@@ -144,6 +200,13 @@ public class XmlCompressor implements Compressor {
         return xml;
     }
 
+    /**
+     * Removes the comments.
+     *
+     * @param xml
+     *            the xml
+     * @return the string
+     */
     protected String removeComments(String xml) {
         // remove comments
         if (removeComments) {

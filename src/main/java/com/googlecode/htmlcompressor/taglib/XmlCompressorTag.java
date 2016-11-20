@@ -24,16 +24,16 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import com.googlecode.htmlcompressor.compressor.XmlCompressor;
 
 /**
- * JSP tag that compresses an XML content within &lt;compress:xml>. Compression parameters are set by default.
- * 
- * @see XmlCompressor
- * 
+ * JSP tag that compresses an XML content within &lt;compress:xml&gt;. Compression parameters are set by default.
+ *
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
+ * @see XmlCompressor
  */
-@SuppressWarnings("serial")
 public class XmlCompressorTag extends BodyTagSupport {
 
     private boolean enabled              = true;
+    /** The Constant serialVersionUID. */
+    private static final long   serialVersionUID     = 1L;
 
     // default settings
     private boolean removeComments       = true;
@@ -64,6 +64,10 @@ public class XmlCompressorTag extends BodyTagSupport {
     }
 
     /**
+     * Sets the enabled.
+     *
+     * @param enabled
+     *            the new enabled
      * @see XmlCompressor#setEnabled(boolean)
      */
     public void setEnabled(boolean enabled) {
@@ -71,6 +75,10 @@ public class XmlCompressorTag extends BodyTagSupport {
     }
 
     /**
+     * Sets the removes the comments.
+     *
+     * @param removeComments
+     *            the new removes the comments
      * @see XmlCompressor#setRemoveComments(boolean)
      */
     public void setRemoveComments(boolean removeComments) {
@@ -78,6 +86,10 @@ public class XmlCompressorTag extends BodyTagSupport {
     }
 
     /**
+     * Sets the removes the intertag spaces.
+     *
+     * @param removeIntertagSpaces
+     *            the new removes the intertag spaces
      * @see XmlCompressor#setRemoveIntertagSpaces(boolean)
      */
     public void setRemoveIntertagSpaces(boolean removeIntertagSpaces) {

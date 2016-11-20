@@ -31,6 +31,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * The Class XmlCompressorTest.
+ */
 public class XmlCompressorTest {
 
     private static final String resPath = "./src/test/resources/xml/";
@@ -43,6 +46,12 @@ public class XmlCompressorTest {
     public void tearDown() throws Exception {
     }
 
+    /**
+     * Test compress.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testCompress() throws Exception {
         String source = readResource("testCompress.xml");
@@ -53,6 +62,12 @@ public class XmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test enabled.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testEnabled() throws Exception {
         String source = readResource("testEnabled.xml");
@@ -62,9 +77,14 @@ public class XmlCompressorTest {
         compressor.setEnabled(false);
 
         assertEquals(result, compressor.compress(source));
-
     }
 
+    /**
+     * Test remove comments.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testRemoveComments() throws Exception {
         String source = readResource("testRemoveComments.xml");
@@ -76,6 +96,12 @@ public class XmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test remove intertag spaces.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testRemoveIntertagSpaces() throws Exception {
         String source = readResource("testRemoveIntertagSpaces.xml");
@@ -87,8 +113,14 @@ public class XmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Read resource.
+     *
+     * @param filename
+     *            the filename
+     * @return the string
+     */
     private String readResource(String filename) {
-
         StringBuilder builder = new StringBuilder();
         try {
             FileInputStream stream = new FileInputStream(new File(resPath + filename));
@@ -110,7 +142,6 @@ public class XmlCompressorTest {
         }
 
         return builder.toString();
-
     }
 
     private void writeResource(String filename, String content) {

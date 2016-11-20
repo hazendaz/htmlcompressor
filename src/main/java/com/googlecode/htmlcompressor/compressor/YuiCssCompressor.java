@@ -32,6 +32,7 @@ import com.yahoo.platform.yui.compressor.CssCompressor;
  */
 public class YuiCssCompressor implements Compressor {
 
+    /** The line break. */
     private int lineBreak = -1;
 
     public YuiCssCompressor() {

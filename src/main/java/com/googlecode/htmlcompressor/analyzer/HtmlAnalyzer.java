@@ -22,8 +22,8 @@ import com.googlecode.htmlcompressor.compressor.ClosureJavaScriptCompressor;
 import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
 
 /**
- * Class that compresses provided source with different compression settings and displays page size gains in a report
- * 
+ * Class that compresses provided source with different compression settings and displays page size gains in a report.
+ *
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  */
 public class HtmlAnalyzer {
@@ -34,10 +34,22 @@ public class HtmlAnalyzer {
 
     }
 
+    /**
+     * Instantiates a new html analyzer.
+     *
+     * @param jsCompressor
+     *            the js compressor
+     */
     public HtmlAnalyzer(String jsCompressor) {
         this.jsCompressor = jsCompressor;
     }
 
+    /**
+     * Analyze.
+     *
+     * @param source
+     *            the source
+     */
     public void analyze(String source) {
         int originalSize = source.length();
 
@@ -192,6 +204,11 @@ public class HtmlAnalyzer {
 
     }
 
+    /**
+     * Gets the clean compressor.
+     *
+     * @return the clean compressor
+     */
     private HtmlCompressor getCleanCompressor() {
         HtmlCompressor compressor = new HtmlCompressor();
         compressor.setRemoveComments(false);
@@ -200,6 +217,19 @@ public class HtmlAnalyzer {
         return compressor;
     }
 
+    /**
+     * Format line.
+     *
+     * @param descr
+     *            the descr
+     * @param originalSize
+     *            the original size
+     * @param compressedSize
+     *            the compressed size
+     * @param prevSize
+     *            the prev size
+     * @return the string
+     */
     private String formatLine(String descr, int originalSize, int compressedSize, int prevSize) {
         Formatter fmt = new Formatter();
         fmt.format("%-25s | %16s | %16s | %12s |", descr, formatDecrease(prevSize, compressedSize),
@@ -207,12 +237,22 @@ public class HtmlAnalyzer {
         return fmt.toString();
     }
 
+    /**
+     * Format empty line.
+     *
+     * @param descr
+     *            the descr
+     * @return the string
+     */
     private String formatEmptyLine(String descr) {
         Formatter fmt = new Formatter();
         fmt.format("%-25s | %16s | %16s | %12s |", descr, "-", "-", "-");
         return fmt.toString();
     }
 
+    /**
+     * Prints the header.
+     */
     private void printHeader() {
         System.out.println();
         System.out.println("================================================================================");
@@ -223,6 +263,9 @@ public class HtmlAnalyzer {
 
     }
 
+    /**
+     * Prints the footer.
+     */
     private void printFooter() {
         System.out.println("================================================================================");
         System.out.println();
@@ -231,6 +274,15 @@ public class HtmlAnalyzer {
         System.out.println("All sizes are in bytes.");
     }
 
+    /**
+     * Format decrease.
+     *
+     * @param originalSize
+     *            the original size
+     * @param compressedSize
+     *            the compressed size
+     * @return the string
+     */
     private String formatDecrease(int originalSize, int compressedSize) {
         NumberFormat nf = NumberFormat.getPercentInstance();
         nf.setGroupingUsed(true);
@@ -241,6 +293,13 @@ public class HtmlAnalyzer {
                 + ")";
     }
 
+    /**
+     * Format size.
+     *
+     * @param size
+     *            the size
+     * @return the string
+     */
     private String formatSize(int size) {
         NumberFormat nf = NumberFormat.getInstance();
         nf.setGroupingUsed(true);

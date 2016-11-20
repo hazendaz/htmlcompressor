@@ -36,21 +36,24 @@ import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
 /**
  * Velocity directive that compresses an HTML content within #compressHtml ... #end block. Compression parameters are
  * set by default (no JavaScript and CSS compression).
- * 
- * @see HtmlCompressor
- * 
+ *
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
+ * @see HtmlCompressor
  */
 public class HtmlCompressorDirective extends Directive {
 
+    /** The Constant htmlCompressor. */
     private static final HtmlCompressor htmlCompressor = new HtmlCompressor();
 
+    /** The log. */
     private Log                         log;
 
+    @Override
     public String getName() {
         return "compressHtml";
     }
 
+    @Override
     public int getType() {
         return BLOCK;
     }
@@ -111,6 +114,7 @@ public class HtmlCompressorDirective extends Directive {
         }
     }
 
+    @Override
     public boolean render(InternalContextAdapter context, Writer writer, Node node) throws IOException,
             ResourceNotFoundException, ParseErrorException, MethodInvocationException {
 

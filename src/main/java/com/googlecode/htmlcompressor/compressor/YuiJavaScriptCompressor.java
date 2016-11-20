@@ -64,13 +64,11 @@ public class YuiJavaScriptCompressor implements Compressor {
     /**
      * Default <code>ErrorReporter</code> implementation that uses <code>System.err</code> stream for error reporting.
      * Used by YUI Compressor to log errors during JavaScript compression.
-     * 
+     *
+     * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      * @see <a href="http://www.mozilla.org/rhino/apidocs/org/mozilla/javascript/ErrorReporter.html">ErrorReporter
      *      Interface</a>
-     * 
-     * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
-     * 
      */
     public static class DefaultErrorReporter implements ErrorReporter {
 
@@ -92,6 +90,7 @@ public class YuiJavaScriptCompressor implements Compressor {
             }
         }
 
+        @Override
         public EvaluatorException runtimeError(String message, String sourceName, int line, String lineSource,
                 int lineOffset) {
             error(message, sourceName, line, lineSource, lineOffset);
@@ -117,7 +116,7 @@ public class YuiJavaScriptCompressor implements Compressor {
      * Default is <code>false</code>.
      * 
      * @param noMunge
-     *            set <code>true<code> to enable <code>nomunge</code> mode
+     *            set <code>true</code> to enable <code>nomunge</code> mode
      * 
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
@@ -143,7 +142,7 @@ public class YuiJavaScriptCompressor implements Compressor {
      * enabled. Default is <code>false</code>.
      * 
      * @param preserveAllSemiColons
-     *            set <code>true<code> to enable <code>preserve-semi</code> mode
+     *            set <code>true</code> to enable <code>preserve-semi</code> mode
      * 
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
@@ -169,8 +168,7 @@ public class YuiJavaScriptCompressor implements Compressor {
      * JavaScript compression is enabled. Default is <code>false</code>.
      * 
      * @param disableOptimizations
-     *            set <code>true<code> to enable 
-     * <code>disable-optimizations</code> mode
+     *            set <code>true</code> to enable <code>disable-optimizations</code> mode
      * 
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
@@ -205,10 +203,9 @@ public class YuiJavaScriptCompressor implements Compressor {
     }
 
     /**
-     * Returns <code>ErrorReporter</code> used by YUI Compressor to log error messages during JavasSript compression
-     * 
+     * Returns <code>ErrorReporter</code> used by YUI Compressor to log error messages during JavasSript compression.
+     *
      * @return <code>ErrorReporter</code> used by YUI Compressor to log error messages during JavasSript compression
-     * 
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      * @see <a href="http://www.mozilla.org/rhino/apidocs/org/mozilla/javascript/ErrorReporter.html">Error Reporter
      *      Interface</a>
@@ -223,7 +220,7 @@ public class YuiJavaScriptCompressor implements Compressor {
      * which reports errors to <code>System.err</code> stream.
      * 
      * @param errorReporter
-     *            <code>ErrorReporter<code> that will be used by YUI Compressor
+     *            <code>ErrorReporter</code> that will be used by YUI Compressor
      * 
      * @see YuiJavaScriptCompressor.DefaultErrorReporter
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>

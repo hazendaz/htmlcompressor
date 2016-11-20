@@ -44,21 +44,43 @@ import com.google.javascript.jscomp.WarningLevel;
  */
 public class ClosureJavaScriptCompressor implements Compressor {
 
+    /** The Constant COMPILATION_LEVEL_SIMPLE. */
     public static final String COMPILATION_LEVEL_SIMPLE     = "simple";
+
+    /** The Constant COMPILATION_LEVEL_ADVANCED. */
     public static final String COMPILATION_LEVEL_ADVANCED   = "advanced";
+
+    /** The Constant COMPILATION_LEVEL_WHITESPACE. */
     public static final String COMPILATION_LEVEL_WHITESPACE = "whitespace";
 
+    /** The compiler options. */
     // Closure compiler default settings
     private CompilerOptions    compilerOptions              = new CompilerOptions();
+
+    /** The compilation level. */
     private CompilationLevel   compilationLevel             = CompilationLevel.SIMPLE_OPTIMIZATIONS;
+
+    /** The logging level. */
     private Level              loggingLevel                 = Level.SEVERE;
+
+    /** The warning level. */
     private WarningLevel       warningLevel                 = WarningLevel.DEFAULT;
     private boolean            customExternsOnly            = false;
     private List<JSSourceFile> externs                      = null;
 
+    /**
+     * Instantiates a new closure java script compressor.
+     */
     public ClosureJavaScriptCompressor() {
+        // Required for override.
     }
 
+    /**
+     * Instantiates a new closure java script compressor.
+     *
+     * @param compilationLevel
+     *            the compilation level
+     */
     public ClosureJavaScriptCompressor(CompilationLevel compilationLevel) {
         this.compilationLevel = compilationLevel;
     }
@@ -118,6 +140,13 @@ public class ClosureJavaScriptCompressor implements Compressor {
 
     }
 
+    /**
+     * Gets the default externs.
+     *
+     * @return the default externs
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
     // read default externs from closure.jar
     private List<JSSourceFile> getDefaultExterns() throws IOException {
         InputStream input = ClosureJavaScriptCompressor.class.getResourceAsStream("/externs.zip");
@@ -249,8 +278,8 @@ public class ClosureJavaScriptCompressor implements Compressor {
     }
 
     /**
-     * Returns <code>WarningLevel</code> used by the Closure compiler
-     * 
+     * Returns <code>WarningLevel</code> used by the Closure compiler.
+     *
      * @return <code>WarningLevel</code> used by the Closure compiler
      */
     public WarningLevel getWarningLevel() {
@@ -263,7 +292,7 @@ public class ClosureJavaScriptCompressor implements Compressor {
      * @param warningLevel
      *            <code>WarningLevel</code> to use
      * 
-     * @see <a href="http://code.google.com/closure/compiler/docs/api-ref.html">
+     * @see <a href="http://code.google.com/closure/compiler/docs/api-ref.html">Google Closure Compiler</a>
      */
     public void setWarningLevel(WarningLevel warningLevel) {
         this.warningLevel = warningLevel;

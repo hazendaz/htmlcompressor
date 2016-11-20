@@ -25,16 +25,16 @@ import java.util.regex.Pattern;
 import org.mozilla.javascript.ErrorReporter;
 
 /**
- * Class that compresses given HTML source by removing comments, extra spaces and line breaks while preserving content
- * within &lt;pre>, &lt;textarea>, &lt;script> and &lt;style> tags.
+ * Class that compresses given HTML source by removing comments, extra spaces and lin&lt;pre&gt; while preserving
+ * content within &lt;pre&gt;, &lt;textarea&gt;, &lt;script&gt; and &lt;style&gt; tags.
  * <p>
  * Blocks that should be additionally preserved could be marked with: <br>
- * <code>&lt;!-- {{{ -->
+ * <code>&lt;!-- {{{ --&gt;
  * <br>&nbsp;&nbsp;&nbsp;&nbsp;...
- * <br>&lt;!-- }}} --></code> <br>
+ * <br>&lt;!-- }}} --&gt;</code> <br>
  * or any number of user defined patterns.
  * <p>
- * Content inside &lt;script> or &lt;style> tags could be optionally compressed using <a
+ * Content inside &lt;script&gt; or &lt;style&gt; tags could be optionally compressed using <a
  * href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> or <a
  * href="http://code.google.com/closure/compiler/">Google Closure Compiler</a> libraries.
  * 
@@ -42,24 +42,27 @@ import org.mozilla.javascript.ErrorReporter;
  */
 public class HtmlCompressor implements Compressor {
 
+    /** The Constant JS_COMPRESSOR_YUI. */
     public static final String       JS_COMPRESSOR_YUI            = "yui";
+
+    /** The Constant JS_COMPRESSOR_CLOSURE. */
     public static final String       JS_COMPRESSOR_CLOSURE        = "closure";
 
     /**
-     * Predefined pattern that matches <code>&lt;?php ... ?></code> tags. Could be passed inside a list to
+     * Predefined pattern that matches <code>&lt;?php ... ?&gt;</code> tags. Could be passed inside a list to
      * {@link #setPreservePatterns(List) setPreservePatterns} method.
      */
     public static final Pattern      PHP_TAG_PATTERN              = Pattern.compile("<\\?php.*?\\?>", Pattern.DOTALL
                                                                           | Pattern.CASE_INSENSITIVE);
 
     /**
-     * Predefined pattern that matches <code>&lt;% ... %></code> tags. Could be passed inside a list to
+     * Predefined pattern that matches <code>&lt;% ... %&gt;</code> tags. Could be passed inside a list to
      * {@link #setPreservePatterns(List) setPreservePatterns} method.
      */
     public static final Pattern      SERVER_SCRIPT_TAG_PATTERN    = Pattern.compile("<%.*?%>", Pattern.DOTALL);
 
     /**
-     * Predefined pattern that matches <code>&lt;--# ... --></code> tags. Could be passed inside a list to
+     * Predefined pattern that matches <code>&lt;--# ... --&gt;</code> tags. Could be passed inside a list to
      * {@link #setPreservePatterns(List) setPreservePatterns} method.
      */
     public static final Pattern      SERVER_SIDE_INCLUDE_PATTERN  = Pattern.compile("<!--\\s*#.*?-->", Pattern.DOTALL);
@@ -71,9 +74,9 @@ public class HtmlCompressor implements Compressor {
     public static final String       BLOCK_TAGS_MIN               = "html,head,body,br,p";
 
     /**
-     * Predefined list of tags that are block-level by default, excluding <code>&lt;div></code> and <code>&lt;li></code>
-     * tags. Table tags are also included. Could be passed to {@link #setRemoveSurroundingSpaces(String)
-     * setRemoveSurroundingSpaces} method.
+     * Predefined list of tags that are block-level by default, excluding <code>&lt;div&gt;</code> and
+     * <code>&lt;li&gt;</code> tags. Table tags are also included. Could be passed to
+     * {@link #setRemoveSurroundingSpaces(String) setRemoveSurroundingSpaces} method.
      */
     public static final String       BLOCK_TAGS_MAX               = BLOCK_TAGS_MIN
                                                                           + ",h1,h2,h3,h4,h5,h6,blockquote,center,dl,fieldset,form,frame,frameset,hr,noframes,ol,table,tbody,tr,td,th,tfoot,thead,ul";
@@ -84,6 +87,7 @@ public class HtmlCompressor implements Compressor {
      */
     public static final String       ALL_TAGS                     = "all";
 
+    /** The enabled. */
     private boolean                  enabled                      = true;
 
     // javascript and css compressor implementations
@@ -91,7 +95,11 @@ public class HtmlCompressor implements Compressor {
     private Compressor               cssCompressor                = null;
 
     // default settings
+
+    /** The remove comments. */
     private boolean                  removeComments               = true;
+
+    /** The remove multi spaces. */
     private boolean                  removeMultiSpaces            = true;
 
     // optional settings
@@ -122,130 +130,215 @@ public class HtmlCompressor implements Compressor {
     private boolean                  yuiJsNoMunge                 = false;
     private boolean                  yuiJsPreserveAllSemiColons   = false;
     private boolean                  yuiJsDisableOptimizations    = false;
+    /** The yui js line break. */
     private int                      yuiJsLineBreak               = -1;
+
+    /** The yui css line break. */
     private int                      yuiCssLineBreak              = -1;
 
     // error reporter implementation for YUI compressor
     private ErrorReporter            yuiErrorReporter             = null;
 
+    /** The Constant tempCondCommentBlock. */
     // temp replacements for preserved blocks
     protected static final String    tempCondCommentBlock         = "%%%~COMPRESS~COND~{0,number,#}~%%%";
+
+    /** The Constant tempPreBlock. */
     protected static final String    tempPreBlock                 = "%%%~COMPRESS~PRE~{0,number,#}~%%%";
+
+    /** The Constant tempTextAreaBlock. */
     protected static final String    tempTextAreaBlock            = "%%%~COMPRESS~TEXTAREA~{0,number,#}~%%%";
+
+    /** The Constant tempScriptBlock. */
     protected static final String    tempScriptBlock              = "%%%~COMPRESS~SCRIPT~{0,number,#}~%%%";
+
+    /** The Constant tempStyleBlock. */
     protected static final String    tempStyleBlock               = "%%%~COMPRESS~STYLE~{0,number,#}~%%%";
+
+    /** The Constant tempEventBlock. */
     protected static final String    tempEventBlock               = "%%%~COMPRESS~EVENT~{0,number,#}~%%%";
+
+    /** The Constant tempLineBreakBlock. */
     protected static final String    tempLineBreakBlock           = "%%%~COMPRESS~LT~{0,number,#}~%%%";
+
+    /** The Constant tempSkipBlock. */
     protected static final String    tempSkipBlock                = "%%%~COMPRESS~SKIP~{0,number,#}~%%%";
+
+    /** The Constant tempUserBlock. */
     protected static final String    tempUserBlock                = "%%%~COMPRESS~USER{0,number,#}~{1,number,#}~%%%";
 
+    /** The Constant emptyPattern. */
     // compiled regex patterns
     protected static final Pattern   emptyPattern                 = Pattern.compile("\\s");
+
+    /** The Constant skipPattern. */
     protected static final Pattern   skipPattern                  = Pattern
                                                                           .compile(
                                                                                   "<!--\\s*\\{\\{\\{\\s*-->(.*?)<!--\\s*\\}\\}\\}\\s*-->",
                                                                                   Pattern.DOTALL
                                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant condCommentPattern. */
     protected static final Pattern   condCommentPattern           = Pattern
                                                                           .compile(
                                                                                   "(<!(?:--)?\\[[^\\]]+?]>)(.*?)(<!\\[[^\\]]+]-->)",
                                                                                   Pattern.DOTALL
                                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant commentPattern. */
     protected static final Pattern   commentPattern               = Pattern.compile("<!---->|<!--[^\\[].*?-->",
                                                                           Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant intertagPattern_TagTag. */
     protected static final Pattern   intertagPattern_TagTag       = Pattern.compile(">\\s+<", Pattern.DOTALL
                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant intertagPattern_TagCustom. */
     protected static final Pattern   intertagPattern_TagCustom    = Pattern.compile(">\\s+%%%~", Pattern.DOTALL
                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant intertagPattern_CustomTag. */
     protected static final Pattern   intertagPattern_CustomTag    = Pattern.compile("~%%%\\s+<", Pattern.DOTALL
                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant intertagPattern_CustomCustom. */
     protected static final Pattern   intertagPattern_CustomCustom = Pattern.compile("~%%%\\s+%%%~", Pattern.DOTALL
                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant multispacePattern. */
     protected static final Pattern   multispacePattern            = Pattern.compile("\\s+", Pattern.DOTALL
                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant tagEndSpacePattern. */
     protected static final Pattern   tagEndSpacePattern           = Pattern.compile("(<(?:[^>]+?))(?:\\s+?)(/?>)",
                                                                           Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant tagLastUnquotedValuePattern. */
     protected static final Pattern   tagLastUnquotedValuePattern  = Pattern.compile("=\\s*[a-z0-9-_]+$",
                                                                           Pattern.CASE_INSENSITIVE);
+
+    /** The Constant tagQuotePattern. */
     protected static final Pattern   tagQuotePattern              = Pattern
                                                                           .compile(
                                                                                   "\\s*=\\s*([\"'])([a-z0-9-_]+?)\\1(/?)(?=[^<]*?>)",
                                                                                   Pattern.CASE_INSENSITIVE);
+
+    /** The Constant prePattern. */
     protected static final Pattern   prePattern                   = Pattern.compile("(<pre[^>]*?>)(.*?)(</pre>)",
                                                                           Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant taPattern. */
     protected static final Pattern   taPattern                    = Pattern.compile(
                                                                           "(<textarea[^>]*?>)(.*?)(</textarea>)",
                                                                           Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant scriptPattern. */
     protected static final Pattern   scriptPattern                = Pattern.compile("(<script[^>]*?>)(.*?)(</script>)",
                                                                           Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant stylePattern. */
     protected static final Pattern   stylePattern                 = Pattern.compile("(<style[^>]*?>)(.*?)(</style>)",
                                                                           Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant tagPropertyPattern. */
     protected static final Pattern   tagPropertyPattern           = Pattern.compile("(\\s\\w+)\\s*=\\s*(?=[^<]*?>)",
                                                                           Pattern.CASE_INSENSITIVE);
+
+    /** The Constant cdataPattern. */
     protected static final Pattern   cdataPattern                 = Pattern.compile(
                                                                           "\\s*<!\\[CDATA\\[(.*?)\\]\\]>\\s*",
                                                                           Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant doctypePattern. */
     protected static final Pattern   doctypePattern               = Pattern.compile("<!DOCTYPE[^>]*>", Pattern.DOTALL
                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant typeAttrPattern. */
     protected static final Pattern   typeAttrPattern              = Pattern.compile("type\\s*=\\s*([\\\"']*)(.+?)\\1",
                                                                           Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant jsTypeAttrPattern. */
     protected static final Pattern   jsTypeAttrPattern            = Pattern
                                                                           .compile(
                                                                                   "(<script[^>]*)type\\s*=\\s*([\"']*)(?:text|application)/javascript\\2([^>]*>)",
                                                                                   Pattern.DOTALL
                                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant jsLangAttrPattern. */
     protected static final Pattern   jsLangAttrPattern            = Pattern
                                                                           .compile(
                                                                                   "(<script[^>]*)language\\s*=\\s*([\"']*)javascript\\2([^>]*>)",
                                                                                   Pattern.DOTALL
                                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant styleTypeAttrPattern. */
     protected static final Pattern   styleTypeAttrPattern         = Pattern
                                                                           .compile(
                                                                                   "(<style[^>]*)type\\s*=\\s*([\"']*)text/style\\2([^>]*>)",
                                                                                   Pattern.DOTALL
                                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant linkTypeAttrPattern. */
     protected static final Pattern   linkTypeAttrPattern          = Pattern
                                                                           .compile(
                                                                                   "(<link[^>]*)type\\s*=\\s*([\"']*)text/(?:css|plain)\\2([^>]*>)",
                                                                                   Pattern.DOTALL
                                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant linkRelAttrPattern. */
     protected static final Pattern   linkRelAttrPattern           = Pattern
                                                                           .compile(
                                                                                   "<link(?:[^>]*)rel\\s*=\\s*([\"']*)(?:alternate\\s+)?stylesheet\\1(?:[^>]*)>",
                                                                                   Pattern.DOTALL
                                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant formMethodAttrPattern. */
     protected static final Pattern   formMethodAttrPattern        = Pattern
                                                                           .compile(
                                                                                   "(<form[^>]*)method\\s*=\\s*([\"']*)get\\2([^>]*>)",
                                                                                   Pattern.DOTALL
                                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant inputTypeAttrPattern. */
     protected static final Pattern   inputTypeAttrPattern         = Pattern
                                                                           .compile(
                                                                                   "(<input[^>]*)type\\s*=\\s*([\"']*)text\\2([^>]*>)",
                                                                                   Pattern.DOTALL
                                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant booleanAttrPattern. */
     protected static final Pattern   booleanAttrPattern           = Pattern
                                                                           .compile(
                                                                                   "(<\\w+[^>]*)(checked|selected|disabled|readonly)\\s*=\\s*([\"']*)\\w*\\3([^>]*>)",
                                                                                   Pattern.DOTALL
                                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant eventJsProtocolPattern. */
     protected static final Pattern   eventJsProtocolPattern       = Pattern.compile("^javascript:\\s*(.+)",
                                                                           Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant httpProtocolPattern. */
     protected static final Pattern   httpProtocolPattern          = Pattern
                                                                           .compile(
                                                                                   "(<[^>]+?(?:href|src|cite|action)\\s*=\\s*['\"])http:(//[^>]+?>)",
                                                                                   Pattern.DOTALL
                                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant httpsProtocolPattern. */
     protected static final Pattern   httpsProtocolPattern         = Pattern
                                                                           .compile(
                                                                                   "(<[^>]+?(?:href|src|cite|action)\\s*=\\s*['\"])https:(//[^>]+?>)",
                                                                                   Pattern.DOTALL
                                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant relExternalPattern. */
     protected static final Pattern   relExternalPattern           = Pattern
                                                                           .compile(
                                                                                   "<(?:[^>]*)rel\\s*=\\s*([\"']*)(?:alternate\\s+)?external\\1(?:[^>]*)>",
                                                                                   Pattern.DOTALL
                                                                                           | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant eventPattern1. */
     protected static final Pattern   eventPattern1                = Pattern
                                                                           .compile(
                                                                                   "(\\son[a-z]+\\s*=\\s*\")([^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*)(\")",
@@ -255,30 +348,53 @@ public class HtmlCompressor implements Compressor {
                                                                           .compile(
                                                                                   "(\\son[a-z]+\\s*=\\s*')([^'\\\\\\r\\n]*(?:\\\\.[^'\\\\\\r\\n]*)*)(')",
                                                                                   Pattern.CASE_INSENSITIVE);
+
+    /** The Constant lineBreakPattern. */
     protected static final Pattern   lineBreakPattern             = Pattern
                                                                           .compile("(?:\\p{Blank}*(\\r?\\n)\\p{Blank}*)+");
+
+    /** The Constant surroundingSpacesMinPattern. */
     protected static final Pattern   surroundingSpacesMinPattern  = Pattern.compile(
                                                                           "\\s*(</?(?:"
                                                                                   + BLOCK_TAGS_MIN.replaceAll(",", "|")
                                                                                   + ")(?:>|[\\s/][^>]*>))\\s*",
                                                                           Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant surroundingSpacesMaxPattern. */
     protected static final Pattern   surroundingSpacesMaxPattern  = Pattern.compile(
                                                                           "\\s*(</?(?:"
                                                                                   + BLOCK_TAGS_MAX.replaceAll(",", "|")
                                                                                   + ")(?:>|[\\s/][^>]*>))\\s*",
                                                                           Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant surroundingSpacesAllPattern. */
     protected static final Pattern   surroundingSpacesAllPattern  = Pattern.compile("\\s*(<[^>]+>)\\s*", Pattern.DOTALL
                                                                           | Pattern.CASE_INSENSITIVE);
 
+    /** The Constant tempCondCommentPattern. */
     // patterns for searching for temporary replacements
     protected static final Pattern   tempCondCommentPattern       = Pattern.compile("%%%~COMPRESS~COND~(\\d+?)~%%%");
+
+    /** The Constant tempPrePattern. */
     protected static final Pattern   tempPrePattern               = Pattern.compile("%%%~COMPRESS~PRE~(\\d+?)~%%%");
+
+    /** The Constant tempTextAreaPattern. */
     protected static final Pattern   tempTextAreaPattern          = Pattern
                                                                           .compile("%%%~COMPRESS~TEXTAREA~(\\d+?)~%%%");
+
+    /** The Constant tempScriptPattern. */
     protected static final Pattern   tempScriptPattern            = Pattern.compile("%%%~COMPRESS~SCRIPT~(\\d+?)~%%%");
+
+    /** The Constant tempStylePattern. */
     protected static final Pattern   tempStylePattern             = Pattern.compile("%%%~COMPRESS~STYLE~(\\d+?)~%%%");
+
+    /** The Constant tempEventPattern. */
     protected static final Pattern   tempEventPattern             = Pattern.compile("%%%~COMPRESS~EVENT~(\\d+?)~%%%");
+
+    /** The Constant tempSkipPattern. */
     protected static final Pattern   tempSkipPattern              = Pattern.compile("%%%~COMPRESS~SKIP~(\\d+?)~%%%");
+
+    /** The Constant tempLineBreakPattern. */
     protected static final Pattern   tempLineBreakPattern         = Pattern.compile("%%%~COMPRESS~LT~(\\d+?)~%%%");
 
     /**
@@ -328,6 +444,12 @@ public class HtmlCompressor implements Compressor {
         return html;
     }
 
+    /**
+     * Inits the statistics.
+     *
+     * @param html
+     *            the html
+     */
     protected void initStatistics(String html) {
         // create stats
         if (generateStatistics) {
@@ -345,6 +467,12 @@ public class HtmlCompressor implements Compressor {
         }
     }
 
+    /**
+     * End statistics.
+     *
+     * @param html
+     *            the html
+     */
     protected void endStatistics(String html) {
         // calculate compression time
         if (generateStatistics) {
@@ -359,6 +487,31 @@ public class HtmlCompressor implements Compressor {
         }
     }
 
+    /**
+     * Preserve blocks.
+     *
+     * @param html
+     *            the html
+     * @param preBlocks
+     *            the pre blocks
+     * @param taBlocks
+     *            the ta blocks
+     * @param scriptBlocks
+     *            the script blocks
+     * @param styleBlocks
+     *            the style blocks
+     * @param eventBlocks
+     *            the event blocks
+     * @param condCommentBlocks
+     *            the cond comment blocks
+     * @param skipBlocks
+     *            the skip blocks
+     * @param lineBreakBlocks
+     *            the line break blocks
+     * @param userBlocks
+     *            the user blocks
+     * @return the string
+     */
     protected String preserveBlocks(String html, List<String> preBlocks, List<String> taBlocks,
             List<String> scriptBlocks, List<String> styleBlocks, List<String> eventBlocks,
             List<String> condCommentBlocks, List<String> skipBlocks, List<String> lineBreakBlocks,
@@ -523,6 +676,31 @@ public class HtmlCompressor implements Compressor {
         return html;
     }
 
+    /**
+     * Return blocks.
+     *
+     * @param html
+     *            the html
+     * @param preBlocks
+     *            the pre blocks
+     * @param taBlocks
+     *            the ta blocks
+     * @param scriptBlocks
+     *            the script blocks
+     * @param styleBlocks
+     *            the style blocks
+     * @param eventBlocks
+     *            the event blocks
+     * @param condCommentBlocks
+     *            the cond comment blocks
+     * @param skipBlocks
+     *            the skip blocks
+     * @param lineBreakBlocks
+     *            the line break blocks
+     * @param userBlocks
+     *            the user blocks
+     * @return the string
+     */
     protected String returnBlocks(String html, List<String> preBlocks, List<String> taBlocks,
             List<String> scriptBlocks, List<String> styleBlocks, List<String> eventBlocks,
             List<String> condCommentBlocks, List<String> skipBlocks, List<String> lineBreakBlocks,
@@ -646,6 +824,13 @@ public class HtmlCompressor implements Compressor {
         return html;
     }
 
+    /**
+     * Process html.
+     *
+     * @param html
+     *            the html
+     * @return the string
+     */
     protected String processHtml(String html) {
 
         // remove comments
@@ -696,6 +881,13 @@ public class HtmlCompressor implements Compressor {
         return html.trim();
     }
 
+    /**
+     * Removes the surrounding spaces.
+     *
+     * @param html
+     *            the html
+     * @return the string
+     */
     protected String removeSurroundingSpaces(String html) {
         // remove spaces around provided tags
         if (removeSurroundingSpaces != null) {
@@ -724,6 +916,13 @@ public class HtmlCompressor implements Compressor {
         return html;
     }
 
+    /**
+     * Removes the quotes inside tags.
+     *
+     * @param html
+     *            the html
+     * @return the string
+     */
     protected String removeQuotesInsideTags(String html) {
         // remove quotes from tag attributes
         if (removeQuotes) {
@@ -744,6 +943,13 @@ public class HtmlCompressor implements Compressor {
         return html;
     }
 
+    /**
+     * Removes the spaces inside tags.
+     *
+     * @param html
+     *            the html
+     * @return the string
+     */
     protected String removeSpacesInsideTags(String html) {
         // remove spaces around equals sign inside tags
         html = tagPropertyPattern.matcher(html).replaceAll("$1=");
@@ -766,6 +972,13 @@ public class HtmlCompressor implements Compressor {
         return html;
     }
 
+    /**
+     * Removes the multi spaces.
+     *
+     * @param html
+     *            the html
+     * @return the string
+     */
     protected String removeMultiSpaces(String html) {
         // collapse multiple spaces
         if (removeMultiSpaces) {
@@ -774,6 +987,13 @@ public class HtmlCompressor implements Compressor {
         return html;
     }
 
+    /**
+     * Removes the intertag spaces.
+     *
+     * @param html
+     *            the html
+     * @return the string
+     */
     protected String removeIntertagSpaces(String html) {
         // remove inter-tag spaces
         if (removeIntertagSpaces) {
@@ -785,6 +1005,13 @@ public class HtmlCompressor implements Compressor {
         return html;
     }
 
+    /**
+     * Removes the comments.
+     *
+     * @param html
+     *            the html
+     * @return the string
+     */
     protected String removeComments(String html) {
         // remove comments
         if (removeComments) {
@@ -793,6 +1020,13 @@ public class HtmlCompressor implements Compressor {
         return html;
     }
 
+    /**
+     * Simple doctype.
+     *
+     * @param html
+     *            the html
+     * @return the string
+     */
     protected String simpleDoctype(String html) {
         // simplify doctype
         if (simpleDoctype) {
@@ -801,6 +1035,13 @@ public class HtmlCompressor implements Compressor {
         return html;
     }
 
+    /**
+     * Removes the script attributes.
+     *
+     * @param html
+     *            the html
+     * @return the string
+     */
     protected String removeScriptAttributes(String html) {
 
         if (removeScriptAttributes) {
@@ -813,6 +1054,13 @@ public class HtmlCompressor implements Compressor {
         return html;
     }
 
+    /**
+     * Removes the style attributes.
+     *
+     * @param html
+     *            the html
+     * @return the string
+     */
     protected String removeStyleAttributes(String html) {
         // remove type from style tags
         if (removeStyleAttributes) {
@@ -821,6 +1069,13 @@ public class HtmlCompressor implements Compressor {
         return html;
     }
 
+    /**
+     * Removes the link attributes.
+     *
+     * @param html
+     *            the html
+     * @return the string
+     */
     protected String removeLinkAttributes(String html) {
         // remove type from link tags with rel=stylesheet
         if (removeLinkAttributes) {
@@ -840,6 +1095,13 @@ public class HtmlCompressor implements Compressor {
         return html;
     }
 
+    /**
+     * Removes the form attributes.
+     *
+     * @param html
+     *            the html
+     * @return the string
+     */
     protected String removeFormAttributes(String html) {
         // remove method from form tags
         if (removeFormAttributes) {
@@ -848,6 +1110,13 @@ public class HtmlCompressor implements Compressor {
         return html;
     }
 
+    /**
+     * Removes the input attributes.
+     *
+     * @param html
+     *            the html
+     * @return the string
+     */
     protected String removeInputAttributes(String html) {
         // remove type from input tags
         if (removeInputAttributes) {
@@ -856,6 +1125,13 @@ public class HtmlCompressor implements Compressor {
         return html;
     }
 
+    /**
+     * Simple boolean attributes.
+     *
+     * @param html
+     *            the html
+     * @return the string
+     */
     protected String simpleBooleanAttributes(String html) {
         // simplify boolean attributes
         if (simpleBooleanAttributes) {
@@ -864,6 +1140,13 @@ public class HtmlCompressor implements Compressor {
         return html;
     }
 
+    /**
+     * Removes the http protocol.
+     *
+     * @param html
+     *            the html
+     * @return the string
+     */
     protected String removeHttpProtocol(String html) {
         // remove http protocol from tag attributes
         if (removeHttpProtocol) {
@@ -883,6 +1166,13 @@ public class HtmlCompressor implements Compressor {
         return html;
     }
 
+    /**
+     * Removes the https protocol.
+     *
+     * @param html
+     *            the html
+     * @return the string
+     */
     protected String removeHttpsProtocol(String html) {
         // remove https protocol from tag attributes
         if (removeHttpsProtocol) {
@@ -902,6 +1192,28 @@ public class HtmlCompressor implements Compressor {
         return html;
     }
 
+    /**
+     * Process preserved blocks.
+     *
+     * @param preBlocks
+     *            the pre blocks
+     * @param taBlocks
+     *            the ta blocks
+     * @param scriptBlocks
+     *            the script blocks
+     * @param styleBlocks
+     *            the style blocks
+     * @param eventBlocks
+     *            the event blocks
+     * @param condCommentBlocks
+     *            the cond comment blocks
+     * @param skipBlocks
+     *            the skip blocks
+     * @param lineBreakBlocks
+     *            the line break blocks
+     * @param userBlocks
+     *            the user blocks
+     */
     protected void processPreservedBlocks(List<String> preBlocks, List<String> taBlocks, List<String> scriptBlocks,
             List<String> styleBlocks, List<String> eventBlocks, List<String> condCommentBlocks,
             List<String> skipBlocks, List<String> lineBreakBlocks, List<List<String>> userBlocks) {
@@ -916,6 +1228,12 @@ public class HtmlCompressor implements Compressor {
         processLineBreakBlocks(lineBreakBlocks);
     }
 
+    /**
+     * Process pre blocks.
+     *
+     * @param preBlocks
+     *            the pre blocks
+     */
     protected void processPreBlocks(List<String> preBlocks) {
         if (generateStatistics) {
             for (String block : preBlocks) {
@@ -924,6 +1242,12 @@ public class HtmlCompressor implements Compressor {
         }
     }
 
+    /**
+     * Process text area blocks.
+     *
+     * @param taBlocks
+     *            the ta blocks
+     */
     protected void processTextAreaBlocks(List<String> taBlocks) {
         if (generateStatistics) {
             for (String block : taBlocks) {
@@ -932,6 +1256,12 @@ public class HtmlCompressor implements Compressor {
         }
     }
 
+    /**
+     * Process cond comment blocks.
+     *
+     * @param condCommentBlocks
+     *            the cond comment blocks
+     */
     protected void processCondCommentBlocks(List<String> condCommentBlocks) {
         if (generateStatistics) {
             for (String block : condCommentBlocks) {
@@ -940,6 +1270,12 @@ public class HtmlCompressor implements Compressor {
         }
     }
 
+    /**
+     * Process skip blocks.
+     *
+     * @param skipBlocks
+     *            the skip blocks
+     */
     protected void processSkipBlocks(List<String> skipBlocks) {
         if (generateStatistics) {
             for (String block : skipBlocks) {
@@ -948,6 +1284,12 @@ public class HtmlCompressor implements Compressor {
         }
     }
 
+    /**
+     * Process line break blocks.
+     *
+     * @param lineBreakBlocks
+     *            the line break blocks
+     */
     protected void processLineBreakBlocks(List<String> lineBreakBlocks) {
         if (generateStatistics) {
             for (String block : lineBreakBlocks) {
@@ -956,6 +1298,12 @@ public class HtmlCompressor implements Compressor {
         }
     }
 
+    /**
+     * Process user blocks.
+     *
+     * @param userBlocks
+     *            the user blocks
+     */
     protected void processUserBlocks(List<List<String>> userBlocks) {
         if (generateStatistics) {
             for (List<String> blockList : userBlocks) {
@@ -966,6 +1314,12 @@ public class HtmlCompressor implements Compressor {
         }
     }
 
+    /**
+     * Process event blocks.
+     *
+     * @param eventBlocks
+     *            the event blocks
+     */
     protected void processEventBlocks(List<String> eventBlocks) {
 
         if (generateStatistics) {
@@ -993,6 +1347,13 @@ public class HtmlCompressor implements Compressor {
         }
     }
 
+    /**
+     * Removes the java script protocol.
+     *
+     * @param source
+     *            the source
+     * @return the string
+     */
     protected String removeJavaScriptProtocol(String source) {
         // remove javascript: from inline events
         String result = source;
@@ -1009,6 +1370,12 @@ public class HtmlCompressor implements Compressor {
         return result;
     }
 
+    /**
+     * Process script blocks.
+     *
+     * @param scriptBlocks
+     *            the script blocks
+     */
     protected void processScriptBlocks(List<String> scriptBlocks) {
 
         if (generateStatistics) {
@@ -1036,6 +1403,12 @@ public class HtmlCompressor implements Compressor {
         }
     }
 
+    /**
+     * Process style blocks.
+     *
+     * @param styleBlocks
+     *            the style blocks
+     */
     protected void processStyleBlocks(List<String> styleBlocks) {
 
         if (generateStatistics) {
@@ -1063,6 +1436,13 @@ public class HtmlCompressor implements Compressor {
         }
     }
 
+    /**
+     * Compress java script.
+     *
+     * @param source
+     *            the source
+     * @return the string
+     */
     protected String compressJavaScript(String source) {
 
         // set default javascript compressor
@@ -1098,6 +1478,13 @@ public class HtmlCompressor implements Compressor {
 
     }
 
+    /**
+     * Compress css styles.
+     *
+     * @param source
+     *            the source
+     * @return the string
+     */
     protected String compressCssStyles(String source) {
 
         // set default css compressor
@@ -1126,6 +1513,11 @@ public class HtmlCompressor implements Compressor {
 
     }
 
+    /**
+     * Creates the compressor clone.
+     *
+     * @return the html compressor
+     */
     protected HtmlCompressor createCompressorClone() {
         HtmlCompressor clone = new HtmlCompressor();
         clone.setJavaScriptCompressor(javaScriptCompressor);
@@ -1168,7 +1560,7 @@ public class HtmlCompressor implements Compressor {
     }
 
     /**
-     * Enables JavaScript compression within &lt;script> tags using <a
+     * Enables JavaScript compression within &lt;script&gt; tags using <a
      * href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> if set to <code>true</code>. Default
      * is <code>false</code> for performance reasons.
      * 
@@ -1198,8 +1590,9 @@ public class HtmlCompressor implements Compressor {
     }
 
     /**
-     * Enables CSS compression within &lt;style> tags using <a href="http://developer.yahoo.com/yui/compressor/">Yahoo
-     * YUI Compressor</a> if set to <code>true</code>. Default is <code>false</code> for performance reasons.
+     * Enables CSS compression within &lt;style&gt; tags using <a
+     * href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> if set to <code>true</code>. Default
+     * is <code>false</code> for performance reasons.
      * 
      * <p>
      * <b>Note:</b> Compressing CSS is not recommended if pages are compressed dynamically on-the-fly because of
@@ -1261,7 +1654,7 @@ public class HtmlCompressor implements Compressor {
      * enabled. Default is <code>false</code>.
      * 
      * @param yuiJsPreserveAllSemiColons
-     *            set <code>true<code> to enable <code>preserve-semi</code> mode
+     *            set <code>true</code> to enable <code>preserve-semi</code> mode
      * 
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
@@ -1287,8 +1680,7 @@ public class HtmlCompressor implements Compressor {
      * JavaScript compression is enabled. Default is <code>false</code>.
      * 
      * @param yuiJsDisableOptimizations
-     *            set <code>true<code> to enable 
-     * <code>disable-optimizations</code> mode
+     *            set <code>true</code> to enable <code>disable-optimizations</code> mode
      * 
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
@@ -1350,7 +1742,8 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * Returns <code>true</code> if all unnecessary quotes will be removed from tag attributes.
-     * 
+     *
+     * @return true, if is removes the quotes
      */
     public boolean isRemoveQuotes() {
         return removeQuotes;
@@ -1455,8 +1848,8 @@ public class HtmlCompressor implements Compressor {
     }
 
     /**
-     * Returns a list of Patterns defining custom preserving block rules
-     * 
+     * Returns a list of Patterns defining custom preserving block rules.
+     *
      * @return list of <code>Pattern</code> objects defining rules for preserving block rules
      */
     public List<Pattern> getPreservePatterns() {
@@ -1484,10 +1877,9 @@ public class HtmlCompressor implements Compressor {
     }
 
     /**
-     * Returns <code>ErrorReporter</code> used by YUI Compressor to log error messages during JavasSript compression
-     * 
+     * Returns <code>ErrorReporter</code> used by YUI Compressor to log error messages during JavasSript compression.
+     *
      * @return <code>ErrorReporter</code> used by YUI Compressor to log error messages during JavasSript compression
-     * 
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      * @see <a href="http://www.mozilla.org/rhino/apidocs/org/mozilla/javascript/ErrorReporter.html">Error Reporter
      *      Interface</a>
@@ -1502,7 +1894,7 @@ public class HtmlCompressor implements Compressor {
      * which reports errors to <code>System.err</code> stream.
      * 
      * @param yuiErrorReporter
-     *            <code>ErrorReporter<code> that will be used by YUI Compressor
+     *            <code>ErrorReporter</code> that will be used by YUI Compressor
      * 
      * @see YuiJavaScriptCompressor.DefaultErrorReporter
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
@@ -1587,10 +1979,10 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * Returns <code>true</code> if existing DOCTYPE declaration will be replaced with simple
-     * <code><!DOCTYPE html></code> declaration.
+     * <code>&lt;!DOCTYPE html&gt;</code> declaration.
      * 
      * @return <code>true</code> if existing DOCTYPE declaration will be replaced with simple
-     *         <code><!DOCTYPE html></code> declaration.
+     *         <code>&lt;!DOCTYPE html&gt;</code> declaration.
      */
     public boolean isSimpleDoctype() {
         return simpleDoctype;
@@ -1598,7 +1990,7 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * If set to <code>true</code>, existing DOCTYPE declaration will be replaced with simple
-     * <code>&lt;!DOCTYPE html></code> declaration. Default is <code>false</code>.
+     * <code>&lt;!DOCTYPE html&gt;</code> declaration. Default is <code>false</code>.
      * 
      * @param simpleDoctype
      *            set <code>true</code> to replace existing DOCTYPE declaration with <code>&lt;!DOCTYPE html></code>
@@ -1608,16 +2000,16 @@ public class HtmlCompressor implements Compressor {
     }
 
     /**
-     * Returns <code>true</code> if unnecessary attributes wil be removed from <code>&lt;script></code> tags
-     * 
-     * @return <code>true</code> if unnecessary attributes wil be removed from <code>&lt;script></code> tags
+     * Returns <code>true</code> if unnecessary attributes will be removed from <code>&lt;script&gt;</code> tags.
+     *
+     * @return <code>true</code> if unnecessary attributes will be removed from <code>&lt;script&gt;</code> tags
      */
     public boolean isRemoveScriptAttributes() {
         return removeScriptAttributes;
     }
 
     /**
-     * If set to <code>true</code>, following attributes will be removed from <code>&lt;script></code> tags:
+     * If set to <code>true</code>, following attributes will be removed from <code>&lt;script&gt;</code> tags:
      * <ul>
      * <li>type="text/javascript"</li>
      * <li>type="application/javascript"</li>
@@ -1628,7 +2020,7 @@ public class HtmlCompressor implements Compressor {
      * Default is <code>false</code>.
      * 
      * @param removeScriptAttributes
-     *            set <code>true</code> to remove unnecessary attributes from <code>&lt;script></code> tags
+     *            set <code>true</code> to remove unnecessary attributes from <code>&lt;script&gt;</code> tags
      */
     public void setRemoveScriptAttributes(boolean removeScriptAttributes) {
         this.removeScriptAttributes = removeScriptAttributes;
@@ -1636,10 +2028,10 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * Returns <code>true</code> if <code>type="text/style"</code> attributes will be removed from
-     * <code>&lt;style></code> tags
-     * 
+     * <code>&lt;style&gt;</code> tags.
+     *
      * @return <code>true</code> if <code>type="text/style"</code> attributes will be removed from
-     *         <code>&lt;style></code> tags
+     *         <code>&lt;style&gt;</code> tags
      */
     public boolean isRemoveStyleAttributes() {
         return removeStyleAttributes;
@@ -1647,28 +2039,28 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * If set to <code>true</code>, <code>type="text/style"</code> attributes will be removed from
-     * <code>&lt;style></code> tags. Default is <code>false</code>.
+     * <code>&lt;style&gt;</code> tags. Default is <code>false</code>.
      * 
      * @param removeStyleAttributes
-     *            set <code>true</code> to remove <code>type="text/style"</code> attributes from <code>&lt;style></code>
-     *            tags
+     *            set <code>true</code> to remove <code>type="text/style"</code> attributes from
+     *            <code>&lt;style&gt;</code> tags
      */
     public void setRemoveStyleAttributes(boolean removeStyleAttributes) {
         this.removeStyleAttributes = removeStyleAttributes;
     }
 
     /**
-     * Returns <code>true</code> if unnecessary attributes will be removed from <code>&lt;link></code> tags
-     * 
-     * @return <code>true</code> if unnecessary attributes will be removed from <code>&lt;link></code> tags
+     * Returns <code>true</code> if unnecessary attributes will be removed from <code>&lt;link&gt;</code> tags.
+     *
+     * @return <code>true</code> if unnecessary attributes will be removed from <code>&lt;link&gt;</code> tags
      */
     public boolean isRemoveLinkAttributes() {
         return removeLinkAttributes;
     }
 
     /**
-     * If set to <code>true</code>, following attributes will be removed from <code>&lt;link rel="stylesheet"></code>
-     * and <code>&lt;link rel="alternate stylesheet"></code> tags:
+     * If set to <code>true</code>, following attributes will be removed from <code>&lt;link rel="stylesheet"&gt;</code>
+     * and <code>&lt;link rel="alternate stylesheet"&gt;</code> tags:
      * <ul>
      * <li>type="text/css"</li>
      * <li>type="text/plain"</li>
@@ -1678,17 +2070,17 @@ public class HtmlCompressor implements Compressor {
      * Default is <code>false</code>.
      * 
      * @param removeLinkAttributes
-     *            set <code>true</code> to remove unnecessary attributes from <code>&lt;link></code> tags
+     *            set <code>true</code> to remove unnecessary attributes from <code>&lt;link&gt;</code> tags
      */
     public void setRemoveLinkAttributes(boolean removeLinkAttributes) {
         this.removeLinkAttributes = removeLinkAttributes;
     }
 
     /**
-     * Returns <code>true</code> if <code>method="get"</code> attributes will be removed from <code>&lt;form></code>
-     * tags
-     * 
-     * @return <code>true</code> if <code>method="get"</code> attributes will be removed from <code>&lt;form></code>
+     * Returns <code>true</code> if <code>method="get"</code> attributes will be removed from <code>&lt;form&gt;</code>
+     * tags.
+     *
+     * @return <code>true</code> if <code>method="get"</code> attributes will be removed from <code>&lt;form&gt;</code>
      *         tags
      */
     public boolean isRemoveFormAttributes() {
@@ -1696,21 +2088,22 @@ public class HtmlCompressor implements Compressor {
     }
 
     /**
-     * If set to <code>true</code>, <code>method="get"</code> attributes will be removed from <code>&lt;form></code>
+     * If set to <code>true</code>, <code>method="get"</code> attributes will be removed from <code>&lt;form&gt;</code>
      * tags. Default is <code>false</code>.
      * 
      * @param removeFormAttributes
-     *            set <code>true</code> to remove <code>method="get"</code> attributes from <code>&lt;form></code> tags
+     *            set <code>true</code> to remove <code>method="get"</code> attributes from <code>&lt;form&gt;</code>
+     *            tags
      */
     public void setRemoveFormAttributes(boolean removeFormAttributes) {
         this.removeFormAttributes = removeFormAttributes;
     }
 
     /**
-     * Returns <code>true</code> if <code>type="text"</code> attributes will be removed from <code>&lt;input></code>
-     * tags
-     * 
-     * @return <code>true</code> if <code>type="text"</code> attributes will be removed from <code>&lt;input></code>
+     * Returns <code>true</code> if <code>type="text"</code> attributes will be removed from <code>&lt;input&gt;</code>
+     * tags.
+     *
+     * @return <code>true</code> if <code>type="text"</code> attributes will be removed from <code>&lt;input&gt;</code>
      *         tags
      */
     public boolean isRemoveInputAttributes() {
@@ -1718,19 +2111,20 @@ public class HtmlCompressor implements Compressor {
     }
 
     /**
-     * If set to <code>true</code>, <code>type="text"</code> attributes will be removed from <code>&lt;input></code>
+     * If set to <code>true</code>, <code>type="text"</code> attributes will be removed from <code>&lt;input&gt;</code>
      * tags. Default is <code>false</code>.
      * 
      * @param removeInputAttributes
-     *            set <code>true</code> to remove <code>type="text"</code> attributes from <code>&lt;input></code> tags
+     *            set <code>true</code> to remove <code>type="text"</code> attributes from <code>&lt;input&gt;</code>
+     *            tags
      */
     public void setRemoveInputAttributes(boolean removeInputAttributes) {
         this.removeInputAttributes = removeInputAttributes;
     }
 
     /**
-     * Returns <code>true</code> if boolean attributes will be simplified
-     * 
+     * Returns <code>true</code> if boolean attributes will be simplified.
+     *
      * @return <code>true</code> if boolean attributes will be simplified
      */
     public boolean isSimpleBooleanAttributes() {
@@ -1747,7 +2141,7 @@ public class HtmlCompressor implements Compressor {
      * </ul>
      * 
      * <p>
-     * For example, <code>&ltinput readonly="readonly"></code> would become <code>&ltinput readonly></code>
+     * For example, <code>&lt;input readonly="readonly"&gt;</code> would become <code>&lt;input readonly&gt;</code>
      * 
      * <p>
      * Default is <code>false</code>.
@@ -1772,7 +2166,8 @@ public class HtmlCompressor implements Compressor {
      * If set to <code>true</code>, <code>javascript:</code> pseudo-protocol will be removed from inline event handlers.
      * 
      * <p>
-     * For example, <code>&lta onclick="javascript:alert()"></code> would become <code>&lta onclick="alert()"></code>
+     * For example, <code>&lt;a onclick="javascript:alert()"&gt;</code> would become
+     * <code>&lt;a onclick="alert()"&gt;</code>
      * 
      * <p>
      * Default is <code>false</code>.
@@ -1806,11 +2201,11 @@ public class HtmlCompressor implements Compressor {
      * <p>
      * For example:
      * <p>
-     * <code>&lta href="http://example.com"> &ltscript src="http://google.com/js.js" rel="external"></code>
+     * <code>&lt;a href="http://example.com"&gt; &lt;script src="http://google.com/js.js" rel="external"&gt;</code>
      * <p>
      * would become:
      * <p>
-     * <code>&lta href="//example.com"> &ltscript src="http://google.com/js.js" rel="external"></code>
+     * <code>&lt;a href="//example.com"&gt; &lt;script src="http://google.com/js.js" rel="external"&gt;</code>
      * 
      * <p>
      * Default is <code>false</code>.
@@ -1844,11 +2239,11 @@ public class HtmlCompressor implements Compressor {
      * <p>
      * For example:
      * <p>
-     * <code>&lta href="https://example.com"> &ltscript src="https://google.com/js.js" rel="external"></code>
+     * <code>&lt;a href="https://example.com"&gt; &lt;script src="https://google.com/js.js" rel="external"&gt;</code>
      * <p>
      * would become:
      * <p>
-     * <code>&lta href="//example.com"> &ltscript src="https://google.com/js.js" rel="external"></code>
+     * <code>&lt;a href="//example.com"&gt; &lt;script src="https://google.com/js.js" rel="external"&gt;</code>
      * 
      * <p>
      * Default is <code>false</code>.
@@ -1861,8 +2256,8 @@ public class HtmlCompressor implements Compressor {
     }
 
     /**
-     * Returns <code>true</code> if HTML compression statistics is generated
-     * 
+     * Returns <code>true</code> if HTML compression statistics is generated.
+     *
      * @return <code>true</code> if HTML compression statistics is generated
      */
     public boolean isGenerateStatistics() {

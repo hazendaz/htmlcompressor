@@ -35,19 +35,22 @@ import com.googlecode.htmlcompressor.compressor.YuiCssCompressor;
 /**
  * Velocity directive that compresses an CSS content within #compressCss ... #end block. All CSS-related properties from
  * {@link HtmlCompressor} are supported.
- * 
+ *
+ * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  * @see HtmlCompressor
  * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
- * 
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  */
 public class CssCompressorDirective extends Directive {
 
+    /** The log. */
     private Log     log;
 
+    /** The enabled. */
     private boolean enabled         = true;
 
     // YUICompressor settings
+
+    /** The yui css line break. */
     private int     yuiCssLineBreak = -1;
 
     public String getName() {
@@ -68,6 +71,7 @@ public class CssCompressorDirective extends Directive {
         yuiCssLineBreak = rs.getInt("userdirective.compressCss.yuiCssLineBreak", -1);
     }
 
+    @Override
     public boolean render(InternalContextAdapter context, Writer writer, Node node) throws IOException,
             ResourceNotFoundException, ParseErrorException, MethodInvocationException {
 

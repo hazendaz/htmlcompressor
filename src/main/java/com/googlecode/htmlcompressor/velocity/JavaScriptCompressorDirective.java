@@ -37,34 +37,47 @@ import com.googlecode.htmlcompressor.compressor.YuiJavaScriptCompressor;
 /**
  * Velocity directive that compresses an JavaScript content within #compressJs ... #end block. All JavaScript-related
  * properties from {@link HtmlCompressor} are supported.
- * 
+ *
+ * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  * @see HtmlCompressor
  * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
  * @see <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a>
- * 
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  */
 public class JavaScriptCompressorDirective extends Directive {
 
+    /** The log. */
     private Log     log;
 
+    /** The enabled. */
     private boolean enabled                    = true;
 
+    /** The js compressor. */
     private String  jsCompressor               = HtmlCompressor.JS_COMPRESSOR_YUI;
 
+    /** The yui js no munge. */
     // YUICompressor settings
     private boolean yuiJsNoMunge               = false;
+
+    /** The yui js preserve all semi colons. */
     private boolean yuiJsPreserveAllSemiColons = false;
+
+    /** The yui js disable optimizations. */
     private boolean yuiJsDisableOptimizations  = false;
+
+    /** The yui js line break. */
     private int     yuiJsLineBreak             = -1;
 
     // Closure compressor settings
+
+    /** The closure opt level. */
     private String  closureOptLevel            = ClosureJavaScriptCompressor.COMPILATION_LEVEL_SIMPLE;
 
+    @Override
     public String getName() {
         return "compressJs";
     }
 
+    @Override
     public int getType() {
         return BLOCK;
     }
@@ -84,6 +97,7 @@ public class JavaScriptCompressorDirective extends Directive {
                 ClosureJavaScriptCompressor.COMPILATION_LEVEL_SIMPLE);
     }
 
+    @Override
     public boolean render(InternalContextAdapter context, Writer writer, Node node) throws IOException,
             ResourceNotFoundException, ParseErrorException, MethodInvocationException {
 

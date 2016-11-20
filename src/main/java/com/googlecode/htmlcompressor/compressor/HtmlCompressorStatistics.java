@@ -16,21 +16,28 @@
 package com.googlecode.htmlcompressor.compressor;
 
 /**
- * Class that stores HTML compression statistics
- * 
+ * Class that stores HTML compression statistics.
+ *
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  * @see HtmlCompressor#getStatistics()
  */
 public class HtmlCompressorStatistics {
 
+    /** The original metrics. */
     private HtmlMetrics originalMetrics   = new HtmlMetrics();
+
+    /** The compressed metrics. */
     private HtmlMetrics compressedMetrics = new HtmlMetrics();
+
+    /** The time. */
     private long        time              = 0;
+
+    /** The preserved size. */
     private int         preservedSize     = 0;
 
     /**
-     * Returns metrics of an uncompressed document
-     * 
+     * Returns metrics of an uncompressed document.
+     *
      * @return metrics of an uncompressed document
      * @see HtmlMetrics
      */
@@ -39,6 +46,8 @@ public class HtmlCompressorStatistics {
     }
 
     /**
+     * Sets the original metrics.
+     *
      * @param originalMetrics
      *            the originalMetrics to set
      */
@@ -47,8 +56,8 @@ public class HtmlCompressorStatistics {
     }
 
     /**
-     * Returns metrics of a compressed document
-     * 
+     * Returns metrics of a compressed document.
+     *
      * @return metrics of a compressed document
      * @see HtmlMetrics
      */
@@ -57,6 +66,8 @@ public class HtmlCompressorStatistics {
     }
 
     /**
+     * Sets the compressed metrics.
+     *
      * @param compressedMetrics
      *            the compressedMetrics to set
      */
@@ -79,6 +90,8 @@ public class HtmlCompressorStatistics {
     }
 
     /**
+     * Sets the time.
+     *
      * @param time
      *            the time to set
      */
@@ -88,8 +101,8 @@ public class HtmlCompressorStatistics {
 
     /**
      * Returns total size of blocks that were skipped by the compressor (for example content inside
-     * <code>&lt;pre></code> tags or inside <code>&lt;script></code> tags with disabled javascript compression)
-     * 
+     * <code>&lt;pre&gt;</code> tags or inside <code>&lt;script&gt;</code> tags with disabled javascript compression).
+     *
      * @return the total size of blocks that were skipped by the compressor, in bytes
      */
     public int getPreservedSize() {
@@ -97,6 +110,8 @@ public class HtmlCompressorStatistics {
     }
 
     /**
+     * Sets the preserved size.
+     *
      * @param preservedSize
      *            the preservedSize to set
      */

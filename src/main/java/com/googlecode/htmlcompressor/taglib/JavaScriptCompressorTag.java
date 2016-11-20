@@ -27,19 +27,19 @@ import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
 import com.googlecode.htmlcompressor.compressor.YuiJavaScriptCompressor;
 
 /**
- * JSP tag that compresses an JavaScript content within &lt;compress:js> tags. All JavaScript-related properties from
+ * JSP tag that compresses an JavaScript content within &lt;compress:js&gt; tags. All JavaScript-related properties from
  * {@link HtmlCompressor} are supported.
- * 
+ *
+ * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  * @see HtmlCompressor
  * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
  * @see <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a>
- * 
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  */
-@SuppressWarnings("serial")
 public class JavaScriptCompressorTag extends BodyTagSupport {
 
     private boolean enabled                    = true;
+    /** The Constant serialVersionUID. */
+    private static final long   serialVersionUID = 1L;
 
     private String  jsCompressor               = HtmlCompressor.JS_COMPRESSOR_YUI;
 
@@ -107,6 +107,10 @@ public class JavaScriptCompressorTag extends BodyTagSupport {
     }
 
     /**
+     * Sets the yui js no munge.
+     *
+     * @param yuiJsNoMunge
+     *            the new yui js no munge
      * @see HtmlCompressor#setYuiJsNoMunge(boolean)
      */
     public void setYuiJsNoMunge(boolean yuiJsNoMunge) {
@@ -114,6 +118,10 @@ public class JavaScriptCompressorTag extends BodyTagSupport {
     }
 
     /**
+     * Sets the yui js preserve all semi colons.
+     *
+     * @param yuiJsPreserveAllSemiColons
+     *            the new yui js preserve all semi colons
      * @see HtmlCompressor#setYuiJsPreserveAllSemiColons(boolean)
      */
     public void setYuiJsPreserveAllSemiColons(boolean yuiJsPreserveAllSemiColons) {
@@ -121,6 +129,10 @@ public class JavaScriptCompressorTag extends BodyTagSupport {
     }
 
     /**
+     * Sets the yui js disable optimizations.
+     *
+     * @param yuiJsDisableOptimizations
+     *            the new yui js disable optimizations
      * @see HtmlCompressor#setYuiJsDisableOptimizations(boolean)
      */
     public void setYuiJsDisableOptimizations(boolean yuiJsDisableOptimizations) {
@@ -128,6 +140,10 @@ public class JavaScriptCompressorTag extends BodyTagSupport {
     }
 
     /**
+     * Sets the yui js line break.
+     *
+     * @param yuiJsLineBreak
+     *            the new yui js line break
      * @see HtmlCompressor#setYuiJsLineBreak(int)
      */
     public void setYuiJsLineBreak(int yuiJsLineBreak) {
@@ -135,6 +151,10 @@ public class JavaScriptCompressorTag extends BodyTagSupport {
     }
 
     /**
+     * Sets the enabled.
+     *
+     * @param enabled
+     *            the new enabled
      * @see HtmlCompressor#setEnabled(boolean)
      */
     public void setEnabled(boolean enabled) {

@@ -25,14 +25,13 @@ import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
 import com.googlecode.htmlcompressor.compressor.YuiCssCompressor;
 
 /**
- * JSP tag that compresses an CSS content within &lt;compress:css> using <a
+ * JSP tag that compresses an CSS content within &lt;compress:css&gt; using <a
  * href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>. All CSS-related properties from
  * {@link HtmlCompressor} are supported.
- * 
+ *
+ * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  * @see HtmlCompressor
  * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
- * 
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  */
 @SuppressWarnings("serial")
 public class CssCompressorTag extends BodyTagSupport {
@@ -73,6 +72,10 @@ public class CssCompressorTag extends BodyTagSupport {
     }
 
     /**
+     * Sets the yui css line break.
+     *
+     * @param yuiCssLineBreak
+     *            the new yui css line break
      * @see HtmlCompressor#setYuiCssLineBreak(int)
      */
     public void setYuiCssLineBreak(int yuiCssLineBreak) {
@@ -80,6 +83,10 @@ public class CssCompressorTag extends BodyTagSupport {
     }
 
     /**
+     * Sets the enabled.
+     *
+     * @param enabled
+     *            the new enabled
      * @see HtmlCompressor#setEnabled(boolean)
      */
     public void setEnabled(boolean enabled) {

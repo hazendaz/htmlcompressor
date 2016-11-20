@@ -28,14 +28,25 @@ import java.util.Vector;
  *
  * @author Steve Purcell
  * @version $Revision$
- * @see jargs.examples.gnu.OptionTest
+ * @see <a href="https://github.com/purcell/jargs/tree/master/src/examples/java/com/sanityinc/jargs/examples">jargs
+ *      examples</a>
  */
 public class CmdLineParser {
 
     /**
-     * Base class for exceptions that may be thrown when options are parsed
+     * Base class for exceptions that may be thrown when options are parsed.
      */
     public abstract static class OptionException extends Exception {
+
+        /** The Constant serialVersionUID. */
+        private static final long serialVersionUID = 1L;
+
+        /**
+         * Instantiates a new option exception.
+         *
+         * @param msg
+         *            the msg
+         */
         OptionException(String msg) {
             super(msg);
         }
@@ -46,16 +57,32 @@ public class CmdLineParser {
      * an error string suitable for reporting the error to the user (in English).
      */
     public static class UnknownOptionException extends OptionException {
+        /**
+         * Instantiates a new unknown option exception.
+         *
+         * @param optionName
+         *            the option name
+         */
         UnknownOptionException(String optionName) {
             this(optionName, "Unknown option '" + optionName + "'");
         }
 
+        /**
+         * Instantiates a new unknown option exception.
+         *
+         * @param optionName
+         *            the option name
+         * @param msg
+         *            the msg
+         */
         UnknownOptionException(String optionName, String msg) {
             super(msg);
             this.optionName = optionName;
         }
 
         /**
+         * Gets the option name.
+         *
          * @return the name of the option that was unknown (e.g. "-u")
          */
         public String getOptionName() {
@@ -74,11 +101,24 @@ public class CmdLineParser {
     public static class UnknownSuboptionException extends UnknownOptionException {
         private char suboption;
 
+        /**
+         * Instantiates a new unknown suboption exception.
+         *
+         * @param option
+         *            the option
+         * @param suboption
+         *            the suboption
+         */
         UnknownSuboptionException(String option, char suboption) {
             super(option, "Illegal option: '" + suboption + "' in '" + option + "'");
             this.suboption = suboption;
         }
 
+        /**
+         * Gets the suboption.
+         *
+         * @return the suboption
+         */
         public char getSuboption() {
             return suboption;
         }
@@ -93,6 +133,14 @@ public class CmdLineParser {
     public static class NotFlagException extends UnknownOptionException {
         private char notflag;
 
+        /**
+         * Instantiates a new not flag exception.
+         *
+         * @param option
+         *            the option
+         * @param unflaggish
+         *            the unflaggish
+         */
         NotFlagException(String option, char unflaggish) {
             super(option, "Illegal option: '" + option + "', '" + unflaggish + "' requires a value");
             notflag = unflaggish;
@@ -111,6 +159,17 @@ public class CmdLineParser {
      * <code>getMessage()</code> returns an error string suitable for reporting the error to the user (in English).
      */
     public static class IllegalOptionValueException extends OptionException {
+
+        /** The Constant serialVersionUID. */
+        private static final long serialVersionUID = 1L;
+        /**
+         * Instantiates a new illegal option value exception.
+         *
+         * @param opt
+         *            the opt
+         * @param value
+         *            the value
+         */
         public IllegalOptionValueException(Option opt, String value) {
             super("Illegal value '" + value + "' for option "
                     + (opt.shortForm() != null ? "-" + opt.shortForm() + "/" : "") + "--" + opt.longForm());
@@ -119,6 +178,8 @@ public class CmdLineParser {
         }
 
         /**
+         * Gets the option.
+         *
          * @return the name of the option whose value was illegal (e.g. "-u")
          */
         public Option getOption() {
@@ -126,6 +187,8 @@ public class CmdLineParser {
         }
 
         /**
+         * Gets the value.
+         *
          * @return the illegal value
          */
         public String getValue() {
@@ -137,18 +200,46 @@ public class CmdLineParser {
     }
 
     /**
-     * Representation of a command-line option
+     * Representation of a command-line option.
      */
     public abstract static class Option {
 
+        /**
+         * Instantiates a new option.
+         *
+         * @param longForm
+         *            the long form
+         * @param wantsValue
+         *            the wants value
+         */
         protected Option(String longForm, boolean wantsValue) {
             this(null, longForm, wantsValue);
         }
 
+        /**
+         * Instantiates a new option.
+         *
+         * @param shortForm
+         *            the short form
+         * @param longForm
+         *            the long form
+         * @param wantsValue
+         *            the wants value
+         */
         protected Option(char shortForm, String longForm, boolean wantsValue) {
             this(new String(new char[] { shortForm }), longForm, wantsValue);
         }
 
+        /**
+         * Instantiates a new option.
+         *
+         * @param shortForm
+         *            the short form
+         * @param longForm
+         *            the long form
+         * @param wantsValue
+         *            the wants value
+         */
         private Option(String shortForm, String longForm, boolean wantsValue) {
             if (longForm == null)
                 throw new IllegalArgumentException("Null longForm not allowed");
@@ -157,21 +248,44 @@ public class CmdLineParser {
             this.wantsValue = wantsValue;
         }
 
+        /**
+         * Short form.
+         *
+         * @return the string
+         */
         public String shortForm() {
             return this.shortForm;
         }
 
+        /**
+         * Long form.
+         *
+         * @return the string
+         */
         public String longForm() {
             return this.longForm;
         }
 
         /**
-         * Tells whether or not this option wants a value
+         * Tells whether or not this option wants a value.
+         *
+         * @return true, if successful
          */
         public boolean wantsValue() {
             return this.wantsValue;
         }
 
+        /**
+         * Gets the value.
+         *
+         * @param arg
+         *            the arg
+         * @param locale
+         *            the locale
+         * @return the value
+         * @throws IllegalOptionValueException
+         *             the illegal option value exception
+         */
         public final Object getValue(String arg, Locale locale) throws IllegalOptionValueException {
             if (this.wantsValue) {
                 if (arg == null) {
@@ -184,7 +298,15 @@ public class CmdLineParser {
         }
 
         /**
-         * Override to extract and convert an option value passed on the command-line
+         * Override to extract and convert an option value passed on the command-line.
+         *
+         * @param arg
+         *            the arg
+         * @param locale
+         *            the locale
+         * @return the object
+         * @throws IllegalOptionValueException
+         *             the illegal option value exception
          */
         protected Object parseValue(String arg, Locale locale) throws IllegalOptionValueException {
             return null;
@@ -194,28 +316,62 @@ public class CmdLineParser {
         private String  longForm   = null;
         private boolean wantsValue = false;
 
+        /**
+         * The Class BooleanOption.
+         */
         public static class BooleanOption extends Option {
+
+            /**
+             * Instantiates a new boolean option.
+             *
+             * @param shortForm
+             *            the short form
+             * @param longForm
+             *            the long form
+             */
             public BooleanOption(char shortForm, String longForm) {
                 super(shortForm, longForm, false);
             }
 
+            /**
+             * Instantiates a new boolean option.
+             *
+             * @param longForm
+             *            the long form
+             */
             public BooleanOption(String longForm) {
                 super(longForm, false);
             }
         }
 
         /**
-         * An option that expects an integer value
+         * An option that expects an integer value.
          */
         public static class IntegerOption extends Option {
+
+            /**
+             * Instantiates a new integer option.
+             *
+             * @param shortForm
+             *            the short form
+             * @param longForm
+             *            the long form
+             */
             public IntegerOption(char shortForm, String longForm) {
                 super(shortForm, longForm, true);
             }
 
+            /**
+             * Instantiates a new integer option.
+             *
+             * @param longForm
+             *            the long form
+             */
             public IntegerOption(String longForm) {
                 super(longForm, true);
             }
 
+            @Override
             protected Object parseValue(String arg, Locale locale) throws IllegalOptionValueException {
                 try {
                     return new Integer(arg);
@@ -226,13 +382,28 @@ public class CmdLineParser {
         }
 
         /**
-         * An option that expects a long integer value
+         * An option that expects a long integer value.
          */
         public static class LongOption extends Option {
+
+            /**
+             * Instantiates a new long option.
+             *
+             * @param shortForm
+             *            the short form
+             * @param longForm
+             *            the long form
+             */
             public LongOption(char shortForm, String longForm) {
                 super(shortForm, longForm, true);
             }
 
+            /**
+             * Instantiates a new long option.
+             *
+             * @param longForm
+             *            the long form
+             */
             public LongOption(String longForm) {
                 super(longForm, true);
             }
@@ -247,17 +418,33 @@ public class CmdLineParser {
         }
 
         /**
-         * An option that expects a floating-point value
+         * An option that expects a floating-point value.
          */
         public static class DoubleOption extends Option {
+
+            /**
+             * Instantiates a new double option.
+             *
+             * @param shortForm
+             *            the short form
+             * @param longForm
+             *            the long form
+             */
             public DoubleOption(char shortForm, String longForm) {
                 super(shortForm, longForm, true);
             }
 
+            /**
+             * Instantiates a new double option.
+             *
+             * @param longForm
+             *            the long form
+             */
             public DoubleOption(String longForm) {
                 super(longForm, true);
             }
 
+            @Override
             protected Object parseValue(String arg, Locale locale) throws IllegalOptionValueException {
                 try {
                     NumberFormat format = NumberFormat.getNumberInstance(locale);
@@ -270,17 +457,33 @@ public class CmdLineParser {
         }
 
         /**
-         * An option that expects a string value
+         * An option that expects a string value.
          */
         public static class StringOption extends Option {
+
+            /**
+             * Instantiates a new string option.
+             *
+             * @param shortForm
+             *            the short form
+             * @param longForm
+             *            the long form
+             */
             public StringOption(char shortForm, String longForm) {
                 super(shortForm, longForm, true);
             }
 
+            /**
+             * Instantiates a new string option.
+             *
+             * @param longForm
+             *            the long form
+             */
             public StringOption(String longForm) {
                 super(longForm, true);
             }
 
+            @Override
             protected Object parseValue(String arg, Locale locale) {
                 return arg;
             }
@@ -288,7 +491,11 @@ public class CmdLineParser {
     }
 
     /**
-     * Add the specified Option to the list of accepted options
+     * Add the specified Option to the list of accepted options.
+     *
+     * @param opt
+     *            the opt
+     * @return the option
      */
     public final Option addOption(Option opt) {
         if (opt.shortForm() != null)
@@ -299,7 +506,11 @@ public class CmdLineParser {
 
     /**
      * Convenience method for adding a string option.
-     * 
+     *
+     * @param shortForm
+     *            the short form
+     * @param longForm
+     *            the long form
      * @return the new Option
      */
     public final Option addStringOption(char shortForm, String longForm) {
@@ -308,7 +519,9 @@ public class CmdLineParser {
 
     /**
      * Convenience method for adding a string option.
-     * 
+     *
+     * @param longForm
+     *            the long form
      * @return the new Option
      */
     public final Option addStringOption(String longForm) {
@@ -317,7 +530,11 @@ public class CmdLineParser {
 
     /**
      * Convenience method for adding an integer option.
-     * 
+     *
+     * @param shortForm
+     *            the short form
+     * @param longForm
+     *            the long form
      * @return the new Option
      */
     public final Option addIntegerOption(char shortForm, String longForm) {
@@ -326,7 +543,9 @@ public class CmdLineParser {
 
     /**
      * Convenience method for adding an integer option.
-     * 
+     *
+     * @param longForm
+     *            the long form
      * @return the new Option
      */
     public final Option addIntegerOption(String longForm) {
@@ -335,7 +554,11 @@ public class CmdLineParser {
 
     /**
      * Convenience method for adding a long integer option.
-     * 
+     *
+     * @param shortForm
+     *            the short form
+     * @param longForm
+     *            the long form
      * @return the new Option
      */
     public final Option addLongOption(char shortForm, String longForm) {
@@ -344,7 +567,9 @@ public class CmdLineParser {
 
     /**
      * Convenience method for adding a long integer option.
-     * 
+     *
+     * @param longForm
+     *            the long form
      * @return the new Option
      */
     public final Option addLongOption(String longForm) {
@@ -353,7 +578,11 @@ public class CmdLineParser {
 
     /**
      * Convenience method for adding a double option.
-     * 
+     *
+     * @param shortForm
+     *            the short form
+     * @param longForm
+     *            the long form
      * @return the new Option
      */
     public final Option addDoubleOption(char shortForm, String longForm) {
@@ -362,7 +591,9 @@ public class CmdLineParser {
 
     /**
      * Convenience method for adding a double option.
-     * 
+     *
+     * @param longForm
+     *            the long form
      * @return the new Option
      */
     public final Option addDoubleOption(String longForm) {
@@ -371,7 +602,11 @@ public class CmdLineParser {
 
     /**
      * Convenience method for adding a boolean option.
-     * 
+     *
+     * @param shortForm
+     *            the short form
+     * @param longForm
+     *            the long form
      * @return the new Option
      */
     public final Option addBooleanOption(char shortForm, String longForm) {
@@ -380,7 +615,9 @@ public class CmdLineParser {
 
     /**
      * Convenience method for adding a boolean option.
-     * 
+     *
+     * @param longForm
+     *            the long form
      * @return the new Option
      */
     public final Option addBooleanOption(String longForm) {
@@ -389,12 +626,22 @@ public class CmdLineParser {
 
     /**
      * Equivalent to {@link #getOptionValue(Option, Object) getOptionValue(o, null)}.
+     *
+     * @param o
+     *            the o
+     * @return the option value
      */
     public final Object getOptionValue(Option o) {
         return getOptionValue(o, null);
     }
 
     /**
+     * Gets the option value.
+     *
+     * @param o
+     *            the o
+     * @param def
+     *            the def
      * @return the parsed value of the given Option, or the given default 'def' if the option was not set
      */
     public final Object getOptionValue(Option o, Object def) {
@@ -412,6 +659,10 @@ public class CmdLineParser {
     }
 
     /**
+     * Gets the option values.
+     *
+     * @param option
+     *            the option
      * @return A Vector giving the parsed values of all the occurrences of the given Option, or an empty Vector if the
      *         option was not set.
      */
@@ -430,6 +681,8 @@ public class CmdLineParser {
     }
 
     /**
+     * Gets the remaining args.
+     *
      * @return the non-option arguments
      */
     public final String[] getRemainingArgs() {
@@ -439,6 +692,13 @@ public class CmdLineParser {
     /**
      * Extract the options and non-option arguments from the given list of command-line arguments. The default locale is
      * used for parsing options whose values might be locale-specific.
+     *
+     * @param argv
+     *            the argv
+     * @throws IllegalOptionValueException
+     *             the illegal option value exception
+     * @throws UnknownOptionException
+     *             the unknown option exception
      */
     public final void parse(String[] argv) throws IllegalOptionValueException, UnknownOptionException {
 
@@ -452,6 +712,15 @@ public class CmdLineParser {
     /**
      * Extract the options and non-option arguments from the given list of command-line arguments. The specified locale
      * is used for parsing options whose values might be locale-specific.
+     *
+     * @param argv
+     *            the argv
+     * @param locale
+     *            the locale
+     * @throws IllegalOptionValueException
+     *             the illegal option value exception
+     * @throws UnknownOptionException
+     *             the unknown option exception
      */
     public final void parse(String[] argv, Locale locale) throws IllegalOptionValueException, UnknownOptionException {
 
@@ -523,6 +792,14 @@ public class CmdLineParser {
         otherArgs.copyInto(remainingArgs);
     }
 
+    /**
+     * Adds the value.
+     *
+     * @param opt
+     *            the opt
+     * @param value
+     *            the value
+     */
     private void addValue(Option opt, Object value) {
         String lf = opt.longForm();
 

@@ -22,15 +22,24 @@ package com.googlecode.htmlcompressor.compressor;
  */
 public class HtmlMetrics {
 
+    /** The filesize. */
     private int filesize         = 0;
+
+    /** The empty chars. */
     private int emptyChars       = 0;
+
+    /** The inline script size. */
     private int inlineScriptSize = 0;
+
+    /** The inline style size. */
     private int inlineStyleSize  = 0;
+
+    /** The inline event size. */
     private int inlineEventSize  = 0;
 
     /**
-     * Returns total filesize of a document
-     * 
+     * Returns total filesize of a document.
+     *
      * @return total filesize of a document, in bytes
      */
     public int getFilesize() {
@@ -38,6 +47,8 @@ public class HtmlMetrics {
     }
 
     /**
+     * Sets the filesize.
+     *
      * @param filesize
      *            the filesize to set
      */
@@ -46,8 +57,8 @@ public class HtmlMetrics {
     }
 
     /**
-     * Returns number of empty characters (spaces, tabs, end of lines) in a document
-     * 
+     * Returns number of empty characters (spaces, tabs, end of lines) in a document.
+     *
      * @return number of empty characters in a document
      */
     public int getEmptyChars() {
@@ -55,6 +66,8 @@ public class HtmlMetrics {
     }
 
     /**
+     * Sets the empty chars.
+     *
      * @param emptyChars
      *            the emptyChars to set
      */
@@ -63,15 +76,17 @@ public class HtmlMetrics {
     }
 
     /**
-     * Returns total size of inline <code>&lt;script></code> tags
-     * 
-     * @return total size of inline <code>&lt;script></code> tags, in bytes
+     * Returns total size of inline <code>&lt;script&gt;</code> tags.
+     *
+     * @return total size of inline <code>&lt;script&gt;</code> tags, in bytes
      */
     public int getInlineScriptSize() {
         return inlineScriptSize;
     }
 
     /**
+     * Sets the inline script size.
+     *
      * @param inlineScriptSize
      *            the inlineScriptSize to set
      */
@@ -80,15 +95,17 @@ public class HtmlMetrics {
     }
 
     /**
-     * Returns total size of inline <code>&lt;style></code> tags
-     * 
-     * @return total size of inline <code>&lt;style></code> tags, in bytes
+     * Returns total size of inline <code>&lt;style&gt;</code> tags.
+     *
+     * @return total size of inline <code>&lt;style&gt;</code> tags, in bytes
      */
     public int getInlineStyleSize() {
         return inlineStyleSize;
     }
 
     /**
+     * Sets the inline style size.
+     *
      * @param inlineStyleSize
      *            the inlineStyleSize to set
      */
@@ -97,8 +114,8 @@ public class HtmlMetrics {
     }
 
     /**
-     * Returns total size of inline event handlers (<code>onclick</code>, etc)
-     * 
+     * Returns total size of inline event handlers (<code>onclick</code>, etc).
+     *
      * @return total size of inline event handlers, in bytes
      */
     public int getInlineEventSize() {
@@ -106,6 +123,8 @@ public class HtmlMetrics {
     }
 
     /**
+     * Sets the inline event size.
+     *
      * @param inlineEventSize
      *            the inlineEventSize to set
      */

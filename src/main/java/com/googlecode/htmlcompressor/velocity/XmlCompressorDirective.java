@@ -34,21 +34,24 @@ import com.googlecode.htmlcompressor.compressor.XmlCompressor;
 /**
  * Velocity directive that compresses an XML content within #compressXml ... #end block. Compression parameters are set
  * by default.
- * 
- * @see XmlCompressor
- * 
+ *
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
+ * @see XmlCompressor
  */
 public class XmlCompressorDirective extends Directive {
 
+    /** The Constant xmlCompressor. */
     private static final XmlCompressor xmlCompressor = new XmlCompressor();
 
+    /** The log. */
     private Log                        log;
 
+    @Override
     public String getName() {
         return "compressXml";
     }
 
+    @Override
     public int getType() {
         return BLOCK;
     }
@@ -64,6 +67,7 @@ public class XmlCompressorDirective extends Directive {
         xmlCompressor.setRemoveIntertagSpaces(rs.getBoolean("userdirective.compressXml.removeIntertagSpaces", true));
     }
 
+    @Override
     public boolean render(InternalContextAdapter context, Writer writer, Node node) throws IOException,
             ResourceNotFoundException, ParseErrorException, MethodInvocationException {
 

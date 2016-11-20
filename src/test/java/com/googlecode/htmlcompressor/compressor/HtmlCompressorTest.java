@@ -36,6 +36,9 @@ import org.junit.Test;
 
 import com.google.javascript.jscomp.CompilationLevel;
 
+/**
+ * The Class HtmlCompressorTest.
+ */
 public class HtmlCompressorTest {
 
     private static final String resPath = "./src/test/resources/html/";
@@ -48,6 +51,12 @@ public class HtmlCompressorTest {
     public void tearDown() {
     }
 
+    /**
+     * Test enabled.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testEnabled() throws Exception {
         String source = readResource("testEnabled.html");
@@ -57,9 +66,14 @@ public class HtmlCompressorTest {
         compressor.setEnabled(false);
 
         assertEquals(result, compressor.compress(source));
-
     }
 
+    /**
+     * Test remove spaces inside tags.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testRemoveSpacesInsideTags() throws Exception {
         String source = readResource("testRemoveSpacesInsideTags.html");
@@ -71,6 +85,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test remove comments.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testRemoveComments() throws Exception {
         String source = readResource("testRemoveComments.html");
@@ -83,6 +103,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test remove quotes.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testRemoveQuotes() throws Exception {
         String source = readResource("testRemoveQuotes.html");
@@ -94,6 +120,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test remove multi spaces.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testRemoveMultiSpaces() throws Exception {
         String source = readResource("testRemoveMultiSpaces.html");
@@ -105,6 +137,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test remove intertag spaces.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testRemoveIntertagSpaces() throws Exception {
         String source = readResource("testRemoveIntertagSpaces.html");
@@ -116,6 +154,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test preserve patterns.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testPreservePatterns() throws Exception {
         String source = readResource("testPreservePatterns.html");
@@ -136,6 +180,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test compress java script yui.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testCompressJavaScriptYui() throws Exception {
         String source = readResource("testCompressJavaScript.html");
@@ -148,6 +198,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test compress java script closure.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testCompressJavaScriptClosure() throws Exception {
         String source = readResource("testCompressJavaScript.html");
@@ -161,6 +217,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test compress css.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testCompressCss() throws Exception {
         String source = readResource("testCompressCss.html");
@@ -173,6 +235,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test compress.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testCompress() throws Exception {
         String source = readResource("testCompress.html");
@@ -183,6 +251,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test simple doctype.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testSimpleDoctype() throws Exception {
         String source = readResource("testSimpleDoctype.html");
@@ -194,6 +268,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test remove script attributes.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testRemoveScriptAttributes() throws Exception {
         String source = readResource("testRemoveScriptAttributes.html");
@@ -205,6 +285,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test remove style attributes.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testRemoveStyleAttributes() throws Exception {
         String source = readResource("testRemoveStyleAttributes.html");
@@ -216,6 +302,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test remove link attributes.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testRemoveLinkAttributes() throws Exception {
         String source = readResource("testRemoveLinkAttributes.html");
@@ -227,6 +319,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test remove form attributes.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testRemoveFormAttributes() throws Exception {
         String source = readResource("testRemoveFormAttributes.html");
@@ -238,6 +336,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test remove input attributes.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testRemoveInputAttributes() throws Exception {
         String source = readResource("testRemoveInputAttributes.html");
@@ -249,6 +353,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test remove java script protocol.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testRemoveJavaScriptProtocol() throws Exception {
         String source = readResource("testRemoveJavaScriptProtocol.html");
@@ -260,6 +370,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test remove http protocol.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testRemoveHttpProtocol() throws Exception {
         String source = readResource("testRemoveHttpProtocol.html");
@@ -271,6 +387,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test remove https protocol.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testRemoveHttpsProtocol() throws Exception {
         String source = readResource("testRemoveHttpsProtocol.html");
@@ -282,6 +404,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test preserve line breaks.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testPreserveLineBreaks() throws Exception {
         String source = readResource("testPreserveLineBreaks.html");
@@ -293,6 +421,12 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Test surrounding spaces.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void testSurroundingSpaces() throws Exception {
         String source = readResource("testSurroundingSpaces.html");
@@ -305,8 +439,14 @@ public class HtmlCompressorTest {
         assertEquals(result, compressor.compress(source));
     }
 
+    /**
+     * Read resource.
+     *
+     * @param filename
+     *            the filename
+     * @return the string
+     */
     private String readResource(String filename) {
-
         StringBuilder builder = new StringBuilder();
         try {
             FileInputStream stream = new FileInputStream(new File(resPath + filename));
