@@ -86,20 +86,20 @@ public class YuiJavaScriptCompressor implements Compressor {
         @Override
         public void warning(String message, String sourceName, int line, String lineSource, int lineOffset) {
             if (line < 0) {
-                logger.error("[WARNING] HtmlCompressor: \"" + message + "\" during JavaScript compression");
+                logger.error("[WARNING] HtmlCompressor: '{}' during JavaScript compression", message);
             } else {
-                logger.error("[WARNING] HtmlCompressor: \"" + message + "\" at line [" + line + ":" + lineOffset
-                        + "] during JavaScript compression" + (lineSource != null ? ": " + lineSource : ""));
+                logger.error("[WARNING] HtmlCompressor: '{}' at line [{}:{}] during JavaScript compression {}",
+                        message, line, lineOffset, (lineSource != null ? ": " + lineSource : ""));
             }
         }
 
         @Override
         public void error(String message, String sourceName, int line, String lineSource, int lineOffset) {
             if (line < 0) {
-                logger.error("[ERROR] HtmlCompressor: \"" + message + "\" during JavaScript compression");
+                logger.error("[ERROR] HtmlCompressor: '{}' during JavaScript compression", message);
             } else {
-                logger.error("[ERROR] HtmlCompressor: \"" + message + "\" at line [" + line + ":" + lineOffset
-                        + "] during JavaScript compression" + (lineSource != null ? ": " + lineSource : ""));
+                logger.error("[ERROR] HtmlCompressor: '{}' at line [{}:{}] during JavaScript compression {}", message,
+                        line, lineOffset, (lineSource != null ? ": " + lineSource : ""));
             }
         }
 

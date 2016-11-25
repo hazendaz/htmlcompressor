@@ -19,6 +19,9 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.yahoo.platform.yui.compressor.CssCompressor;
 
 /**
@@ -32,8 +35,11 @@ import com.yahoo.platform.yui.compressor.CssCompressor;
  */
 public class YuiCssCompressor implements Compressor {
 
+    /** The Constant Logger. */
+    private static final Logger logger    = LoggerFactory.getLogger(YuiCssCompressor.class);
+
     /** The line break. */
-    private int lineBreak = -1;
+    private int                 lineBreak = -1;
 
     @Override
     public String compress(String source) {
@@ -44,7 +50,7 @@ public class YuiCssCompressor implements Compressor {
             compressor.compress(result, lineBreak);
         } catch (IOException e) {
             result.write(source);
-            e.printStackTrace();
+            logger.error("", e);
         }
 
         return result.toString();

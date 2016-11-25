@@ -21,8 +21,6 @@ import java.io.Writer;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.directive.Directive;
@@ -49,28 +47,29 @@ public class JavaScriptCompressorDirective extends Directive {
     private Log     log;
 
     /** The enabled. */
-    private boolean enabled                    = true;
+    private boolean enabled         = true;
 
     /** The js compressor. */
-    private String  jsCompressor               = HtmlCompressor.JS_COMPRESSOR_YUI;
+    private String  jsCompressor    = HtmlCompressor.JS_COMPRESSOR_YUI;
+
+    // YUICompressor settings
 
     /** The yui js no munge. */
-    // YUICompressor settings
-    private boolean yuiJsNoMunge               = false;
+    private boolean yuiJsNoMunge;
 
     /** The yui js preserve all semi colons. */
-    private boolean yuiJsPreserveAllSemiColons = false;
+    private boolean yuiJsPreserveAllSemiColons;
 
     /** The yui js disable optimizations. */
-    private boolean yuiJsDisableOptimizations  = false;
+    private boolean yuiJsDisableOptimizations;
 
     /** The yui js line break. */
-    private int     yuiJsLineBreak             = -1;
+    private int     yuiJsLineBreak  = -1;
 
     // Closure compressor settings
 
     /** The closure opt level. */
-    private String  closureOptLevel            = ClosureJavaScriptCompressor.COMPILATION_LEVEL_SIMPLE;
+    private String  closureOptLevel = ClosureJavaScriptCompressor.COMPILATION_LEVEL_SIMPLE;
 
     @Override
     public String getName() {
@@ -99,7 +98,7 @@ public class JavaScriptCompressorDirective extends Directive {
 
     @Override
     public boolean render(InternalContextAdapter context, Writer writer, Node node) throws IOException,
-            ResourceNotFoundException, ParseErrorException, MethodInvocationException {
+            MethodInvocationException {
 
         // render content
         StringWriter content = new StringWriter();

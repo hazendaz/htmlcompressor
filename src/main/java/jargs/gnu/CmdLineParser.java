@@ -15,11 +15,13 @@
  */
 package jargs.gnu;
 
+import java.io.Serializable;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Hashtable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
-import java.util.Vector;
 
 /**
  * Largely GNU-compatible command-line options parser. Has short (-v) and long-form (--verbose) option support, and also
@@ -34,13 +36,13 @@ import java.util.Vector;
 public class CmdLineParser {
 
     /** The remaining args. */
-    private String[]  remainingArgs;
+    private List<String>            remainingArgs;
 
     /** The options. */
-    private Hashtable options = new Hashtable(10);
+    private HashMap<Object, Option> options = new HashMap<>(10);
 
     /** The values. */
-    private Hashtable values  = new Hashtable(10);
+    private HashMap<String, Object> values  = new HashMap<>(10);
 
     /**
      * Base class for exceptions that may be thrown when options are parsed.
@@ -71,7 +73,7 @@ public class CmdLineParser {
         private static final long serialVersionUID = 1L;
 
         /** The option name. */
-        private String            optionName;
+        private final String      optionName;
 
         /**
          * Instantiates a new unknown option exception.
@@ -190,10 +192,10 @@ public class CmdLineParser {
         private static final long serialVersionUID = 1L;
 
         /** The option. */
-        private Option            option;
+        private final Option      option;
 
         /** The value. */
-        private String            value;
+        private final String      value;
 
         /**
          * Instantiates a new illegal option value exception.
@@ -233,16 +235,19 @@ public class CmdLineParser {
     /**
      * Representation of a command-line option.
      */
-    public abstract static class Option {
+    public abstract static class Option implements Serializable {
+
+        /** The Constant serialVersionUID. */
+        private static final long serialVersionUID = 1L;
 
         /** The short form. */
-        private String  shortForm;
+        private String            shortForm;
 
         /** The long form. */
-        private String  longForm;
+        private String            longForm;
 
         /** The wants value. */
-        private boolean wantsValue;
+        private boolean           wantsValue;
 
         /**
          * Instantiates a new option.
@@ -357,6 +362,9 @@ public class CmdLineParser {
          */
         public static class BooleanOption extends Option {
 
+            /** The Constant serialVersionUID. */
+            private static final long serialVersionUID = 1L;
+
             /**
              * Instantiates a new boolean option.
              *
@@ -384,6 +392,9 @@ public class CmdLineParser {
          * An option that expects an integer value.
          */
         public static class IntegerOption extends Option {
+
+            /** The Constant serialVersionUID. */
+            private static final long serialVersionUID = 1L;
 
             /**
              * Instantiates a new integer option.
@@ -422,6 +433,9 @@ public class CmdLineParser {
          */
         public static class LongOption extends Option {
 
+            /** The Constant serialVersionUID. */
+            private static final long serialVersionUID = 1L;
+
             /**
              * Instantiates a new long option.
              *
@@ -444,6 +458,7 @@ public class CmdLineParser {
                 super(longForm, true);
             }
 
+            @Override
             protected Object parseValue(String arg, Locale locale) throws IllegalOptionValueException {
                 try {
                     return new Long(arg);
@@ -457,6 +472,9 @@ public class CmdLineParser {
          * An option that expects a floating-point value.
          */
         public static class DoubleOption extends Option {
+
+            /** The Constant serialVersionUID. */
+            private static final long serialVersionUID = 1L;
 
             /**
              * Instantiates a new double option.
@@ -496,6 +514,9 @@ public class CmdLineParser {
          * An option that expects a string value.
          */
         public static class StringOption extends Option {
+
+            /** The Constant serialVersionUID. */
+            private static final long serialVersionUID = 1L;
 
             /**
              * Instantiates a new string option.
@@ -681,16 +702,17 @@ public class CmdLineParser {
      *            the def
      * @return the parsed value of the given Option, or the given default 'def' if the option was not set
      */
+    @SuppressWarnings("unchecked")
     public final Object getOptionValue(Option o, Object def) {
-        Vector<?> v = (Vector<?>) values.get(o.longForm());
+        List<String> v = (ArrayList<String>) values.get(o.longForm());
 
         if (v == null) {
             return def;
         } else if (v.isEmpty()) {
             return null;
         } else {
-            Object result = v.elementAt(0);
-            v.removeElementAt(0);
+            Object result = v.get(0);
+            v.remove(0);
             return result;
         }
     }
@@ -703,8 +725,8 @@ public class CmdLineParser {
      * @return A Vector giving the parsed values of all the occurrences of the given Option, or an empty Vector if the
      *         option was not set.
      */
-    public final Vector<String> getOptionValues(Option option) {
-        Vector<String> result = new Vector<String>();
+    public final List<String> getOptionValues(Option option) {
+        List<String> result = new ArrayList<>();
 
         while (true) {
             Object o = getOptionValue(option, null);
@@ -712,7 +734,7 @@ public class CmdLineParser {
             if (o == null) {
                 return result;
             } else {
-                result.addElement((String) o);
+                result.add((String) o);
             }
         }
     }
@@ -722,7 +744,7 @@ public class CmdLineParser {
      *
      * @return the non-option arguments
      */
-    public final String[] getRemainingArgs() {
+    public final List<String> getRemainingArgs() {
         return this.remainingArgs;
     }
 
@@ -765,26 +787,29 @@ public class CmdLineParser {
         // backwards compatibility with old user code we throw the two
         // exceptions above instead.
 
-        Vector<String> otherArgs = new Vector<String>();
+        List<String> otherArgs = new ArrayList<>();
         int position = 0;
-        this.values = new Hashtable<String, Vector<Object>>(10);
+        this.values = new HashMap<>(10);
         while (position < argv.length) {
             String curArg = argv[position];
             if (curArg.startsWith("-")) {
-                if (curArg.equals("--")) { // end of options
+                if (curArg.equals("--")) {
+                    // end of options
                     position += 1;
                     break;
                 }
                 String valueArg = null;
-                if (curArg.startsWith("--")) { // handle --arg=value
+                if (curArg.startsWith("--")) {
+                    // handle --arg=value
                     int equalsPos = curArg.indexOf("=");
                     if (equalsPos != -1) {
                         valueArg = curArg.substring(equalsPos + 1);
                         curArg = curArg.substring(0, equalsPos);
                     }
-                } else if (curArg.length() > 2) {  // handle -abcd
+                } else if (curArg.length() > 2) {
+                    // handle -abcd
                     for (int i = 1; i < curArg.length(); i++) {
-                        Option opt = (Option) this.options.get("-" + curArg.charAt(i));
+                        Option opt = this.options.get("-" + curArg.charAt(i));
                         if (opt == null)
                             throw new UnknownSuboptionException(curArg, curArg.charAt(i));
                         if (opt.wantsValue())
@@ -796,7 +821,7 @@ public class CmdLineParser {
                     continue;
                 }
 
-                Option opt = (Option) this.options.get(curArg);
+                Option opt = this.options.get(curArg);
                 if (opt == null) {
                     throw new UnknownOptionException(curArg);
                 }
@@ -817,16 +842,16 @@ public class CmdLineParser {
 
                 position += 1;
             } else {
-                otherArgs.addElement(curArg);
+                otherArgs.add(curArg);
                 position += 1;
             }
         }
         for (; position < argv.length; ++position) {
-            otherArgs.addElement(argv[position]);
+            otherArgs.add(argv[position]);
         }
 
-        this.remainingArgs = new String[otherArgs.size()];
-        otherArgs.copyInto(remainingArgs);
+        this.remainingArgs = new ArrayList<>(otherArgs.size());
+        otherArgs.addAll(remainingArgs);
     }
 
     /**
@@ -837,17 +862,18 @@ public class CmdLineParser {
      * @param value
      *            the value
      */
+    @SuppressWarnings("unchecked")
     private void addValue(Option opt, Object value) {
         String lf = opt.longForm();
 
-        Vector<Object> v = (Vector<Object>) values.get(lf);
+        List<Object> v = (ArrayList<Object>) values.get(lf);
 
         if (v == null) {
-            v = new Vector<Object>();
+            v = new ArrayList<>();
             values.put(lf, v);
         }
 
-        v.addElement(value);
+        v.add(value);
     }
 
 }

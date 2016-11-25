@@ -24,6 +24,9 @@ import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.collect.Lists;
 import com.google.common.io.LimitInputStream;
 import com.google.javascript.jscomp.CompilationLevel;
@@ -44,33 +47,38 @@ import com.google.javascript.jscomp.WarningLevel;
  */
 public class ClosureJavaScriptCompressor implements Compressor {
 
+    /** The constant LOGGER. */
+    private static final Logger logger                       = LoggerFactory
+                                                                     .getLogger(ClosureJavaScriptCompressor.class);
+
     /** The Constant COMPILATION_LEVEL_SIMPLE. */
-    public static final String COMPILATION_LEVEL_SIMPLE     = "simple";
+    public static final String  COMPILATION_LEVEL_SIMPLE     = "simple";
 
     /** The Constant COMPILATION_LEVEL_ADVANCED. */
-    public static final String COMPILATION_LEVEL_ADVANCED   = "advanced";
+    public static final String  COMPILATION_LEVEL_ADVANCED   = "advanced";
 
     /** The Constant COMPILATION_LEVEL_WHITESPACE. */
-    public static final String COMPILATION_LEVEL_WHITESPACE = "whitespace";
+    public static final String  COMPILATION_LEVEL_WHITESPACE = "whitespace";
+
+    // Closure compiler default settings
 
     /** The compiler options. */
-    // Closure compiler default settings
-    private CompilerOptions    compilerOptions              = new CompilerOptions();
+    private CompilerOptions     compilerOptions              = new CompilerOptions();
 
     /** The compilation level. */
-    private CompilationLevel   compilationLevel             = CompilationLevel.SIMPLE_OPTIMIZATIONS;
+    private CompilationLevel    compilationLevel             = CompilationLevel.SIMPLE_OPTIMIZATIONS;
 
     /** The logging level. */
-    private Level              loggingLevel                 = Level.SEVERE;
+    private Level               loggingLevel                 = Level.SEVERE;
 
     /** The warning level. */
-    private WarningLevel       warningLevel                 = WarningLevel.DEFAULT;
+    private WarningLevel        warningLevel                 = WarningLevel.DEFAULT;
 
     /** The custom externs only. */
-    private boolean            customExternsOnly;
+    private boolean             customExternsOnly;
 
     /** The externs. */
-    private List<JSSourceFile> externs;
+    private List<JSSourceFile>  externs;
 
     /**
      * Instantiates a new closure java script compressor.
@@ -106,7 +114,7 @@ public class ClosureJavaScriptCompressor implements Compressor {
                 try {
                     externsList = getDefaultExterns();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.error("", e);
                 }
             }
             // add user defined externs
@@ -116,7 +124,7 @@ public class ClosureJavaScriptCompressor implements Compressor {
                 }
             }
             // add empty externs
-            if (externsList.size() == 0) {
+            if (externsList.isEmpty()) {
                 externsList.add(JSSourceFile.fromCode("externs.js", ""));
             }
         } else {

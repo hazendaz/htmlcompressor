@@ -464,15 +464,15 @@ public class HtmlCompressor implements Compressor {
         initStatistics(html);
 
         // preserved block containers
-        List<String> condCommentBlocks = new ArrayList<String>();
-        List<String> preBlocks = new ArrayList<String>();
-        List<String> taBlocks = new ArrayList<String>();
-        List<String> scriptBlocks = new ArrayList<String>();
-        List<String> styleBlocks = new ArrayList<String>();
-        List<String> eventBlocks = new ArrayList<String>();
-        List<String> skipBlocks = new ArrayList<String>();
-        List<String> lineBreakBlocks = new ArrayList<String>();
-        List<List<String>> userBlocks = new ArrayList<List<String>>();
+        List<String> condCommentBlocks = new ArrayList<>();
+        List<String> preBlocks = new ArrayList<>();
+        List<String> taBlocks = new ArrayList<>();
+        List<String> scriptBlocks = new ArrayList<>();
+        List<String> styleBlocks = new ArrayList<>();
+        List<String> eventBlocks = new ArrayList<>();
+        List<String> skipBlocks = new ArrayList<>();
+        List<String> lineBreakBlocks = new ArrayList<>();
+        List<List<String>> userBlocks = new ArrayList<>();
 
         // preserve blocks
         html = preserveBlocks(html, preBlocks, taBlocks, scriptBlocks, styleBlocks, eventBlocks, condCommentBlocks,

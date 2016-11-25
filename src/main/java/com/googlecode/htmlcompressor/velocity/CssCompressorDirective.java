@@ -21,8 +21,6 @@ import java.io.Writer;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.directive.Directive;
@@ -73,7 +71,7 @@ public class CssCompressorDirective extends Directive {
 
     @Override
     public boolean render(InternalContextAdapter context, Writer writer, Node node) throws IOException,
-            ResourceNotFoundException, ParseErrorException, MethodInvocationException {
+            MethodInvocationException {
 
         // render content
         StringWriter content = new StringWriter();

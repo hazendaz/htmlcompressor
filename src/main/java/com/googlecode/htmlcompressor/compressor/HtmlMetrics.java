@@ -23,19 +23,19 @@ package com.googlecode.htmlcompressor.compressor;
 public class HtmlMetrics {
 
     /** The filesize. */
-    private int filesize         = 0;
+    private int filesize;
 
     /** The empty chars. */
-    private int emptyChars       = 0;
+    private int emptyChars;
 
     /** The inline script size. */
-    private int inlineScriptSize = 0;
+    private int inlineScriptSize;
 
     /** The inline style size. */
-    private int inlineStyleSize  = 0;
+    private int inlineStyleSize;
 
     /** The inline event size. */
-    private int inlineEventSize  = 0;
+    private int inlineEventSize;
 
     /**
      * Returns total filesize of a document.

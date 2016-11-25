@@ -21,6 +21,7 @@ import java.util.Formatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Strings;
 import com.googlecode.htmlcompressor.compressor.ClosureJavaScriptCompressor;
 import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
 
@@ -185,6 +186,7 @@ public class HtmlAnalyzer {
             prevSize = compResult.length();
         } catch (NoClassDefFoundError e) {
             logger.info(formatEmptyLine("Compress inline CSS (YUI)"));
+            logger.trace("", e);
         }
 
         if (jsCompressor.equals(HtmlCompressor.JS_COMPRESSOR_YUI)) {
@@ -193,9 +195,9 @@ public class HtmlAnalyzer {
                 compressor.setCompressJavaScript(true);
                 compResult = compressor.compress(source);
                 logger.info(formatLine("Compress inline JS (YUI)", originalSize, compResult.length(), prevSize));
-                prevSize = compResult.length();
             } catch (NoClassDefFoundError e) {
                 logger.info(formatEmptyLine("Compress inline JS (YUI)"));
+                logger.trace("", e);
             }
         } else {
             // inline js yui
@@ -204,9 +206,9 @@ public class HtmlAnalyzer {
                 compressor.setJavaScriptCompressor(new ClosureJavaScriptCompressor());
                 compResult = compressor.compress(source);
                 logger.info(formatLine("Compress JS (Closure)", originalSize, compResult.length(), prevSize));
-                prevSize = compResult.length();
             } catch (NoClassDefFoundError e) {
                 logger.info(formatEmptyLine("Compress JS (Closure)"));
+                logger.trace("", e);
             }
         }
 
@@ -271,11 +273,11 @@ public class HtmlAnalyzer {
      */
     private void printHeader() {
         logger.info("\n");
-        logger.info("================================================================================");
+        logger.info(Strings.repeat("=", 80));
         logger.info(String.format("%-25s | %-16s | %-16s | %-12s |", "         Setting", "Incremental Gain",
                 "   Total Gain", " Page Size"));
         logger.info("\n");
-        logger.info("================================================================================");
+        logger.info(Strings.repeat("=", 80));
 
     }
 
@@ -283,7 +285,7 @@ public class HtmlAnalyzer {
      * Prints the footer.
      */
     private void printFooter() {
-        logger.info("================================================================================");
+        logger.info(Strings.repeat("=", 80));
         logger.info("\n");
         logger.info("Each consecutive compressor setting is applied on top of previous ones.");
         logger.info("In order to see JS and CSS compression results, YUI jar file must be present.");

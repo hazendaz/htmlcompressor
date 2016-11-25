@@ -30,10 +30,10 @@ public class HtmlCompressorStatistics {
     private HtmlMetrics compressedMetrics = new HtmlMetrics();
 
     /** The time. */
-    private long        time              = 0;
+    private long        time;
 
     /** The preserved size. */
-    private int         preservedSize     = 0;
+    private int         preservedSize;
 
     /**
      * Returns metrics of an uncompressed document.
