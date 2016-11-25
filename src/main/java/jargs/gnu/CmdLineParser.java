@@ -793,7 +793,7 @@ public class CmdLineParser {
         while (position < argv.length) {
             String curArg = argv[position];
             if (curArg.startsWith("-")) {
-                if (curArg.equals("--")) {
+                if ("--".equals(curArg)) {
                     // end of options
                     position += 1;
                     break;
@@ -801,7 +801,7 @@ public class CmdLineParser {
                 String valueArg = null;
                 if (curArg.startsWith("--")) {
                     // handle --arg=value
-                    int equalsPos = curArg.indexOf("=");
+                    int equalsPos = curArg.indexOf('=');
                     if (equalsPos != -1) {
                         valueArg = curArg.substring(equalsPos + 1);
                         curArg = curArg.substring(0, equalsPos);

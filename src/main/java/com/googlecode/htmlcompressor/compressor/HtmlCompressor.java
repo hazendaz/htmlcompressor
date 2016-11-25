@@ -668,11 +668,11 @@ public class HtmlCompressor implements Compressor {
                     type = typeMatcher.group(2).toLowerCase();
                 }
 
-                if (type.length() == 0 || type.equals("text/javascript") || type.equals("application/javascript")) {
+                if (type.length() == 0 || "text/javascript".equals(type) || "application/javascript".equals(type)) {
                     // javascript block, preserve and compress with js compressor
                     scriptBlocks.add(matcher.group(2));
                     matcher.appendReplacement(sb, "$1" + MessageFormat.format(tempScriptBlock, index++) + "$3");
-                } else if (type.equals("text/x-jquery-tmpl")) {
+                } else if ("text/x-jquery-tmpl".equals(type)) {
                     // jquery template, ignore so it gets compressed with the rest of html
                 } else {
                     // some custom script, preserve it inside "skip blocks" so it won't be compressed with js compressor

@@ -830,7 +830,7 @@ public class CmdLineCompressor {
             this.withDirs = withDirs;
 
             if (filemask == null) {
-                if (type != null && type.equals("xml")) {
+                if (type != null && "xml".equalsIgnoreCase(type)) {
                     filemaskPattern = Pattern.compile("^.*\\.xml$", Pattern.CASE_INSENSITIVE);
                 } else {
                     filemaskPattern = Pattern.compile("^.*\\.html?$", Pattern.CASE_INSENSITIVE);
