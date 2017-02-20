@@ -455,6 +455,7 @@ public class HtmlCompressor implements Compressor {
      *            HTML content to compress
      * @return compressed content.
      */
+    @Override
     public String compress(String html) {
         if (!enabled || html == null || html.length() == 0) {
             return html;
@@ -571,7 +572,7 @@ public class HtmlCompressor implements Compressor {
         // preserve user blocks
         if (preservePatterns != null) {
             for (int p = 0; p < preservePatterns.size(); p++) {
-                List<String> userBlock = new ArrayList<String>();
+                List<String> userBlock = new ArrayList<>();
 
                 Matcher matcher = preservePatterns.get(p).matcher(html);
                 int index = 0;

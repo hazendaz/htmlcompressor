@@ -86,7 +86,7 @@ public class XmlCompressor implements Compressor {
         }
 
         // preserved block containers
-        List<String> cdataBlocks = new ArrayList<String>();
+        List<String> cdataBlocks = new ArrayList<>();
 
         // preserve blocks
         xml = preserveBlocks(xml, cdataBlocks);
