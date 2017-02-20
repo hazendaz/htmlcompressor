@@ -158,7 +158,7 @@ public class HtmlCompressorTest {
         String source = readResource("testPreservePatterns.html");
         String result = readResource("testPreservePatternsResult.html");
 
-        List<Pattern> preservePatterns = new ArrayList<Pattern>();
+        List<Pattern> preservePatterns = new ArrayList<>();
         preservePatterns.add(HtmlCompressor.PHP_TAG_PATTERN); // <?php ... ?> blocks
         preservePatterns.add(HtmlCompressor.SERVER_SCRIPT_TAG_PATTERN); // <% ... %> blocks
         preservePatterns.add(HtmlCompressor.SERVER_SIDE_INCLUDE_PATTERN); // <!--# ... --> blocks

@@ -45,7 +45,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.javascript.jscomp.CompilationLevel;
-import com.google.javascript.jscomp.JSSourceFile;
+import com.google.javascript.jscomp.SourceFile;
 import com.googlecode.htmlcompressor.analyzer.HtmlAnalyzer;
 import com.googlecode.htmlcompressor.compressor.ClosureJavaScriptCompressor;
 import com.googlecode.htmlcompressor.compressor.Compressor;
@@ -494,7 +494,7 @@ public class CmdLineCompressor {
                 if (!closureExternsOpt.isEmpty()) {
                     List<SourceFile> externs = new ArrayList<>();
                     for (String externFile : closureExternsOpt) {
-                        externs.add(JSSourceFile.fromFile(externFile));
+                        externs.add(SourceFile.fromFile(externFile));
                     }
                     closureCompressor.setExterns(externs);
                 }
