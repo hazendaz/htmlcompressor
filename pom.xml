@@ -98,7 +98,7 @@
 
     <signature.artifact>java17</signature.artifact>
   </properties>
-  
+
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>
