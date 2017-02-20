@@ -89,7 +89,7 @@ public class YuiJavaScriptCompressor implements Compressor {
                 logger.error("[WARNING] HtmlCompressor: '{}' during JavaScript compression", message);
             } else {
                 logger.error("[WARNING] HtmlCompressor: '{}' at line [{}:{}] during JavaScript compression {}",
-                        message, line, lineOffset, (lineSource != null ? ": " + lineSource : ""));
+                        message, line, lineOffset, lineSource != null ? ": " + lineSource : "");
             }
         }
 
@@ -99,7 +99,7 @@ public class YuiJavaScriptCompressor implements Compressor {
                 logger.error("[ERROR] HtmlCompressor: '{}' during JavaScript compression", message);
             } else {
                 logger.error("[ERROR] HtmlCompressor: '{}' at line [{}:{}] during JavaScript compression {}", message,
-                        line, lineOffset, (lineSource != null ? ": " + lineSource : ""));
+                        line, lineOffset, lineSource != null ? ": " + lineSource : "");
             }
         }
 

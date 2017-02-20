@@ -41,7 +41,7 @@ public class XmlCompressor implements Compressor {
 
     /** The Constant tempCdataBlock. */
     // temp replacements for preserved blocks
-    protected static final String  tempCdataBlock       = "%%%COMPRESS~CDATA~{0,number,#}%%%";
+    protected static final String  TEMP_CD_DATA_BLOCK   = "%%%COMPRESS~CDATA~{0,number,#}%%%";
 
     /** The Constant cdataPattern. */
     // compiled regex patterns
@@ -116,7 +116,7 @@ public class XmlCompressor implements Compressor {
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
             cdataBlocks.add(matcher.group(0));
-            matcher.appendReplacement(sb, MessageFormat.format(tempCdataBlock, index++));
+            matcher.appendReplacement(sb, MessageFormat.format(TEMP_CD_DATA_BLOCK, index++));
         }
         matcher.appendTail(sb);
         xml = sb.toString();

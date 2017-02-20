@@ -190,31 +190,31 @@ public class HtmlCompressor implements Compressor {
 
     /** The Constant tempCondCommentBlock. */
     // temp replacements for preserved blocks
-    protected static final String    tempCondCommentBlock         = "%%%~COMPRESS~COND~{0,number,#}~%%%";
+    protected static final String    TEMP_COND_COMMENT_BLOCK      = "%%%~COMPRESS~COND~{0,number,#}~%%%";
 
     /** The Constant tempPreBlock. */
-    protected static final String    tempPreBlock                 = "%%%~COMPRESS~PRE~{0,number,#}~%%%";
+    protected static final String    TEMP_PRE_BLOCK               = "%%%~COMPRESS~PRE~{0,number,#}~%%%";
 
     /** The Constant tempTextAreaBlock. */
-    protected static final String    tempTextAreaBlock            = "%%%~COMPRESS~TEXTAREA~{0,number,#}~%%%";
+    protected static final String    TEMP_TEXT_AREA_BLOCK         = "%%%~COMPRESS~TEXTAREA~{0,number,#}~%%%";
 
     /** The Constant tempScriptBlock. */
-    protected static final String    tempScriptBlock              = "%%%~COMPRESS~SCRIPT~{0,number,#}~%%%";
+    protected static final String    TEMP_SCRIPT_BLOCK            = "%%%~COMPRESS~SCRIPT~{0,number,#}~%%%";
 
     /** The Constant tempStyleBlock. */
-    protected static final String    tempStyleBlock               = "%%%~COMPRESS~STYLE~{0,number,#}~%%%";
+    protected static final String    TEMP_STYLE_BLOCK             = "%%%~COMPRESS~STYLE~{0,number,#}~%%%";
 
     /** The Constant tempEventBlock. */
-    protected static final String    tempEventBlock               = "%%%~COMPRESS~EVENT~{0,number,#}~%%%";
+    protected static final String    TEMP_EVENT_BLOCK             = "%%%~COMPRESS~EVENT~{0,number,#}~%%%";
 
     /** The Constant tempLineBreakBlock. */
-    protected static final String    tempLineBreakBlock           = "%%%~COMPRESS~LT~{0,number,#}~%%%";
+    protected static final String    TEMP_LINE_BREAK_BLOCK        = "%%%~COMPRESS~LT~{0,number,#}~%%%";
 
     /** The Constant tempSkipBlock. */
-    protected static final String    tempSkipBlock                = "%%%~COMPRESS~SKIP~{0,number,#}~%%%";
+    protected static final String    TEMP_SKIP_BLOCK              = "%%%~COMPRESS~SKIP~{0,number,#}~%%%";
 
     /** The Constant tempUserBlock. */
-    protected static final String    tempUserBlock                = "%%%~COMPRESS~USER{0,number,#}~{1,number,#}~%%%";
+    protected static final String    TEMP_USER_BLOCK              = "%%%~COMPRESS~USER{0,number,#}~{1,number,#}~%%%";
 
     /** The Constant emptyPattern. */
     // compiled regex patterns
@@ -580,7 +580,7 @@ public class HtmlCompressor implements Compressor {
                 while (matcher.find()) {
                     if (matcher.group(0).trim().length() > 0) {
                         userBlock.add(matcher.group(0));
-                        matcher.appendReplacement(sb, MessageFormat.format(tempUserBlock, p, index++));
+                        matcher.appendReplacement(sb, MessageFormat.format(TEMP_USER_BLOCK, p, index++));
                     }
                 }
                 matcher.appendTail(sb);
@@ -596,7 +596,7 @@ public class HtmlCompressor implements Compressor {
         while (matcher.find()) {
             if (matcher.group(1).trim().length() > 0) {
                 skipBlocks.add(matcher.group(1));
-                matcher.appendReplacement(sb, MessageFormat.format(tempSkipBlock, skipBlockIndex++));
+                matcher.appendReplacement(sb, MessageFormat.format(TEMP_SKIP_BLOCK, skipBlockIndex++));
             }
         }
         matcher.appendTail(sb);
@@ -611,7 +611,7 @@ public class HtmlCompressor implements Compressor {
             if (matcher.group(2).trim().length() > 0) {
                 condCommentBlocks.add(matcher.group(1) + condCommentCompressor.compress(matcher.group(2))
                         + matcher.group(3));
-                matcher.appendReplacement(sb, MessageFormat.format(tempCondCommentBlock, index++));
+                matcher.appendReplacement(sb, MessageFormat.format(TEMP_COND_COMMENT_BLOCK, index++));
             }
         }
         matcher.appendTail(sb);
@@ -624,7 +624,7 @@ public class HtmlCompressor implements Compressor {
         while (matcher.find()) {
             if (matcher.group(2).trim().length() > 0) {
                 eventBlocks.add(matcher.group(2));
-                matcher.appendReplacement(sb, "$1" + MessageFormat.format(tempEventBlock, index++) + "$3");
+                matcher.appendReplacement(sb, "$1" + MessageFormat.format(TEMP_EVENT_BLOCK, index++) + "$3");
             }
         }
         matcher.appendTail(sb);
@@ -635,7 +635,7 @@ public class HtmlCompressor implements Compressor {
         while (matcher.find()) {
             if (matcher.group(2).trim().length() > 0) {
                 eventBlocks.add(matcher.group(2));
-                matcher.appendReplacement(sb, "$1" + MessageFormat.format(tempEventBlock, index++) + "$3");
+                matcher.appendReplacement(sb, "$1" + MessageFormat.format(TEMP_EVENT_BLOCK, index++) + "$3");
             }
         }
         matcher.appendTail(sb);
@@ -648,7 +648,7 @@ public class HtmlCompressor implements Compressor {
         while (matcher.find()) {
             if (matcher.group(2).trim().length() > 0) {
                 preBlocks.add(matcher.group(2));
-                matcher.appendReplacement(sb, "$1" + MessageFormat.format(tempPreBlock, index++) + "$3");
+                matcher.appendReplacement(sb, "$1" + MessageFormat.format(TEMP_PRE_BLOCK, index++) + "$3");
             }
         }
         matcher.appendTail(sb);
@@ -672,13 +672,13 @@ public class HtmlCompressor implements Compressor {
                 if (type.length() == 0 || "text/javascript".equals(type) || "application/javascript".equals(type)) {
                     // javascript block, preserve and compress with js compressor
                     scriptBlocks.add(matcher.group(2));
-                    matcher.appendReplacement(sb, "$1" + MessageFormat.format(tempScriptBlock, index++) + "$3");
+                    matcher.appendReplacement(sb, "$1" + MessageFormat.format(TEMP_SCRIPT_BLOCK, index++) + "$3");
                 } else if ("text/x-jquery-tmpl".equals(type)) {
                     // jquery template, ignore so it gets compressed with the rest of html
                 } else {
                     // some custom script, preserve it inside "skip blocks" so it won't be compressed with js compressor
                     skipBlocks.add(matcher.group(2));
-                    matcher.appendReplacement(sb, "$1" + MessageFormat.format(tempSkipBlock, skipBlockIndex++) + "$3");
+                    matcher.appendReplacement(sb, "$1" + MessageFormat.format(TEMP_SKIP_BLOCK, skipBlockIndex++) + "$3");
                 }
 
             }
@@ -693,7 +693,7 @@ public class HtmlCompressor implements Compressor {
         while (matcher.find()) {
             if (matcher.group(2).trim().length() > 0) {
                 styleBlocks.add(matcher.group(2));
-                matcher.appendReplacement(sb, "$1" + MessageFormat.format(tempStyleBlock, index++) + "$3");
+                matcher.appendReplacement(sb, "$1" + MessageFormat.format(TEMP_STYLE_BLOCK, index++) + "$3");
             }
         }
         matcher.appendTail(sb);
@@ -706,7 +706,7 @@ public class HtmlCompressor implements Compressor {
         while (matcher.find()) {
             if (matcher.group(2).trim().length() > 0) {
                 taBlocks.add(matcher.group(2));
-                matcher.appendReplacement(sb, "$1" + MessageFormat.format(tempTextAreaBlock, index++) + "$3");
+                matcher.appendReplacement(sb, "$1" + MessageFormat.format(TEMP_TEXT_AREA_BLOCK, index++) + "$3");
             }
         }
         matcher.appendTail(sb);
@@ -719,7 +719,7 @@ public class HtmlCompressor implements Compressor {
             sb = new StringBuffer();
             while (matcher.find()) {
                 lineBreakBlocks.add(matcher.group(1));
-                matcher.appendReplacement(sb, MessageFormat.format(tempLineBreakBlock, index++));
+                matcher.appendReplacement(sb, MessageFormat.format(TEMP_LINE_BREAK_BLOCK, index++));
             }
             matcher.appendTail(sb);
             html = sb.toString();
