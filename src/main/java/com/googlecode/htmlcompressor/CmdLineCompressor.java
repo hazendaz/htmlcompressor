@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2016 the original author or authors.
+ *    Copyright 2009-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -413,7 +413,7 @@ public class CmdLineCompressor {
         boolean useClosureCompressor = HtmlCompressor.JS_COMPRESSOR_CLOSURE.equalsIgnoreCase(jsCompressorOpt);
 
         // custom preserve patterns
-        List<Pattern> preservePatterns = new ArrayList<Pattern>();
+        List<Pattern> preservePatterns = new ArrayList<>();
 
         // predefined
         if (preservePhpTagsOpt) {
@@ -492,7 +492,7 @@ public class CmdLineCompressor {
 
                 // get externs
                 if (!closureExternsOpt.isEmpty()) {
-                    List<JSSourceFile> externs = new ArrayList<JSSourceFile>();
+                    List<SourceFile> externs = new ArrayList<>();
                     for (String externFile : closureExternsOpt) {
                         externs.add(JSSourceFile.fromFile(externFile));
                     }
