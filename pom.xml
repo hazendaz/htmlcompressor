@@ -168,7 +168,11 @@
             <!-- Additional Exclusions -->
             <exclude>**/src/test/resources/html/*</exclude>
             <exclude>**/src/test/resources/xml/*</exclude>
+
+            <!-- Remove on parent 12 -->
             <exclude>**/*maven-wrapper.properties</exclude>
+            <exclude>LICENSE</exclude>
+            <exclude>LICENSE.txt</exclude>
             <exclude>mvnw</exclude>
             <exclude>mvnw.cmd</exclude>
           </excludes>
