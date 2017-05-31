@@ -50,7 +50,7 @@ public class ClosureJavaScriptCompressor implements Compressor {
 
     /** The constant LOGGER. */
     private static final Logger logger                       = LoggerFactory
-                                                                     .getLogger(ClosureJavaScriptCompressor.class);
+            .getLogger(ClosureJavaScriptCompressor.class);
 
     /** The Constant COMPILATION_LEVEL_SIMPLE. */
     public static final String  COMPILATION_LEVEL_SIMPLE     = "simple";

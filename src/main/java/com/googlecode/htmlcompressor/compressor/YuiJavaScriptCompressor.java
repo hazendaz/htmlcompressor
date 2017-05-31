@@ -88,8 +88,8 @@ public class YuiJavaScriptCompressor implements Compressor {
             if (line < 0) {
                 logger.error("[WARNING] HtmlCompressor: '{}' during JavaScript compression", message);
             } else {
-                logger.error("[WARNING] HtmlCompressor: '{}' at line [{}:{}] during JavaScript compression {}",
-                        message, line, lineOffset, lineSource != null ? ": " + lineSource : "");
+                logger.error("[WARNING] HtmlCompressor: '{}' at line [{}:{}] during JavaScript compression {}", message,
+                        line, lineOffset, lineSource != null ? ": " + lineSource : "");
             }
         }
 

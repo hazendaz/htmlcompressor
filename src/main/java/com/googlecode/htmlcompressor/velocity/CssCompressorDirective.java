@@ -72,8 +72,8 @@ public class CssCompressorDirective extends Directive {
     }
 
     @Override
-    public boolean render(InternalContextAdapter context, Writer writer, Node node) throws IOException,
-            MethodInvocationException {
+    public boolean render(InternalContextAdapter context, Writer writer, Node node)
+            throws IOException, MethodInvocationException {
 
         // render content
         StringWriter content = new StringWriter();

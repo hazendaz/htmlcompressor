@@ -73,23 +73,23 @@ public class HtmlCompressorDirective extends Directive {
         htmlCompressor.setCompressJavaScript(compressJavaScript);
         htmlCompressor.setCompressCss(rs.getBoolean("userdirective.compressHtml.compressCss", false));
         htmlCompressor.setYuiJsNoMunge(rs.getBoolean("userdirective.compressHtml.yuiJsNoMunge", false));
-        htmlCompressor.setYuiJsPreserveAllSemiColons(rs.getBoolean(
-                "userdirective.compressHtml.yuiJsPreserveAllSemiColons", false));
+        htmlCompressor.setYuiJsPreserveAllSemiColons(
+                rs.getBoolean("userdirective.compressHtml.yuiJsPreserveAllSemiColons", false));
         htmlCompressor.setYuiJsLineBreak(rs.getInt("userdirective.compressHtml.yuiJsLineBreak", -1));
         htmlCompressor.setYuiCssLineBreak(rs.getInt("userdirective.compressHtml.yuiCssLineBreak", -1));
         htmlCompressor.setSimpleDoctype(rs.getBoolean("userdirective.compressHtml.simpleDoctype", false));
-        htmlCompressor.setRemoveScriptAttributes(rs.getBoolean("userdirective.compressHtml.removeScriptAttributes",
-                false));
-        htmlCompressor.setRemoveStyleAttributes(rs
-                .getBoolean("userdirective.compressHtml.removeStyleAttributes", false));
+        htmlCompressor
+                .setRemoveScriptAttributes(rs.getBoolean("userdirective.compressHtml.removeScriptAttributes", false));
+        htmlCompressor
+                .setRemoveStyleAttributes(rs.getBoolean("userdirective.compressHtml.removeStyleAttributes", false));
         htmlCompressor.setRemoveLinkAttributes(rs.getBoolean("userdirective.compressHtml.removeLinkAttributes", false));
         htmlCompressor.setRemoveFormAttributes(rs.getBoolean("userdirective.compressHtml.removeFormAttributes", false));
-        htmlCompressor.setRemoveInputAttributes(rs
-                .getBoolean("userdirective.compressHtml.removeInputAttributes", false));
-        htmlCompressor.setSimpleBooleanAttributes(rs.getBoolean("userdirective.compressHtml.simpleBooleanAttributes",
-                false));
-        htmlCompressor.setRemoveJavaScriptProtocol(rs.getBoolean("userdirective.compressHtml.removeJavaScriptProtocol",
-                false));
+        htmlCompressor
+                .setRemoveInputAttributes(rs.getBoolean("userdirective.compressHtml.removeInputAttributes", false));
+        htmlCompressor
+                .setSimpleBooleanAttributes(rs.getBoolean("userdirective.compressHtml.simpleBooleanAttributes", false));
+        htmlCompressor.setRemoveJavaScriptProtocol(
+                rs.getBoolean("userdirective.compressHtml.removeJavaScriptProtocol", false));
         htmlCompressor.setRemoveHttpProtocol(rs.getBoolean("userdirective.compressHtml.removeHttpProtocol", false));
         htmlCompressor.setRemoveHttpsProtocol(rs.getBoolean("userdirective.compressHtml.removeHttpsProtocol", false));
 
@@ -113,8 +113,8 @@ public class HtmlCompressorDirective extends Directive {
     }
 
     @Override
-    public boolean render(InternalContextAdapter context, Writer writer, Node node) throws IOException,
-            MethodInvocationException {
+    public boolean render(InternalContextAdapter context, Writer writer, Node node)
+            throws IOException, MethodInvocationException {
 
         // render content
         StringWriter content = new StringWriter();

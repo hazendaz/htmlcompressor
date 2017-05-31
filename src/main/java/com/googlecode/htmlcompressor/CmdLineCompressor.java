@@ -367,8 +367,8 @@ public class CmdLineCompressor {
             if (analyzeOpt) {
                 // analyzer mode
                 HtmlAnalyzer analyzer = new HtmlAnalyzer(
-                        HtmlCompressor.JS_COMPRESSOR_CLOSURE.equalsIgnoreCase(jsCompressorOpt) ? HtmlCompressor.JS_COMPRESSOR_CLOSURE
-                                : HtmlCompressor.JS_COMPRESSOR_YUI);
+                        HtmlCompressor.JS_COMPRESSOR_CLOSURE.equalsIgnoreCase(jsCompressorOpt)
+                                ? HtmlCompressor.JS_COMPRESSOR_CLOSURE : HtmlCompressor.JS_COMPRESSOR_YUI);
                 analyzer.analyze(readResource(buildReader(fileArgsOpt.isEmpty() ? null : fileArgsOpt.get(0))));
             } else {
                 // compression mode
@@ -440,8 +440,8 @@ public class CmdLineCompressor {
                             preservePatterns.add(Pattern.compile(line));
                         } catch (PatternSyntaxException e) {
                             logger.trace("", e);
-                            throw new IllegalArgumentException("Regular expression compilation error: "
-                                    + e.getMessage());
+                            throw new IllegalArgumentException(
+                                    "Regular expression compilation error: " + e.getMessage());
                         }
                     }
                 }
@@ -566,8 +566,8 @@ public class CmdLineCompressor {
                         if (outpuFile != null && outpuFile.isDirectory()) {
                             if (!recursiveOpt) {
                                 // non-recursive
-                                for (File file : inputFile.listFiles(new CompressorFileFilter(typeOpt, filemaskOpt,
-                                        false))) {
+                                for (File file : inputFile
+                                        .listFiles(new CompressorFileFilter(typeOpt, filemaskOpt, false))) {
                                     if (!file.isDirectory()) {
                                         String from = file.getCanonicalPath();
                                         String to = from.replaceFirst(escRegEx(inputFile.getCanonicalPath()),
@@ -582,8 +582,8 @@ public class CmdLineCompressor {
                                 while (!fileStack.isEmpty()) {
                                     File child = fileStack.pop();
                                     if (child.isDirectory()) {
-                                        for (File f : child.listFiles(new CompressorFileFilter(typeOpt, filemaskOpt,
-                                                true))) {
+                                        for (File f : child
+                                                .listFiles(new CompressorFileFilter(typeOpt, filemaskOpt, true))) {
                                             fileStack.push(f);
                                         }
                                     } else if (child.isFile()) {
@@ -603,8 +603,9 @@ public class CmdLineCompressor {
                         // is file
                         if (outpuFile != null && outpuFile.isDirectory()) {
                             String from = inputFile.getCanonicalPath();
-                            String to = from.replaceFirst(escRegEx(inputFile.getCanonicalFile().getParentFile()
-                                    .getCanonicalPath()), Matcher.quoteReplacement(outpuFile.getCanonicalPath()));
+                            String to = from.replaceFirst(
+                                    escRegEx(inputFile.getCanonicalFile().getParentFile().getCanonicalPath()),
+                                    Matcher.quoteReplacement(outpuFile.getCanonicalPath()));
                             map.put(fileArgsOpt.get(i), to);
                         } else {
                             map.put(fileArgsOpt.get(i), outputFilenameOpt);
@@ -736,7 +737,7 @@ public class CmdLineCompressor {
     private void printUsage() {
         logger.info("Usage: java -jar htmlcompressor.jar [options] [input]\n\n"
 
-        + "[input]                        URL, filename, directory, or space separated list\n"
+                + "[input]                        URL, filename, directory, or space separated list\n"
                 + "                               of files and directories to compress.\n"
                 + "                               If none provided reads from <stdin>\n\n"
 
@@ -790,8 +791,7 @@ public class CmdLineCompressor {
                 + "CSS Compression Options for YUI Compressor:\n"
                 + " --line-break <column num>     Insert a line break after the specified column\n\n"
 
-                + "Custom Block Preservation Options:\n"
-                + " --preserve-php                Preserve <?php ... ?> tags\n"
+                + "Custom Block Preservation Options:\n" + " --preserve-php                Preserve <?php ... ?> tags\n"
                 + " --preserve-server-script      Preserve <% ... %> tags\n"
                 + " --preserve-ssi                Preserve <!--# ... --> tags\n"
                 + " -p, --preserve <path>         Read regular expressions that define\n"

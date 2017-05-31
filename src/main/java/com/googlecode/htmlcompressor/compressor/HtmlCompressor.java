@@ -52,8 +52,8 @@ public class HtmlCompressor implements Compressor {
      * Predefined pattern that matches <code>&lt;?php ... ?&gt;</code> tags. Could be passed inside a list to
      * {@link #setPreservePatterns(List) setPreservePatterns} method.
      */
-    public static final Pattern      PHP_TAG_PATTERN              = Pattern.compile("<\\?php.*?\\?>", Pattern.DOTALL
-                                                                          | Pattern.CASE_INSENSITIVE);
+    public static final Pattern      PHP_TAG_PATTERN              = Pattern.compile("<\\?php.*?\\?>",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /**
      * Predefined pattern that matches <code>&lt;% ... %&gt;</code> tags. Could be passed inside a list to
@@ -79,7 +79,7 @@ public class HtmlCompressor implements Compressor {
      * {@link #setRemoveSurroundingSpaces(String) setRemoveSurroundingSpaces} method.
      */
     public static final String       BLOCK_TAGS_MAX               = BLOCK_TAGS_MIN
-                                                                          + ",h1,h2,h3,h4,h5,h6,blockquote,center,dl,fieldset,form,frame,frameset,hr,noframes,ol,table,tbody,tr,td,th,tfoot,thead,ul";
+            + ",h1,h2,h3,h4,h5,h6,blockquote,center,dl,fieldset,form,frame,frameset,hr,noframes,ol,table,tbody,tr,td,th,tfoot,thead,ul";
 
     /**
      * Could be passed to {@link #setRemoveSurroundingSpaces(String) setRemoveSurroundingSpaces} method to remove all
@@ -221,206 +221,162 @@ public class HtmlCompressor implements Compressor {
     protected static final Pattern   emptyPattern                 = Pattern.compile("\\s");
 
     /** The Constant skipPattern. */
-    protected static final Pattern   skipPattern                  = Pattern
-                                                                          .compile(
-                                                                                  "<!--\\s*\\{\\{\\{\\s*-->(.*?)<!--\\s*\\}\\}\\}\\s*-->",
-                                                                                  Pattern.DOTALL
-                                                                                          | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   skipPattern                  = Pattern.compile(
+            "<!--\\s*\\{\\{\\{\\s*-->(.*?)<!--\\s*\\}\\}\\}\\s*-->", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant condCommentPattern. */
     protected static final Pattern   condCommentPattern           = Pattern
-                                                                          .compile(
-                                                                                  "(<!(?:--)?\\[[^\\]]+?]>)(.*?)(<!\\[[^\\]]+]-->)",
-                                                                                  Pattern.DOTALL
-                                                                                          | Pattern.CASE_INSENSITIVE);
+            .compile("(<!(?:--)?\\[[^\\]]+?]>)(.*?)(<!\\[[^\\]]+]-->)", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant commentPattern. */
     protected static final Pattern   commentPattern               = Pattern.compile("<!---->|<!--[^\\[].*?-->",
-                                                                          Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant intertagPattern_TagTag. */
-    protected static final Pattern   intertagPattern_TagTag       = Pattern.compile(">\\s+<", Pattern.DOTALL
-                                                                          | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   intertagPattern_TagTag       = Pattern.compile(">\\s+<",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant intertagPattern_TagCustom. */
-    protected static final Pattern   intertagPattern_TagCustom    = Pattern.compile(">\\s+%%%~", Pattern.DOTALL
-                                                                          | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   intertagPattern_TagCustom    = Pattern.compile(">\\s+%%%~",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant intertagPattern_CustomTag. */
-    protected static final Pattern   intertagPattern_CustomTag    = Pattern.compile("~%%%\\s+<", Pattern.DOTALL
-                                                                          | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   intertagPattern_CustomTag    = Pattern.compile("~%%%\\s+<",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant intertagPattern_CustomCustom. */
-    protected static final Pattern   intertagPattern_CustomCustom = Pattern.compile("~%%%\\s+%%%~", Pattern.DOTALL
-                                                                          | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   intertagPattern_CustomCustom = Pattern.compile("~%%%\\s+%%%~",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant multispacePattern. */
-    protected static final Pattern   multispacePattern            = Pattern.compile("\\s+", Pattern.DOTALL
-                                                                          | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   multispacePattern            = Pattern.compile("\\s+",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant tagEndSpacePattern. */
     protected static final Pattern   tagEndSpacePattern           = Pattern.compile("(<(?:[^>]+?))(?:\\s+?)(/?>)",
-                                                                          Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant tagLastUnquotedValuePattern. */
     protected static final Pattern   tagLastUnquotedValuePattern  = Pattern.compile("=\\s*[a-z0-9-_]+$",
-                                                                          Pattern.CASE_INSENSITIVE);
+            Pattern.CASE_INSENSITIVE);
 
     /** The Constant tagQuotePattern. */
     protected static final Pattern   tagQuotePattern              = Pattern
-                                                                          .compile(
-                                                                                  "\\s*=\\s*([\"'])([a-z0-9-_]+?)\\1(/?)(?=[^<]*?>)",
-                                                                                  Pattern.CASE_INSENSITIVE);
+            .compile("\\s*=\\s*([\"'])([a-z0-9-_]+?)\\1(/?)(?=[^<]*?>)", Pattern.CASE_INSENSITIVE);
 
     /** The Constant prePattern. */
     protected static final Pattern   prePattern                   = Pattern.compile("(<pre[^>]*?>)(.*?)(</pre>)",
-                                                                          Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant taPattern. */
-    protected static final Pattern   taPattern                    = Pattern.compile(
-                                                                          "(<textarea[^>]*?>)(.*?)(</textarea>)",
-                                                                          Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   taPattern                    = Pattern
+            .compile("(<textarea[^>]*?>)(.*?)(</textarea>)", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant scriptPattern. */
     protected static final Pattern   scriptPattern                = Pattern.compile("(<script[^>]*?>)(.*?)(</script>)",
-                                                                          Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant stylePattern. */
     protected static final Pattern   stylePattern                 = Pattern.compile("(<style[^>]*?>)(.*?)(</style>)",
-                                                                          Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant tagPropertyPattern. */
     protected static final Pattern   tagPropertyPattern           = Pattern.compile("(\\s\\w+)\\s*=\\s*(?=[^<]*?>)",
-                                                                          Pattern.CASE_INSENSITIVE);
+            Pattern.CASE_INSENSITIVE);
 
     /** The Constant cdataPattern. */
-    protected static final Pattern   cdataPattern                 = Pattern.compile(
-                                                                          "\\s*<!\\[CDATA\\[(.*?)\\]\\]>\\s*",
-                                                                          Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   cdataPattern                 = Pattern.compile("\\s*<!\\[CDATA\\[(.*?)\\]\\]>\\s*",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant doctypePattern. */
-    protected static final Pattern   doctypePattern               = Pattern.compile("<!DOCTYPE[^>]*>", Pattern.DOTALL
-                                                                          | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   doctypePattern               = Pattern.compile("<!DOCTYPE[^>]*>",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant typeAttrPattern. */
     protected static final Pattern   typeAttrPattern              = Pattern.compile("type\\s*=\\s*([\\\"']*)(.+?)\\1",
-                                                                          Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant jsTypeAttrPattern. */
-    protected static final Pattern   jsTypeAttrPattern            = Pattern
-                                                                          .compile(
-                                                                                  "(<script[^>]*)type\\s*=\\s*([\"']*)(?:text|application)/javascript\\2([^>]*>)",
-                                                                                  Pattern.DOTALL
-                                                                                          | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   jsTypeAttrPattern            = Pattern.compile(
+            "(<script[^>]*)type\\s*=\\s*([\"']*)(?:text|application)/javascript\\2([^>]*>)",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant jsLangAttrPattern. */
-    protected static final Pattern   jsLangAttrPattern            = Pattern
-                                                                          .compile(
-                                                                                  "(<script[^>]*)language\\s*=\\s*([\"']*)javascript\\2([^>]*>)",
-                                                                                  Pattern.DOTALL
-                                                                                          | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   jsLangAttrPattern            = Pattern.compile(
+            "(<script[^>]*)language\\s*=\\s*([\"']*)javascript\\2([^>]*>)", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant styleTypeAttrPattern. */
-    protected static final Pattern   styleTypeAttrPattern         = Pattern
-                                                                          .compile(
-                                                                                  "(<style[^>]*)type\\s*=\\s*([\"']*)text/style\\2([^>]*>)",
-                                                                                  Pattern.DOTALL
-                                                                                          | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   styleTypeAttrPattern         = Pattern.compile(
+            "(<style[^>]*)type\\s*=\\s*([\"']*)text/style\\2([^>]*>)", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant linkTypeAttrPattern. */
-    protected static final Pattern   linkTypeAttrPattern          = Pattern
-                                                                          .compile(
-                                                                                  "(<link[^>]*)type\\s*=\\s*([\"']*)text/(?:css|plain)\\2([^>]*>)",
-                                                                                  Pattern.DOTALL
-                                                                                          | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   linkTypeAttrPattern          = Pattern.compile(
+            "(<link[^>]*)type\\s*=\\s*([\"']*)text/(?:css|plain)\\2([^>]*>)",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant linkRelAttrPattern. */
-    protected static final Pattern   linkRelAttrPattern           = Pattern
-                                                                          .compile(
-                                                                                  "<link(?:[^>]*)rel\\s*=\\s*([\"']*)(?:alternate\\s+)?stylesheet\\1(?:[^>]*)>",
-                                                                                  Pattern.DOTALL
-                                                                                          | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   linkRelAttrPattern           = Pattern.compile(
+            "<link(?:[^>]*)rel\\s*=\\s*([\"']*)(?:alternate\\s+)?stylesheet\\1(?:[^>]*)>",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant formMethodAttrPattern. */
     protected static final Pattern   formMethodAttrPattern        = Pattern
-                                                                          .compile(
-                                                                                  "(<form[^>]*)method\\s*=\\s*([\"']*)get\\2([^>]*>)",
-                                                                                  Pattern.DOTALL
-                                                                                          | Pattern.CASE_INSENSITIVE);
+            .compile("(<form[^>]*)method\\s*=\\s*([\"']*)get\\2([^>]*>)", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant inputTypeAttrPattern. */
     protected static final Pattern   inputTypeAttrPattern         = Pattern
-                                                                          .compile(
-                                                                                  "(<input[^>]*)type\\s*=\\s*([\"']*)text\\2([^>]*>)",
-                                                                                  Pattern.DOTALL
-                                                                                          | Pattern.CASE_INSENSITIVE);
+            .compile("(<input[^>]*)type\\s*=\\s*([\"']*)text\\2([^>]*>)", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant booleanAttrPattern. */
-    protected static final Pattern   booleanAttrPattern           = Pattern
-                                                                          .compile(
-                                                                                  "(<\\w+[^>]*)(checked|selected|disabled|readonly)\\s*=\\s*([\"']*)\\w*\\3([^>]*>)",
-                                                                                  Pattern.DOTALL
-                                                                                          | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   booleanAttrPattern           = Pattern.compile(
+            "(<\\w+[^>]*)(checked|selected|disabled|readonly)\\s*=\\s*([\"']*)\\w*\\3([^>]*>)",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant eventJsProtocolPattern. */
     protected static final Pattern   eventJsProtocolPattern       = Pattern.compile("^javascript:\\s*(.+)",
-                                                                          Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant httpProtocolPattern. */
-    protected static final Pattern   httpProtocolPattern          = Pattern
-                                                                          .compile(
-                                                                                  "(<[^>]+?(?:href|src|cite|action)\\s*=\\s*['\"])http:(//[^>]+?>)",
-                                                                                  Pattern.DOTALL
-                                                                                          | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   httpProtocolPattern          = Pattern.compile(
+            "(<[^>]+?(?:href|src|cite|action)\\s*=\\s*['\"])http:(//[^>]+?>)",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant httpsProtocolPattern. */
-    protected static final Pattern   httpsProtocolPattern         = Pattern
-                                                                          .compile(
-                                                                                  "(<[^>]+?(?:href|src|cite|action)\\s*=\\s*['\"])https:(//[^>]+?>)",
-                                                                                  Pattern.DOTALL
-                                                                                          | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   httpsProtocolPattern         = Pattern.compile(
+            "(<[^>]+?(?:href|src|cite|action)\\s*=\\s*['\"])https:(//[^>]+?>)",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant relExternalPattern. */
-    protected static final Pattern   relExternalPattern           = Pattern
-                                                                          .compile(
-                                                                                  "<(?:[^>]*)rel\\s*=\\s*([\"']*)(?:alternate\\s+)?external\\1(?:[^>]*)>",
-                                                                                  Pattern.DOTALL
-                                                                                          | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   relExternalPattern           = Pattern.compile(
+            "<(?:[^>]*)rel\\s*=\\s*([\"']*)(?:alternate\\s+)?external\\1(?:[^>]*)>",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
-    /** The Constant eventPattern1. */
-    protected static final Pattern   eventPattern1                = Pattern
-                                                                          .compile(
-                                                                                  "(\\son[a-z]+\\s*=\\s*\")([^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*)(\")",
-                                                                                  Pattern.CASE_INSENSITIVE);                                                                                          // unmasked:
+    /** The Constant eventPattern1 (unmasked). */
+    protected static final Pattern   eventPattern1                = Pattern.compile(
+            "(\\son[a-z]+\\s*=\\s*\")([^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*)(\")", Pattern.CASE_INSENSITIVE);
 
     /** The Constant eventPattern2. */
     // \son[a-z]+\s*=\s*"[^"\\\r\n]*(?:\\.[^"\\\r\n]*)*"
     protected static final Pattern   eventPattern2                = Pattern
-                                                                          .compile(
-                                                                                  "(\\son[a-z]+\\s*=\\s*')([^'\\\\\\r\\n]*(?:\\\\.[^'\\\\\\r\\n]*)*)(')",
-                                                                                  Pattern.CASE_INSENSITIVE);
+            .compile("(\\son[a-z]+\\s*=\\s*')([^'\\\\\\r\\n]*(?:\\\\.[^'\\\\\\r\\n]*)*)(')", Pattern.CASE_INSENSITIVE);
 
     /** The Constant lineBreakPattern. */
     protected static final Pattern   lineBreakPattern             = Pattern
-                                                                          .compile("(?:\\p{Blank}*(\\r?\\n)\\p{Blank}*)+");
+            .compile("(?:\\p{Blank}*(\\r?\\n)\\p{Blank}*)+");
 
     /** The Constant surroundingSpacesMinPattern. */
     protected static final Pattern   surroundingSpacesMinPattern  = Pattern.compile(
-                                                                          "\\s*(</?(?:"
-                                                                                  + BLOCK_TAGS_MIN.replaceAll(",", "|")
-                                                                                  + ")(?:>|[\\s/][^>]*>))\\s*",
-                                                                          Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+            "\\s*(</?(?:" + BLOCK_TAGS_MIN.replaceAll(",", "|") + ")(?:>|[\\s/][^>]*>))\\s*",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant surroundingSpacesMaxPattern. */
     protected static final Pattern   surroundingSpacesMaxPattern  = Pattern.compile(
-                                                                          "\\s*(</?(?:"
-                                                                                  + BLOCK_TAGS_MAX.replaceAll(",", "|")
-                                                                                  + ")(?:>|[\\s/][^>]*>))\\s*",
-                                                                          Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+            "\\s*(</?(?:" + BLOCK_TAGS_MAX.replaceAll(",", "|") + ")(?:>|[\\s/][^>]*>))\\s*",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant surroundingSpacesAllPattern. */
-    protected static final Pattern   surroundingSpacesAllPattern  = Pattern.compile("\\s*(<[^>]+>)\\s*", Pattern.DOTALL
-                                                                          | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern   surroundingSpacesAllPattern  = Pattern.compile("\\s*(<[^>]+>)\\s*",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant tempCondCommentPattern. */
     // patterns for searching for temporary replacements
@@ -431,7 +387,7 @@ public class HtmlCompressor implements Compressor {
 
     /** The Constant tempTextAreaPattern. */
     protected static final Pattern   tempTextAreaPattern          = Pattern
-                                                                          .compile("%%%~COMPRESS~TEXTAREA~(\\d+?)~%%%");
+            .compile("%%%~COMPRESS~TEXTAREA~(\\d+?)~%%%");
 
     /** The Constant tempScriptPattern. */
     protected static final Pattern   tempScriptPattern            = Pattern.compile("%%%~COMPRESS~SCRIPT~(\\d+?)~%%%");
@@ -609,8 +565,8 @@ public class HtmlCompressor implements Compressor {
         sb = new StringBuffer();
         while (matcher.find()) {
             if (matcher.group(2).trim().length() > 0) {
-                condCommentBlocks.add(matcher.group(1) + condCommentCompressor.compress(matcher.group(2))
-                        + matcher.group(3));
+                condCommentBlocks
+                        .add(matcher.group(1) + condCommentCompressor.compress(matcher.group(2)) + matcher.group(3));
                 matcher.appendReplacement(sb, MessageFormat.format(TEMP_COND_COMMENT_BLOCK, index++));
             }
         }
@@ -678,7 +634,8 @@ public class HtmlCompressor implements Compressor {
                 } else {
                     // some custom script, preserve it inside "skip blocks" so it won't be compressed with js compressor
                     skipBlocks.add(matcher.group(2));
-                    matcher.appendReplacement(sb, "$1" + MessageFormat.format(TEMP_SKIP_BLOCK, skipBlockIndex++) + "$3");
+                    matcher.appendReplacement(sb,
+                            "$1" + MessageFormat.format(TEMP_SKIP_BLOCK, skipBlockIndex++) + "$3");
                 }
 
             }
@@ -753,10 +710,9 @@ public class HtmlCompressor implements Compressor {
      *            the user blocks
      * @return the string
      */
-    protected String returnBlocks(String html, List<String> preBlocks, List<String> taBlocks,
-            List<String> scriptBlocks, List<String> styleBlocks, List<String> eventBlocks,
-            List<String> condCommentBlocks, List<String> skipBlocks, List<String> lineBreakBlocks,
-            List<List<String>> userBlocks) {
+    protected String returnBlocks(String html, List<String> preBlocks, List<String> taBlocks, List<String> scriptBlocks,
+            List<String> styleBlocks, List<String> eventBlocks, List<String> condCommentBlocks, List<String> skipBlocks,
+            List<String> lineBreakBlocks, List<List<String>> userBlocks) {
 
         // put line breaks back
         if (preserveLineBreaks) {
@@ -952,8 +908,9 @@ public class HtmlCompressor implements Compressor {
             if (removeSurroundingSpaces.equalsIgnoreCase(ALL_TAGS)) {
                 pattern = surroundingSpacesAllPattern;
             } else {
-                pattern = Pattern.compile("\\s*(</?(?:" + removeSurroundingSpaces.replaceAll(",", "|")
-                        + ")(?:>|[\\s/][^>]*>))\\s*", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+                pattern = Pattern.compile(
+                        "\\s*(</?(?:" + removeSurroundingSpaces.replaceAll(",", "|") + ")(?:>|[\\s/][^>]*>))\\s*",
+                        Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
             }
 
             Matcher matcher = pattern.matcher(html);
@@ -1267,8 +1224,8 @@ public class HtmlCompressor implements Compressor {
      *            the user blocks
      */
     protected void processPreservedBlocks(List<String> preBlocks, List<String> taBlocks, List<String> scriptBlocks,
-            List<String> styleBlocks, List<String> eventBlocks, List<String> condCommentBlocks,
-            List<String> skipBlocks, List<String> lineBreakBlocks, List<List<String>> userBlocks) {
+            List<String> styleBlocks, List<String> eventBlocks, List<String> condCommentBlocks, List<String> skipBlocks,
+            List<String> lineBreakBlocks, List<List<String>> userBlocks) {
         processPreBlocks(preBlocks);
         processTextAreaBlocks(taBlocks);
         processScriptBlocks(scriptBlocks);
@@ -1376,8 +1333,8 @@ public class HtmlCompressor implements Compressor {
 
         if (generateStatistics) {
             for (String block : eventBlocks) {
-                statistics.getOriginalMetrics().setInlineEventSize(
-                        statistics.getOriginalMetrics().getInlineEventSize() + block.length());
+                statistics.getOriginalMetrics()
+                        .setInlineEventSize(statistics.getOriginalMetrics().getInlineEventSize() + block.length());
             }
         }
 
@@ -1393,8 +1350,8 @@ public class HtmlCompressor implements Compressor {
 
         if (generateStatistics) {
             for (String block : eventBlocks) {
-                statistics.getCompressedMetrics().setInlineEventSize(
-                        statistics.getCompressedMetrics().getInlineEventSize() + block.length());
+                statistics.getCompressedMetrics()
+                        .setInlineEventSize(statistics.getCompressedMetrics().getInlineEventSize() + block.length());
             }
         }
     }
@@ -1432,8 +1389,8 @@ public class HtmlCompressor implements Compressor {
 
         if (generateStatistics) {
             for (String block : scriptBlocks) {
-                statistics.getOriginalMetrics().setInlineScriptSize(
-                        statistics.getOriginalMetrics().getInlineScriptSize() + block.length());
+                statistics.getOriginalMetrics()
+                        .setInlineScriptSize(statistics.getOriginalMetrics().getInlineScriptSize() + block.length());
             }
         }
 
@@ -1449,8 +1406,8 @@ public class HtmlCompressor implements Compressor {
 
         if (generateStatistics) {
             for (String block : scriptBlocks) {
-                statistics.getCompressedMetrics().setInlineScriptSize(
-                        statistics.getCompressedMetrics().getInlineScriptSize() + block.length());
+                statistics.getCompressedMetrics()
+                        .setInlineScriptSize(statistics.getCompressedMetrics().getInlineScriptSize() + block.length());
             }
         }
     }
@@ -1465,8 +1422,8 @@ public class HtmlCompressor implements Compressor {
 
         if (generateStatistics) {
             for (String block : styleBlocks) {
-                statistics.getOriginalMetrics().setInlineStyleSize(
-                        statistics.getOriginalMetrics().getInlineStyleSize() + block.length());
+                statistics.getOriginalMetrics()
+                        .setInlineStyleSize(statistics.getOriginalMetrics().getInlineStyleSize() + block.length());
             }
         }
 
@@ -1482,8 +1439,8 @@ public class HtmlCompressor implements Compressor {
 
         if (generateStatistics) {
             for (String block : styleBlocks) {
-                statistics.getCompressedMetrics().setInlineStyleSize(
-                        statistics.getCompressedMetrics().getInlineStyleSize() + block.length());
+                statistics.getCompressedMetrics()
+                        .setInlineStyleSize(statistics.getCompressedMetrics().getInlineStyleSize() + block.length());
             }
         }
     }

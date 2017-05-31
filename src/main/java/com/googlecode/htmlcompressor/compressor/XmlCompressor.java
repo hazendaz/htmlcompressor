@@ -45,32 +45,32 @@ public class XmlCompressor implements Compressor {
 
     /** The Constant cdataPattern. */
     // compiled regex patterns
-    protected static final Pattern cdataPattern         = Pattern.compile("<!\\[CDATA\\[.*?\\]\\]>", Pattern.DOTALL
-                                                                | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern cdataPattern         = Pattern.compile("<!\\[CDATA\\[.*?\\]\\]>",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant commentPattern. */
-    protected static final Pattern commentPattern       = Pattern.compile("<!--.*?-->", Pattern.DOTALL
-                                                                | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern commentPattern       = Pattern.compile("<!--.*?-->",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant intertagPattern. */
-    protected static final Pattern intertagPattern      = Pattern.compile(">\\s+<", Pattern.DOTALL
-                                                                | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern intertagPattern      = Pattern.compile(">\\s+<",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant tagEndSpacePattern. */
-    protected static final Pattern tagEndSpacePattern   = Pattern.compile("(<(?:[^>]+?))(?:\\s+?)(/?>)", Pattern.DOTALL
-                                                                | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern tagEndSpacePattern   = Pattern.compile("(<(?:[^>]+?))(?:\\s+?)(/?>)",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant multispacePattern. */
-    protected static final Pattern multispacePattern    = Pattern.compile("\\s+(?=[^<]*?>)", Pattern.DOTALL
-                                                                | Pattern.CASE_INSENSITIVE);
+    protected static final Pattern multispacePattern    = Pattern.compile("\\s+(?=[^<]*?>)",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant tagPropertyPattern. */
     protected static final Pattern tagPropertyPattern   = Pattern.compile("(\\s\\w+)\\s*=\\s*(?=[^<]*?>)",
-                                                                Pattern.CASE_INSENSITIVE);
+            Pattern.CASE_INSENSITIVE);
 
     /** The Constant tempCdataPattern. */
     protected static final Pattern tempCdataPattern     = Pattern.compile("%%%COMPRESS~CDATA~(\\d+?)%%%",
-                                                                Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /**
      * The main method that compresses given XML source and returns compressed result.
@@ -138,7 +138,8 @@ public class XmlCompressor implements Compressor {
         Matcher matcher = tempCdataPattern.matcher(xml);
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
-            matcher.appendReplacement(sb, Matcher.quoteReplacement(cdataBlocks.get(Integer.parseInt(matcher.group(1)))));
+            matcher.appendReplacement(sb,
+                    Matcher.quoteReplacement(cdataBlocks.get(Integer.parseInt(matcher.group(1)))));
         }
         matcher.appendTail(sb);
         xml = sb.toString();

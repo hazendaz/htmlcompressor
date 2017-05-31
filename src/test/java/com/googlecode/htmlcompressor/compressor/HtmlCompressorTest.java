@@ -159,11 +159,18 @@ public class HtmlCompressorTest {
         String result = readResource("testPreservePatternsResult.html");
 
         List<Pattern> preservePatterns = new ArrayList<>();
-        preservePatterns.add(HtmlCompressor.PHP_TAG_PATTERN); // <?php ... ?> blocks
-        preservePatterns.add(HtmlCompressor.SERVER_SCRIPT_TAG_PATTERN); // <% ... %> blocks
-        preservePatterns.add(HtmlCompressor.SERVER_SIDE_INCLUDE_PATTERN); // <!--# ... --> blocks
-        preservePatterns.add(Pattern.compile("<jsp:.*?>", Pattern.DOTALL | Pattern.CASE_INSENSITIVE)); // <jsp: ... >
-                                                                                                       // tags
+
+        // <?php ... ?> blocks
+        preservePatterns.add(HtmlCompressor.PHP_TAG_PATTERN);
+
+        // <% ... %> blocks
+        preservePatterns.add(HtmlCompressor.SERVER_SCRIPT_TAG_PATTERN);
+
+        // <!--# ... --> blocks
+        preservePatterns.add(HtmlCompressor.SERVER_SIDE_INCLUDE_PATTERN);
+
+        // <jsp: ... > tags
+        preservePatterns.add(Pattern.compile("<jsp:.*?>", Pattern.DOTALL | Pattern.CASE_INSENSITIVE));
 
         HtmlCompressor compressor = new HtmlCompressor();
         compressor.setPreservePatterns(preservePatterns);
