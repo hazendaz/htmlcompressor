@@ -15,9 +15,13 @@
  */
 package com.googlecode.htmlcompressor;
 
-import jargs.gnu.CmdLineParser;
-import jargs.gnu.CmdLineParser.Option;
-import jargs.gnu.CmdLineParser.OptionException;
+import com.google.javascript.jscomp.CompilationLevel;
+import com.google.javascript.jscomp.SourceFile;
+import com.googlecode.htmlcompressor.analyzer.HtmlAnalyzer;
+import com.googlecode.htmlcompressor.compressor.ClosureJavaScriptCompressor;
+import com.googlecode.htmlcompressor.compressor.Compressor;
+import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
+import com.googlecode.htmlcompressor.compressor.XmlCompressor;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
@@ -44,13 +48,9 @@ import java.util.regex.PatternSyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.javascript.jscomp.CompilationLevel;
-import com.google.javascript.jscomp.SourceFile;
-import com.googlecode.htmlcompressor.analyzer.HtmlAnalyzer;
-import com.googlecode.htmlcompressor.compressor.ClosureJavaScriptCompressor;
-import com.googlecode.htmlcompressor.compressor.Compressor;
-import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
-import com.googlecode.htmlcompressor.compressor.XmlCompressor;
+import jargs.gnu.CmdLineParser;
+import jargs.gnu.CmdLineParser.Option;
+import jargs.gnu.CmdLineParser.OptionException;
 
 /**
  * Wrapper for HTML and XML compressor classes that allows using them from a command line.
@@ -368,7 +368,8 @@ public class CmdLineCompressor {
                 // analyzer mode
                 HtmlAnalyzer analyzer = new HtmlAnalyzer(
                         HtmlCompressor.JS_COMPRESSOR_CLOSURE.equalsIgnoreCase(jsCompressorOpt)
-                                ? HtmlCompressor.JS_COMPRESSOR_CLOSURE : HtmlCompressor.JS_COMPRESSOR_YUI);
+                                ? HtmlCompressor.JS_COMPRESSOR_CLOSURE
+                                : HtmlCompressor.JS_COMPRESSOR_YUI);
                 analyzer.analyze(readResource(buildReader(fileArgsOpt.isEmpty() ? null : fileArgsOpt.get(0))));
             } else {
                 // compression mode

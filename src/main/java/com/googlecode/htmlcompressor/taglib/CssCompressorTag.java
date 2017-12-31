@@ -15,6 +15,9 @@
  */
 package com.googlecode.htmlcompressor.taglib;
 
+import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
+import com.googlecode.htmlcompressor.compressor.YuiCssCompressor;
+
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
@@ -24,12 +27,9 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
-import com.googlecode.htmlcompressor.compressor.YuiCssCompressor;
-
 /**
- * JSP tag that compresses an CSS content within &lt;compress:css&gt; using <a
- * href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>. All CSS-related properties from
+ * JSP tag that compresses an CSS content within &lt;compress:css&gt; using
+ * <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>. All CSS-related properties from
  * {@link HtmlCompressor} are supported.
  *
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>

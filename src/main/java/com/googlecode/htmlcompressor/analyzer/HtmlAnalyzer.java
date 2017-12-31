@@ -15,15 +15,15 @@
  */
 package com.googlecode.htmlcompressor.analyzer;
 
+import com.google.common.base.Strings;
+import com.googlecode.htmlcompressor.compressor.ClosureJavaScriptCompressor;
+import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
+
 import java.text.NumberFormat;
 import java.util.Formatter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Strings;
-import com.googlecode.htmlcompressor.compressor.ClosureJavaScriptCompressor;
-import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
 
 /**
  * Class that compresses provided source with different compression settings and displays page size gains in a report.

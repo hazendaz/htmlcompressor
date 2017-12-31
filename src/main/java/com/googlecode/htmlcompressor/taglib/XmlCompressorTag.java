@@ -15,6 +15,8 @@
  */
 package com.googlecode.htmlcompressor.taglib;
 
+import com.googlecode.htmlcompressor.compressor.XmlCompressor;
+
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
@@ -23,8 +25,6 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.googlecode.htmlcompressor.compressor.XmlCompressor;
 
 /**
  * JSP tag that compresses an XML content within &lt;compress:xml&gt;. Compression parameters are set by default.

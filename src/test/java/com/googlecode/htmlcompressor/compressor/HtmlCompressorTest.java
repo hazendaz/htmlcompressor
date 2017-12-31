@@ -17,6 +17,8 @@ package com.googlecode.htmlcompressor.compressor;
 
 import static org.junit.Assert.assertEquals;
 
+import com.google.javascript.jscomp.CompilationLevel;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,8 +32,6 @@ import java.util.regex.Pattern;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.javascript.jscomp.CompilationLevel;
 
 /**
  * The Class HtmlCompressorTest.

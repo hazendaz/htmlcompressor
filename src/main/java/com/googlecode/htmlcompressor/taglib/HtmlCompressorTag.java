@@ -15,6 +15,11 @@
  */
 package com.googlecode.htmlcompressor.taglib;
 
+import com.google.javascript.jscomp.CompilationLevel;
+import com.googlecode.htmlcompressor.compressor.ClosureJavaScriptCompressor;
+import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
+import com.googlecode.htmlcompressor.compressor.YuiJavaScriptCompressor;
+
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
@@ -23,11 +28,6 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.javascript.jscomp.CompilationLevel;
-import com.googlecode.htmlcompressor.compressor.ClosureJavaScriptCompressor;
-import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
-import com.googlecode.htmlcompressor.compressor.YuiJavaScriptCompressor;
 
 /**
  * JSP tag that compresses an HTML content within &lt;compress:html&gt;. Compression parameters are set by default (no

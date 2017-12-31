@@ -15,6 +15,10 @@
  */
 package com.googlecode.htmlcompressor.velocity;
 
+import com.google.javascript.jscomp.CompilationLevel;
+import com.googlecode.htmlcompressor.compressor.ClosureJavaScriptCompressor;
+import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -24,12 +28,8 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.directive.Directive;
-import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.log.Log;
-
-import com.google.javascript.jscomp.CompilationLevel;
-import com.googlecode.htmlcompressor.compressor.ClosureJavaScriptCompressor;
-import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
+import org.apache.velocity.runtime.parser.node.Node;
 
 /**
  * Velocity directive that compresses an HTML content within #compressHtml ... #end block. Compression parameters are

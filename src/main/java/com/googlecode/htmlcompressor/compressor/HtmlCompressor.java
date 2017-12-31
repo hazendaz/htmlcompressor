@@ -34,9 +34,9 @@ import org.mozilla.javascript.ErrorReporter;
  * <br>&lt;!-- }}} --&gt;</code> <br>
  * or any number of user defined patterns.
  * <p>
- * Content inside &lt;script&gt; or &lt;style&gt; tags could be optionally compressed using <a
- * href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> or <a
- * href="http://code.google.com/closure/compiler/">Google Closure Compiler</a> libraries.
+ * Content inside &lt;script&gt; or &lt;style&gt; tags could be optionally compressed using
+ * <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> or
+ * <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a> libraries.
  * 
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  */
@@ -1569,9 +1569,9 @@ public class HtmlCompressor implements Compressor {
     }
 
     /**
-     * Enables JavaScript compression within &lt;script&gt; tags using <a
-     * href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> if set to <code>true</code>. Default
-     * is <code>false</code> for performance reasons.
+     * Enables JavaScript compression within &lt;script&gt; tags using
+     * <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> if set to <code>true</code>.
+     * Default is <code>false</code> for performance reasons.
      * 
      * <p>
      * <b>Note:</b> Compressing JavaScript is not recommended if pages are compressed dynamically on-the-fly because of
@@ -1599,9 +1599,9 @@ public class HtmlCompressor implements Compressor {
     }
 
     /**
-     * Enables CSS compression within &lt;style&gt; tags using <a
-     * href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> if set to <code>true</code>. Default
-     * is <code>false</code> for performance reasons.
+     * Enables CSS compression within &lt;style&gt; tags using
+     * <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> if set to <code>true</code>.
+     * Default is <code>false</code> for performance reasons.
      * 
      * <p>
      * <b>Note:</b> Compressing CSS is not recommended if pages are compressed dynamically on-the-fly because of
@@ -1932,8 +1932,8 @@ public class HtmlCompressor implements Compressor {
      * Sets JavaScript compressor implementation that will be used to compress inline JavaScript in HTML.
      * 
      * <p>
-     * HtmlCompressor currently comes with basic implementations for <a
-     * href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> (called
+     * HtmlCompressor currently comes with basic implementations for
+     * <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> (called
      * {@link YuiJavaScriptCompressor}) and <a href="http://code.google.com/closure/compiler/">Google Closure
      * Compiler</a> (called {@link ClosureJavaScriptCompressor}) that should be enough for most cases, but users can
      * also create their own JavaScript compressors for custom needs.
@@ -1969,9 +1969,9 @@ public class HtmlCompressor implements Compressor {
      * Sets CSS compressor implementation that will be used to compress inline CSS in HTML.
      * 
      * <p>
-     * HtmlCompressor currently comes with basic implementation for <a
-     * href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> (called {@link YuiCssCompressor}), but
-     * users can also create their own CSS compressors for custom needs.
+     * HtmlCompressor currently comes with basic implementation for
+     * <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> (called {@link YuiCssCompressor}),
+     * but users can also create their own CSS compressors for custom needs.
      * 
      * <p>
      * If no compressor is set {@link YuiCssCompressor} will be used by default.

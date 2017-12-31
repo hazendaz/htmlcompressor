@@ -15,6 +15,15 @@
  */
 package com.googlecode.htmlcompressor.compressor;
 
+import com.google.common.collect.Lists;
+import com.google.common.io.ByteStreams;
+import com.google.javascript.jscomp.CompilationLevel;
+import com.google.javascript.jscomp.Compiler;
+import com.google.javascript.jscomp.CompilerOptions;
+import com.google.javascript.jscomp.Result;
+import com.google.javascript.jscomp.SourceFile;
+import com.google.javascript.jscomp.WarningLevel;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -27,15 +36,6 @@ import java.util.zip.ZipInputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Lists;
-import com.google.common.io.ByteStreams;
-import com.google.javascript.jscomp.CompilationLevel;
-import com.google.javascript.jscomp.Compiler;
-import com.google.javascript.jscomp.CompilerOptions;
-import com.google.javascript.jscomp.SourceFile;
-import com.google.javascript.jscomp.Result;
-import com.google.javascript.jscomp.WarningLevel;
 
 /**
  * Basic JavaScript compressor implementation using <a href="http://code.google.com/closure/compiler/">Google Closure

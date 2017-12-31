@@ -15,6 +15,8 @@
  */
 package com.googlecode.htmlcompressor.compressor;
 
+import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -23,8 +25,6 @@ import org.mozilla.javascript.ErrorReporter;
 import org.mozilla.javascript.EvaluatorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 
 /**
  * Basic JavaScript compressor implementation using <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI

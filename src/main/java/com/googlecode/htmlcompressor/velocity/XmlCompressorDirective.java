@@ -15,6 +15,8 @@
  */
 package com.googlecode.htmlcompressor.velocity;
 
+import com.googlecode.htmlcompressor.compressor.XmlCompressor;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -26,8 +28,6 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.node.Node;
-
-import com.googlecode.htmlcompressor.compressor.XmlCompressor;
 
 /**
  * Velocity directive that compresses an XML content within #compressXml ... #end block. Compression parameters are set
