@@ -100,9 +100,6 @@
     <maven.compiler.testTarget>1.7</maven.compiler.testTarget>
 
     <signature.artifact>java17</signature.artifact>
-
-    <!-- TODO: Override base-parent hibernate-validator due to stack overflow issues on older version -->
-    <hibernate-validator.version>6.0.2.Final</hibernate-validator.version>
   </properties>
 
   <dependencies>
