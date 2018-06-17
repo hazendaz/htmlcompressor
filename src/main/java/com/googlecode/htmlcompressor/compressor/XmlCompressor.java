@@ -113,7 +113,7 @@ public class XmlCompressor implements Compressor {
         // preserve CDATA blocks
         Matcher matcher = cdataPattern.matcher(xml);
         int index = 0;
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
             cdataBlocks.add(matcher.group(0));
             matcher.appendReplacement(sb, MessageFormat.format(TEMP_CD_DATA_BLOCK, index++));
@@ -136,7 +136,7 @@ public class XmlCompressor implements Compressor {
     protected String returnBlocks(String xml, List<String> cdataBlocks) {
         // put CDATA blocks back
         Matcher matcher = tempCdataPattern.matcher(xml);
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
             matcher.appendReplacement(sb,
                     Matcher.quoteReplacement(cdataBlocks.get(Integer.parseInt(matcher.group(1)))));

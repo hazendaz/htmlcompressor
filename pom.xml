@@ -223,6 +223,15 @@
           </execution>
         </executions>
       </plugin>
+
+      <!-- Unfortunately must turn off until jdk9 due to some stringBuffer needs -->
+      <plugin>
+        <groupId>org.gaul</groupId>
+        <artifactId>modernizer-maven-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>
