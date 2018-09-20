@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2017 the original author or authors.
+ *    Copyright 2009-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -41,35 +41,35 @@ import org.slf4j.LoggerFactory;
 public class JavaScriptCompressorTag extends BodyTagSupport {
 
     /** The Constant serialVersionUID. */
-    private static final long   serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /** The Constant logger. */
-    private static final Logger logger           = LoggerFactory.getLogger(JavaScriptCompressorTag.class);
+    private static final Logger logger = LoggerFactory.getLogger(JavaScriptCompressorTag.class);
 
     /** The enabled. */
-    private boolean             enabled          = true;
+    private boolean enabled = true;
 
     /** The js compressor. */
-    private String              jsCompressor     = HtmlCompressor.JS_COMPRESSOR_YUI;
+    private String jsCompressor = HtmlCompressor.JS_COMPRESSOR_YUI;
 
     // YUICompressor settings
 
     /** The yui js no munge. */
-    private boolean             yuiJsNoMunge;
+    private boolean yuiJsNoMunge;
 
     /** The yui js preserve all semi colons. */
-    private boolean             yuiJsPreserveAllSemiColons;
+    private boolean yuiJsPreserveAllSemiColons;
 
     /** The yui js disable optimizations. */
-    private boolean             yuiJsDisableOptimizations;
+    private boolean yuiJsDisableOptimizations;
 
     /** The yui js line break. */
-    private int                 yuiJsLineBreak   = -1;
+    private int yuiJsLineBreak = -1;
 
     // Closure compressor settings
 
     /** The closure opt level. */
-    private String              closureOptLevel  = ClosureJavaScriptCompressor.COMPILATION_LEVEL_SIMPLE;
+    private String closureOptLevel = ClosureJavaScriptCompressor.COMPILATION_LEVEL_SIMPLE;
 
     @Override
     public int doEndTag() throws JspException {

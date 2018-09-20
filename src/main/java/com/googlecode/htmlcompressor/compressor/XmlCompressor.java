@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2017 the original author or authors.
+ *    Copyright 2009-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -30,46 +30,46 @@ import java.util.regex.Pattern;
 public class XmlCompressor implements Compressor {
 
     /** The enabled. */
-    private boolean                enabled              = true;
+    private boolean enabled = true;
 
     /** The remove comments. */
     // default settings
-    private boolean                removeComments       = true;
+    private boolean removeComments = true;
 
     /** The remove intertag spaces. */
-    private boolean                removeIntertagSpaces = true;
+    private boolean removeIntertagSpaces = true;
 
     /** The Constant tempCdataBlock. */
     // temp replacements for preserved blocks
-    protected static final String  TEMP_CD_DATA_BLOCK   = "%%%COMPRESS~CDATA~{0,number,#}%%%";
+    protected static final String TEMP_CD_DATA_BLOCK = "%%%COMPRESS~CDATA~{0,number,#}%%%";
 
     /** The Constant cdataPattern. */
     // compiled regex patterns
-    protected static final Pattern cdataPattern         = Pattern.compile("<!\\[CDATA\\[.*?\\]\\]>",
+    protected static final Pattern cdataPattern = Pattern.compile("<!\\[CDATA\\[.*?\\]\\]>",
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant commentPattern. */
-    protected static final Pattern commentPattern       = Pattern.compile("<!--.*?-->",
+    protected static final Pattern commentPattern = Pattern.compile("<!--.*?-->",
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant intertagPattern. */
-    protected static final Pattern intertagPattern      = Pattern.compile(">\\s+<",
+    protected static final Pattern intertagPattern = Pattern.compile(">\\s+<",
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant tagEndSpacePattern. */
-    protected static final Pattern tagEndSpacePattern   = Pattern.compile("(<(?:[^>]+?))(?:\\s+?)(/?>)",
+    protected static final Pattern tagEndSpacePattern = Pattern.compile("(<(?:[^>]+?))(?:\\s+?)(/?>)",
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant multispacePattern. */
-    protected static final Pattern multispacePattern    = Pattern.compile("\\s+(?=[^<]*?>)",
+    protected static final Pattern multispacePattern = Pattern.compile("\\s+(?=[^<]*?>)",
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant tagPropertyPattern. */
-    protected static final Pattern tagPropertyPattern   = Pattern.compile("(\\s\\w+)\\s*=\\s*(?=[^<]*?>)",
+    protected static final Pattern tagPropertyPattern = Pattern.compile("(\\s\\w+)\\s*=\\s*(?=[^<]*?>)",
             Pattern.CASE_INSENSITIVE);
 
     /** The Constant tempCdataPattern. */
-    protected static final Pattern tempCdataPattern     = Pattern.compile("%%%COMPRESS~CDATA~(\\d+?)%%%",
+    protected static final Pattern tempCdataPattern = Pattern.compile("%%%COMPRESS~CDATA~(\\d+?)%%%",
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /**

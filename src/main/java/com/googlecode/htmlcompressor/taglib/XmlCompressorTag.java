@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2017 the original author or authors.
+ *    Copyright 2009-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -35,20 +35,20 @@ import org.slf4j.LoggerFactory;
 public class XmlCompressorTag extends BodyTagSupport {
 
     /** The Constant serialVersionUID. */
-    private static final long   serialVersionUID     = 1L;
+    private static final long serialVersionUID = 1L;
 
     /** The Constant logger. */
-    private static final Logger logger               = LoggerFactory.getLogger(XmlCompressorTag.class);
+    private static final Logger logger = LoggerFactory.getLogger(XmlCompressorTag.class);
 
     /** The enabled. */
-    private boolean             enabled              = true;
+    private boolean enabled = true;
 
     /** The remove comments. */
     // default settings
-    private boolean             removeComments       = true;
+    private boolean removeComments = true;
 
     /** The remove intertag spaces. */
-    private boolean             removeIntertagSpaces = true;
+    private boolean removeIntertagSpaces = true;
 
     @Override
     public int doEndTag() throws JspException {

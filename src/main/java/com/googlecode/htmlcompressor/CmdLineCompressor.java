@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2017 the original author or authors.
+ *    Copyright 2009-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -67,127 +67,127 @@ import jargs.gnu.CmdLineParser.OptionException;
 public class CmdLineCompressor {
 
     /** The Constant logger. */
-    private static final Logger  logger     = LoggerFactory.getLogger(CmdLineCompressor.class);
+    private static final Logger logger = LoggerFactory.getLogger(CmdLineCompressor.class);
 
     /** The Constant urlPattern. */
     private static final Pattern urlPattern = Pattern.compile("^https?://.*$", Pattern.CASE_INSENSITIVE);
 
     /** The help opt. */
-    private boolean              helpOpt;
+    private boolean helpOpt;
 
     /** The analyze opt. */
-    private boolean              analyzeOpt;
+    private boolean analyzeOpt;
 
     /** The charset opt. */
-    private Charset              charsetOpt;
+    private Charset charsetOpt;
 
     /** The output filename opt. */
-    private String               outputFilenameOpt;
+    private String outputFilenameOpt;
 
     /** The patterns filename opt. */
-    private String               patternsFilenameOpt;
+    private String patternsFilenameOpt;
 
     /** The type opt. */
-    private String               typeOpt;
+    private String typeOpt;
 
     /** The filemask opt. */
-    private String               filemaskOpt;
+    private String filemaskOpt;
 
     /** The recursive opt. */
-    private boolean              recursiveOpt;
+    private boolean recursiveOpt;
 
     /** The preserve comments opt. */
-    private boolean              preserveCommentsOpt;
+    private boolean preserveCommentsOpt;
 
     /** The preserve intertag spaces opt. */
-    private boolean              preserveIntertagSpacesOpt;
+    private boolean preserveIntertagSpacesOpt;
 
     /** The preserve multi spaces opt. */
-    private boolean              preserveMultiSpacesOpt;
+    private boolean preserveMultiSpacesOpt;
 
     /** The remove intertag spaces opt. */
-    private boolean              removeIntertagSpacesOpt;
+    private boolean removeIntertagSpacesOpt;
 
     /** The remove quotes opt. */
-    private boolean              removeQuotesOpt;
+    private boolean removeQuotesOpt;
 
     /** The remove surrounding spaces opt. */
-    private String               removeSurroundingSpacesOpt;
+    private String removeSurroundingSpacesOpt;
 
     /** The preserve line breaks opt. */
-    private boolean              preserveLineBreaksOpt;
+    private boolean preserveLineBreaksOpt;
 
     /** The preserve php tags opt. */
-    private boolean              preservePhpTagsOpt;
+    private boolean preservePhpTagsOpt;
 
     /** The preserve server script tags opt. */
-    private boolean              preserveServerScriptTagsOpt;
+    private boolean preserveServerScriptTagsOpt;
 
     /** The preserve ssi tags opt. */
-    private boolean              preserveSsiTagsOpt;
+    private boolean preserveSsiTagsOpt;
 
     /** The compress js opt. */
-    private boolean              compressJsOpt;
+    private boolean compressJsOpt;
 
     /** The compress css opt. */
-    private boolean              compressCssOpt;
+    private boolean compressCssOpt;
 
     /** The js compressor opt. */
-    private String               jsCompressorOpt;
+    private String jsCompressorOpt;
 
     /** The simple doctype opt. */
-    private boolean              simpleDoctypeOpt;
+    private boolean simpleDoctypeOpt;
 
     /** The remove script attributes opt. */
-    private boolean              removeScriptAttributesOpt;
+    private boolean removeScriptAttributesOpt;
 
     /** The remove style attributes opt. */
-    private boolean              removeStyleAttributesOpt;
+    private boolean removeStyleAttributesOpt;
 
     /** The remove link attributes opt. */
-    private boolean              removeLinkAttributesOpt;
+    private boolean removeLinkAttributesOpt;
 
     /** The remove form attributes opt. */
-    private boolean              removeFormAttributesOpt;
+    private boolean removeFormAttributesOpt;
 
     /** The remove input attributes opt. */
-    private boolean              removeInputAttributesOpt;
+    private boolean removeInputAttributesOpt;
 
     /** The simple boolean attributes opt. */
-    private boolean              simpleBooleanAttributesOpt;
+    private boolean simpleBooleanAttributesOpt;
 
     /** The remove java script protocol opt. */
-    private boolean              removeJavaScriptProtocolOpt;
+    private boolean removeJavaScriptProtocolOpt;
 
     /** The remove http protocol opt. */
-    private boolean              removeHttpProtocolOpt;
+    private boolean removeHttpProtocolOpt;
 
     /** The remove https protocol opt. */
-    private boolean              removeHttpsProtocolOpt;
+    private boolean removeHttpsProtocolOpt;
 
     /** The nomunge opt. */
-    private boolean              nomungeOpt;
+    private boolean nomungeOpt;
 
     /** The linebreak opt. */
-    private int                  linebreakOpt;
+    private int linebreakOpt;
 
     /** The preserve semi opt. */
-    private boolean              preserveSemiOpt;
+    private boolean preserveSemiOpt;
 
     /** The disable optimizations opt. */
-    private boolean              disableOptimizationsOpt;
+    private boolean disableOptimizationsOpt;
 
     /** The closure opt level opt. */
-    private String               closureOptLevelOpt;
+    private String closureOptLevelOpt;
 
     /** The closure custom externs only opt. */
-    private boolean              closureCustomExternsOnlyOpt;
+    private boolean closureCustomExternsOnlyOpt;
 
     /** The closure externs opt. */
-    private List<String>         closureExternsOpt;
+    private List<String> closureExternsOpt;
 
     /** The file args opt. */
-    private List<String>         fileArgsOpt;
+    private List<String> fileArgsOpt;
 
     /**
      * Instantiates a new cmd line compressor.

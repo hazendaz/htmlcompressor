@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2017 the original author or authors.
+ *    Copyright 2009-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -38,24 +38,24 @@ import org.slf4j.LoggerFactory;
 public class YuiJavaScriptCompressor implements Compressor {
 
     /** The Constant logger. */
-    private static final Logger logger        = LoggerFactory.getLogger(YuiJavaScriptCompressor.class);
+    private static final Logger logger = LoggerFactory.getLogger(YuiJavaScriptCompressor.class);
 
     // YUICompressor default settings
 
     /** The no munge. */
-    private boolean             noMunge;
+    private boolean noMunge;
 
     /** The preserve all semi colons. */
-    private boolean             preserveAllSemiColons;
+    private boolean preserveAllSemiColons;
 
     /** The disable optimizations. */
-    private boolean             disableOptimizations;
+    private boolean disableOptimizations;
 
     /** The line break. */
-    private int                 lineBreak     = -1;
+    private int lineBreak = -1;
 
     /** The error reporter. */
-    private ErrorReporter       errorReporter = new DefaultErrorReporter();
+    private ErrorReporter errorReporter = new DefaultErrorReporter();
 
     @Override
     public String compress(String source) {

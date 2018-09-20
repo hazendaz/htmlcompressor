@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2017 the original author or authors.
+ *    Copyright 2009-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -49,37 +49,36 @@ import org.slf4j.LoggerFactory;
 public class ClosureJavaScriptCompressor implements Compressor {
 
     /** The constant LOGGER. */
-    private static final Logger logger                       = LoggerFactory
-            .getLogger(ClosureJavaScriptCompressor.class);
+    private static final Logger logger = LoggerFactory.getLogger(ClosureJavaScriptCompressor.class);
 
     /** The Constant COMPILATION_LEVEL_SIMPLE. */
-    public static final String  COMPILATION_LEVEL_SIMPLE     = "simple";
+    public static final String COMPILATION_LEVEL_SIMPLE = "simple";
 
     /** The Constant COMPILATION_LEVEL_ADVANCED. */
-    public static final String  COMPILATION_LEVEL_ADVANCED   = "advanced";
+    public static final String COMPILATION_LEVEL_ADVANCED = "advanced";
 
     /** The Constant COMPILATION_LEVEL_WHITESPACE. */
-    public static final String  COMPILATION_LEVEL_WHITESPACE = "whitespace";
+    public static final String COMPILATION_LEVEL_WHITESPACE = "whitespace";
 
     // Closure compiler default settings
 
     /** The compiler options. */
-    private CompilerOptions     compilerOptions              = new CompilerOptions();
+    private CompilerOptions compilerOptions = new CompilerOptions();
 
     /** The compilation level. */
-    private CompilationLevel    compilationLevel             = CompilationLevel.SIMPLE_OPTIMIZATIONS;
+    private CompilationLevel compilationLevel = CompilationLevel.SIMPLE_OPTIMIZATIONS;
 
     /** The logging level. */
-    private Level               loggingLevel                 = Level.SEVERE;
+    private Level loggingLevel = Level.SEVERE;
 
     /** The warning level. */
-    private WarningLevel        warningLevel                 = WarningLevel.DEFAULT;
+    private WarningLevel warningLevel = WarningLevel.DEFAULT;
 
     /** The custom externs only. */
-    private boolean             customExternsOnly;
+    private boolean customExternsOnly;
 
     /** The externs. */
-    private List<SourceFile>    externs;
+    private List<SourceFile> externs;
 
     /**
      * Instantiates a new closure java script compressor.
@@ -178,8 +177,8 @@ public class ClosureJavaScriptCompressor implements Compressor {
      * 
      * @return <code>CompilationLevel</code> that is applied when compiling JavaScript code.
      * 
-     * @see <a
-     *      href="http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/CompilationLevel.html">CompilationLevel</a>
+     * @see <a href=
+     *      "http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/CompilationLevel.html">CompilationLevel</a>
      */
     public CompilationLevel getCompilationLevel() {
         return compilationLevel;
@@ -201,8 +200,8 @@ public class ClosureJavaScriptCompressor implements Compressor {
      *      Externs</a>
      * @see <a href="http://code.google.com/closure/compiler/docs/compilation_levels.html">Closure Compiler Compilation
      *      Levels</a>
-     * @see <a
-     *      href="http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/CompilationLevel.html">CompilationLevel</a>
+     * @see <a href=
+     *      "http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/CompilationLevel.html">CompilationLevel</a>
      */
     public void setCompilationLevel(CompilationLevel compilationLevel) {
         this.compilationLevel = compilationLevel;
@@ -213,8 +212,8 @@ public class ClosureJavaScriptCompressor implements Compressor {
      * 
      * @return <code>CompilerOptions</code> that are used by the compiler
      * 
-     * @see <a
-     *      href="http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/CompilerOptions.html">CompilerOptions</a>
+     * @see <a href=
+     *      "http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/CompilerOptions.html">CompilerOptions</a>
      */
     public CompilerOptions getCompilerOptions() {
         return compilerOptions;
@@ -227,8 +226,8 @@ public class ClosureJavaScriptCompressor implements Compressor {
      * @param compilerOptions
      *            <code>CompilerOptions</code> that will be used by the compiler
      * 
-     * @see <a
-     *      href="http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/CompilerOptions.html">CompilerOptions</a>
+     * @see <a href=
+     *      "http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/CompilerOptions.html">CompilerOptions</a>
      */
     public void setCompilerOptions(CompilerOptions compilerOptions) {
         this.compilerOptions = compilerOptions;
@@ -284,8 +283,8 @@ public class ClosureJavaScriptCompressor implements Compressor {
      * @see #setCustomExternsOnly(boolean)
      * @see <a href="http://code.google.com/closure/compiler/docs/api-tutorial3.html">Advanced Compilation and
      *      Externs</a>
-     * @see <a
-     *      href="http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/SourceFile.html">SourceFile</a>
+     * @see <a href=
+     *      "http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/SourceFile.html">SourceFile</a>
      */
     public void setExterns(List<SourceFile> externs) {
         this.externs = externs;

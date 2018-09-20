@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2017 the original author or authors.
+ *    Copyright 2009-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -36,10 +36,10 @@ import org.slf4j.LoggerFactory;
 public class YuiCssCompressor implements Compressor {
 
     /** The Constant Logger. */
-    private static final Logger logger    = LoggerFactory.getLogger(YuiCssCompressor.class);
+    private static final Logger logger = LoggerFactory.getLogger(YuiCssCompressor.class);
 
     /** The line break. */
-    private int                 lineBreak = -1;
+    private int lineBreak = -1;
 
     @Override
     public String compress(String source) {

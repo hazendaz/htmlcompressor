@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2017 the original author or authors.
+ *    Copyright 2009-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -41,15 +41,15 @@ import org.apache.velocity.runtime.parser.node.Node;
 public class CssCompressorDirective extends Directive {
 
     /** The log. */
-    private Log     log;
+    private Log log;
 
     /** The enabled. */
-    private boolean enabled         = true;
+    private boolean enabled = true;
 
     // YUICompressor settings
 
     /** The yui css line break. */
-    private int     yuiCssLineBreak = -1;
+    private int yuiCssLineBreak = -1;
 
     @Override
     public String getName() {

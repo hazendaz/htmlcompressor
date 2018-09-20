@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2017 the original author or authors.
+ *    Copyright 2009-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -24,16 +24,16 @@ package com.googlecode.htmlcompressor.compressor;
 public class HtmlCompressorStatistics {
 
     /** The original metrics. */
-    private HtmlMetrics originalMetrics   = new HtmlMetrics();
+    private HtmlMetrics originalMetrics = new HtmlMetrics();
 
     /** The compressed metrics. */
     private HtmlMetrics compressedMetrics = new HtmlMetrics();
 
     /** The time. */
-    private long        time;
+    private long time;
 
     /** The preserved size. */
-    private int         preservedSize;
+    private int preservedSize;
 
     /**
      * Returns metrics of an uncompressed document.

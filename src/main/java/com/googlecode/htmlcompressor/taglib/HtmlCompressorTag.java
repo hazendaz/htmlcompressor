@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2017 the original author or authors.
+ *    Copyright 2009-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -39,93 +39,93 @@ import org.slf4j.LoggerFactory;
 public class HtmlCompressorTag extends BodyTagSupport {
 
     /** The Constant serialVersionUID. */
-    private static final long   serialVersionUID  = 1L;
+    private static final long serialVersionUID = 1L;
 
     /** The Constant logger. */
-    private static final Logger logger            = LoggerFactory.getLogger(HtmlCompressorTag.class);
+    private static final Logger logger = LoggerFactory.getLogger(HtmlCompressorTag.class);
 
     /** The enabled. */
-    private boolean             enabled           = true;
+    private boolean enabled = true;
 
     // default settings
 
     /** The remove comments. */
-    private boolean             removeComments    = true;
+    private boolean removeComments = true;
 
     /** The remove multi spaces. */
-    private boolean             removeMultiSpaces = true;
+    private boolean removeMultiSpaces = true;
 
     // optional settings
 
     /** The remove intertag spaces. */
-    private boolean             removeIntertagSpaces;
+    private boolean removeIntertagSpaces;
 
     /** The remove quotes. */
-    private boolean             removeQuotes;
+    private boolean removeQuotes;
 
     /** The preserve line breaks. */
-    private boolean             preserveLineBreaks;
+    private boolean preserveLineBreaks;
 
     /** The simple doctype. */
-    private boolean             simpleDoctype;
+    private boolean simpleDoctype;
 
     /** The remove script attributes. */
-    private boolean             removeScriptAttributes;
+    private boolean removeScriptAttributes;
 
     /** The remove style attributes. */
-    private boolean             removeStyleAttributes;
+    private boolean removeStyleAttributes;
 
     /** The remove link attributes. */
-    private boolean             removeLinkAttributes;
+    private boolean removeLinkAttributes;
 
     /** The remove form attributes. */
-    private boolean             removeFormAttributes;
+    private boolean removeFormAttributes;
 
     /** The remove input attributes. */
-    private boolean             removeInputAttributes;
+    private boolean removeInputAttributes;
 
     /** The simple boolean attributes. */
-    private boolean             simpleBooleanAttributes;
+    private boolean simpleBooleanAttributes;
 
     /** The remove java script protocol. */
-    private boolean             removeJavaScriptProtocol;
+    private boolean removeJavaScriptProtocol;
 
     /** The remove http protocol. */
-    private boolean             removeHttpProtocol;
+    private boolean removeHttpProtocol;
 
     /** The remove https protocol. */
-    private boolean             removeHttpsProtocol;
+    private boolean removeHttpsProtocol;
 
     /** The compress java script. */
-    private boolean             compressJavaScript;
+    private boolean compressJavaScript;
 
     /** The compress css. */
-    private boolean             compressCss;
+    private boolean compressCss;
 
     /** The js compressor. */
-    private String              jsCompressor      = HtmlCompressor.JS_COMPRESSOR_YUI;
+    private String jsCompressor = HtmlCompressor.JS_COMPRESSOR_YUI;
 
     // YUICompressor settings
 
     /** The yui js no munge. */
-    private boolean             yuiJsNoMunge;
+    private boolean yuiJsNoMunge;
 
     /** The yui js preserve all semi colons. */
-    private boolean             yuiJsPreserveAllSemiColons;
+    private boolean yuiJsPreserveAllSemiColons;
 
     /** The yui js disable optimizations. */
-    private boolean             yuiJsDisableOptimizations;
+    private boolean yuiJsDisableOptimizations;
 
     /** The yui js line break. */
-    private int                 yuiJsLineBreak    = -1;
+    private int yuiJsLineBreak = -1;
 
     /** The yui css line break. */
-    private int                 yuiCssLineBreak   = -1;
+    private int yuiCssLineBreak = -1;
 
     // Closure compressor settings
 
     /** The closure opt level. */
-    private String              closureOptLevel   = ClosureJavaScriptCompressor.COMPILATION_LEVEL_SIMPLE;
+    private String closureOptLevel = ClosureJavaScriptCompressor.COMPILATION_LEVEL_SIMPLE;
 
     @Override
     public int doEndTag() throws JspException {

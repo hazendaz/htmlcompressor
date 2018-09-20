@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2017 the original author or authors.
+ *    Copyright 2009-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -36,13 +36,13 @@ import java.util.Locale;
 public class CmdLineParser {
 
     /** The remaining args. */
-    private List<String>            remainingArgs;
+    private List<String> remainingArgs;
 
     /** The options. */
     private HashMap<Object, Option> options = new HashMap<>(10);
 
     /** The values. */
-    private HashMap<String, Object> values  = new HashMap<>(10);
+    private HashMap<String, Object> values = new HashMap<>(10);
 
     /**
      * Base class for exceptions that may be thrown when options are parsed.
@@ -73,7 +73,7 @@ public class CmdLineParser {
         private static final long serialVersionUID = 1L;
 
         /** The option name. */
-        private final String      optionName;
+        private final String optionName;
 
         /**
          * Instantiates a new unknown option exception.
@@ -120,7 +120,7 @@ public class CmdLineParser {
         private static final long serialVersionUID = 1L;
 
         /** The suboption. */
-        private final char        suboption;
+        private final char suboption;
 
         /**
          * Instantiates a new unknown suboption exception.
@@ -157,7 +157,7 @@ public class CmdLineParser {
         private static final long serialVersionUID = 1L;
 
         /** The notflag. */
-        private final char        notflag;
+        private final char notflag;
 
         /**
          * Instantiates a new not flag exception.
@@ -192,10 +192,10 @@ public class CmdLineParser {
         private static final long serialVersionUID = 1L;
 
         /** The option. */
-        private final Option      option;
+        private final Option option;
 
         /** The value. */
-        private final String      value;
+        private final String value;
 
         /**
          * Instantiates a new illegal option value exception.
@@ -241,13 +241,13 @@ public class CmdLineParser {
         private static final long serialVersionUID = 1L;
 
         /** The short form. */
-        private String            shortForm;
+        private String shortForm;
 
         /** The long form. */
-        private String            longForm;
+        private String longForm;
 
         /** The wants value. */
-        private boolean           wantsValue;
+        private boolean wantsValue;
 
         /**
          * Instantiates a new option.
