@@ -15,7 +15,6 @@
  */
 package com.googlecode.htmlcompressor.compressor;
 
-import com.google.common.collect.Lists;
 import com.google.common.io.ByteStreams;
 import com.google.javascript.jscomp.CompilationLevel;
 import com.google.javascript.jscomp.Compiler;
@@ -162,7 +161,7 @@ public class ClosureJavaScriptCompressor implements Compressor {
     // read default externs from closure.jar
     private List<SourceFile> getDefaultExterns() throws IOException {
         InputStream input = ClosureJavaScriptCompressor.class.getResourceAsStream("/externs.zip");
-        List<SourceFile> externList = Lists.newLinkedList();
+        List<SourceFile> externList = new ArrayList<>();
         try (ZipInputStream zip = new ZipInputStream(input)) {
             for (ZipEntry entry; (entry = zip.getNextEntry()) != null;) {
                 externList.add(SourceFile.fromInputStream(entry.getName(), ByteStreams.limit(zip, entry.getSize()),
