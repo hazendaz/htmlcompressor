@@ -157,23 +157,10 @@
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
         <configuration>
-          <excludes>
-            <!-- Retain Original -->
-            <exclude>**/*.lck</exclude>
-            <exclude>**/*.log</exclude>
-            <exclude>.factorypath</exclude>
-            <exclude>.gitattributes</exclude>
-
-            <!-- Additional Exclusions -->
+          <excludes combine.children="append">
+            <exclude>LICENSE.txt</exclude>
             <exclude>**/src/test/resources/html/*</exclude>
             <exclude>**/src/test/resources/xml/*</exclude>
-
-            <!-- Remove on parent 12 -->
-            <exclude>**/*maven-wrapper.properties</exclude>
-            <exclude>LICENSE</exclude>
-            <exclude>LICENSE.txt</exclude>
-            <exclude>mvnw</exclude>
-            <exclude>mvnw.cmd</exclude>
           </excludes>
         </configuration>
       </plugin>
