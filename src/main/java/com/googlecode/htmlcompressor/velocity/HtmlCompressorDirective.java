@@ -29,7 +29,6 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.parser.node.Node;
-import org.slf4j.Logger;
 
 /**
  * Velocity directive that compresses an HTML content within #compressHtml ... #end block. Compression parameters are
@@ -42,9 +41,6 @@ public class HtmlCompressorDirective extends Directive {
 
     /** The Constant htmlCompressor. */
     private static final HtmlCompressor htmlCompressor = new HtmlCompressor();
-
-    /** The log. */
-    private Logger log;
 
     @Override
     public String getName() {

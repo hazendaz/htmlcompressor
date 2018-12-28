@@ -36,11 +36,11 @@ import java.io.Writer;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -548,7 +548,7 @@ public class CmdLineCompressor {
             if (outputFilenameOpt.endsWith("/") || outputFilenameOpt.endsWith("\\")) {
                 outpuFile.mkdirs();
             } else {
-                (new File(outpuFile.getCanonicalFile().getParent())).mkdirs();
+                new File(outpuFile.getCanonicalFile().getParent()).mkdirs();
             }
         }
 
@@ -578,7 +578,7 @@ public class CmdLineCompressor {
                                 }
                             } else {
                                 // recursive
-                                Stack<File> fileStack = new Stack<>();
+                                ArrayDeque<File> fileStack = new ArrayDeque<>();
                                 fileStack.push(inputFile);
                                 while (!fileStack.isEmpty()) {
                                     File child = fileStack.pop();
@@ -593,7 +593,7 @@ public class CmdLineCompressor {
                                                 Matcher.quoteReplacement(outpuFile.getCanonicalPath()));
                                         map.put(from, to);
                                         // make dirs
-                                        (new File((new File(to)).getCanonicalFile().getParent())).mkdirs();
+                                        new File(new File(to).getCanonicalFile().getParent()).mkdirs();
                                     }
                                 }
                             }
@@ -641,7 +641,8 @@ public class CmdLineCompressor {
         if (filename == null) {
             return new BufferedReader(new InputStreamReader(System.in, charsetOpt));
         } else if (urlPattern.matcher(filename).matches()) {
-            return new BufferedReader(new InputStreamReader((new URL(filename)).openConnection().getInputStream()));
+            return new BufferedReader(
+                    new InputStreamReader(new URL(filename).openConnection().getInputStream(), charsetOpt));
         } else {
             return new BufferedReader(new InputStreamReader(new FileInputStream(filename), charsetOpt));
         }

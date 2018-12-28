@@ -421,7 +421,7 @@ public class CmdLineParser {
             @Override
             protected Object parseValue(String arg, Locale locale) throws IllegalOptionValueException {
                 try {
-                    return new Integer(arg);
+                    return Integer.valueOf(arg);
                 } catch (NumberFormatException e) {
                     throw new IllegalOptionValueException(this, arg);
                 }
@@ -461,7 +461,7 @@ public class CmdLineParser {
             @Override
             protected Object parseValue(String arg, Locale locale) throws IllegalOptionValueException {
                 try {
-                    return new Long(arg);
+                    return Long.valueOf(arg);
                 } catch (NumberFormatException e) {
                     throw new IllegalOptionValueException(this, arg);
                 }

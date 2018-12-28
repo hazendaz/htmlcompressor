@@ -28,7 +28,6 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.parser.node.Node;
-import org.slf4j.Logger;
 
 /**
  * Velocity directive that compresses an CSS content within #compressCss ... #end block. All CSS-related properties from
@@ -39,9 +38,6 @@ import org.slf4j.Logger;
  * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
  */
 public class CssCompressorDirective extends Directive {
-
-    /** The log. */
-    private Logger log;
 
     /** The enabled. */
     private boolean enabled = true;

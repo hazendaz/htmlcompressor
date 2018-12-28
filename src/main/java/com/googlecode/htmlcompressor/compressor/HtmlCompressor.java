@@ -17,7 +17,6 @@ package com.googlecode.htmlcompressor.compressor;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -460,7 +459,7 @@ public class HtmlCompressor implements Compressor {
         // create stats
         if (generateStatistics) {
             statistics = new HtmlCompressorStatistics();
-            statistics.setTime((new Date()).getTime());
+            statistics.setTime(System.currentTimeMillis());
             statistics.getOriginalMetrics().setFilesize(html.length());
 
             // calculate number of empty chars
@@ -482,7 +481,7 @@ public class HtmlCompressor implements Compressor {
     protected void endStatistics(String html) {
         // calculate compression time
         if (generateStatistics) {
-            statistics.setTime((new Date()).getTime() - statistics.getTime());
+            statistics.setTime(System.currentTimeMillis() - statistics.getTime());
             statistics.getCompressedMetrics().setFilesize(html.length());
 
             // calculate number of empty chars
