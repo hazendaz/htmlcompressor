@@ -26,8 +26,8 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.directive.Directive;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.slf4j.Logger;
 
 /**
  * Velocity directive that compresses an XML content within #compressXml ... #end block. Compression parameters are set
@@ -42,7 +42,7 @@ public class XmlCompressorDirective extends Directive {
     private static final XmlCompressor xmlCompressor = new XmlCompressor();
 
     /** The log. */
-    private Log log;
+    private Logger log;
 
     @Override
     public String getName() {

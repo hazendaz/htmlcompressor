@@ -29,8 +29,8 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.directive.Directive;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.slf4j.Logger;
 
 /**
  * Velocity directive that compresses an JavaScript content within #compressJs ... #end block. All JavaScript-related
@@ -44,7 +44,7 @@ import org.apache.velocity.runtime.parser.node.Node;
 public class JavaScriptCompressorDirective extends Directive {
 
     /** The log. */
-    private Log log;
+    private Logger log;
 
     /** The enabled. */
     private boolean enabled = true;
