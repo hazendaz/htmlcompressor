@@ -56,7 +56,7 @@
   <developers>
     <developer>
       <id>serg472</id>
-	  <name>Sergiy Kovalchuk</name>
+      <name>Sergiy Kovalchuk</name>
       <email>serg472@gmail.com</email>
       <url>http://code.google.com/p/htmlcompressor/</url>
       <organization>Sergiy Kovalchuk</organization>
@@ -79,7 +79,7 @@
         <role>developer</role>
       </roles>
       <timezone>+2</timezone>
-	</contributor>
+    </contributor>
   </contributors>
 
   <scm>
