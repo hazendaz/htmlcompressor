@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2020 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ import org.mozilla.javascript.ErrorReporter;
  * Content inside &lt;script&gt; or &lt;style&gt; tags could be optionally compressed using
  * <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> or
  * <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a> libraries.
- * 
+ *
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  */
 public class HtmlCompressor implements Compressor {
@@ -403,7 +403,7 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * The main method that compresses given HTML source and returns compressed result.
-     * 
+     *
      * @param html
      *            HTML content to compress
      * @return compressed content.
@@ -1558,7 +1558,7 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * Returns <code>true</code> if JavaScript compression is enabled.
-     * 
+     *
      * @return current state of JavaScript compression.
      */
     public boolean isCompressJavaScript() {
@@ -1569,18 +1569,18 @@ public class HtmlCompressor implements Compressor {
      * Enables JavaScript compression within &lt;script&gt; tags using
      * <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> if set to <code>true</code>.
      * Default is <code>false</code> for performance reasons.
-     * 
+     *
      * <p>
      * <b>Note:</b> Compressing JavaScript is not recommended if pages are compressed dynamically on-the-fly because of
      * performance impact. You should consider putting JavaScript into a separate file and compressing it using
      * standalone YUICompressor for example.
      * </p>
-     * 
+     *
      * @param compressJavaScript
      *            set <code>true</code> to enable JavaScript compression. Default is <code>false</code>
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
-     * 
+     *
      */
     public void setCompressJavaScript(boolean compressJavaScript) {
         this.compressJavaScript = compressJavaScript;
@@ -1588,7 +1588,7 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * Returns <code>true</code> if CSS compression is enabled.
-     * 
+     *
      * @return current state of CSS compression.
      */
     public boolean isCompressCss() {
@@ -1599,18 +1599,18 @@ public class HtmlCompressor implements Compressor {
      * Enables CSS compression within &lt;style&gt; tags using
      * <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> if set to <code>true</code>.
      * Default is <code>false</code> for performance reasons.
-     * 
+     *
      * <p>
      * <b>Note:</b> Compressing CSS is not recommended if pages are compressed dynamically on-the-fly because of
      * performance impact. You should consider putting CSS into a separate file and compressing it using standalone
      * YUICompressor for example.
      * </p>
-     * 
+     *
      * @param compressCss
      *            set <code>true</code> to enable CSS compression. Default is <code>false</code>
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
-     * 
+     *
      */
     public void setCompressCss(boolean compressCss) {
         this.compressCss = compressCss;
@@ -1619,9 +1619,9 @@ public class HtmlCompressor implements Compressor {
     /**
      * Returns <code>true</code> if Yahoo YUI Compressor will only minify javascript without obfuscating local symbols.
      * This corresponds to <code>--nomunge</code> command line option.
-     * 
+     *
      * @return <code>nomunge</code> parameter value used for JavaScript compression.
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public boolean isYuiJsNoMunge() {
@@ -1632,10 +1632,10 @@ public class HtmlCompressor implements Compressor {
      * Tells Yahoo YUI Compressor to only minify javascript without obfuscating local symbols. This corresponds to
      * <code>--nomunge</code> command line option. This option has effect only if JavaScript compression is enabled.
      * Default is <code>false</code>.
-     * 
+     *
      * @param yuiJsNoMunge
      *            set <code>true</code> to enable <code>nomunge</code> mode
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public void setYuiJsNoMunge(boolean yuiJsNoMunge) {
@@ -1645,9 +1645,9 @@ public class HtmlCompressor implements Compressor {
     /**
      * Returns <code>true</code> if Yahoo YUI Compressor will preserve unnecessary semicolons during JavaScript
      * compression. This corresponds to <code>--preserve-semi</code> command line option.
-     * 
+     *
      * @return <code>preserve-semi</code> parameter value used for JavaScript compression.
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public boolean isYuiJsPreserveAllSemiColons() {
@@ -1658,10 +1658,10 @@ public class HtmlCompressor implements Compressor {
      * Tells Yahoo YUI Compressor to preserve unnecessary semicolons during JavaScript compression. This corresponds to
      * <code>--preserve-semi</code> command line option. This option has effect only if JavaScript compression is
      * enabled. Default is <code>false</code>.
-     * 
+     *
      * @param yuiJsPreserveAllSemiColons
      *            set <code>true</code> to enable <code>preserve-semi</code> mode
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public void setYuiJsPreserveAllSemiColons(boolean yuiJsPreserveAllSemiColons) {
@@ -1671,9 +1671,9 @@ public class HtmlCompressor implements Compressor {
     /**
      * Returns <code>true</code> if Yahoo YUI Compressor will disable all the built-in micro optimizations during
      * JavaScript compression. This corresponds to <code>--disable-optimizations</code> command line option.
-     * 
+     *
      * @return <code>disable-optimizations</code> parameter value used for JavaScript compression.
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public boolean isYuiJsDisableOptimizations() {
@@ -1684,10 +1684,10 @@ public class HtmlCompressor implements Compressor {
      * Tells Yahoo YUI Compressor to disable all the built-in micro optimizations during JavaScript compression. This
      * corresponds to <code>--disable-optimizations</code> command line option. This option has effect only if
      * JavaScript compression is enabled. Default is <code>false</code>.
-     * 
+     *
      * @param yuiJsDisableOptimizations
      *            set <code>true</code> to enable <code>disable-optimizations</code> mode
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public void setYuiJsDisableOptimizations(boolean yuiJsDisableOptimizations) {
@@ -1697,9 +1697,9 @@ public class HtmlCompressor implements Compressor {
     /**
      * Returns number of symbols per line Yahoo YUI Compressor will use during JavaScript compression. This corresponds
      * to <code>--line-break</code> command line option.
-     * 
+     *
      * @return <code>line-break</code> parameter value used for JavaScript compression.
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public int getYuiJsLineBreak() {
@@ -1710,10 +1710,10 @@ public class HtmlCompressor implements Compressor {
      * Tells Yahoo YUI Compressor to break lines after the specified number of symbols during JavaScript compression.
      * This corresponds to <code>--line-break</code> command line option. This option has effect only if JavaScript
      * compression is enabled. Default is <code>-1</code> to disable line breaks.
-     * 
+     *
      * @param yuiJsLineBreak
      *            set number of symbols per line
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public void setYuiJsLineBreak(int yuiJsLineBreak) {
@@ -1723,9 +1723,9 @@ public class HtmlCompressor implements Compressor {
     /**
      * Returns number of symbols per line Yahoo YUI Compressor will use during CSS compression. This corresponds to
      * <code>--line-break</code> command line option.
-     * 
+     *
      * @return <code>line-break</code> parameter value used for CSS compression.
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public int getYuiCssLineBreak() {
@@ -1736,10 +1736,10 @@ public class HtmlCompressor implements Compressor {
      * Tells Yahoo YUI Compressor to break lines after the specified number of symbols during CSS compression. This
      * corresponds to <code>--line-break</code> command line option. This option has effect only if CSS compression is
      * enabled. Default is <code>-1</code> to disable line breaks.
-     * 
+     *
      * @param yuiCssLineBreak
      *            set number of symbols per line
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public void setYuiCssLineBreak(int yuiCssLineBreak) {
@@ -1758,12 +1758,12 @@ public class HtmlCompressor implements Compressor {
     /**
      * If set to <code>true</code> all unnecessary quotes will be removed from tag attributes. Default is
      * <code>false</code>.
-     * 
+     *
      * <p>
      * <b>Note:</b> Even though quotes are removed only when it is safe to do so, it still might break strict HTML
      * validation. Turn this option on only if a page validation is not very important or to squeeze the most out of the
      * compression. This option has no performance impact.
-     * 
+     *
      * @param removeQuotes
      *            set <code>true</code> to remove unnecessary quotes from tag attributes
      */
@@ -1773,7 +1773,7 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * Returns <code>true</code> if compression is enabled.
-     * 
+     *
      * @return <code>true</code> if compression is enabled.
      */
     public boolean isEnabled() {
@@ -1783,7 +1783,7 @@ public class HtmlCompressor implements Compressor {
     /**
      * If set to <code>false</code> all compression will be bypassed. Might be useful for testing purposes. Default is
      * <code>true</code>.
-     * 
+     *
      * @param enabled
      *            set <code>false</code> to bypass all compression
      */
@@ -1793,7 +1793,7 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * Returns <code>true</code> if all HTML comments will be removed.
-     * 
+     *
      * @return <code>true</code> if all HTML comments will be removed
      */
     public boolean isRemoveComments() {
@@ -1802,7 +1802,7 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * If set to <code>true</code> all HTML comments will be removed. Default is <code>true</code>.
-     * 
+     *
      * @param removeComments
      *            set <code>true</code> to remove all HTML comments
      */
@@ -1812,7 +1812,7 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * Returns <code>true</code> if all multiple whitespace characters will be replaced with single spaces.
-     * 
+     *
      * @return <code>true</code> if all multiple whitespace characters will be replaced with single spaces.
      */
     public boolean isRemoveMultiSpaces() {
@@ -1822,7 +1822,7 @@ public class HtmlCompressor implements Compressor {
     /**
      * If set to <code>true</code> all multiple whitespace characters will be replaced with single spaces. Default is
      * <code>true</code>.
-     * 
+     *
      * @param removeMultiSpaces
      *            set <code>true</code> to replace all multiple whitespace characters will single spaces.
      */
@@ -1832,7 +1832,7 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * Returns <code>true</code> if all inter-tag whitespace characters will be removed.
-     * 
+     *
      * @return <code>true</code> if all inter-tag whitespace characters will be removed.
      */
     public boolean isRemoveIntertagSpaces() {
@@ -1841,11 +1841,11 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * If set to <code>true</code> all inter-tag whitespace characters will be removed. Default is <code>false</code>.
-     * 
+     *
      * <p>
      * <b>Note:</b> It is fairly safe to turn this option on unless you rely on spaces for page formatting. Even if you
      * do, you can always preserve required spaces with <code>&amp;nbsp;</code>. This option has no performance impact.
-     * 
+     *
      * @param removeIntertagSpaces
      *            set <code>true</code> to remove all inter-tag whitespace characters
      */
@@ -1865,16 +1865,16 @@ public class HtmlCompressor implements Compressor {
     /**
      * This method allows setting custom block preservation rules defined by regular expression patterns. Blocks that
      * match provided patterns will be skipped during HTML compression.
-     * 
+     *
      * <p>
      * Custom preservation rules have higher priority than default rules. Priority between custom rules are defined by
      * their position in a list (beginning of a list has higher priority).
-     * 
+     *
      * <p>
      * Besides custom patterns, you can use 3 predefined patterns: {@link #PHP_TAG_PATTERN PHP_TAG_PATTERN},
      * {@link #SERVER_SCRIPT_TAG_PATTERN SERVER_SCRIPT_TAG_PATTERN}, {@link #SERVER_SIDE_INCLUDE_PATTERN
      * SERVER_SIDE_INCLUDE_PATTERN}.
-     * 
+     *
      * @param preservePatterns
      *            List of <code>Pattern</code> objects that will be used to skip matched blocks during compression
      */
@@ -1898,10 +1898,10 @@ public class HtmlCompressor implements Compressor {
      * Sets <code>ErrorReporter</code> that YUI Compressor will use for reporting errors during JavaScript compression.
      * If no <code>ErrorReporter</code> was provided {@link YuiJavaScriptCompressor.DefaultErrorReporter} will be used
      * which reports errors to <code>System.err</code> stream.
-     * 
+     *
      * @param yuiErrorReporter
      *            <code>ErrorReporter</code> that will be used by YUI Compressor
-     * 
+     *
      * @see YuiJavaScriptCompressor.DefaultErrorReporter
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      * @see <a href="http://www.mozilla.org/rhino/apidocs/org/mozilla/javascript/ErrorReporter.html">ErrorReporter
@@ -1913,9 +1913,9 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * Returns JavaScript compressor implementation that will be used to compress inline JavaScript in HTML.
-     * 
+     *
      * @return <code>Compressor</code> implementation that will be used to compress inline JavaScript in HTML.
-     * 
+     *
      * @see YuiJavaScriptCompressor
      * @see ClosureJavaScriptCompressor
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
@@ -1927,20 +1927,20 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * Sets JavaScript compressor implementation that will be used to compress inline JavaScript in HTML.
-     * 
+     *
      * <p>
      * HtmlCompressor currently comes with basic implementations for
      * <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> (called
      * {@link YuiJavaScriptCompressor}) and <a href="http://code.google.com/closure/compiler/">Google Closure
      * Compiler</a> (called {@link ClosureJavaScriptCompressor}) that should be enough for most cases, but users can
      * also create their own JavaScript compressors for custom needs.
-     * 
+     *
      * <p>
      * If no compressor is set {@link YuiJavaScriptCompressor} will be used by default.
-     * 
+     *
      * @param javaScriptCompressor
      *            {@link Compressor} implementation that will be used for inline JavaScript compression
-     * 
+     *
      * @see YuiJavaScriptCompressor
      * @see ClosureJavaScriptCompressor
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
@@ -1952,9 +1952,9 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * Returns CSS compressor implementation that will be used to compress inline CSS in HTML.
-     * 
+     *
      * @return <code>Compressor</code> implementation that will be used to compress inline CSS in HTML.
-     * 
+     *
      * @see YuiCssCompressor
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
@@ -1964,18 +1964,18 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * Sets CSS compressor implementation that will be used to compress inline CSS in HTML.
-     * 
+     *
      * <p>
      * HtmlCompressor currently comes with basic implementation for
      * <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> (called {@link YuiCssCompressor}),
      * but users can also create their own CSS compressors for custom needs.
-     * 
+     *
      * <p>
      * If no compressor is set {@link YuiCssCompressor} will be used by default.
-     * 
+     *
      * @param cssCompressor
      *            {@link Compressor} implementation that will be used for inline CSS compression
-     * 
+     *
      * @see YuiCssCompressor
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
@@ -1986,7 +1986,7 @@ public class HtmlCompressor implements Compressor {
     /**
      * Returns <code>true</code> if existing DOCTYPE declaration will be replaced with simple
      * <code>&lt;!DOCTYPE html&gt;</code> declaration.
-     * 
+     *
      * @return <code>true</code> if existing DOCTYPE declaration will be replaced with simple
      *         <code>&lt;!DOCTYPE html&gt;</code> declaration.
      */
@@ -1997,7 +1997,7 @@ public class HtmlCompressor implements Compressor {
     /**
      * If set to <code>true</code>, existing DOCTYPE declaration will be replaced with simple
      * <code>&lt;!DOCTYPE html&gt;</code> declaration. Default is <code>false</code>.
-     * 
+     *
      * @param simpleDoctype
      *            set <code>true</code> to replace existing DOCTYPE declaration with <code>&lt;!DOCTYPE html&gt;</code>
      */
@@ -2021,10 +2021,10 @@ public class HtmlCompressor implements Compressor {
      * <li>type="application/javascript"</li>
      * <li>language="javascript"</li>
      * </ul>
-     * 
+     *
      * <p>
      * Default is <code>false</code>.
-     * 
+     *
      * @param removeScriptAttributes
      *            set <code>true</code> to remove unnecessary attributes from <code>&lt;script&gt;</code> tags
      */
@@ -2046,7 +2046,7 @@ public class HtmlCompressor implements Compressor {
     /**
      * If set to <code>true</code>, <code>type="text/style"</code> attributes will be removed from
      * <code>&lt;style&gt;</code> tags. Default is <code>false</code>.
-     * 
+     *
      * @param removeStyleAttributes
      *            set <code>true</code> to remove <code>type="text/style"</code> attributes from
      *            <code>&lt;style&gt;</code> tags
@@ -2071,10 +2071,10 @@ public class HtmlCompressor implements Compressor {
      * <li>type="text/css"</li>
      * <li>type="text/plain"</li>
      * </ul>
-     * 
+     *
      * <p>
      * Default is <code>false</code>.
-     * 
+     *
      * @param removeLinkAttributes
      *            set <code>true</code> to remove unnecessary attributes from <code>&lt;link&gt;</code> tags
      */
@@ -2096,7 +2096,7 @@ public class HtmlCompressor implements Compressor {
     /**
      * If set to <code>true</code>, <code>method="get"</code> attributes will be removed from <code>&lt;form&gt;</code>
      * tags. Default is <code>false</code>.
-     * 
+     *
      * @param removeFormAttributes
      *            set <code>true</code> to remove <code>method="get"</code> attributes from <code>&lt;form&gt;</code>
      *            tags
@@ -2119,7 +2119,7 @@ public class HtmlCompressor implements Compressor {
     /**
      * If set to <code>true</code>, <code>type="text"</code> attributes will be removed from <code>&lt;input&gt;</code>
      * tags. Default is <code>false</code>.
-     * 
+     *
      * @param removeInputAttributes
      *            set <code>true</code> to remove <code>type="text"</code> attributes from <code>&lt;input&gt;</code>
      *            tags
@@ -2145,13 +2145,13 @@ public class HtmlCompressor implements Compressor {
      * <li>disabled</li>
      * <li>readonly</li>
      * </ul>
-     * 
+     *
      * <p>
      * For example, <code>&lt;input readonly="readonly"&gt;</code> would become <code>&lt;input readonly&gt;</code>
-     * 
+     *
      * <p>
      * Default is <code>false</code>.
-     * 
+     *
      * @param simpleBooleanAttributes
      *            set <code>true</code> to simplify boolean attributes
      */
@@ -2161,7 +2161,7 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * Returns <code>true</code> if <code>javascript:</code> pseudo-protocol will be removed from inline event handlers.
-     * 
+     *
      * @return <code>true</code> if <code>javascript:</code> pseudo-protocol will be removed from inline event handlers.
      */
     public boolean isRemoveJavaScriptProtocol() {
@@ -2170,14 +2170,14 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * If set to <code>true</code>, <code>javascript:</code> pseudo-protocol will be removed from inline event handlers.
-     * 
+     *
      * <p>
      * For example, <code>&lt;a onclick="javascript:alert()"&gt;</code> would become
      * <code>&lt;a onclick="alert()"&gt;</code>
-     * 
+     *
      * <p>
      * Default is <code>false</code>.
-     * 
+     *
      * @param removeJavaScriptProtocol
      *            set <code>true</code> to remove <code>javascript:</code> pseudo-protocol from inline event handlers.
      */
@@ -2188,7 +2188,7 @@ public class HtmlCompressor implements Compressor {
     /**
      * Returns <code>true</code> if <code>HTTP</code> protocol will be removed from <code>href</code>, <code>src</code>,
      * <code>cite</code>, and <code>action</code> tag attributes.
-     * 
+     *
      * @return <code>true</code> if <code>HTTP</code> protocol will be removed from <code>href</code>, <code>src</code>,
      *         <code>cite</code>, and <code>action</code> tag attributes.
      */
@@ -2200,10 +2200,10 @@ public class HtmlCompressor implements Compressor {
      * If set to <code>true</code>, <code>HTTP</code> protocol will be removed from <code>href</code>, <code>src</code>,
      * <code>cite</code>, and <code>action</code> tag attributes. URL without a protocol would make a browser use
      * document's current protocol instead.
-     * 
+     *
      * <p>
      * Tags marked with <code>rel="external"</code> will be skipped.
-     * 
+     *
      * <p>
      * For example:
      * <p>
@@ -2212,10 +2212,10 @@ public class HtmlCompressor implements Compressor {
      * would become:
      * <p>
      * <code>&lt;a href="//example.com"&gt; &lt;script src="http://google.com/js.js" rel="external"&gt;</code>
-     * 
+     *
      * <p>
      * Default is <code>false</code>.
-     * 
+     *
      * @param removeHttpProtocol
      *            set <code>true</code> to remove <code>HTTP</code> protocol from tag attributes
      */
@@ -2226,7 +2226,7 @@ public class HtmlCompressor implements Compressor {
     /**
      * Returns <code>true</code> if <code>HTTPS</code> protocol will be removed from <code>href</code>, <code>src</code>
      * , <code>cite</code>, and <code>action</code> tag attributes.
-     * 
+     *
      * @return <code>true</code> if <code>HTTPS</code> protocol will be removed from <code>href</code>, <code>src</code>
      *         , <code>cite</code>, and <code>action</code> tag attributes.
      */
@@ -2238,10 +2238,10 @@ public class HtmlCompressor implements Compressor {
      * If set to <code>true</code>, <code>HTTPS</code> protocol will be removed from <code>href</code>, <code>src</code>
      * , <code>cite</code>, and <code>action</code> tag attributes. URL without a protocol would make a browser use
      * document's current protocol instead.
-     * 
+     *
      * <p>
      * Tags marked with <code>rel="external"</code> will be skipped.
-     * 
+     *
      * <p>
      * For example:
      * <p>
@@ -2250,10 +2250,10 @@ public class HtmlCompressor implements Compressor {
      * would become:
      * <p>
      * <code>&lt;a href="//example.com"&gt; &lt;script src="https://google.com/js.js" rel="external"&gt;</code>
-     * 
+     *
      * <p>
      * Default is <code>false</code>.
-     * 
+     *
      * @param removeHttpsProtocol
      *            set <code>true</code> to remove <code>HTTP</code> protocol from tag attributes
      */
@@ -2272,16 +2272,16 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * If set to <code>true</code>, HTML compression statistics will be generated.
-     * 
+     *
      * <p>
      * <strong>Important:</strong> Enabling statistics makes HTML compressor not thread safe.
-     * 
+     *
      * <p>
      * Default is <code>false</code>.
-     * 
+     *
      * @param generateStatistics
      *            set <code>true</code> to generate HTML compression statistics
-     * 
+     *
      * @see #getStatistics()
      */
     public void setGenerateStatistics(boolean generateStatistics) {
@@ -2291,9 +2291,9 @@ public class HtmlCompressor implements Compressor {
     /**
      * Returns {@link HtmlCompressorStatistics} object containing statistics of the last HTML compression, if enabled.
      * Should be called after {@link #compress(String)}
-     * 
+     *
      * @return {@link HtmlCompressorStatistics} object containing last HTML compression statistics
-     * 
+     *
      * @see HtmlCompressorStatistics
      * @see #setGenerateStatistics(boolean)
      */
@@ -2303,7 +2303,7 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * Returns <code>true</code> if line breaks will be preserved.
-     * 
+     *
      * @return <code>true</code> if line breaks will be preserved.
      */
     public boolean isPreserveLineBreaks() {
@@ -2312,10 +2312,10 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * If set to <code>true</code>, line breaks will be preserved.
-     * 
+     *
      * <p>
      * Default is <code>false</code>.
-     * 
+     *
      * @param preserveLineBreaks
      *            set <code>true</code> to preserve line breaks
      */
@@ -2325,7 +2325,7 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * Returns a comma separated list of tags around which spaces will be removed.
-     * 
+     *
      * @return a comma separated list of tags around which spaces will be removed.
      */
     public String getRemoveSurroundingSpaces() {
@@ -2334,11 +2334,11 @@ public class HtmlCompressor implements Compressor {
 
     /**
      * Enables surrounding spaces removal around provided comma separated list of tags.
-     * 
+     *
      * <p>
      * Besides custom defined lists, you can pass one of 3 predefined lists of tags: {@link #BLOCK_TAGS_MIN
      * BLOCK_TAGS_MIN}, {@link #BLOCK_TAGS_MAX BLOCK_TAGS_MAX}, {@link #ALL_TAGS ALL_TAGS}.
-     * 
+     *
      * @param tagList
      *            a comma separated list of tags around which spaces will be removed
      */

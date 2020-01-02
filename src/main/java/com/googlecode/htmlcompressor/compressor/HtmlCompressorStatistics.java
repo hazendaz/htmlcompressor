@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2020 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -77,13 +77,13 @@ public class HtmlCompressorStatistics {
 
     /**
      * Returns total compression time.
-     * 
+     *
      * <p>
      * Please note that compression performance varies very significantly depending on whether it was a cold run or not
      * (specifics of Java VM), so for accurate real world results it is recommended to take measurements accordingly.
-     * 
+     *
      * @return the compression time, in milliseconds
-     * 
+     *
      */
     public long getTime() {
         return time;

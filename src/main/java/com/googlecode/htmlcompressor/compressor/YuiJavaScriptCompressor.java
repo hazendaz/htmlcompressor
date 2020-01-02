@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2020 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -29,9 +29,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Basic JavaScript compressor implementation using <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI
  * Compressor</a> that could be used by {@link HtmlCompressor} for inline JavaScript compression.
- * 
+ *
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
- * 
+ *
  * @see HtmlCompressor#setJavaScriptCompressor(Compressor)
  * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
  */
@@ -114,9 +114,9 @@ public class YuiJavaScriptCompressor implements Compressor {
     /**
      * Returns <code>true</code> if Yahoo YUI Compressor will only minify javascript without obfuscating local symbols.
      * This corresponds to <code>--nomunge</code> command line option.
-     * 
+     *
      * @return <code>nomunge</code> parameter value used for JavaScript compression.
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public boolean isNoMunge() {
@@ -127,10 +127,10 @@ public class YuiJavaScriptCompressor implements Compressor {
      * Tells Yahoo YUI Compressor to only minify javascript without obfuscating local symbols. This corresponds to
      * <code>--nomunge</code> command line option. This option has effect only if JavaScript compression is enabled.
      * Default is <code>false</code>.
-     * 
+     *
      * @param noMunge
      *            set <code>true</code> to enable <code>nomunge</code> mode
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public void setNoMunge(boolean noMunge) {
@@ -140,9 +140,9 @@ public class YuiJavaScriptCompressor implements Compressor {
     /**
      * Returns <code>true</code> if Yahoo YUI Compressor will preserve unnecessary semicolons during JavaScript
      * compression. This corresponds to <code>--preserve-semi</code> command line option.
-     * 
+     *
      * @return <code>preserve-semi</code> parameter value used for JavaScript compression.
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public boolean isPreserveAllSemiColons() {
@@ -153,10 +153,10 @@ public class YuiJavaScriptCompressor implements Compressor {
      * Tells Yahoo YUI Compressor to preserve unnecessary semicolons during JavaScript compression. This corresponds to
      * <code>--preserve-semi</code> command line option. This option has effect only if JavaScript compression is
      * enabled. Default is <code>false</code>.
-     * 
+     *
      * @param preserveAllSemiColons
      *            set <code>true</code> to enable <code>preserve-semi</code> mode
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public void setPreserveAllSemiColons(boolean preserveAllSemiColons) {
@@ -166,9 +166,9 @@ public class YuiJavaScriptCompressor implements Compressor {
     /**
      * Returns <code>true</code> if Yahoo YUI Compressor will disable all the built-in micro optimizations during
      * JavaScript compression. This corresponds to <code>--disable-optimizations</code> command line option.
-     * 
+     *
      * @return <code>disable-optimizations</code> parameter value used for JavaScript compression.
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public boolean isDisableOptimizations() {
@@ -179,10 +179,10 @@ public class YuiJavaScriptCompressor implements Compressor {
      * Tells Yahoo YUI Compressor to disable all the built-in micro optimizations during JavaScript compression. This
      * corresponds to <code>--disable-optimizations</code> command line option. This option has effect only if
      * JavaScript compression is enabled. Default is <code>false</code>.
-     * 
+     *
      * @param disableOptimizations
      *            set <code>true</code> to enable <code>disable-optimizations</code> mode
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public void setDisableOptimizations(boolean disableOptimizations) {
@@ -192,9 +192,9 @@ public class YuiJavaScriptCompressor implements Compressor {
     /**
      * Returns number of symbols per line Yahoo YUI Compressor will use during JavaScript compression. This corresponds
      * to <code>--line-break</code> command line option.
-     * 
+     *
      * @return <code>line-break</code> parameter value used for JavaScript compression.
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public int getLineBreak() {
@@ -205,10 +205,10 @@ public class YuiJavaScriptCompressor implements Compressor {
      * Tells Yahoo YUI Compressor to break lines after the specified number of symbols during JavaScript compression.
      * This corresponds to <code>--line-break</code> command line option. This option has effect only if JavaScript
      * compression is enabled. Default is <code>-1</code> to disable line breaks.
-     * 
+     *
      * @param lineBreak
      *            set number of symbols per line
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public void setLineBreak(int lineBreak) {
@@ -231,10 +231,10 @@ public class YuiJavaScriptCompressor implements Compressor {
      * Sets <code>ErrorReporter</code> that YUI Compressor will use for reporting errors during JavaScript compression.
      * If no <code>ErrorReporter</code> was provided {@link YuiJavaScriptCompressor.DefaultErrorReporter} will be used
      * which reports errors to <code>System.err</code> stream.
-     * 
+     *
      * @param errorReporter
      *            <code>ErrorReporter</code> that will be used by YUI Compressor
-     * 
+     *
      * @see YuiJavaScriptCompressor.DefaultErrorReporter
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      * @see <a href="http://www.mozilla.org/rhino/apidocs/org/mozilla/javascript/ErrorReporter.html">ErrorReporter

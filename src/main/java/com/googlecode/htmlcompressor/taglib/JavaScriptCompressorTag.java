@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2020 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -180,11 +180,11 @@ public class JavaScriptCompressorTag extends BodyTagSupport {
 
     /**
      * Sets JavaScript compressor implementation that will be used to compress inline JavaScript in HTML.
-     * 
+     *
      * @param jsCompressor
      *            Could be either <code>"yui"</code> for using {@link YuiJavaScriptCompressor} (used by default if none
      *            provided) or <code>"closure"</code> for using {@link ClosureJavaScriptCompressor}
-     * 
+     *
      * @see YuiJavaScriptCompressor
      * @see ClosureJavaScriptCompressor
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
@@ -197,11 +197,11 @@ public class JavaScriptCompressorTag extends BodyTagSupport {
     /**
      * Sets level of optimization if <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a> is
      * used for compressing inline JavaScript.
-     * 
+     *
      * @param closureOptLevel
      *            Could be either <code>"simple"</code> (used by default), <code>"whitespace"</code> or
      *            <code>"advanced"</code>
-     * 
+     *
      * @see ClosureJavaScriptCompressor#setCompilationLevel(CompilationLevel)
      */
     public void setClosureOptLevel(String closureOptLevel) {

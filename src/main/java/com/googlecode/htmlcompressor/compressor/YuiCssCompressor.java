@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2020 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -27,9 +27,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Basic CSS compressor implementation using <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI
  * Compressor</a> that could be used by {@link HtmlCompressor} for inline CSS compression.
- * 
+ *
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
- * 
+ *
  * @see HtmlCompressor#setCssCompressor(Compressor)
  * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
  */
@@ -59,9 +59,9 @@ public class YuiCssCompressor implements Compressor {
     /**
      * Returns number of symbols per line Yahoo YUI Compressor will use during CSS compression. This corresponds to
      * <code>--line-break</code> command line option.
-     * 
+     *
      * @return <code>line-break</code> parameter value used for CSS compression.
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public int getLineBreak() {
@@ -72,10 +72,10 @@ public class YuiCssCompressor implements Compressor {
      * Tells Yahoo YUI Compressor to break lines after the specified number of symbols during CSS compression. This
      * corresponds to <code>--line-break</code> command line option. This option has effect only if CSS compression is
      * enabled. Default is <code>-1</code> to disable line breaks.
-     * 
+     *
      * @param lineBreak
      *            set number of symbols per line
-     * 
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      */
     public void setLineBreak(int lineBreak) {

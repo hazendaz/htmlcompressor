@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2020 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -54,14 +54,14 @@ import jargs.gnu.CmdLineParser.OptionException;
 
 /**
  * Wrapper for HTML and XML compressor classes that allows using them from a command line.
- * 
+ *
  * <p>
  * Usage: <code>java -jar htmlcompressor.jar [options] [input]</code>
  * <p>
  * To view a list of all available parameters please run with <code>-?</code> option:
  * <p>
  * <code>java -jar htmlcompressor.jar -?</code>
- * 
+ *
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  */
 public class CmdLineCompressor {

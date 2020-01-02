@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2020 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -111,7 +111,7 @@ public class CmdLineParser {
     /**
      * Thrown when the parsed commandline contains multiple concatenated short options, such as -abcd, where one is
      * unknown. <code>getMessage()</code> returns an english human-readable error string.
-     * 
+     *
      * @author Vidar Holen
      */
     public static class UnknownSuboptionException extends UnknownOptionException {
@@ -148,7 +148,7 @@ public class CmdLineParser {
     /**
      * Thrown when the parsed commandline contains multiple concatenated short options, such as -abcd, where one or more
      * requires a value. <code>getMessage()</code> returns an english human-readable error string.
-     * 
+     *
      * @author Vidar Holen
      */
     public static class NotFlagException extends UnknownOptionException {

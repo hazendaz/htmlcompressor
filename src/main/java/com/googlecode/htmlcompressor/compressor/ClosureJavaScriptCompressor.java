@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2020 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -39,9 +39,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Basic JavaScript compressor implementation using <a href="http://code.google.com/closure/compiler/">Google Closure
  * Compiler</a> that could be used by {@link HtmlCompressor} for inline JavaScript compression.
- * 
+ *
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
- * 
+ *
  * @see HtmlCompressor#setJavaScriptCompressor(Compressor)
  * @see <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a>
  */
@@ -173,9 +173,9 @@ public class ClosureJavaScriptCompressor implements Compressor {
 
     /**
      * Returns level of optimization that is applied when compiling JavaScript code.
-     * 
+     *
      * @return <code>CompilationLevel</code> that is applied when compiling JavaScript code.
-     * 
+     *
      * @see <a href=
      *      "http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/CompilationLevel.html">CompilationLevel</a>
      */
@@ -186,15 +186,15 @@ public class ClosureJavaScriptCompressor implements Compressor {
     /**
      * Sets level of optimization that should be applied when compiling JavaScript code. If none is provided,
      * <code>CompilationLevel.SIMPLE_OPTIMIZATIONS</code> will be used by default.
-     * 
+     *
      * <p>
      * <b>Warning:</b> Using <code>CompilationLevel.ADVANCED_OPTIMIZATIONS</code> could break inline JavaScript if
      * externs are not set properly.
-     * 
+     *
      * @param compilationLevel
      *            Optimization level to use, could be set to <code>CompilationLevel.ADVANCED_OPTIMIZATIONS</code>,
      *            <code>CompilationLevel.SIMPLE_OPTIMIZATIONS</code>, <code>CompilationLevel.WHITESPACE_ONLY</code>
-     * 
+     *
      * @see <a href="http://code.google.com/closure/compiler/docs/api-tutorial3.html">Advanced Compilation and
      *      Externs</a>
      * @see <a href="http://code.google.com/closure/compiler/docs/compilation_levels.html">Closure Compiler Compilation
@@ -208,9 +208,9 @@ public class ClosureJavaScriptCompressor implements Compressor {
 
     /**
      * Returns options that are used by the Closure compiler.
-     * 
+     *
      * @return <code>CompilerOptions</code> that are used by the compiler
-     * 
+     *
      * @see <a href=
      *      "http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/CompilerOptions.html">CompilerOptions</a>
      */
@@ -221,10 +221,10 @@ public class ClosureJavaScriptCompressor implements Compressor {
     /**
      * Sets options that will be used by the Closure compiler. If none is provided, default options constructor will be
      * used: <code>new CompilerOptions()</code>.
-     * 
+     *
      * @param compilerOptions
      *            <code>CompilerOptions</code> that will be used by the compiler
-     * 
+     *
      * @see <a href=
      *      "http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/CompilerOptions.html">CompilerOptions</a>
      */
@@ -234,7 +234,7 @@ public class ClosureJavaScriptCompressor implements Compressor {
 
     /**
      * Returns logging level used by the Closure compiler.
-     * 
+     *
      * @return <code>Level</code> of logging used by the Closure compiler
      */
     public Level getLoggingLevel() {
@@ -243,10 +243,10 @@ public class ClosureJavaScriptCompressor implements Compressor {
 
     /**
      * Sets logging level for the Closure compiler.
-     * 
+     *
      * @param loggingLevel
      *            logging level for the Closure compiler.
-     * 
+     *
      * @see java.util.logging.Level
      */
     public void setLoggingLevel(Level loggingLevel) {
@@ -256,7 +256,7 @@ public class ClosureJavaScriptCompressor implements Compressor {
     /**
      * Returns <code>SourceFile</code> used as a reference during the compression at
      * <code>CompilationLevel.ADVANCED_OPTIMIZATIONS</code> level.
-     * 
+     *
      * @return <code>SourceFile</code> used as a reference during compression
      */
     public List<SourceFile> getExterns() {
@@ -266,18 +266,18 @@ public class ClosureJavaScriptCompressor implements Compressor {
     /**
      * Sets external JavaScript files that are used as a reference for function declarations if
      * <code>CompilationLevel.ADVANCED_OPTIMIZATIONS</code> compression level is used.
-     * 
+     *
      * <p>
      * A number of default externs defined inside Closure's jar will be used besides user defined ones, to use only user
      * defined externs set {@link #setCustomExternsOnly(boolean) setCustomExternsOnly(true)}
-     * 
+     *
      * <p>
      * <b>Warning:</b> Using <code>CompilationLevel.ADVANCED_OPTIMIZATIONS</code> could break inline JavaScript if
      * externs are not set properly.
-     * 
+     *
      * @param externs
      *            <code>SourceFile</code> to use as a reference during compression
-     * 
+     *
      * @see #setCompilationLevel(CompilationLevel)
      * @see #setCustomExternsOnly(boolean)
      * @see <a href="http://code.google.com/closure/compiler/docs/api-tutorial3.html">Advanced Compilation and
@@ -300,10 +300,10 @@ public class ClosureJavaScriptCompressor implements Compressor {
 
     /**
      * Indicates the amount of information you want from the compiler about possible problems in your code.
-     * 
+     *
      * @param warningLevel
      *            <code>WarningLevel</code> to use
-     * 
+     *
      * @see <a href="http://code.google.com/closure/compiler/docs/api-ref.html">Google Closure Compiler</a>
      */
     public void setWarningLevel(WarningLevel warningLevel) {
@@ -313,7 +313,7 @@ public class ClosureJavaScriptCompressor implements Compressor {
     /**
      * Returns <code>true</code> if default externs defined inside Closure's jar are ignored and only user defined ones
      * are used.
-     * 
+     *
      * @return <code>true</code> if default externs defined inside Closure's jar are ignored and only user defined ones
      *         are used
      */
@@ -324,10 +324,10 @@ public class ClosureJavaScriptCompressor implements Compressor {
     /**
      * If set to <code>true</code>, default externs defined inside Closure's jar will be ignored and only user defined
      * ones will be used.
-     * 
+     *
      * @param customExternsOnly
      *            <code>true</code> to skip default externs and use only user defined ones
-     * 
+     *
      * @see #setExterns(List)
      * @see #setCompilationLevel(CompilationLevel)
      */

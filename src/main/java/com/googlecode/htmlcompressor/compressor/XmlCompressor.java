@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2020 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 /**
  * Class that compresses given XML source by removing comments, extra spaces and line breaks while preserving content
  * within CDATA blocks.
- * 
+ *
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  */
 public class XmlCompressor implements Compressor {
@@ -74,7 +74,7 @@ public class XmlCompressor implements Compressor {
 
     /**
      * The main method that compresses given XML source and returns compressed result.
-     * 
+     *
      * @param xml
      *            XML content to compress
      * @return compressed content.
@@ -218,7 +218,7 @@ public class XmlCompressor implements Compressor {
 
     /**
      * Returns <code>true</code> if compression is enabled.
-     * 
+     *
      * @return <code>true</code> if compression is enabled.
      */
     public boolean isEnabled() {
@@ -228,7 +228,7 @@ public class XmlCompressor implements Compressor {
     /**
      * If set to <code>false</code> all compression will be bypassed. Might be useful for testing purposes. Default is
      * <code>true</code>.
-     * 
+     *
      * @param enabled
      *            set <code>false</code> to bypass all compression
      */
@@ -238,7 +238,7 @@ public class XmlCompressor implements Compressor {
 
     /**
      * Returns <code>true</code> if all XML comments will be removed.
-     * 
+     *
      * @return <code>true</code> if all XML comments will be removed
      */
     public boolean isRemoveComments() {
@@ -247,7 +247,7 @@ public class XmlCompressor implements Compressor {
 
     /**
      * If set to <code>true</code> all XML comments will be removed. Default is <code>true</code>.
-     * 
+     *
      * @param removeComments
      *            set <code>true</code> to remove all XML comments
      */
@@ -257,7 +257,7 @@ public class XmlCompressor implements Compressor {
 
     /**
      * Returns <code>true</code> if all inter-tag whitespace characters will be removed.
-     * 
+     *
      * @return <code>true</code> if all inter-tag whitespace characters will be removed.
      */
     public boolean isRemoveIntertagSpaces() {
@@ -266,7 +266,7 @@ public class XmlCompressor implements Compressor {
 
     /**
      * If set to <code>true</code> all inter-tag whitespace characters will be removed. Default is <code>true</code>.
-     * 
+     *
      * @param removeIntertagSpaces
      *            set <code>true</code> to remove all inter-tag whitespace characters
      */

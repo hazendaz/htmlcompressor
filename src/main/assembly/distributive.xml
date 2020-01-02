@@ -1,6 +1,6 @@
 <!--
 
-       Copyright 2009-2016 the original author or authors.
+       Copyright 2009-2020 the original author or authors.
 
        Licensed under the Apache License, Version 2.0 (the "License");
        you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 <assembly xmlns="https://maven.apache.org/plugins/maven-assembly-plugin/assembly/2.0.0" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="https://maven.apache.org/plugins/maven-assembly-plugin/assembly/2.0.0 https://maven.apache.org/xsd/assembly-2.0.0.xsd">
   <id>distribution</id>
-  
+
 
   <formats>
     <format>zip</format>
@@ -35,7 +35,7 @@
         </includes>
     </dependencySet>
   </dependencySets>
-  
+
   <fileSets>
     <fileSet>
       <directory>${project.basedir}/src</directory>
