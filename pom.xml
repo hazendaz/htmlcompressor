@@ -93,13 +93,6 @@
     <url>https://github.com/hazendaz/htmlcompressor/issues</url>
   </issueManagement>
 
-  <properties>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
-
-    <signature.artifact>java17</signature.artifact>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>
