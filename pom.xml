@@ -28,7 +28,7 @@
 
   <groupId>com.github.hazendaz</groupId>
   <artifactId>htmlcompressor</artifactId>
-  <version>1.6.7-SNAPSHOT</version>
+  <version>1.7.0</version>
   <packaging>jar</packaging>
 
   <name>HTML Compressor and Minifier</name>
@@ -86,7 +86,7 @@
     <connection>scm:git:ssh://git@github.com/hazendaz/htmlcompressor.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/hazendaz/htmlcompressor.git</developerConnection>
     <url>https://github.com/hazendaz/htmlcompressor/</url>
-    <tag>HEAD</tag>
+    <tag>htmlcompressor-1.7.0</tag>
   </scm>
   <issueManagement>
     <system>Github</system>
