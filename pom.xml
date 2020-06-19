@@ -157,7 +157,6 @@
         <artifactId>license-maven-plugin</artifactId>
         <configuration>
           <excludes combine.children="append">
-            <exclude>LICENSE.txt</exclude>
             <exclude>**/src/test/resources/html/*</exclude>
             <exclude>**/src/test/resources/xml/*</exclude>
           </excludes>
@@ -173,9 +172,6 @@
               <addClasspath>true</addClasspath>
               <mainClass>com.googlecode.htmlcompressor.CmdLineCompressor</mainClass>
             </manifest>
-            <manifestEntries>
-              <Class-Path>yuicompressor-2.4.8.jar yuicompressor.jar compiler.jar</Class-Path>
-            </manifestEntries>
           </archive>
         </configuration>
       </plugin>
