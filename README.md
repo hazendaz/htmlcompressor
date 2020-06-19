@@ -27,9 +27,6 @@ PACKAGE CONTENT:
 	/src - sources
 	/lib - dependencies (for using with a command line compressor or non-Maven projects)
 	pom.xml - Maven POM file
-	build.bat - Maven build launcher for Win
-	build.sh - Maven build launcher for *nix
-	
 
 USAGE:
 	For java projects add ${project.artifactId}-${project.version}.jar library to your project's classpath
@@ -38,14 +35,12 @@ USAGE:
 	to get a brief description of available parameters.
 	
 	Please refer to http://code.google.com/p/htmlcompressor/ for the detailed documentation.
-	
 
 PROJECT BUILD:
 	- Install JDK v.5+ (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 	- Install Maven v.2+ (http://maven.apache.org/download.html)
 	- Run build.bat or build.sh
 	- Compiled binaries will be placed in /target subdirectory
-
 
 CHANGELOG:
 	http://code.google.com/p/htmlcompressor/wiki/Changelog

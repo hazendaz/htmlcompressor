@@ -44,12 +44,10 @@
       <directory>${project.basedir}</directory>
       <includes>
         <include>pom.xml</include>
-        <include>build.sh</include>
-        <include>build.bat</include>
         <include>*.txt</include>
       </includes>
       <excludes>
-        <exclude>README.txt</exclude>
+        <exclude>README.md</exclude>
       </excludes>
     </fileSet>
     <fileSet>
@@ -66,7 +64,7 @@
   </fileSets>
   <files>
     <file>
-      <source>README.txt</source>
+      <source>README.md</source>
       <filtered>true</filtered>
     </file>
   </files>
