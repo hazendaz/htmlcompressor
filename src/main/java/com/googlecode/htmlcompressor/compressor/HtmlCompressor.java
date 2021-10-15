@@ -364,12 +364,12 @@ public class HtmlCompressor implements Compressor {
 
     /** The Constant surroundingSpacesMinPattern. */
     protected static final Pattern surroundingSpacesMinPattern = Pattern.compile(
-            "\\s*(</?(?:" + BLOCK_TAGS_MIN.replaceAll(",", "|") + ")(?:>|[\\s/][^>]*>))\\s*",
+            "\\s*(</?(?:" + BLOCK_TAGS_MIN.replace(",", "|") + ")(?:>|[\\s/][^>]*>))\\s*",
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant surroundingSpacesMaxPattern. */
     protected static final Pattern surroundingSpacesMaxPattern = Pattern.compile(
-            "\\s*(</?(?:" + BLOCK_TAGS_MAX.replaceAll(",", "|") + ")(?:>|[\\s/][^>]*>))\\s*",
+            "\\s*(</?(?:" + BLOCK_TAGS_MAX.replace(",", "|") + ")(?:>|[\\s/][^>]*>))\\s*",
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant surroundingSpacesAllPattern. */
