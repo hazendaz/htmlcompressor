@@ -314,7 +314,7 @@ public class CmdLineCompressor {
             }
 
         } catch (OptionException e) {
-            logger.info("{}" + e.getMessage());
+            logger.info("{}", e.getMessage());
             logger.trace("", e);
             printUsage();
         }
@@ -392,11 +392,11 @@ public class CmdLineCompressor {
             }
             logger.trace("", e);
         } catch (OptionException e) {
-            logger.info("{}" + e.getMessage());
+            logger.info("{}", e.getMessage());
             logger.trace("", e);
             printUsage();
         } catch (IOException | IllegalArgumentException e) {
-            logger.info("{}" + e.getMessage());
+            logger.info("{}", e.getMessage());
             logger.trace("", e);
         }
 
