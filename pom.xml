@@ -110,12 +110,6 @@
       <artifactId>closure-compiler</artifactId>
       <version>v20211107</version>
       <optional>true</optional>
-      <exclusions>
-           <exclusion>
-                <groupId>com.google.elemental2</groupId>
-                <artifactId>elemental2-core</artifactId>
-           </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.google.elemental2</groupId>
