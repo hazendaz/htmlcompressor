@@ -165,7 +165,7 @@ public class ClosureJavaScriptCompressor implements Compressor {
         try (ZipInputStream zip = new ZipInputStream(input)) {
             for (ZipEntry entry; (entry = zip.getNextEntry()) != null;) {
                 externList.add(SourceFile.builder().withCharset(Charset.defaultCharset())
-                        .withContent(ByteStreams.limit(zip, entry.getSize())).buildFromFile(entry.getName()));
+                        .withContent(ByteStreams.limit(zip, entry.getSize())).withPath(entry.getName()).build());
             }
         }
         return externList;
