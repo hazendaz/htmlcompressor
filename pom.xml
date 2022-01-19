@@ -92,6 +92,13 @@
     <system>Github</system>
     <url>https://github.com/hazendaz/htmlcompressor/issues</url>
   </issueManagement>
+  <distributionManagement>
+    <site>
+        <id>gh-pages-scm</id>
+        <name>GitHub Pages</name>
+        <url>scm:git:ssh://git@github.com/hazendaz/htmlcompressor.git</url>
+    </site>
+  </distributionManagement>
 
   <dependencies>
     <dependency>
