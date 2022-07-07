@@ -29,7 +29,6 @@ import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -67,8 +66,8 @@ public class ClosureJavaScriptCompressor implements Compressor {
     /** The compilation level. */
     private CompilationLevel compilationLevel = CompilationLevel.SIMPLE_OPTIMIZATIONS;
 
-    /** The logging level. */
-    private Level loggingLevel = Level.SEVERE;
+    /** The logging level (note: closure compiler still uses java util logging, don't import Level. */
+    private java.util.logging.Level loggingLevel = java.util.logging.Level.SEVERE;
 
     /** The warning level. */
     private WarningLevel warningLevel = WarningLevel.DEFAULT;
@@ -233,23 +232,25 @@ public class ClosureJavaScriptCompressor implements Compressor {
     }
 
     /**
-     * Returns logging level used by the Closure compiler.
+     * Returns logging level used by the Closure compiler (note: closure compiler still uses java util logging, don't
+     * import Level).
      *
      * @return <code>Level</code> of logging used by the Closure compiler
      */
-    public Level getLoggingLevel() {
+    public java.util.logging.Level getLoggingLevel() {
         return loggingLevel;
     }
 
     /**
-     * Sets logging level for the Closure compiler.
+     * Sets logging level for the Closure compiler (note: closure compiler still uses java util logging, don't import
+     * Level).
      *
      * @param loggingLevel
      *            logging level for the Closure compiler.
      *
      * @see java.util.logging.Level
      */
-    public void setLoggingLevel(Level loggingLevel) {
+    public void setLoggingLevel(java.util.logging.Level loggingLevel) {
         this.loggingLevel = loggingLevel;
     }
 
