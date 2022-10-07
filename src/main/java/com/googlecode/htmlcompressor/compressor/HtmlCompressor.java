@@ -531,7 +531,7 @@ public class HtmlCompressor implements Compressor {
 
                 Matcher matcher = preservePatterns.get(p).matcher(html);
                 int index = 0;
-                StringBuffer sb = new StringBuffer();
+                StringBuilder sb = new StringBuilder();
                 while (matcher.find()) {
                     if (matcher.group(0).trim().length() > 0) {
                         userBlock.add(matcher.group(0));
@@ -547,7 +547,7 @@ public class HtmlCompressor implements Compressor {
         // preserve <!-- {{{ ---><!-- }}} ---> skip blocks
         Matcher matcher = skipPattern.matcher(html);
         int skipBlockIndex = 0;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         while (matcher.find()) {
             if (matcher.group(1).trim().length() > 0) {
                 skipBlocks.add(matcher.group(1));
@@ -561,7 +561,7 @@ public class HtmlCompressor implements Compressor {
         HtmlCompressor condCommentCompressor = createCompressorClone();
         matcher = condCommentPattern.matcher(html);
         int index = 0;
-        sb = new StringBuffer();
+        sb = new StringBuilder();
         while (matcher.find()) {
             if (matcher.group(2).trim().length() > 0) {
                 condCommentBlocks
@@ -575,7 +575,7 @@ public class HtmlCompressor implements Compressor {
         // preserve inline events
         matcher = eventPattern1.matcher(html);
         index = 0;
-        sb = new StringBuffer();
+        sb = new StringBuilder();
         while (matcher.find()) {
             if (matcher.group(2).trim().length() > 0) {
                 eventBlocks.add(matcher.group(2));
@@ -586,7 +586,7 @@ public class HtmlCompressor implements Compressor {
         html = sb.toString();
 
         matcher = eventPattern2.matcher(html);
-        sb = new StringBuffer();
+        sb = new StringBuilder();
         while (matcher.find()) {
             if (matcher.group(2).trim().length() > 0) {
                 eventBlocks.add(matcher.group(2));
@@ -599,7 +599,7 @@ public class HtmlCompressor implements Compressor {
         // preserve PRE tags
         matcher = prePattern.matcher(html);
         index = 0;
-        sb = new StringBuffer();
+        sb = new StringBuilder();
         while (matcher.find()) {
             if (matcher.group(2).trim().length() > 0) {
                 preBlocks.add(matcher.group(2));
@@ -612,7 +612,7 @@ public class HtmlCompressor implements Compressor {
         // preserve SCRIPT tags
         matcher = scriptPattern.matcher(html);
         index = 0;
-        sb = new StringBuffer();
+        sb = new StringBuilder();
         while (matcher.find()) {
             // ignore empty scripts
             if (matcher.group(2).trim().length() > 0) {
@@ -645,7 +645,7 @@ public class HtmlCompressor implements Compressor {
         // preserve STYLE tags
         matcher = stylePattern.matcher(html);
         index = 0;
-        sb = new StringBuffer();
+        sb = new StringBuilder();
         while (matcher.find()) {
             if (matcher.group(2).trim().length() > 0) {
                 styleBlocks.add(matcher.group(2));
@@ -658,7 +658,7 @@ public class HtmlCompressor implements Compressor {
         // preserve TEXTAREA tags
         matcher = taPattern.matcher(html);
         index = 0;
-        sb = new StringBuffer();
+        sb = new StringBuilder();
         while (matcher.find()) {
             if (matcher.group(2).trim().length() > 0) {
                 taBlocks.add(matcher.group(2));
@@ -672,7 +672,7 @@ public class HtmlCompressor implements Compressor {
         if (preserveLineBreaks) {
             matcher = lineBreakPattern.matcher(html);
             index = 0;
-            sb = new StringBuffer();
+            sb = new StringBuilder();
             while (matcher.find()) {
                 lineBreakBlocks.add(matcher.group(1));
                 matcher.appendReplacement(sb, MessageFormat.format(TEMP_LINE_BREAK_BLOCK, index++));
@@ -717,7 +717,7 @@ public class HtmlCompressor implements Compressor {
         // put line breaks back
         if (preserveLineBreaks) {
             Matcher matcher = tempLineBreakPattern.matcher(html);
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             while (matcher.find()) {
                 int i = Integer.parseInt(matcher.group(1));
                 if (lineBreakBlocks.size() > i) {
@@ -730,7 +730,7 @@ public class HtmlCompressor implements Compressor {
 
         // put TEXTAREA blocks back
         Matcher matcher = tempTextAreaPattern.matcher(html);
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         while (matcher.find()) {
             int i = Integer.parseInt(matcher.group(1));
             if (taBlocks.size() > i) {
@@ -742,7 +742,7 @@ public class HtmlCompressor implements Compressor {
 
         // put STYLE blocks back
         matcher = tempStylePattern.matcher(html);
-        sb = new StringBuffer();
+        sb = new StringBuilder();
         while (matcher.find()) {
             int i = Integer.parseInt(matcher.group(1));
             if (styleBlocks.size() > i) {
@@ -754,7 +754,7 @@ public class HtmlCompressor implements Compressor {
 
         // put SCRIPT blocks back
         matcher = tempScriptPattern.matcher(html);
-        sb = new StringBuffer();
+        sb = new StringBuilder();
         while (matcher.find()) {
             int i = Integer.parseInt(matcher.group(1));
             if (scriptBlocks.size() > i) {
@@ -766,7 +766,7 @@ public class HtmlCompressor implements Compressor {
 
         // put PRE blocks back
         matcher = tempPrePattern.matcher(html);
-        sb = new StringBuffer();
+        sb = new StringBuilder();
         while (matcher.find()) {
             int i = Integer.parseInt(matcher.group(1));
             if (preBlocks.size() > i) {
@@ -778,7 +778,7 @@ public class HtmlCompressor implements Compressor {
 
         // put event blocks back
         matcher = tempEventPattern.matcher(html);
-        sb = new StringBuffer();
+        sb = new StringBuilder();
         while (matcher.find()) {
             int i = Integer.parseInt(matcher.group(1));
             if (eventBlocks.size() > i) {
@@ -790,7 +790,7 @@ public class HtmlCompressor implements Compressor {
 
         // put conditional comments back
         matcher = tempCondCommentPattern.matcher(html);
-        sb = new StringBuffer();
+        sb = new StringBuilder();
         while (matcher.find()) {
             int i = Integer.parseInt(matcher.group(1));
             if (condCommentBlocks.size() > i) {
@@ -802,7 +802,7 @@ public class HtmlCompressor implements Compressor {
 
         // put skip blocks back
         matcher = tempSkipPattern.matcher(html);
-        sb = new StringBuffer();
+        sb = new StringBuilder();
         while (matcher.find()) {
             int i = Integer.parseInt(matcher.group(1));
             if (skipBlocks.size() > i) {
@@ -817,7 +817,7 @@ public class HtmlCompressor implements Compressor {
             for (int p = preservePatterns.size() - 1; p >= 0; p--) {
                 Pattern tempUserPattern = Pattern.compile("%%%~COMPRESS~USER" + p + "~(\\d+?)~%%%");
                 matcher = tempUserPattern.matcher(html);
-                sb = new StringBuffer();
+                sb = new StringBuilder();
                 while (matcher.find()) {
                     int i = Integer.parseInt(matcher.group(1));
                     if (userBlocks.size() > p && userBlocks.get(p).size() > i) {
@@ -916,7 +916,7 @@ public class HtmlCompressor implements Compressor {
             }
 
             Matcher matcher = pattern.matcher(html);
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             while (matcher.find()) {
                 matcher.appendReplacement(sb, "$1");
             }
@@ -939,7 +939,7 @@ public class HtmlCompressor implements Compressor {
         // remove quotes from tag attributes
         if (removeQuotes) {
             Matcher matcher = tagQuotePattern.matcher(html);
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             while (matcher.find()) {
                 // if quoted attribute is followed by "/" add extra space
                 if (matcher.group(3).trim().length() == 0) {
@@ -970,7 +970,7 @@ public class HtmlCompressor implements Compressor {
         // remove ending spaces inside tags
         // html = tagEndSpacePattern.matcher(html).replaceAll("$1$2");
         Matcher matcher = tagEndSpacePattern.matcher(html);
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         while (matcher.find()) {
             // keep space if attribute value is unquoted before trailing slash
             if (matcher.group(2).startsWith("/") && tagLastUnquotedValuePattern.matcher(matcher.group(1)).find()) {
@@ -1100,7 +1100,7 @@ public class HtmlCompressor implements Compressor {
         // remove type from link tags with rel=stylesheet
         if (removeLinkAttributes) {
             Matcher matcher = linkTypeAttrPattern.matcher(html);
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             while (matcher.find()) {
                 // if rel=stylesheet
                 if (linkRelAttrPattern.matcher(matcher.group(0)).matches()) {
@@ -1175,7 +1175,7 @@ public class HtmlCompressor implements Compressor {
         // remove http protocol from tag attributes
         if (removeHttpProtocol) {
             Matcher matcher = httpProtocolPattern.matcher(html);
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             while (matcher.find()) {
                 // if rel!=external
                 if (!relExternalPattern.matcher(matcher.group(0)).matches()) {
@@ -1202,7 +1202,7 @@ public class HtmlCompressor implements Compressor {
         // remove https protocol from tag attributes
         if (removeHttpsProtocol) {
             Matcher matcher = httpsProtocolPattern.matcher(html);
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             while (matcher.find()) {
                 // if rel!=external
                 if (!relExternalPattern.matcher(matcher.group(0)).matches()) {
