@@ -1,5 +1,5 @@
 ====
-       Copyright 2009-2016 the original author or authors.
+       Copyright 2009-2022 the original author or authors.
 
        Licensed under the Apache License, Version 2.0 (the "License");
        you may not use this file except in compliance with the License.
@@ -37,8 +37,8 @@ USAGE:
 	Please refer to http://code.google.com/p/htmlcompressor/ for the detailed documentation.
 
 PROJECT BUILD:
-	- Install JDK v.5+ (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-	- Install Maven v.2+ (http://maven.apache.org/download.html)
+	- Install JDK v.11+ (https://www.oracle.com/java/technologies/downloads/)
+	- Install Maven v.3.8.6+ (http://maven.apache.org/download.html)
 	- Run build.bat or build.sh
 	- Compiled binaries will be placed in /target subdirectory
 
