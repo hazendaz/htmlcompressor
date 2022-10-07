@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2021 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
  * {@link HtmlCompressor} are supported.
  *
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
+ *
  * @see HtmlCompressor
  * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
  * @see <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a>
@@ -128,6 +129,7 @@ public class JavaScriptCompressorTag extends BodyTagSupport {
      *
      * @param yuiJsNoMunge
      *            the new yui js no munge
+     *
      * @see HtmlCompressor#setYuiJsNoMunge(boolean)
      */
     public void setYuiJsNoMunge(boolean yuiJsNoMunge) {
@@ -139,6 +141,7 @@ public class JavaScriptCompressorTag extends BodyTagSupport {
      *
      * @param yuiJsPreserveAllSemiColons
      *            the new yui js preserve all semi colons
+     *
      * @see HtmlCompressor#setYuiJsPreserveAllSemiColons(boolean)
      */
     public void setYuiJsPreserveAllSemiColons(boolean yuiJsPreserveAllSemiColons) {
@@ -150,6 +153,7 @@ public class JavaScriptCompressorTag extends BodyTagSupport {
      *
      * @param yuiJsDisableOptimizations
      *            the new yui js disable optimizations
+     *
      * @see HtmlCompressor#setYuiJsDisableOptimizations(boolean)
      */
     public void setYuiJsDisableOptimizations(boolean yuiJsDisableOptimizations) {
@@ -161,6 +165,7 @@ public class JavaScriptCompressorTag extends BodyTagSupport {
      *
      * @param yuiJsLineBreak
      *            the new yui js line break
+     *
      * @see HtmlCompressor#setYuiJsLineBreak(int)
      */
     public void setYuiJsLineBreak(int yuiJsLineBreak) {
@@ -172,6 +177,7 @@ public class JavaScriptCompressorTag extends BodyTagSupport {
      *
      * @param enabled
      *            the new enabled
+     *
      * @see HtmlCompressor#setEnabled(boolean)
      */
     public void setEnabled(boolean enabled) {

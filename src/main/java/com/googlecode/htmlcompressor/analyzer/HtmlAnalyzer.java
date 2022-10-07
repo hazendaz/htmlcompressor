@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2021 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -240,6 +240,7 @@ public class HtmlAnalyzer {
      *            the compressed size
      * @param prevSize
      *            the prev size
+     *
      * @return the string
      */
     private String formatLine(String descr, int originalSize, int compressedSize, int prevSize) {
@@ -257,6 +258,7 @@ public class HtmlAnalyzer {
      *
      * @param descr
      *            the descr
+     *
      * @return the string
      */
     private String formatEmptyLine(String descr) {
@@ -299,6 +301,7 @@ public class HtmlAnalyzer {
      *            the original size
      * @param compressedSize
      *            the compressed size
+     *
      * @return the string
      */
     private String formatDecrease(int originalSize, int compressedSize) {
@@ -316,6 +319,7 @@ public class HtmlAnalyzer {
      *
      * @param size
      *            the size
+     *
      * @return the string
      */
     private String formatSize(int size) {

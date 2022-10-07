@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2021 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
  * JavaScript and CSS compression).
  *
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
+ *
  * @see HtmlCompressor
  */
 public class HtmlCompressorTag extends BodyTagSupport {
@@ -187,6 +188,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param compressJavaScript
      *            the new compress java script
+     *
      * @see HtmlCompressor#setCompressJavaScript(boolean)
      */
     public void setCompressJavaScript(boolean compressJavaScript) {
@@ -198,6 +200,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param compressCss
      *            the new compress css
+     *
      * @see HtmlCompressor#setCompressCss(boolean)
      */
     public void setCompressCss(boolean compressCss) {
@@ -209,6 +212,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param yuiJsNoMunge
      *            the new yui js no munge
+     *
      * @see HtmlCompressor#setYuiJsNoMunge(boolean)
      */
     public void setYuiJsNoMunge(boolean yuiJsNoMunge) {
@@ -220,6 +224,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param yuiJsPreserveAllSemiColons
      *            the new yui js preserve all semi colons
+     *
      * @see HtmlCompressor#setYuiJsPreserveAllSemiColons(boolean)
      */
     public void setYuiJsPreserveAllSemiColons(boolean yuiJsPreserveAllSemiColons) {
@@ -231,6 +236,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param yuiJsDisableOptimizations
      *            the new yui js disable optimizations
+     *
      * @see HtmlCompressor#setYuiJsDisableOptimizations(boolean)
      */
     public void setYuiJsDisableOptimizations(boolean yuiJsDisableOptimizations) {
@@ -242,6 +248,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param yuiJsLineBreak
      *            the new yui js line break
+     *
      * @see HtmlCompressor#setYuiJsLineBreak(int)
      */
     public void setYuiJsLineBreak(int yuiJsLineBreak) {
@@ -253,6 +260,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param yuiCssLineBreak
      *            the new yui css line break
+     *
      * @see HtmlCompressor#setYuiCssLineBreak(int)
      */
     public void setYuiCssLineBreak(int yuiCssLineBreak) {
@@ -264,6 +272,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param removeQuotes
      *            the new removes the quotes
+     *
      * @see HtmlCompressor#setRemoveQuotes(boolean)
      */
     public void setRemoveQuotes(boolean removeQuotes) {
@@ -275,6 +284,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param preserveLineBreaks
      *            the new preserve line breaks
+     *
      * @see HtmlCompressor#setPreserveLineBreaks(boolean)
      */
     public void setPreserveLineBreaks(boolean preserveLineBreaks) {
@@ -286,6 +296,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param enabled
      *            the new enabled
+     *
      * @see HtmlCompressor#setEnabled(boolean)
      */
     public void setEnabled(boolean enabled) {
@@ -297,6 +308,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param removeComments
      *            the new removes the comments
+     *
      * @see HtmlCompressor#setRemoveComments(boolean)
      */
     public void setRemoveComments(boolean removeComments) {
@@ -308,6 +320,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param removeMultiSpaces
      *            the new removes the multi spaces
+     *
      * @see HtmlCompressor#setRemoveMultiSpaces(boolean)
      */
     public void setRemoveMultiSpaces(boolean removeMultiSpaces) {
@@ -319,6 +332,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param removeIntertagSpaces
      *            the new removes the intertag spaces
+     *
      * @see HtmlCompressor#setRemoveIntertagSpaces(boolean)
      */
     public void setRemoveIntertagSpaces(boolean removeIntertagSpaces) {
@@ -360,6 +374,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param simpleDoctype
      *            the new simple doctype
+     *
      * @see HtmlCompressor#setSimpleDoctype(boolean)
      */
     public void setSimpleDoctype(boolean simpleDoctype) {
@@ -371,6 +386,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param removeScriptAttributes
      *            the new removes the script attributes
+     *
      * @see HtmlCompressor#setRemoveScriptAttributes(boolean)
      */
     public void setRemoveScriptAttributes(boolean removeScriptAttributes) {
@@ -382,6 +398,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param removeStyleAttributes
      *            the new removes the style attributes
+     *
      * @see HtmlCompressor#setRemoveStyleAttributes(boolean)
      */
     public void setRemoveStyleAttributes(boolean removeStyleAttributes) {
@@ -393,6 +410,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param removeLinkAttributes
      *            the new removes the link attributes
+     *
      * @see HtmlCompressor#setRemoveLinkAttributes(boolean)
      */
     public void setRemoveLinkAttributes(boolean removeLinkAttributes) {
@@ -404,6 +422,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param removeFormAttributes
      *            the new removes the form attributes
+     *
      * @see HtmlCompressor#setRemoveFormAttributes(boolean)
      */
     public void setRemoveFormAttributes(boolean removeFormAttributes) {
@@ -415,6 +434,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param removeInputAttributes
      *            the new removes the input attributes
+     *
      * @see HtmlCompressor#setRemoveInputAttributes(boolean)
      */
     public void setRemoveInputAttributes(boolean removeInputAttributes) {
@@ -426,6 +446,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param simpleBooleanAttributes
      *            the new simple boolean attributes
+     *
      * @see HtmlCompressor#setSimpleBooleanAttributes(boolean)
      */
     public void setSimpleBooleanAttributes(boolean simpleBooleanAttributes) {
@@ -437,6 +458,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param removeJavaScriptProtocol
      *            the new removes the java script protocol
+     *
      * @see HtmlCompressor#setRemoveJavaScriptProtocol(boolean)
      */
     public void setRemoveJavaScriptProtocol(boolean removeJavaScriptProtocol) {
@@ -448,6 +470,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param removeHttpProtocol
      *            the new removes the http protocol
+     *
      * @see HtmlCompressor#setRemoveHttpProtocol(boolean)
      */
     public void setRemoveHttpProtocol(boolean removeHttpProtocol) {
@@ -459,6 +482,7 @@ public class HtmlCompressorTag extends BodyTagSupport {
      *
      * @param removeHttpsProtocol
      *            the new removes the https protocol
+     *
      * @see HtmlCompressor#setRemoveHttpsProtocol(boolean)
      */
     public void setRemoveHttpsProtocol(boolean removeHttpsProtocol) {

@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2021 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -29,7 +29,9 @@ import java.util.Locale;
  * the argument '--'.
  *
  * @author Steve Purcell
+ *
  * @version $Revision$
+ *
  * @see <a href="https://github.com/purcell/jargs/tree/master/src/examples/java/com/sanityinc/jargs/examples">jargs
  *      examples</a>
  */
@@ -327,7 +329,9 @@ public class CmdLineParser {
          *            the arg
          * @param locale
          *            the locale
+         *
          * @return the value
+         *
          * @throws IllegalOptionValueException
          *             the illegal option value exception
          */
@@ -349,7 +353,9 @@ public class CmdLineParser {
          *            the arg
          * @param locale
          *            the locale
+         *
          * @return the object
+         *
          * @throws IllegalOptionValueException
          *             the illegal option value exception
          */
@@ -552,6 +558,7 @@ public class CmdLineParser {
      *
      * @param opt
      *            the opt
+     *
      * @return the option
      */
     public final Option addOption(Option opt) {
@@ -569,6 +576,7 @@ public class CmdLineParser {
      *            the short form
      * @param longForm
      *            the long form
+     *
      * @return the new Option
      */
     public final Option addStringOption(char shortForm, String longForm) {
@@ -580,6 +588,7 @@ public class CmdLineParser {
      *
      * @param longForm
      *            the long form
+     *
      * @return the new Option
      */
     public final Option addStringOption(String longForm) {
@@ -593,6 +602,7 @@ public class CmdLineParser {
      *            the short form
      * @param longForm
      *            the long form
+     *
      * @return the new Option
      */
     public final Option addIntegerOption(char shortForm, String longForm) {
@@ -604,6 +614,7 @@ public class CmdLineParser {
      *
      * @param longForm
      *            the long form
+     *
      * @return the new Option
      */
     public final Option addIntegerOption(String longForm) {
@@ -617,6 +628,7 @@ public class CmdLineParser {
      *            the short form
      * @param longForm
      *            the long form
+     *
      * @return the new Option
      */
     public final Option addLongOption(char shortForm, String longForm) {
@@ -628,6 +640,7 @@ public class CmdLineParser {
      *
      * @param longForm
      *            the long form
+     *
      * @return the new Option
      */
     public final Option addLongOption(String longForm) {
@@ -641,6 +654,7 @@ public class CmdLineParser {
      *            the short form
      * @param longForm
      *            the long form
+     *
      * @return the new Option
      */
     public final Option addDoubleOption(char shortForm, String longForm) {
@@ -652,6 +666,7 @@ public class CmdLineParser {
      *
      * @param longForm
      *            the long form
+     *
      * @return the new Option
      */
     public final Option addDoubleOption(String longForm) {
@@ -665,6 +680,7 @@ public class CmdLineParser {
      *            the short form
      * @param longForm
      *            the long form
+     *
      * @return the new Option
      */
     public final Option addBooleanOption(char shortForm, String longForm) {
@@ -676,6 +692,7 @@ public class CmdLineParser {
      *
      * @param longForm
      *            the long form
+     *
      * @return the new Option
      */
     public final Option addBooleanOption(String longForm) {
@@ -687,6 +704,7 @@ public class CmdLineParser {
      *
      * @param o
      *            the o
+     *
      * @return the option value
      */
     public final Object getOptionValue(Option o) {
@@ -700,6 +718,7 @@ public class CmdLineParser {
      *            the o
      * @param def
      *            the def
+     *
      * @return the parsed value of the given Option, or the given default 'def' if the option was not set
      */
     @SuppressWarnings("unchecked")
@@ -722,6 +741,7 @@ public class CmdLineParser {
      *
      * @param option
      *            the option
+     *
      * @return A Vector giving the parsed values of all the occurrences of the given Option, or an empty Vector if the
      *         option was not set.
      */
@@ -754,6 +774,7 @@ public class CmdLineParser {
      *
      * @param argv
      *            the argv
+     *
      * @throws IllegalOptionValueException
      *             the illegal option value exception
      * @throws UnknownOptionException
@@ -776,6 +797,7 @@ public class CmdLineParser {
      *            the argv
      * @param locale
      *            the locale
+     *
      * @throws IllegalOptionValueException
      *             the illegal option value exception
      * @throws UnknownOptionException

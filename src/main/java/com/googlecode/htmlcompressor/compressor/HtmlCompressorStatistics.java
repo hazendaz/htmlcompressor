@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2021 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package com.googlecode.htmlcompressor.compressor;
  * Class that stores HTML compression statistics.
  *
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
+ *
  * @see HtmlCompressor#getStatistics()
  */
 public class HtmlCompressorStatistics {
@@ -39,6 +40,7 @@ public class HtmlCompressorStatistics {
      * Returns metrics of an uncompressed document.
      *
      * @return metrics of an uncompressed document
+     *
      * @see HtmlMetrics
      */
     public HtmlMetrics getOriginalMetrics() {
@@ -59,6 +61,7 @@ public class HtmlCompressorStatistics {
      * Returns metrics of a compressed document.
      *
      * @return metrics of a compressed document
+     *
      * @see HtmlMetrics
      */
     public HtmlMetrics getCompressedMetrics() {
@@ -77,13 +80,11 @@ public class HtmlCompressorStatistics {
 
     /**
      * Returns total compression time.
-     *
      * <p>
      * Please note that compression performance varies very significantly depending on whether it was a cold run or not
      * (specifics of Java VM), so for accurate real world results it is recommended to take measurements accordingly.
      *
      * @return the compression time, in milliseconds
-     *
      */
     public long getTime() {
         return time;

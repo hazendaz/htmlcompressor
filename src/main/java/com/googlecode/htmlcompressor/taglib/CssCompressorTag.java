@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2021 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
  * {@link HtmlCompressor} are supported.
  *
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
+ *
  * @see HtmlCompressor
  * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
  */
@@ -83,6 +84,7 @@ public class CssCompressorTag extends BodyTagSupport {
      *
      * @param yuiCssLineBreak
      *            the new yui css line break
+     *
      * @see HtmlCompressor#setYuiCssLineBreak(int)
      */
     public void setYuiCssLineBreak(int yuiCssLineBreak) {
@@ -94,6 +96,7 @@ public class CssCompressorTag extends BodyTagSupport {
      *
      * @param enabled
      *            the new enabled
+     *
      * @see HtmlCompressor#setEnabled(boolean)
      */
     public void setEnabled(boolean enabled) {

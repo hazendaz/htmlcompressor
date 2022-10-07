@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2021 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -77,6 +77,7 @@ public class YuiJavaScriptCompressor implements Compressor {
      * Used by YUI Compressor to log errors during JavaScript compression.
      *
      * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      * @see <a href="http://www.mozilla.org/rhino/apidocs/org/mozilla/javascript/ErrorReporter.html">ErrorReporter
      *      Interface</a>
@@ -219,6 +220,7 @@ public class YuiJavaScriptCompressor implements Compressor {
      * Returns <code>ErrorReporter</code> used by YUI Compressor to log error messages during JavasSript compression.
      *
      * @return <code>ErrorReporter</code> used by YUI Compressor to log error messages during JavasSript compression
+     *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      * @see <a href="http://www.mozilla.org/rhino/apidocs/org/mozilla/javascript/ErrorReporter.html">Error Reporter
      *      Interface</a>

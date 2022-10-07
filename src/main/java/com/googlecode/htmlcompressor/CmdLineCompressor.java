@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2021 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -54,7 +54,6 @@ import jargs.gnu.CmdLineParser.OptionException;
 
 /**
  * Wrapper for HTML and XML compressor classes that allows using them from a command line.
- *
  * <p>
  * Usage: <code>java -jar htmlcompressor.jar [options] [input]</code>
  * <p>
@@ -368,8 +367,7 @@ public class CmdLineCompressor {
                 // analyzer mode
                 HtmlAnalyzer analyzer = new HtmlAnalyzer(
                         HtmlCompressor.JS_COMPRESSOR_CLOSURE.equalsIgnoreCase(jsCompressorOpt)
-                                ? HtmlCompressor.JS_COMPRESSOR_CLOSURE
-                                : HtmlCompressor.JS_COMPRESSOR_YUI);
+                                ? HtmlCompressor.JS_COMPRESSOR_CLOSURE : HtmlCompressor.JS_COMPRESSOR_YUI);
                 analyzer.analyze(readResource(buildReader(fileArgsOpt.isEmpty() ? null : fileArgsOpt.get(0))));
             } else {
                 // compression mode
@@ -406,6 +404,7 @@ public class CmdLineCompressor {
      * Creates the html compressor.
      *
      * @return the compressor
+     *
      * @throws OptionException
      *             the option exception
      */
@@ -515,6 +514,7 @@ public class CmdLineCompressor {
      * Creates the xml compressor.
      *
      * @return the compressor
+     *
      * @throws IllegalArgumentException
      *             the illegal argument exception
      * @throws OptionException
@@ -532,6 +532,7 @@ public class CmdLineCompressor {
      * Builds the input output map.
      *
      * @return the map
+     *
      * @throws IllegalArgumentException
      *             the illegal argument exception
      * @throws IOException
@@ -633,7 +634,9 @@ public class CmdLineCompressor {
      *
      * @param filename
      *            the filename
+     *
      * @return the buffered reader
+     *
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
@@ -653,7 +656,9 @@ public class CmdLineCompressor {
      *
      * @param filename
      *            the filename
+     *
      * @return the writer
+     *
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
@@ -670,7 +675,9 @@ public class CmdLineCompressor {
      *
      * @param input
      *            the input
+     *
      * @return the string
+     *
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
@@ -695,6 +702,7 @@ public class CmdLineCompressor {
      *            the content
      * @param output
      *            the output
+     *
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
@@ -727,6 +735,7 @@ public class CmdLineCompressor {
      *
      * @param inStr
      *            the in str
+     *
      * @return the string
      */
     private String escRegEx(String inStr) {

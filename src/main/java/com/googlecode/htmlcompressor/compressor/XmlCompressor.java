@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2021 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -77,6 +77,7 @@ public class XmlCompressor implements Compressor {
      *
      * @param xml
      *            XML content to compress
+     *
      * @return compressed content.
      */
     @Override
@@ -107,6 +108,7 @@ public class XmlCompressor implements Compressor {
      *            the xml
      * @param cdataBlocks
      *            the cdata blocks
+     *
      * @return the string
      */
     protected String preserveBlocks(String xml, List<String> cdataBlocks) {
@@ -131,6 +133,7 @@ public class XmlCompressor implements Compressor {
      *            the xml
      * @param cdataBlocks
      *            the cdata blocks
+     *
      * @return the string
      */
     protected String returnBlocks(String xml, List<String> cdataBlocks) {
@@ -152,6 +155,7 @@ public class XmlCompressor implements Compressor {
      *
      * @param xml
      *            the xml
+     *
      * @return the string
      */
     protected String processXml(String xml) {
@@ -172,6 +176,7 @@ public class XmlCompressor implements Compressor {
      *
      * @param xml
      *            the xml
+     *
      * @return the string
      */
     protected String removeSpacesInsideTags(String xml) {
@@ -191,6 +196,7 @@ public class XmlCompressor implements Compressor {
      *
      * @param xml
      *            the xml
+     *
      * @return the string
      */
     protected String removeIntertagSpaces(String xml) {
@@ -206,6 +212,7 @@ public class XmlCompressor implements Compressor {
      *
      * @param xml
      *            the xml
+     *
      * @return the string
      */
     protected String removeComments(String xml) {

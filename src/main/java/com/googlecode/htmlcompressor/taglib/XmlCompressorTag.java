@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2021 the original author or authors.
+ *    Copyright 2009-2022 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
  * JSP tag that compresses an XML content within &lt;compress:xml&gt;. Compression parameters are set by default.
  *
  * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
+ *
  * @see XmlCompressor
  */
 public class XmlCompressorTag extends BodyTagSupport {
@@ -77,6 +78,7 @@ public class XmlCompressorTag extends BodyTagSupport {
      *
      * @param enabled
      *            the new enabled
+     *
      * @see XmlCompressor#setEnabled(boolean)
      */
     public void setEnabled(boolean enabled) {
@@ -88,6 +90,7 @@ public class XmlCompressorTag extends BodyTagSupport {
      *
      * @param removeComments
      *            the new removes the comments
+     *
      * @see XmlCompressor#setRemoveComments(boolean)
      */
     public void setRemoveComments(boolean removeComments) {
@@ -99,6 +102,7 @@ public class XmlCompressorTag extends BodyTagSupport {
      *
      * @param removeIntertagSpaces
      *            the new removes the intertag spaces
+     *
      * @see XmlCompressor#setRemoveIntertagSpaces(boolean)
      */
     public void setRemoveIntertagSpaces(boolean removeIntertagSpaces) {

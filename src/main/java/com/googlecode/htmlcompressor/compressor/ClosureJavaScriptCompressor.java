@@ -154,6 +154,7 @@ public class ClosureJavaScriptCompressor implements Compressor {
      * Gets the default externs.
      *
      * @return the default externs
+     *
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
@@ -185,7 +186,6 @@ public class ClosureJavaScriptCompressor implements Compressor {
     /**
      * Sets level of optimization that should be applied when compiling JavaScript code. If none is provided,
      * <code>CompilationLevel.SIMPLE_OPTIMIZATIONS</code> will be used by default.
-     *
      * <p>
      * <b>Warning:</b> Using <code>CompilationLevel.ADVANCED_OPTIMIZATIONS</code> could break inline JavaScript if
      * externs are not set properly.
@@ -267,11 +267,9 @@ public class ClosureJavaScriptCompressor implements Compressor {
     /**
      * Sets external JavaScript files that are used as a reference for function declarations if
      * <code>CompilationLevel.ADVANCED_OPTIMIZATIONS</code> compression level is used.
-     *
      * <p>
      * A number of default externs defined inside Closure's jar will be used besides user defined ones, to use only user
      * defined externs set {@link #setCustomExternsOnly(boolean) setCustomExternsOnly(true)}
-     *
      * <p>
      * <b>Warning:</b> Using <code>CompilationLevel.ADVANCED_OPTIMIZATIONS</code> could break inline JavaScript if
      * externs are not set properly.
