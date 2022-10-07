@@ -15,7 +15,6 @@
  */
 package com.googlecode.htmlcompressor.analyzer;
 
-import com.google.common.base.Strings;
 import com.googlecode.htmlcompressor.compressor.ClosureJavaScriptCompressor;
 import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
 
@@ -275,11 +274,11 @@ public class HtmlAnalyzer {
      */
     private void printHeader() {
         logger.info("\n");
-        logger.info(Strings.repeat("=", 80));
+        logger.info("=".repeat(80));
         logger.info(String.format("%-25s | %-16s | %-16s | %-12s |", "         Setting", "Incremental Gain",
                 "   Total Gain", " Page Size"));
         logger.info("\n");
-        logger.info(Strings.repeat("=", 80));
+        logger.info("=".repeat(80));
 
     }
 
@@ -287,7 +286,7 @@ public class HtmlAnalyzer {
      * Prints the footer.
      */
     private void printFooter() {
-        logger.info(Strings.repeat("=", 80));
+        logger.info("=".repeat(80));
         logger.info("\n");
         logger.info("Each consecutive compressor setting is applied on top of previous ones.");
         logger.info("In order to see JS and CSS compression results, YUI jar file must be present.");
