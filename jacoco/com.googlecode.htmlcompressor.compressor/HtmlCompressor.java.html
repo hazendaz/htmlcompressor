@@ -1,0 +1,2348 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HtmlCompressor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">HTML Compressor and Minifier</a> &gt; <a href="index.source.html" class="el_package">com.googlecode.htmlcompressor.compressor</a> &gt; <span class="el_source">HtmlCompressor.java</span></div><h1>HtmlCompressor.java</h1><pre class="source lang-java linenums">/*
+ *    Copyright 2009-2022 the original author or authors.
+ *
+ *    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+package com.googlecode.htmlcompressor.compressor;
+
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.mozilla.javascript.ErrorReporter;
+
+/**
+ * Class that compresses given HTML source by removing comments, extra spaces and lin&amp;lt;pre&amp;gt; while preserving
+ * content within &amp;lt;pre&amp;gt;, &amp;lt;textarea&amp;gt;, &amp;lt;script&amp;gt; and &amp;lt;style&amp;gt; tags.
+ * &lt;p&gt;
+ * Blocks that should be additionally preserved could be marked with: &lt;br&gt;
+ * &lt;code&gt;&amp;lt;!-- {{{ --&amp;gt;
+ * &lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;...
+ * &lt;br&gt;&amp;lt;!-- }}} --&amp;gt;&lt;/code&gt; &lt;br&gt;
+ * or any number of user defined patterns.
+ * &lt;p&gt;
+ * Content inside &amp;lt;script&amp;gt; or &amp;lt;style&amp;gt; tags could be optionally compressed using
+ * &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt; or
+ * &lt;a href=&quot;http://code.google.com/closure/compiler/&quot;&gt;Google Closure Compiler&lt;/a&gt; libraries.
+ *
+ * @author &lt;a href=&quot;mailto:serg472@gmail.com&quot;&gt;Sergiy Kovalchuk&lt;/a&gt;
+ */
+<span class="fc" id="L42">public class HtmlCompressor implements Compressor {</span>
+
+    /** The Constant JS_COMPRESSOR_YUI. */
+    public static final String JS_COMPRESSOR_YUI = &quot;yui&quot;;
+
+    /** The Constant JS_COMPRESSOR_CLOSURE. */
+    public static final String JS_COMPRESSOR_CLOSURE = &quot;closure&quot;;
+
+    /**
+     * Predefined pattern that matches &lt;code&gt;&amp;lt;?php ... ?&amp;gt;&lt;/code&gt; tags. Could be passed inside a list to
+     * {@link #setPreservePatterns(List) setPreservePatterns} method.
+     */
+<span class="fc" id="L54">    public static final Pattern PHP_TAG_PATTERN = Pattern.compile(&quot;&lt;\\?php.*?\\?&gt;&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /**
+     * Predefined pattern that matches &lt;code&gt;&amp;lt;% ... %&amp;gt;&lt;/code&gt; tags. Could be passed inside a list to
+     * {@link #setPreservePatterns(List) setPreservePatterns} method.
+     */
+<span class="fc" id="L61">    public static final Pattern SERVER_SCRIPT_TAG_PATTERN = Pattern.compile(&quot;&lt;%.*?%&gt;&quot;, Pattern.DOTALL);</span>
+
+    /**
+     * Predefined pattern that matches &lt;code&gt;&amp;lt;--# ... --&amp;gt;&lt;/code&gt; tags. Could be passed inside a list to
+     * {@link #setPreservePatterns(List) setPreservePatterns} method.
+     */
+<span class="fc" id="L67">    public static final Pattern SERVER_SIDE_INCLUDE_PATTERN = Pattern.compile(&quot;&lt;!--\\s*#.*?--&gt;&quot;, Pattern.DOTALL);</span>
+
+    /**
+     * Predefined list of tags that are very likely to be block-level. Could be passed to
+     * {@link #setRemoveSurroundingSpaces(String) setRemoveSurroundingSpaces} method.
+     */
+    public static final String BLOCK_TAGS_MIN = &quot;html,head,body,br,p&quot;;
+
+    /**
+     * Predefined list of tags that are block-level by default, excluding &lt;code&gt;&amp;lt;div&amp;gt;&lt;/code&gt; and
+     * &lt;code&gt;&amp;lt;li&amp;gt;&lt;/code&gt; tags. Table tags are also included. Could be passed to
+     * {@link #setRemoveSurroundingSpaces(String) setRemoveSurroundingSpaces} method.
+     */
+    public static final String BLOCK_TAGS_MAX = BLOCK_TAGS_MIN
+            + &quot;,h1,h2,h3,h4,h5,h6,blockquote,center,dl,fieldset,form,frame,frameset,hr,noframes,ol,table,tbody,tr,td,th,tfoot,thead,ul&quot;;
+
+    /**
+     * Could be passed to {@link #setRemoveSurroundingSpaces(String) setRemoveSurroundingSpaces} method to remove all
+     * surrounding spaces (not recommended).
+     */
+    public static final String ALL_TAGS = &quot;all&quot;;
+
+    /** The enabled. */
+<span class="fc" id="L90">    private boolean enabled = true;</span>
+
+    // javascript and css compressor implementations
+
+    /** The java script compressor. */
+    private Compressor javaScriptCompressor;
+
+    /** The css compressor. */
+    private Compressor cssCompressor;
+
+    // default settings
+
+    /** The remove comments. */
+<span class="fc" id="L103">    private boolean removeComments = true;</span>
+
+    /** The remove multi spaces. */
+<span class="fc" id="L106">    private boolean removeMultiSpaces = true;</span>
+
+    // optional settings
+
+    /** The remove intertag spaces. */
+    private boolean removeIntertagSpaces;
+
+    /** The remove quotes. */
+    private boolean removeQuotes;
+
+    /** The compress java script. */
+    private boolean compressJavaScript;
+
+    /** The compress css. */
+    private boolean compressCss;
+
+    /** The simple doctype. */
+    private boolean simpleDoctype;
+
+    /** The remove script attributes. */
+    private boolean removeScriptAttributes;
+
+    /** The remove style attributes. */
+    private boolean removeStyleAttributes;
+
+    /** The remove link attributes. */
+    private boolean removeLinkAttributes;
+
+    /** The remove form attributes. */
+    private boolean removeFormAttributes;
+
+    /** The remove input attributes. */
+    private boolean removeInputAttributes;
+
+    /** The simple boolean attributes. */
+    private boolean simpleBooleanAttributes;
+
+    /** The remove java script protocol. */
+    private boolean removeJavaScriptProtocol;
+
+    /** The remove http protocol. */
+    private boolean removeHttpProtocol;
+
+    /** The remove https protocol. */
+    private boolean removeHttpsProtocol;
+
+    /** The preserve line breaks. */
+    private boolean preserveLineBreaks;
+
+    /** The remove surrounding spaces. */
+    private String removeSurroundingSpaces;
+
+    /** The preserve patterns. */
+    private List&lt;Pattern&gt; preservePatterns;
+
+    // statistics
+
+    /** The generate statistics. */
+    private boolean generateStatistics;
+
+    /** The statistics. */
+    private HtmlCompressorStatistics statistics;
+
+    // YUICompressor settings
+
+    /** The yui js no munge. */
+    private boolean yuiJsNoMunge;
+
+    /** The yui js preserve all semi colons. */
+    private boolean yuiJsPreserveAllSemiColons;
+
+    /** The yui js disable optimizations. */
+    private boolean yuiJsDisableOptimizations;
+
+    /** The yui js line break. */
+<span class="fc" id="L181">    private int yuiJsLineBreak = -1;</span>
+
+    /** The yui css line break. */
+<span class="fc" id="L184">    private int yuiCssLineBreak = -1;</span>
+
+    /** The yui error reporter. */
+    // error reporter implementation for YUI compressor
+    private ErrorReporter yuiErrorReporter;
+
+    /** The Constant tempCondCommentBlock. */
+    // temp replacements for preserved blocks
+    protected static final String TEMP_COND_COMMENT_BLOCK = &quot;%%%~COMPRESS~COND~{0,number,#}~%%%&quot;;
+
+    /** The Constant tempPreBlock. */
+    protected static final String TEMP_PRE_BLOCK = &quot;%%%~COMPRESS~PRE~{0,number,#}~%%%&quot;;
+
+    /** The Constant tempTextAreaBlock. */
+    protected static final String TEMP_TEXT_AREA_BLOCK = &quot;%%%~COMPRESS~TEXTAREA~{0,number,#}~%%%&quot;;
+
+    /** The Constant tempScriptBlock. */
+    protected static final String TEMP_SCRIPT_BLOCK = &quot;%%%~COMPRESS~SCRIPT~{0,number,#}~%%%&quot;;
+
+    /** The Constant tempStyleBlock. */
+    protected static final String TEMP_STYLE_BLOCK = &quot;%%%~COMPRESS~STYLE~{0,number,#}~%%%&quot;;
+
+    /** The Constant tempEventBlock. */
+    protected static final String TEMP_EVENT_BLOCK = &quot;%%%~COMPRESS~EVENT~{0,number,#}~%%%&quot;;
+
+    /** The Constant tempLineBreakBlock. */
+    protected static final String TEMP_LINE_BREAK_BLOCK = &quot;%%%~COMPRESS~LT~{0,number,#}~%%%&quot;;
+
+    /** The Constant tempSkipBlock. */
+    protected static final String TEMP_SKIP_BLOCK = &quot;%%%~COMPRESS~SKIP~{0,number,#}~%%%&quot;;
+
+    /** The Constant tempUserBlock. */
+    protected static final String TEMP_USER_BLOCK = &quot;%%%~COMPRESS~USER{0,number,#}~{1,number,#}~%%%&quot;;
+
+    /** The Constant emptyPattern. */
+    // compiled regex patterns
+<span class="fc" id="L220">    protected static final Pattern emptyPattern = Pattern.compile(&quot;\\s&quot;);</span>
+
+    /** The Constant skipPattern. */
+<span class="fc" id="L223">    protected static final Pattern skipPattern = Pattern.compile(</span>
+            &quot;&lt;!--\\s*\\{\\{\\{\\s*--&gt;(.*?)&lt;!--\\s*\\}\\}\\}\\s*--&gt;&quot;, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant condCommentPattern. */
+<span class="fc" id="L227">    protected static final Pattern condCommentPattern = Pattern</span>
+<span class="fc" id="L228">            .compile(&quot;(&lt;!(?:--)?\\[[^\\]]+?]&gt;)(.*?)(&lt;!\\[[^\\]]+]--&gt;)&quot;, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);</span>
+
+    /** The Constant commentPattern. */
+<span class="fc" id="L231">    protected static final Pattern commentPattern = Pattern.compile(&quot;&lt;!----&gt;|&lt;!--[^\\[].*?--&gt;&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant intertagPattern_TagTag. */
+<span class="fc" id="L235">    protected static final Pattern intertagPattern_TagTag = Pattern.compile(&quot;&gt;\\s+&lt;&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant intertagPattern_TagCustom. */
+<span class="fc" id="L239">    protected static final Pattern intertagPattern_TagCustom = Pattern.compile(&quot;&gt;\\s+%%%~&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant intertagPattern_CustomTag. */
+<span class="fc" id="L243">    protected static final Pattern intertagPattern_CustomTag = Pattern.compile(&quot;~%%%\\s+&lt;&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant intertagPattern_CustomCustom. */
+<span class="fc" id="L247">    protected static final Pattern intertagPattern_CustomCustom = Pattern.compile(&quot;~%%%\\s+%%%~&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant multispacePattern. */
+<span class="fc" id="L251">    protected static final Pattern multispacePattern = Pattern.compile(&quot;\\s+&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant tagEndSpacePattern. */
+<span class="fc" id="L255">    protected static final Pattern tagEndSpacePattern = Pattern.compile(&quot;(&lt;(?:[^&gt;]+?))(?:\\s+?)(/?&gt;)&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant tagLastUnquotedValuePattern. */
+<span class="fc" id="L259">    protected static final Pattern tagLastUnquotedValuePattern = Pattern.compile(&quot;=\\s*[a-z0-9-_]+$&quot;,</span>
+            Pattern.CASE_INSENSITIVE);
+
+    /** The Constant tagQuotePattern. */
+<span class="fc" id="L263">    protected static final Pattern tagQuotePattern = Pattern.compile(&quot;\\s*=\\s*([\&quot;'])([a-z0-9-_]+?)\\1(/?)(?=[^&lt;]*?&gt;)&quot;,</span>
+            Pattern.CASE_INSENSITIVE);
+
+    /** The Constant prePattern. */
+<span class="fc" id="L267">    protected static final Pattern prePattern = Pattern.compile(&quot;(&lt;pre[^&gt;]*?&gt;)(.*?)(&lt;/pre&gt;)&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant taPattern. */
+<span class="fc" id="L271">    protected static final Pattern taPattern = Pattern.compile(&quot;(&lt;textarea[^&gt;]*?&gt;)(.*?)(&lt;/textarea&gt;)&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant scriptPattern. */
+<span class="fc" id="L275">    protected static final Pattern scriptPattern = Pattern.compile(&quot;(&lt;script[^&gt;]*?&gt;)(.*?)(&lt;/script&gt;)&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant stylePattern. */
+<span class="fc" id="L279">    protected static final Pattern stylePattern = Pattern.compile(&quot;(&lt;style[^&gt;]*?&gt;)(.*?)(&lt;/style&gt;)&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant tagPropertyPattern. */
+<span class="fc" id="L283">    protected static final Pattern tagPropertyPattern = Pattern.compile(&quot;(\\s\\w+)\\s*=\\s*(?=[^&lt;]*?&gt;)&quot;,</span>
+            Pattern.CASE_INSENSITIVE);
+
+    /** The Constant cdataPattern. */
+<span class="fc" id="L287">    protected static final Pattern cdataPattern = Pattern.compile(&quot;\\s*&lt;!\\[CDATA\\[(.*?)\\]\\]&gt;\\s*&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant doctypePattern. */
+<span class="fc" id="L291">    protected static final Pattern doctypePattern = Pattern.compile(&quot;&lt;!DOCTYPE[^&gt;]*&gt;&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant typeAttrPattern. */
+<span class="fc" id="L295">    protected static final Pattern typeAttrPattern = Pattern.compile(&quot;type\\s*=\\s*([\\\&quot;']*)(.+?)\\1&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant jsTypeAttrPattern. */
+<span class="fc" id="L299">    protected static final Pattern jsTypeAttrPattern = Pattern.compile(</span>
+            &quot;(&lt;script[^&gt;]*)type\\s*=\\s*([\&quot;']*)(?:text|application)/javascript\\2([^&gt;]*&gt;)&quot;,
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant jsLangAttrPattern. */
+<span class="fc" id="L304">    protected static final Pattern jsLangAttrPattern = Pattern.compile(</span>
+            &quot;(&lt;script[^&gt;]*)language\\s*=\\s*([\&quot;']*)javascript\\2([^&gt;]*&gt;)&quot;, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant styleTypeAttrPattern. */
+<span class="fc" id="L308">    protected static final Pattern styleTypeAttrPattern = Pattern.compile(</span>
+            &quot;(&lt;style[^&gt;]*)type\\s*=\\s*([\&quot;']*)text/style\\2([^&gt;]*&gt;)&quot;, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant linkTypeAttrPattern. */
+<span class="fc" id="L312">    protected static final Pattern linkTypeAttrPattern = Pattern.compile(</span>
+            &quot;(&lt;link[^&gt;]*)type\\s*=\\s*([\&quot;']*)text/(?:css|plain)\\2([^&gt;]*&gt;)&quot;,
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant linkRelAttrPattern. */
+<span class="fc" id="L317">    protected static final Pattern linkRelAttrPattern = Pattern.compile(</span>
+            &quot;&lt;link(?:[^&gt;]*)rel\\s*=\\s*([\&quot;']*)(?:alternate\\s+)?stylesheet\\1(?:[^&gt;]*)&gt;&quot;,
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant formMethodAttrPattern. */
+<span class="fc" id="L322">    protected static final Pattern formMethodAttrPattern = Pattern</span>
+<span class="fc" id="L323">            .compile(&quot;(&lt;form[^&gt;]*)method\\s*=\\s*([\&quot;']*)get\\2([^&gt;]*&gt;)&quot;, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);</span>
+
+    /** The Constant inputTypeAttrPattern. */
+<span class="fc" id="L326">    protected static final Pattern inputTypeAttrPattern = Pattern</span>
+<span class="fc" id="L327">            .compile(&quot;(&lt;input[^&gt;]*)type\\s*=\\s*([\&quot;']*)text\\2([^&gt;]*&gt;)&quot;, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);</span>
+
+    /** The Constant booleanAttrPattern. */
+<span class="fc" id="L330">    protected static final Pattern booleanAttrPattern = Pattern.compile(</span>
+            &quot;(&lt;\\w+[^&gt;]*)(checked|selected|disabled|readonly)\\s*=\\s*([\&quot;']*)\\w*\\3([^&gt;]*&gt;)&quot;,
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant eventJsProtocolPattern. */
+<span class="fc" id="L335">    protected static final Pattern eventJsProtocolPattern = Pattern.compile(&quot;^javascript:\\s*(.+)&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant httpProtocolPattern. */
+<span class="fc" id="L339">    protected static final Pattern httpProtocolPattern = Pattern.compile(</span>
+            &quot;(&lt;[^&gt;]+?(?:href|src|cite|action)\\s*=\\s*['\&quot;])http:(//[^&gt;]+?&gt;)&quot;,
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant httpsProtocolPattern. */
+<span class="fc" id="L344">    protected static final Pattern httpsProtocolPattern = Pattern.compile(</span>
+            &quot;(&lt;[^&gt;]+?(?:href|src|cite|action)\\s*=\\s*['\&quot;])https:(//[^&gt;]+?&gt;)&quot;,
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant relExternalPattern. */
+<span class="fc" id="L349">    protected static final Pattern relExternalPattern = Pattern.compile(</span>
+            &quot;&lt;(?:[^&gt;]*)rel\\s*=\\s*([\&quot;']*)(?:alternate\\s+)?external\\1(?:[^&gt;]*)&gt;&quot;,
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant eventPattern1 (unmasked). */
+<span class="fc" id="L354">    protected static final Pattern eventPattern1 = Pattern.compile(</span>
+            &quot;(\\son[a-z]+\\s*=\\s*\&quot;)([^\&quot;\\\\\\r\\n]*(?:\\\\.[^\&quot;\\\\\\r\\n]*)*)(\&quot;)&quot;, Pattern.CASE_INSENSITIVE);
+
+    /** The Constant eventPattern2. */
+    // \son[a-z]+\s*=\s*&quot;[^&quot;\\\r\n]*(?:\\.[^&quot;\\\r\n]*)*&quot;
+<span class="fc" id="L359">    protected static final Pattern eventPattern2 = Pattern</span>
+<span class="fc" id="L360">            .compile(&quot;(\\son[a-z]+\\s*=\\s*')([^'\\\\\\r\\n]*(?:\\\\.[^'\\\\\\r\\n]*)*)(')&quot;, Pattern.CASE_INSENSITIVE);</span>
+
+    /** The Constant lineBreakPattern. */
+<span class="fc" id="L363">    protected static final Pattern lineBreakPattern = Pattern.compile(&quot;(?:\\p{Blank}*(\\r?\\n)\\p{Blank}*)+&quot;);</span>
+
+    /** The Constant surroundingSpacesMinPattern. */
+<span class="fc" id="L366">    protected static final Pattern surroundingSpacesMinPattern = Pattern.compile(</span>
+<span class="fc" id="L367">            &quot;\\s*(&lt;/?(?:&quot; + BLOCK_TAGS_MIN.replace(&quot;,&quot;, &quot;|&quot;) + &quot;)(?:&gt;|[\\s/][^&gt;]*&gt;))\\s*&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant surroundingSpacesMaxPattern. */
+<span class="fc" id="L371">    protected static final Pattern surroundingSpacesMaxPattern = Pattern.compile(</span>
+<span class="fc" id="L372">            &quot;\\s*(&lt;/?(?:&quot; + BLOCK_TAGS_MAX.replace(&quot;,&quot;, &quot;|&quot;) + &quot;)(?:&gt;|[\\s/][^&gt;]*&gt;))\\s*&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant surroundingSpacesAllPattern. */
+<span class="fc" id="L376">    protected static final Pattern surroundingSpacesAllPattern = Pattern.compile(&quot;\\s*(&lt;[^&gt;]+&gt;)\\s*&quot;,</span>
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+    /** The Constant tempCondCommentPattern. */
+    // patterns for searching for temporary replacements
+<span class="fc" id="L381">    protected static final Pattern tempCondCommentPattern = Pattern.compile(&quot;%%%~COMPRESS~COND~(\\d+?)~%%%&quot;);</span>
+
+    /** The Constant tempPrePattern. */
+<span class="fc" id="L384">    protected static final Pattern tempPrePattern = Pattern.compile(&quot;%%%~COMPRESS~PRE~(\\d+?)~%%%&quot;);</span>
+
+    /** The Constant tempTextAreaPattern. */
+<span class="fc" id="L387">    protected static final Pattern tempTextAreaPattern = Pattern.compile(&quot;%%%~COMPRESS~TEXTAREA~(\\d+?)~%%%&quot;);</span>
+
+    /** The Constant tempScriptPattern. */
+<span class="fc" id="L390">    protected static final Pattern tempScriptPattern = Pattern.compile(&quot;%%%~COMPRESS~SCRIPT~(\\d+?)~%%%&quot;);</span>
+
+    /** The Constant tempStylePattern. */
+<span class="fc" id="L393">    protected static final Pattern tempStylePattern = Pattern.compile(&quot;%%%~COMPRESS~STYLE~(\\d+?)~%%%&quot;);</span>
+
+    /** The Constant tempEventPattern. */
+<span class="fc" id="L396">    protected static final Pattern tempEventPattern = Pattern.compile(&quot;%%%~COMPRESS~EVENT~(\\d+?)~%%%&quot;);</span>
+
+    /** The Constant tempSkipPattern. */
+<span class="fc" id="L399">    protected static final Pattern tempSkipPattern = Pattern.compile(&quot;%%%~COMPRESS~SKIP~(\\d+?)~%%%&quot;);</span>
+
+    /** The Constant tempLineBreakPattern. */
+<span class="fc" id="L402">    protected static final Pattern tempLineBreakPattern = Pattern.compile(&quot;%%%~COMPRESS~LT~(\\d+?)~%%%&quot;);</span>
+
+    /**
+     * The main method that compresses given HTML source and returns compressed result.
+     *
+     * @param html
+     *            HTML content to compress
+     *
+     * @return compressed content.
+     */
+    @Override
+    public String compress(String html) {
+<span class="pc bpc" id="L414" title="2 of 6 branches missed.">        if (!enabled || html == null || html.length() == 0) {</span>
+<span class="fc" id="L415">            return html;</span>
+        }
+
+        // calculate uncompressed statistics
+<span class="fc" id="L419">        initStatistics(html);</span>
+
+        // preserved block containers
+<span class="fc" id="L422">        List&lt;String&gt; condCommentBlocks = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L423">        List&lt;String&gt; preBlocks = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L424">        List&lt;String&gt; taBlocks = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L425">        List&lt;String&gt; scriptBlocks = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L426">        List&lt;String&gt; styleBlocks = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L427">        List&lt;String&gt; eventBlocks = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L428">        List&lt;String&gt; skipBlocks = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L429">        List&lt;String&gt; lineBreakBlocks = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L430">        List&lt;List&lt;String&gt;&gt; userBlocks = new ArrayList&lt;&gt;();</span>
+
+        // preserve blocks
+<span class="fc" id="L433">        html = preserveBlocks(html, preBlocks, taBlocks, scriptBlocks, styleBlocks, eventBlocks, condCommentBlocks,</span>
+                skipBlocks, lineBreakBlocks, userBlocks);
+
+        // process pure html
+<span class="fc" id="L437">        html = processHtml(html);</span>
+
+        // process preserved blocks
+<span class="fc" id="L440">        processPreservedBlocks(preBlocks, taBlocks, scriptBlocks, styleBlocks, eventBlocks, condCommentBlocks,</span>
+                skipBlocks, lineBreakBlocks, userBlocks);
+
+        // put preserved blocks back
+<span class="fc" id="L444">        html = returnBlocks(html, preBlocks, taBlocks, scriptBlocks, styleBlocks, eventBlocks, condCommentBlocks,</span>
+                skipBlocks, lineBreakBlocks, userBlocks);
+
+        // calculate compressed statistics
+<span class="fc" id="L448">        endStatistics(html);</span>
+
+<span class="fc" id="L450">        return html;</span>
+    }
+
+    /**
+     * Inits the statistics.
+     *
+     * @param html
+     *            the html
+     */
+    protected void initStatistics(String html) {
+        // create stats
+<span class="pc bpc" id="L461" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc" id="L462">            statistics = new HtmlCompressorStatistics();</span>
+<span class="nc" id="L463">            statistics.setTime(System.currentTimeMillis());</span>
+<span class="nc" id="L464">            statistics.getOriginalMetrics().setFilesize(html.length());</span>
+
+            // calculate number of empty chars
+<span class="nc" id="L467">            Matcher matcher = emptyPattern.matcher(html);</span>
+<span class="nc bnc" id="L468" title="All 2 branches missed.">            while (matcher.find()) {</span>
+<span class="nc" id="L469">                statistics.getOriginalMetrics().setEmptyChars(statistics.getOriginalMetrics().getEmptyChars() + 1);</span>
+            }
+<span class="nc" id="L471">        } else {</span>
+<span class="fc" id="L472">            statistics = null;</span>
+        }
+<span class="fc" id="L474">    }</span>
+
+    /**
+     * End statistics.
+     *
+     * @param html
+     *            the html
+     */
+    protected void endStatistics(String html) {
+        // calculate compression time
+<span class="pc bpc" id="L484" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc" id="L485">            statistics.setTime(System.currentTimeMillis() - statistics.getTime());</span>
+<span class="nc" id="L486">            statistics.getCompressedMetrics().setFilesize(html.length());</span>
+
+            // calculate number of empty chars
+<span class="nc" id="L489">            Matcher matcher = emptyPattern.matcher(html);</span>
+<span class="nc bnc" id="L490" title="All 2 branches missed.">            while (matcher.find()) {</span>
+<span class="nc" id="L491">                statistics.getCompressedMetrics().setEmptyChars(statistics.getCompressedMetrics().getEmptyChars() + 1);</span>
+            }
+        }
+<span class="fc" id="L494">    }</span>
+
+    /**
+     * Preserve blocks.
+     *
+     * @param html
+     *            the html
+     * @param preBlocks
+     *            the pre blocks
+     * @param taBlocks
+     *            the ta blocks
+     * @param scriptBlocks
+     *            the script blocks
+     * @param styleBlocks
+     *            the style blocks
+     * @param eventBlocks
+     *            the event blocks
+     * @param condCommentBlocks
+     *            the cond comment blocks
+     * @param skipBlocks
+     *            the skip blocks
+     * @param lineBreakBlocks
+     *            the line break blocks
+     * @param userBlocks
+     *            the user blocks
+     *
+     * @return the string
+     */
+    protected String preserveBlocks(String html, List&lt;String&gt; preBlocks, List&lt;String&gt; taBlocks,
+            List&lt;String&gt; scriptBlocks, List&lt;String&gt; styleBlocks, List&lt;String&gt; eventBlocks,
+            List&lt;String&gt; condCommentBlocks, List&lt;String&gt; skipBlocks, List&lt;String&gt; lineBreakBlocks,
+            List&lt;List&lt;String&gt;&gt; userBlocks) {
+
+        // preserve user blocks
+<span class="fc bfc" id="L528" title="All 2 branches covered.">        if (preservePatterns != null) {</span>
+<span class="fc bfc" id="L529" title="All 2 branches covered.">            for (int p = 0; p &lt; preservePatterns.size(); p++) {</span>
+<span class="fc" id="L530">                List&lt;String&gt; userBlock = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L532">                Matcher matcher = preservePatterns.get(p).matcher(html);</span>
+<span class="fc" id="L533">                int index = 0;</span>
+<span class="fc" id="L534">                StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L535" title="All 2 branches covered.">                while (matcher.find()) {</span>
+<span class="pc bpc" id="L536" title="1 of 2 branches missed.">                    if (matcher.group(0).trim().length() &gt; 0) {</span>
+<span class="fc" id="L537">                        userBlock.add(matcher.group(0));</span>
+<span class="fc" id="L538">                        matcher.appendReplacement(sb, MessageFormat.format(TEMP_USER_BLOCK, p, index++));</span>
+                    }
+                }
+<span class="fc" id="L541">                matcher.appendTail(sb);</span>
+<span class="fc" id="L542">                html = sb.toString();</span>
+<span class="fc" id="L543">                userBlocks.add(userBlock);</span>
+            }
+        }
+
+        // preserve &lt;!-- {{{ ---&gt;&lt;!-- }}} ---&gt; skip blocks
+<span class="fc" id="L548">        Matcher matcher = skipPattern.matcher(html);</span>
+<span class="fc" id="L549">        int skipBlockIndex = 0;</span>
+<span class="fc" id="L550">        StringBuilder sb = new StringBuilder();</span>
+<span class="pc bpc" id="L551" title="1 of 2 branches missed.">        while (matcher.find()) {</span>
+<span class="nc bnc" id="L552" title="All 2 branches missed.">            if (matcher.group(1).trim().length() &gt; 0) {</span>
+<span class="nc" id="L553">                skipBlocks.add(matcher.group(1));</span>
+<span class="nc" id="L554">                matcher.appendReplacement(sb, MessageFormat.format(TEMP_SKIP_BLOCK, skipBlockIndex++));</span>
+            }
+        }
+<span class="fc" id="L557">        matcher.appendTail(sb);</span>
+<span class="fc" id="L558">        html = sb.toString();</span>
+
+        // preserve conditional comments
+<span class="fc" id="L561">        HtmlCompressor condCommentCompressor = createCompressorClone();</span>
+<span class="fc" id="L562">        matcher = condCommentPattern.matcher(html);</span>
+<span class="fc" id="L563">        int index = 0;</span>
+<span class="fc" id="L564">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L565" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="pc bpc" id="L566" title="1 of 2 branches missed.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
+<span class="fc" id="L567">                condCommentBlocks</span>
+<span class="fc" id="L568">                        .add(matcher.group(1) + condCommentCompressor.compress(matcher.group(2)) + matcher.group(3));</span>
+<span class="fc" id="L569">                matcher.appendReplacement(sb, MessageFormat.format(TEMP_COND_COMMENT_BLOCK, index++));</span>
+            }
+        }
+<span class="fc" id="L572">        matcher.appendTail(sb);</span>
+<span class="fc" id="L573">        html = sb.toString();</span>
+
+        // preserve inline events
+<span class="fc" id="L576">        matcher = eventPattern1.matcher(html);</span>
+<span class="fc" id="L577">        index = 0;</span>
+<span class="fc" id="L578">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L579" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="pc bpc" id="L580" title="1 of 2 branches missed.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
+<span class="fc" id="L581">                eventBlocks.add(matcher.group(2));</span>
+<span class="fc" id="L582">                matcher.appendReplacement(sb, &quot;$1&quot; + MessageFormat.format(TEMP_EVENT_BLOCK, index++) + &quot;$3&quot;);</span>
+            }
+        }
+<span class="fc" id="L585">        matcher.appendTail(sb);</span>
+<span class="fc" id="L586">        html = sb.toString();</span>
+
+<span class="fc" id="L588">        matcher = eventPattern2.matcher(html);</span>
+<span class="fc" id="L589">        sb = new StringBuilder();</span>
+<span class="pc bpc" id="L590" title="1 of 2 branches missed.">        while (matcher.find()) {</span>
+<span class="nc bnc" id="L591" title="All 2 branches missed.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
+<span class="nc" id="L592">                eventBlocks.add(matcher.group(2));</span>
+<span class="nc" id="L593">                matcher.appendReplacement(sb, &quot;$1&quot; + MessageFormat.format(TEMP_EVENT_BLOCK, index++) + &quot;$3&quot;);</span>
+            }
+        }
+<span class="fc" id="L596">        matcher.appendTail(sb);</span>
+<span class="fc" id="L597">        html = sb.toString();</span>
+
+        // preserve PRE tags
+<span class="fc" id="L600">        matcher = prePattern.matcher(html);</span>
+<span class="fc" id="L601">        index = 0;</span>
+<span class="fc" id="L602">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L603" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="pc bpc" id="L604" title="1 of 2 branches missed.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
+<span class="fc" id="L605">                preBlocks.add(matcher.group(2));</span>
+<span class="fc" id="L606">                matcher.appendReplacement(sb, &quot;$1&quot; + MessageFormat.format(TEMP_PRE_BLOCK, index++) + &quot;$3&quot;);</span>
+            }
+        }
+<span class="fc" id="L609">        matcher.appendTail(sb);</span>
+<span class="fc" id="L610">        html = sb.toString();</span>
+
+        // preserve SCRIPT tags
+<span class="fc" id="L613">        matcher = scriptPattern.matcher(html);</span>
+<span class="fc" id="L614">        index = 0;</span>
+<span class="fc" id="L615">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L616" title="All 2 branches covered.">        while (matcher.find()) {</span>
+            // ignore empty scripts
+<span class="fc bfc" id="L618" title="All 2 branches covered.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
+
+                // check type
+<span class="fc" id="L621">                String type = &quot;&quot;;</span>
+<span class="fc" id="L622">                Matcher typeMatcher = typeAttrPattern.matcher(matcher.group(1));</span>
+<span class="fc bfc" id="L623" title="All 2 branches covered.">                if (typeMatcher.find()) {</span>
+<span class="fc" id="L624">                    type = typeMatcher.group(2).toLowerCase();</span>
+                }
+
+<span class="pc bpc" id="L627" title="1 of 6 branches missed.">                if (type.length() == 0 || &quot;text/javascript&quot;.equals(type) || &quot;application/javascript&quot;.equals(type)) {</span>
+                    // javascript block, preserve and compress with js compressor
+<span class="fc" id="L629">                    scriptBlocks.add(matcher.group(2));</span>
+<span class="fc" id="L630">                    matcher.appendReplacement(sb, &quot;$1&quot; + MessageFormat.format(TEMP_SCRIPT_BLOCK, index++) + &quot;$3&quot;);</span>
+<span class="fc bfc" id="L631" title="All 2 branches covered.">                } else if (&quot;text/x-jquery-tmpl&quot;.equals(type)) {</span>
+                    // jquery template, ignore so it gets compressed with the rest of html
+                } else {
+                    // some custom script, preserve it inside &quot;skip blocks&quot; so it won't be compressed with js compressor
+<span class="fc" id="L635">                    skipBlocks.add(matcher.group(2));</span>
+<span class="fc" id="L636">                    matcher.appendReplacement(sb,</span>
+<span class="fc" id="L637">                            &quot;$1&quot; + MessageFormat.format(TEMP_SKIP_BLOCK, skipBlockIndex++) + &quot;$3&quot;);</span>
+                }
+
+<span class="fc" id="L640">            }</span>
+        }
+<span class="fc" id="L642">        matcher.appendTail(sb);</span>
+<span class="fc" id="L643">        html = sb.toString();</span>
+
+        // preserve STYLE tags
+<span class="fc" id="L646">        matcher = stylePattern.matcher(html);</span>
+<span class="fc" id="L647">        index = 0;</span>
+<span class="fc" id="L648">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L649" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="fc bfc" id="L650" title="All 2 branches covered.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
+<span class="fc" id="L651">                styleBlocks.add(matcher.group(2));</span>
+<span class="fc" id="L652">                matcher.appendReplacement(sb, &quot;$1&quot; + MessageFormat.format(TEMP_STYLE_BLOCK, index++) + &quot;$3&quot;);</span>
+            }
+        }
+<span class="fc" id="L655">        matcher.appendTail(sb);</span>
+<span class="fc" id="L656">        html = sb.toString();</span>
+
+        // preserve TEXTAREA tags
+<span class="fc" id="L659">        matcher = taPattern.matcher(html);</span>
+<span class="fc" id="L660">        index = 0;</span>
+<span class="fc" id="L661">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L662" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="pc bpc" id="L663" title="1 of 2 branches missed.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
+<span class="fc" id="L664">                taBlocks.add(matcher.group(2));</span>
+<span class="fc" id="L665">                matcher.appendReplacement(sb, &quot;$1&quot; + MessageFormat.format(TEMP_TEXT_AREA_BLOCK, index++) + &quot;$3&quot;);</span>
+            }
+        }
+<span class="fc" id="L668">        matcher.appendTail(sb);</span>
+<span class="fc" id="L669">        html = sb.toString();</span>
+
+        // preserve line breaks
+<span class="fc bfc" id="L672" title="All 2 branches covered.">        if (preserveLineBreaks) {</span>
+<span class="fc" id="L673">            matcher = lineBreakPattern.matcher(html);</span>
+<span class="fc" id="L674">            index = 0;</span>
+<span class="fc" id="L675">            sb = new StringBuilder();</span>
+<span class="fc bfc" id="L676" title="All 2 branches covered.">            while (matcher.find()) {</span>
+<span class="fc" id="L677">                lineBreakBlocks.add(matcher.group(1));</span>
+<span class="fc" id="L678">                matcher.appendReplacement(sb, MessageFormat.format(TEMP_LINE_BREAK_BLOCK, index++));</span>
+            }
+<span class="fc" id="L680">            matcher.appendTail(sb);</span>
+<span class="fc" id="L681">            html = sb.toString();</span>
+        }
+
+<span class="fc" id="L684">        return html;</span>
+    }
+
+    /**
+     * Return blocks.
+     *
+     * @param html
+     *            the html
+     * @param preBlocks
+     *            the pre blocks
+     * @param taBlocks
+     *            the ta blocks
+     * @param scriptBlocks
+     *            the script blocks
+     * @param styleBlocks
+     *            the style blocks
+     * @param eventBlocks
+     *            the event blocks
+     * @param condCommentBlocks
+     *            the cond comment blocks
+     * @param skipBlocks
+     *            the skip blocks
+     * @param lineBreakBlocks
+     *            the line break blocks
+     * @param userBlocks
+     *            the user blocks
+     *
+     * @return the string
+     */
+    protected String returnBlocks(String html, List&lt;String&gt; preBlocks, List&lt;String&gt; taBlocks, List&lt;String&gt; scriptBlocks,
+            List&lt;String&gt; styleBlocks, List&lt;String&gt; eventBlocks, List&lt;String&gt; condCommentBlocks, List&lt;String&gt; skipBlocks,
+            List&lt;String&gt; lineBreakBlocks, List&lt;List&lt;String&gt;&gt; userBlocks) {
+
+        // put line breaks back
+<span class="fc bfc" id="L718" title="All 2 branches covered.">        if (preserveLineBreaks) {</span>
+<span class="fc" id="L719">            Matcher matcher = tempLineBreakPattern.matcher(html);</span>
+<span class="fc" id="L720">            StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L721" title="All 2 branches covered.">            while (matcher.find()) {</span>
+<span class="fc" id="L722">                int i = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L723" title="1 of 2 branches missed.">                if (lineBreakBlocks.size() &gt; i) {</span>
+<span class="fc" id="L724">                    matcher.appendReplacement(sb, lineBreakBlocks.get(i));</span>
+                }
+<span class="fc" id="L726">            }</span>
+<span class="fc" id="L727">            matcher.appendTail(sb);</span>
+<span class="fc" id="L728">            html = sb.toString();</span>
+        }
+
+        // put TEXTAREA blocks back
+<span class="fc" id="L732">        Matcher matcher = tempTextAreaPattern.matcher(html);</span>
+<span class="fc" id="L733">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L734" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="fc" id="L735">            int i = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L736" title="1 of 2 branches missed.">            if (taBlocks.size() &gt; i) {</span>
+<span class="fc" id="L737">                matcher.appendReplacement(sb, Matcher.quoteReplacement(taBlocks.get(i)));</span>
+            }
+<span class="fc" id="L739">        }</span>
+<span class="fc" id="L740">        matcher.appendTail(sb);</span>
+<span class="fc" id="L741">        html = sb.toString();</span>
+
+        // put STYLE blocks back
+<span class="fc" id="L744">        matcher = tempStylePattern.matcher(html);</span>
+<span class="fc" id="L745">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L746" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="fc" id="L747">            int i = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L748" title="1 of 2 branches missed.">            if (styleBlocks.size() &gt; i) {</span>
+<span class="fc" id="L749">                matcher.appendReplacement(sb, Matcher.quoteReplacement(styleBlocks.get(i)));</span>
+            }
+<span class="fc" id="L751">        }</span>
+<span class="fc" id="L752">        matcher.appendTail(sb);</span>
+<span class="fc" id="L753">        html = sb.toString();</span>
+
+        // put SCRIPT blocks back
+<span class="fc" id="L756">        matcher = tempScriptPattern.matcher(html);</span>
+<span class="fc" id="L757">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L758" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="fc" id="L759">            int i = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L760" title="1 of 2 branches missed.">            if (scriptBlocks.size() &gt; i) {</span>
+<span class="fc" id="L761">                matcher.appendReplacement(sb, Matcher.quoteReplacement(scriptBlocks.get(i)));</span>
+            }
+<span class="fc" id="L763">        }</span>
+<span class="fc" id="L764">        matcher.appendTail(sb);</span>
+<span class="fc" id="L765">        html = sb.toString();</span>
+
+        // put PRE blocks back
+<span class="fc" id="L768">        matcher = tempPrePattern.matcher(html);</span>
+<span class="fc" id="L769">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L770" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="fc" id="L771">            int i = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L772" title="1 of 2 branches missed.">            if (preBlocks.size() &gt; i) {</span>
+<span class="fc" id="L773">                matcher.appendReplacement(sb, Matcher.quoteReplacement(preBlocks.get(i)));</span>
+            }
+<span class="fc" id="L775">        }</span>
+<span class="fc" id="L776">        matcher.appendTail(sb);</span>
+<span class="fc" id="L777">        html = sb.toString();</span>
+
+        // put event blocks back
+<span class="fc" id="L780">        matcher = tempEventPattern.matcher(html);</span>
+<span class="fc" id="L781">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L782" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="fc" id="L783">            int i = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L784" title="1 of 2 branches missed.">            if (eventBlocks.size() &gt; i) {</span>
+<span class="fc" id="L785">                matcher.appendReplacement(sb, Matcher.quoteReplacement(eventBlocks.get(i)));</span>
+            }
+<span class="fc" id="L787">        }</span>
+<span class="fc" id="L788">        matcher.appendTail(sb);</span>
+<span class="fc" id="L789">        html = sb.toString();</span>
+
+        // put conditional comments back
+<span class="fc" id="L792">        matcher = tempCondCommentPattern.matcher(html);</span>
+<span class="fc" id="L793">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L794" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="fc" id="L795">            int i = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L796" title="1 of 2 branches missed.">            if (condCommentBlocks.size() &gt; i) {</span>
+<span class="fc" id="L797">                matcher.appendReplacement(sb, Matcher.quoteReplacement(condCommentBlocks.get(i)));</span>
+            }
+<span class="fc" id="L799">        }</span>
+<span class="fc" id="L800">        matcher.appendTail(sb);</span>
+<span class="fc" id="L801">        html = sb.toString();</span>
+
+        // put skip blocks back
+<span class="fc" id="L804">        matcher = tempSkipPattern.matcher(html);</span>
+<span class="fc" id="L805">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L806" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="fc" id="L807">            int i = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L808" title="1 of 2 branches missed.">            if (skipBlocks.size() &gt; i) {</span>
+<span class="fc" id="L809">                matcher.appendReplacement(sb, Matcher.quoteReplacement(skipBlocks.get(i)));</span>
+            }
+<span class="fc" id="L811">        }</span>
+<span class="fc" id="L812">        matcher.appendTail(sb);</span>
+<span class="fc" id="L813">        html = sb.toString();</span>
+
+        // put user blocks back
+<span class="fc bfc" id="L816" title="All 2 branches covered.">        if (preservePatterns != null) {</span>
+<span class="fc bfc" id="L817" title="All 2 branches covered.">            for (int p = preservePatterns.size() - 1; p &gt;= 0; p--) {</span>
+<span class="fc" id="L818">                Pattern tempUserPattern = Pattern.compile(&quot;%%%~COMPRESS~USER&quot; + p + &quot;~(\\d+?)~%%%&quot;);</span>
+<span class="fc" id="L819">                matcher = tempUserPattern.matcher(html);</span>
+<span class="fc" id="L820">                sb = new StringBuilder();</span>
+<span class="fc bfc" id="L821" title="All 2 branches covered.">                while (matcher.find()) {</span>
+<span class="fc" id="L822">                    int i = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L823" title="2 of 4 branches missed.">                    if (userBlocks.size() &gt; p &amp;&amp; userBlocks.get(p).size() &gt; i) {</span>
+<span class="fc" id="L824">                        matcher.appendReplacement(sb, Matcher.quoteReplacement(userBlocks.get(p).get(i)));</span>
+                    }
+<span class="fc" id="L826">                }</span>
+<span class="fc" id="L827">                matcher.appendTail(sb);</span>
+<span class="fc" id="L828">                html = sb.toString();</span>
+            }
+        }
+
+<span class="fc" id="L832">        return html;</span>
+    }
+
+    /**
+     * Process html.
+     *
+     * @param html
+     *            the html
+     *
+     * @return the string
+     */
+    protected String processHtml(String html) {
+
+        // remove comments
+<span class="fc" id="L846">        html = removeComments(html);</span>
+
+        // simplify doctype
+<span class="fc" id="L849">        html = simpleDoctype(html);</span>
+
+        // remove script attributes
+<span class="fc" id="L852">        html = removeScriptAttributes(html);</span>
+
+        // remove style attributes
+<span class="fc" id="L855">        html = removeStyleAttributes(html);</span>
+
+        // remove link attributes
+<span class="fc" id="L858">        html = removeLinkAttributes(html);</span>
+
+        // remove form attributes
+<span class="fc" id="L861">        html = removeFormAttributes(html);</span>
+
+        // remove input attributes
+<span class="fc" id="L864">        html = removeInputAttributes(html);</span>
+
+        // simplify boolean attributes
+<span class="fc" id="L867">        html = simpleBooleanAttributes(html);</span>
+
+        // remove http from attributes
+<span class="fc" id="L870">        html = removeHttpProtocol(html);</span>
+
+        // remove https from attributes
+<span class="fc" id="L873">        html = removeHttpsProtocol(html);</span>
+
+        // remove inter-tag spaces
+<span class="fc" id="L876">        html = removeIntertagSpaces(html);</span>
+
+        // remove multi whitespace characters
+<span class="fc" id="L879">        html = removeMultiSpaces(html);</span>
+
+        // remove spaces around equals sign and ending spaces
+<span class="fc" id="L882">        html = removeSpacesInsideTags(html);</span>
+
+        // remove quotes from tag attributes
+<span class="fc" id="L885">        html = removeQuotesInsideTags(html);</span>
+
+        // remove surrounding spaces
+<span class="fc" id="L888">        html = removeSurroundingSpaces(html);</span>
+
+<span class="fc" id="L890">        return html.trim();</span>
+    }
+
+    /**
+     * Removes the surrounding spaces.
+     *
+     * @param html
+     *            the html
+     *
+     * @return the string
+     */
+    protected String removeSurroundingSpaces(String html) {
+        // remove spaces around provided tags
+<span class="fc bfc" id="L903" title="All 2 branches covered.">        if (removeSurroundingSpaces != null) {</span>
+            Pattern pattern;
+<span class="pc bpc" id="L905" title="1 of 2 branches missed.">            if (removeSurroundingSpaces.equalsIgnoreCase(BLOCK_TAGS_MIN)) {</span>
+<span class="nc" id="L906">                pattern = surroundingSpacesMinPattern;</span>
+<span class="pc bpc" id="L907" title="1 of 2 branches missed.">            } else if (removeSurroundingSpaces.equalsIgnoreCase(BLOCK_TAGS_MAX)) {</span>
+<span class="nc" id="L908">                pattern = surroundingSpacesMaxPattern;</span>
+            }
+<span class="pc bpc" id="L910" title="1 of 2 branches missed.">            if (removeSurroundingSpaces.equalsIgnoreCase(ALL_TAGS)) {</span>
+<span class="nc" id="L911">                pattern = surroundingSpacesAllPattern;</span>
+            } else {
+<span class="fc" id="L913">                pattern = Pattern.compile(</span>
+<span class="fc" id="L914">                        &quot;\\s*(&lt;/?(?:&quot; + removeSurroundingSpaces.replaceAll(&quot;,&quot;, &quot;|&quot;) + &quot;)(?:&gt;|[\\s/][^&gt;]*&gt;))\\s*&quot;,</span>
+                        Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+            }
+
+<span class="fc" id="L918">            Matcher matcher = pattern.matcher(html);</span>
+<span class="fc" id="L919">            StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L920" title="All 2 branches covered.">            while (matcher.find()) {</span>
+<span class="fc" id="L921">                matcher.appendReplacement(sb, &quot;$1&quot;);</span>
+            }
+<span class="fc" id="L923">            matcher.appendTail(sb);</span>
+<span class="fc" id="L924">            html = sb.toString();</span>
+
+        }
+<span class="fc" id="L927">        return html;</span>
+    }
+
+    /**
+     * Removes the quotes inside tags.
+     *
+     * @param html
+     *            the html
+     *
+     * @return the string
+     */
+    protected String removeQuotesInsideTags(String html) {
+        // remove quotes from tag attributes
+<span class="fc bfc" id="L940" title="All 2 branches covered.">        if (removeQuotes) {</span>
+<span class="fc" id="L941">            Matcher matcher = tagQuotePattern.matcher(html);</span>
+<span class="fc" id="L942">            StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L943" title="All 2 branches covered.">            while (matcher.find()) {</span>
+                // if quoted attribute is followed by &quot;/&quot; add extra space
+<span class="fc bfc" id="L945" title="All 2 branches covered.">                if (matcher.group(3).trim().length() == 0) {</span>
+<span class="fc" id="L946">                    matcher.appendReplacement(sb, &quot;=$2&quot;);</span>
+                } else {
+<span class="fc" id="L948">                    matcher.appendReplacement(sb, &quot;=$2 $3&quot;);</span>
+                }
+            }
+<span class="fc" id="L951">            matcher.appendTail(sb);</span>
+<span class="fc" id="L952">            html = sb.toString();</span>
+
+        }
+<span class="fc" id="L955">        return html;</span>
+    }
+
+    /**
+     * Removes the spaces inside tags.
+     *
+     * @param html
+     *            the html
+     *
+     * @return the string
+     */
+    protected String removeSpacesInsideTags(String html) {
+        // remove spaces around equals sign inside tags
+<span class="fc" id="L968">        html = tagPropertyPattern.matcher(html).replaceAll(&quot;$1=&quot;);</span>
+
+        // remove ending spaces inside tags
+        // html = tagEndSpacePattern.matcher(html).replaceAll(&quot;$1$2&quot;);
+<span class="fc" id="L972">        Matcher matcher = tagEndSpacePattern.matcher(html);</span>
+<span class="fc" id="L973">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L974" title="All 2 branches covered.">        while (matcher.find()) {</span>
+            // keep space if attribute value is unquoted before trailing slash
+<span class="fc bfc" id="L976" title="All 4 branches covered.">            if (matcher.group(2).startsWith(&quot;/&quot;) &amp;&amp; tagLastUnquotedValuePattern.matcher(matcher.group(1)).find()) {</span>
+<span class="fc" id="L977">                matcher.appendReplacement(sb, &quot;$1 $2&quot;);</span>
+            } else {
+<span class="fc" id="L979">                matcher.appendReplacement(sb, &quot;$1$2&quot;);</span>
+            }
+        }
+<span class="fc" id="L982">        matcher.appendTail(sb);</span>
+<span class="fc" id="L983">        html = sb.toString();</span>
+
+<span class="fc" id="L985">        return html;</span>
+    }
+
+    /**
+     * Removes the multi spaces.
+     *
+     * @param html
+     *            the html
+     *
+     * @return the string
+     */
+    protected String removeMultiSpaces(String html) {
+        // collapse multiple spaces
+<span class="fc bfc" id="L998" title="All 2 branches covered.">        if (removeMultiSpaces) {</span>
+<span class="fc" id="L999">            html = multispacePattern.matcher(html).replaceAll(&quot; &quot;);</span>
+        }
+<span class="fc" id="L1001">        return html;</span>
+    }
+
+    /**
+     * Removes the intertag spaces.
+     *
+     * @param html
+     *            the html
+     *
+     * @return the string
+     */
+    protected String removeIntertagSpaces(String html) {
+        // remove inter-tag spaces
+<span class="fc bfc" id="L1014" title="All 2 branches covered.">        if (removeIntertagSpaces) {</span>
+<span class="fc" id="L1015">            html = intertagPattern_TagTag.matcher(html).replaceAll(&quot;&gt;&lt;&quot;);</span>
+<span class="fc" id="L1016">            html = intertagPattern_TagCustom.matcher(html).replaceAll(&quot;&gt;%%%~&quot;);</span>
+<span class="fc" id="L1017">            html = intertagPattern_CustomTag.matcher(html).replaceAll(&quot;~%%%&lt;&quot;);</span>
+<span class="fc" id="L1018">            html = intertagPattern_CustomCustom.matcher(html).replaceAll(&quot;~%%%%%%~&quot;);</span>
+        }
+<span class="fc" id="L1020">        return html;</span>
+    }
+
+    /**
+     * Removes the comments.
+     *
+     * @param html
+     *            the html
+     *
+     * @return the string
+     */
+    protected String removeComments(String html) {
+        // remove comments
+<span class="pc bpc" id="L1033" title="1 of 2 branches missed.">        if (removeComments) {</span>
+<span class="fc" id="L1034">            html = commentPattern.matcher(html).replaceAll(&quot;&quot;);</span>
+        }
+<span class="fc" id="L1036">        return html;</span>
+    }
+
+    /**
+     * Simple doctype.
+     *
+     * @param html
+     *            the html
+     *
+     * @return the string
+     */
+    protected String simpleDoctype(String html) {
+        // simplify doctype
+<span class="fc bfc" id="L1049" title="All 2 branches covered.">        if (simpleDoctype) {</span>
+<span class="fc" id="L1050">            html = doctypePattern.matcher(html).replaceAll(&quot;&lt;!DOCTYPE html&gt;&quot;);</span>
+        }
+<span class="fc" id="L1052">        return html;</span>
+    }
+
+    /**
+     * Removes the script attributes.
+     *
+     * @param html
+     *            the html
+     *
+     * @return the string
+     */
+    protected String removeScriptAttributes(String html) {
+
+<span class="fc bfc" id="L1065" title="All 2 branches covered.">        if (removeScriptAttributes) {</span>
+            // remove type from script tags
+<span class="fc" id="L1067">            html = jsTypeAttrPattern.matcher(html).replaceAll(&quot;$1$3&quot;);</span>
+
+            // remove language from script tags
+<span class="fc" id="L1070">            html = jsLangAttrPattern.matcher(html).replaceAll(&quot;$1$3&quot;);</span>
+        }
+<span class="fc" id="L1072">        return html;</span>
+    }
+
+    /**
+     * Removes the style attributes.
+     *
+     * @param html
+     *            the html
+     *
+     * @return the string
+     */
+    protected String removeStyleAttributes(String html) {
+        // remove type from style tags
+<span class="fc bfc" id="L1085" title="All 2 branches covered.">        if (removeStyleAttributes) {</span>
+<span class="fc" id="L1086">            html = styleTypeAttrPattern.matcher(html).replaceAll(&quot;$1$3&quot;);</span>
+        }
+<span class="fc" id="L1088">        return html;</span>
+    }
+
+    /**
+     * Removes the link attributes.
+     *
+     * @param html
+     *            the html
+     *
+     * @return the string
+     */
+    protected String removeLinkAttributes(String html) {
+        // remove type from link tags with rel=stylesheet
+<span class="fc bfc" id="L1101" title="All 2 branches covered.">        if (removeLinkAttributes) {</span>
+<span class="fc" id="L1102">            Matcher matcher = linkTypeAttrPattern.matcher(html);</span>
+<span class="fc" id="L1103">            StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L1104" title="All 2 branches covered.">            while (matcher.find()) {</span>
+                // if rel=stylesheet
+<span class="fc bfc" id="L1106" title="All 2 branches covered.">                if (linkRelAttrPattern.matcher(matcher.group(0)).matches()) {</span>
+<span class="fc" id="L1107">                    matcher.appendReplacement(sb, &quot;$1$3&quot;);</span>
+                } else {
+<span class="fc" id="L1109">                    matcher.appendReplacement(sb, &quot;$0&quot;);</span>
+                }
+            }
+<span class="fc" id="L1112">            matcher.appendTail(sb);</span>
+<span class="fc" id="L1113">            html = sb.toString();</span>
+        }
+<span class="fc" id="L1115">        return html;</span>
+    }
+
+    /**
+     * Removes the form attributes.
+     *
+     * @param html
+     *            the html
+     *
+     * @return the string
+     */
+    protected String removeFormAttributes(String html) {
+        // remove method from form tags
+<span class="fc bfc" id="L1128" title="All 2 branches covered.">        if (removeFormAttributes) {</span>
+<span class="fc" id="L1129">            html = formMethodAttrPattern.matcher(html).replaceAll(&quot;$1$3&quot;);</span>
+        }
+<span class="fc" id="L1131">        return html;</span>
+    }
+
+    /**
+     * Removes the input attributes.
+     *
+     * @param html
+     *            the html
+     *
+     * @return the string
+     */
+    protected String removeInputAttributes(String html) {
+        // remove type from input tags
+<span class="fc bfc" id="L1144" title="All 2 branches covered.">        if (removeInputAttributes) {</span>
+<span class="fc" id="L1145">            html = inputTypeAttrPattern.matcher(html).replaceAll(&quot;$1$3&quot;);</span>
+        }
+<span class="fc" id="L1147">        return html;</span>
+    }
+
+    /**
+     * Simple boolean attributes.
+     *
+     * @param html
+     *            the html
+     *
+     * @return the string
+     */
+    protected String simpleBooleanAttributes(String html) {
+        // simplify boolean attributes
+<span class="pc bpc" id="L1160" title="1 of 2 branches missed.">        if (simpleBooleanAttributes) {</span>
+<span class="nc" id="L1161">            html = booleanAttrPattern.matcher(html).replaceAll(&quot;$1$2$4&quot;);</span>
+        }
+<span class="fc" id="L1163">        return html;</span>
+    }
+
+    /**
+     * Removes the http protocol.
+     *
+     * @param html
+     *            the html
+     *
+     * @return the string
+     */
+    protected String removeHttpProtocol(String html) {
+        // remove http protocol from tag attributes
+<span class="fc bfc" id="L1176" title="All 2 branches covered.">        if (removeHttpProtocol) {</span>
+<span class="fc" id="L1177">            Matcher matcher = httpProtocolPattern.matcher(html);</span>
+<span class="fc" id="L1178">            StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L1179" title="All 2 branches covered.">            while (matcher.find()) {</span>
+                // if rel!=external
+<span class="fc bfc" id="L1181" title="All 2 branches covered.">                if (!relExternalPattern.matcher(matcher.group(0)).matches()) {</span>
+<span class="fc" id="L1182">                    matcher.appendReplacement(sb, &quot;$1$2&quot;);</span>
+                } else {
+<span class="fc" id="L1184">                    matcher.appendReplacement(sb, &quot;$0&quot;);</span>
+                }
+            }
+<span class="fc" id="L1187">            matcher.appendTail(sb);</span>
+<span class="fc" id="L1188">            html = sb.toString();</span>
+        }
+<span class="fc" id="L1190">        return html;</span>
+    }
+
+    /**
+     * Removes the https protocol.
+     *
+     * @param html
+     *            the html
+     *
+     * @return the string
+     */
+    protected String removeHttpsProtocol(String html) {
+        // remove https protocol from tag attributes
+<span class="fc bfc" id="L1203" title="All 2 branches covered.">        if (removeHttpsProtocol) {</span>
+<span class="fc" id="L1204">            Matcher matcher = httpsProtocolPattern.matcher(html);</span>
+<span class="fc" id="L1205">            StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L1206" title="All 2 branches covered.">            while (matcher.find()) {</span>
+                // if rel!=external
+<span class="fc bfc" id="L1208" title="All 2 branches covered.">                if (!relExternalPattern.matcher(matcher.group(0)).matches()) {</span>
+<span class="fc" id="L1209">                    matcher.appendReplacement(sb, &quot;$1$2&quot;);</span>
+                } else {
+<span class="fc" id="L1211">                    matcher.appendReplacement(sb, &quot;$0&quot;);</span>
+                }
+            }
+<span class="fc" id="L1214">            matcher.appendTail(sb);</span>
+<span class="fc" id="L1215">            html = sb.toString();</span>
+        }
+<span class="fc" id="L1217">        return html;</span>
+    }
+
+    /**
+     * Process preserved blocks.
+     *
+     * @param preBlocks
+     *            the pre blocks
+     * @param taBlocks
+     *            the ta blocks
+     * @param scriptBlocks
+     *            the script blocks
+     * @param styleBlocks
+     *            the style blocks
+     * @param eventBlocks
+     *            the event blocks
+     * @param condCommentBlocks
+     *            the cond comment blocks
+     * @param skipBlocks
+     *            the skip blocks
+     * @param lineBreakBlocks
+     *            the line break blocks
+     * @param userBlocks
+     *            the user blocks
+     */
+    protected void processPreservedBlocks(List&lt;String&gt; preBlocks, List&lt;String&gt; taBlocks, List&lt;String&gt; scriptBlocks,
+            List&lt;String&gt; styleBlocks, List&lt;String&gt; eventBlocks, List&lt;String&gt; condCommentBlocks, List&lt;String&gt; skipBlocks,
+            List&lt;String&gt; lineBreakBlocks, List&lt;List&lt;String&gt;&gt; userBlocks) {
+<span class="fc" id="L1245">        processPreBlocks(preBlocks);</span>
+<span class="fc" id="L1246">        processTextAreaBlocks(taBlocks);</span>
+<span class="fc" id="L1247">        processScriptBlocks(scriptBlocks);</span>
+<span class="fc" id="L1248">        processStyleBlocks(styleBlocks);</span>
+<span class="fc" id="L1249">        processEventBlocks(eventBlocks);</span>
+<span class="fc" id="L1250">        processCondCommentBlocks(condCommentBlocks);</span>
+<span class="fc" id="L1251">        processSkipBlocks(skipBlocks);</span>
+<span class="fc" id="L1252">        processUserBlocks(userBlocks);</span>
+<span class="fc" id="L1253">        processLineBreakBlocks(lineBreakBlocks);</span>
+<span class="fc" id="L1254">    }</span>
+
+    /**
+     * Process pre blocks.
+     *
+     * @param preBlocks
+     *            the pre blocks
+     */
+    protected void processPreBlocks(List&lt;String&gt; preBlocks) {
+<span class="pc bpc" id="L1263" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1264" title="All 2 branches missed.">            for (String block : preBlocks) {</span>
+<span class="nc" id="L1265">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
+<span class="nc" id="L1266">            }</span>
+        }
+<span class="fc" id="L1268">    }</span>
+
+    /**
+     * Process text area blocks.
+     *
+     * @param taBlocks
+     *            the ta blocks
+     */
+    protected void processTextAreaBlocks(List&lt;String&gt; taBlocks) {
+<span class="pc bpc" id="L1277" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1278" title="All 2 branches missed.">            for (String block : taBlocks) {</span>
+<span class="nc" id="L1279">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
+<span class="nc" id="L1280">            }</span>
+        }
+<span class="fc" id="L1282">    }</span>
+
+    /**
+     * Process cond comment blocks.
+     *
+     * @param condCommentBlocks
+     *            the cond comment blocks
+     */
+    protected void processCondCommentBlocks(List&lt;String&gt; condCommentBlocks) {
+<span class="pc bpc" id="L1291" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1292" title="All 2 branches missed.">            for (String block : condCommentBlocks) {</span>
+<span class="nc" id="L1293">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
+<span class="nc" id="L1294">            }</span>
+        }
+<span class="fc" id="L1296">    }</span>
+
+    /**
+     * Process skip blocks.
+     *
+     * @param skipBlocks
+     *            the skip blocks
+     */
+    protected void processSkipBlocks(List&lt;String&gt; skipBlocks) {
+<span class="pc bpc" id="L1305" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1306" title="All 2 branches missed.">            for (String block : skipBlocks) {</span>
+<span class="nc" id="L1307">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
+<span class="nc" id="L1308">            }</span>
+        }
+<span class="fc" id="L1310">    }</span>
+
+    /**
+     * Process line break blocks.
+     *
+     * @param lineBreakBlocks
+     *            the line break blocks
+     */
+    protected void processLineBreakBlocks(List&lt;String&gt; lineBreakBlocks) {
+<span class="pc bpc" id="L1319" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1320" title="All 2 branches missed.">            for (String block : lineBreakBlocks) {</span>
+<span class="nc" id="L1321">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
+<span class="nc" id="L1322">            }</span>
+        }
+<span class="fc" id="L1324">    }</span>
+
+    /**
+     * Process user blocks.
+     *
+     * @param userBlocks
+     *            the user blocks
+     */
+    protected void processUserBlocks(List&lt;List&lt;String&gt;&gt; userBlocks) {
+<span class="pc bpc" id="L1333" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1334" title="All 2 branches missed.">            for (List&lt;String&gt; blockList : userBlocks) {</span>
+<span class="nc bnc" id="L1335" title="All 2 branches missed.">                for (String block : blockList) {</span>
+<span class="nc" id="L1336">                    statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
+<span class="nc" id="L1337">                }</span>
+<span class="nc" id="L1338">            }</span>
+        }
+<span class="fc" id="L1340">    }</span>
+
+    /**
+     * Process event blocks.
+     *
+     * @param eventBlocks
+     *            the event blocks
+     */
+    protected void processEventBlocks(List&lt;String&gt; eventBlocks) {
+
+<span class="pc bpc" id="L1350" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1351" title="All 2 branches missed.">            for (String block : eventBlocks) {</span>
+<span class="nc" id="L1352">                statistics.getOriginalMetrics()</span>
+<span class="nc" id="L1353">                        .setInlineEventSize(statistics.getOriginalMetrics().getInlineEventSize() + block.length());</span>
+<span class="nc" id="L1354">            }</span>
+        }
+
+<span class="fc bfc" id="L1357" title="All 2 branches covered.">        if (removeJavaScriptProtocol) {</span>
+<span class="fc bfc" id="L1358" title="All 2 branches covered.">            for (int i = 0; i &lt; eventBlocks.size(); i++) {</span>
+<span class="fc" id="L1359">                eventBlocks.set(i, removeJavaScriptProtocol(eventBlocks.get(i)));</span>
+            }
+<span class="pc bpc" id="L1361" title="1 of 2 branches missed.">        } else if (generateStatistics) {</span>
+<span class="nc bnc" id="L1362" title="All 2 branches missed.">            for (String block : eventBlocks) {</span>
+<span class="nc" id="L1363">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
+<span class="nc" id="L1364">            }</span>
+        }
+
+<span class="pc bpc" id="L1367" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1368" title="All 2 branches missed.">            for (String block : eventBlocks) {</span>
+<span class="nc" id="L1369">                statistics.getCompressedMetrics()</span>
+<span class="nc" id="L1370">                        .setInlineEventSize(statistics.getCompressedMetrics().getInlineEventSize() + block.length());</span>
+<span class="nc" id="L1371">            }</span>
+        }
+<span class="fc" id="L1373">    }</span>
+
+    /**
+     * Removes the java script protocol.
+     *
+     * @param source
+     *            the source
+     *
+     * @return the string
+     */
+    protected String removeJavaScriptProtocol(String source) {
+        // remove javascript: from inline events
+<span class="fc" id="L1385">        String result = source;</span>
+
+<span class="fc" id="L1387">        Matcher matcher = eventJsProtocolPattern.matcher(source);</span>
+<span class="fc bfc" id="L1388" title="All 2 branches covered.">        if (matcher.matches()) {</span>
+<span class="fc" id="L1389">            result = matcher.replaceFirst(&quot;$1&quot;);</span>
+        }
+
+<span class="pc bpc" id="L1392" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc" id="L1393">            statistics.setPreservedSize(statistics.getPreservedSize() + result.length());</span>
+        }
+
+<span class="fc" id="L1396">        return result;</span>
+    }
+
+    /**
+     * Process script blocks.
+     *
+     * @param scriptBlocks
+     *            the script blocks
+     */
+    protected void processScriptBlocks(List&lt;String&gt; scriptBlocks) {
+
+<span class="pc bpc" id="L1407" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1408" title="All 2 branches missed.">            for (String block : scriptBlocks) {</span>
+<span class="nc" id="L1409">                statistics.getOriginalMetrics()</span>
+<span class="nc" id="L1410">                        .setInlineScriptSize(statistics.getOriginalMetrics().getInlineScriptSize() + block.length());</span>
+<span class="nc" id="L1411">            }</span>
+        }
+
+<span class="fc bfc" id="L1414" title="All 2 branches covered.">        if (compressJavaScript) {</span>
+<span class="fc bfc" id="L1415" title="All 2 branches covered.">            for (int i = 0; i &lt; scriptBlocks.size(); i++) {</span>
+<span class="fc" id="L1416">                scriptBlocks.set(i, compressJavaScript(scriptBlocks.get(i)));</span>
+            }
+<span class="pc bpc" id="L1418" title="1 of 2 branches missed.">        } else if (generateStatistics) {</span>
+<span class="nc bnc" id="L1419" title="All 2 branches missed.">            for (String block : scriptBlocks) {</span>
+<span class="nc" id="L1420">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
+<span class="nc" id="L1421">            }</span>
+        }
+
+<span class="pc bpc" id="L1424" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1425" title="All 2 branches missed.">            for (String block : scriptBlocks) {</span>
+<span class="nc" id="L1426">                statistics.getCompressedMetrics()</span>
+<span class="nc" id="L1427">                        .setInlineScriptSize(statistics.getCompressedMetrics().getInlineScriptSize() + block.length());</span>
+<span class="nc" id="L1428">            }</span>
+        }
+<span class="fc" id="L1430">    }</span>
+
+    /**
+     * Process style blocks.
+     *
+     * @param styleBlocks
+     *            the style blocks
+     */
+    protected void processStyleBlocks(List&lt;String&gt; styleBlocks) {
+
+<span class="pc bpc" id="L1440" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1441" title="All 2 branches missed.">            for (String block : styleBlocks) {</span>
+<span class="nc" id="L1442">                statistics.getOriginalMetrics()</span>
+<span class="nc" id="L1443">                        .setInlineStyleSize(statistics.getOriginalMetrics().getInlineStyleSize() + block.length());</span>
+<span class="nc" id="L1444">            }</span>
+        }
+
+<span class="fc bfc" id="L1447" title="All 2 branches covered.">        if (compressCss) {</span>
+<span class="fc bfc" id="L1448" title="All 2 branches covered.">            for (int i = 0; i &lt; styleBlocks.size(); i++) {</span>
+<span class="fc" id="L1449">                styleBlocks.set(i, compressCssStyles(styleBlocks.get(i)));</span>
+            }
+<span class="pc bpc" id="L1451" title="1 of 2 branches missed.">        } else if (generateStatistics) {</span>
+<span class="nc bnc" id="L1452" title="All 2 branches missed.">            for (String block : styleBlocks) {</span>
+<span class="nc" id="L1453">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
+<span class="nc" id="L1454">            }</span>
+        }
+
+<span class="pc bpc" id="L1457" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1458" title="All 2 branches missed.">            for (String block : styleBlocks) {</span>
+<span class="nc" id="L1459">                statistics.getCompressedMetrics()</span>
+<span class="nc" id="L1460">                        .setInlineStyleSize(statistics.getCompressedMetrics().getInlineStyleSize() + block.length());</span>
+<span class="nc" id="L1461">            }</span>
+        }
+<span class="fc" id="L1463">    }</span>
+
+    /**
+     * Compress java script.
+     *
+     * @param source
+     *            the source
+     *
+     * @return the string
+     */
+    protected String compressJavaScript(String source) {
+
+        // set default javascript compressor
+<span class="fc bfc" id="L1476" title="All 2 branches covered.">        if (javaScriptCompressor == null) {</span>
+<span class="fc" id="L1477">            YuiJavaScriptCompressor yuiJsCompressor = new YuiJavaScriptCompressor();</span>
+<span class="fc" id="L1478">            yuiJsCompressor.setNoMunge(yuiJsNoMunge);</span>
+<span class="fc" id="L1479">            yuiJsCompressor.setPreserveAllSemiColons(yuiJsPreserveAllSemiColons);</span>
+<span class="fc" id="L1480">            yuiJsCompressor.setDisableOptimizations(yuiJsDisableOptimizations);</span>
+<span class="fc" id="L1481">            yuiJsCompressor.setLineBreak(yuiJsLineBreak);</span>
+
+<span class="pc bpc" id="L1483" title="1 of 2 branches missed.">            if (yuiErrorReporter != null) {</span>
+<span class="nc" id="L1484">                yuiJsCompressor.setErrorReporter(yuiErrorReporter);</span>
+            }
+
+<span class="fc" id="L1487">            javaScriptCompressor = yuiJsCompressor;</span>
+        }
+
+        // detect CDATA wrapper
+<span class="fc" id="L1491">        boolean cdataWrapper = false;</span>
+<span class="fc" id="L1492">        Matcher matcher = cdataPattern.matcher(source);</span>
+<span class="fc bfc" id="L1493" title="All 2 branches covered.">        if (matcher.matches()) {</span>
+<span class="fc" id="L1494">            cdataWrapper = true;</span>
+<span class="fc" id="L1495">            source = matcher.group(1);</span>
+        }
+
+<span class="fc" id="L1498">        String result = javaScriptCompressor.compress(source);</span>
+
+<span class="fc bfc" id="L1500" title="All 2 branches covered.">        if (cdataWrapper) {</span>
+<span class="fc" id="L1501">            result = &quot;&lt;![CDATA[&quot; + result + &quot;]]&gt;&quot;;</span>
+        }
+
+<span class="fc" id="L1504">        return result;</span>
+
+    }
+
+    /**
+     * Compress css styles.
+     *
+     * @param source
+     *            the source
+     *
+     * @return the string
+     */
+    protected String compressCssStyles(String source) {
+
+        // set default css compressor
+<span class="pc bpc" id="L1519" title="1 of 2 branches missed.">        if (cssCompressor == null) {</span>
+<span class="fc" id="L1520">            YuiCssCompressor yuiCssCompressor = new YuiCssCompressor();</span>
+<span class="fc" id="L1521">            yuiCssCompressor.setLineBreak(yuiCssLineBreak);</span>
+
+<span class="fc" id="L1523">            cssCompressor = yuiCssCompressor;</span>
+        }
+
+        // detect CDATA wrapper
+<span class="fc" id="L1527">        boolean cdataWrapper = false;</span>
+<span class="fc" id="L1528">        Matcher matcher = cdataPattern.matcher(source);</span>
+<span class="pc bpc" id="L1529" title="1 of 2 branches missed.">        if (matcher.matches()) {</span>
+<span class="nc" id="L1530">            cdataWrapper = true;</span>
+<span class="nc" id="L1531">            source = matcher.group(1);</span>
+        }
+
+<span class="fc" id="L1534">        String result = cssCompressor.compress(source);</span>
+
+<span class="pc bpc" id="L1536" title="1 of 2 branches missed.">        if (cdataWrapper) {</span>
+<span class="nc" id="L1537">            result = &quot;&lt;![CDATA[&quot; + result + &quot;]]&gt;&quot;;</span>
+        }
+
+<span class="fc" id="L1540">        return result;</span>
+
+    }
+
+    /**
+     * Creates the compressor clone.
+     *
+     * @return the html compressor
+     */
+    protected HtmlCompressor createCompressorClone() {
+<span class="fc" id="L1550">        HtmlCompressor clone = new HtmlCompressor();</span>
+<span class="fc" id="L1551">        clone.setJavaScriptCompressor(javaScriptCompressor);</span>
+<span class="fc" id="L1552">        clone.setCssCompressor(cssCompressor);</span>
+<span class="fc" id="L1553">        clone.setRemoveComments(removeComments);</span>
+<span class="fc" id="L1554">        clone.setRemoveMultiSpaces(removeMultiSpaces);</span>
+<span class="fc" id="L1555">        clone.setRemoveIntertagSpaces(removeIntertagSpaces);</span>
+<span class="fc" id="L1556">        clone.setRemoveQuotes(removeQuotes);</span>
+<span class="fc" id="L1557">        clone.setCompressJavaScript(compressJavaScript);</span>
+<span class="fc" id="L1558">        clone.setCompressCss(compressCss);</span>
+<span class="fc" id="L1559">        clone.setSimpleDoctype(simpleDoctype);</span>
+<span class="fc" id="L1560">        clone.setRemoveScriptAttributes(removeScriptAttributes);</span>
+<span class="fc" id="L1561">        clone.setRemoveStyleAttributes(removeStyleAttributes);</span>
+<span class="fc" id="L1562">        clone.setRemoveLinkAttributes(removeLinkAttributes);</span>
+<span class="fc" id="L1563">        clone.setRemoveFormAttributes(removeFormAttributes);</span>
+<span class="fc" id="L1564">        clone.setRemoveInputAttributes(removeInputAttributes);</span>
+<span class="fc" id="L1565">        clone.setSimpleBooleanAttributes(simpleBooleanAttributes);</span>
+<span class="fc" id="L1566">        clone.setRemoveJavaScriptProtocol(removeJavaScriptProtocol);</span>
+<span class="fc" id="L1567">        clone.setRemoveHttpProtocol(removeHttpProtocol);</span>
+<span class="fc" id="L1568">        clone.setRemoveHttpsProtocol(removeHttpsProtocol);</span>
+<span class="fc" id="L1569">        clone.setPreservePatterns(preservePatterns);</span>
+<span class="fc" id="L1570">        clone.setYuiJsNoMunge(yuiJsNoMunge);</span>
+<span class="fc" id="L1571">        clone.setYuiJsPreserveAllSemiColons(yuiJsPreserveAllSemiColons);</span>
+<span class="fc" id="L1572">        clone.setYuiJsDisableOptimizations(yuiJsDisableOptimizations);</span>
+<span class="fc" id="L1573">        clone.setYuiJsLineBreak(yuiJsLineBreak);</span>
+<span class="fc" id="L1574">        clone.setYuiCssLineBreak(yuiCssLineBreak);</span>
+<span class="fc" id="L1575">        clone.setYuiErrorReporter(yuiErrorReporter);</span>
+
+<span class="fc" id="L1577">        return clone;</span>
+
+    }
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if JavaScript compression is enabled.
+     *
+     * @return current state of JavaScript compression.
+     */
+    public boolean isCompressJavaScript() {
+<span class="nc" id="L1587">        return compressJavaScript;</span>
+    }
+
+    /**
+     * Enables JavaScript compression within &amp;lt;script&amp;gt; tags using
+     * &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt; if set to &lt;code&gt;true&lt;/code&gt;.
+     * Default is &lt;code&gt;false&lt;/code&gt; for performance reasons.
+     * &lt;p&gt;
+     * &lt;b&gt;Note:&lt;/b&gt; Compressing JavaScript is not recommended if pages are compressed dynamically on-the-fly because of
+     * performance impact. You should consider putting JavaScript into a separate file and compressing it using
+     * standalone YUICompressor for example.
+     * &lt;/p&gt;
+     *
+     * @param compressJavaScript
+     *            set &lt;code&gt;true&lt;/code&gt; to enable JavaScript compression. Default is &lt;code&gt;false&lt;/code&gt;
+     *
+     * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
+     */
+    public void setCompressJavaScript(boolean compressJavaScript) {
+<span class="fc" id="L1606">        this.compressJavaScript = compressJavaScript;</span>
+<span class="fc" id="L1607">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if CSS compression is enabled.
+     *
+     * @return current state of CSS compression.
+     */
+    public boolean isCompressCss() {
+<span class="nc" id="L1615">        return compressCss;</span>
+    }
+
+    /**
+     * Enables CSS compression within &amp;lt;style&amp;gt; tags using
+     * &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt; if set to &lt;code&gt;true&lt;/code&gt;.
+     * Default is &lt;code&gt;false&lt;/code&gt; for performance reasons.
+     * &lt;p&gt;
+     * &lt;b&gt;Note:&lt;/b&gt; Compressing CSS is not recommended if pages are compressed dynamically on-the-fly because of
+     * performance impact. You should consider putting CSS into a separate file and compressing it using standalone
+     * YUICompressor for example.
+     * &lt;/p&gt;
+     *
+     * @param compressCss
+     *            set &lt;code&gt;true&lt;/code&gt; to enable CSS compression. Default is &lt;code&gt;false&lt;/code&gt;
+     *
+     * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
+     */
+    public void setCompressCss(boolean compressCss) {
+<span class="fc" id="L1634">        this.compressCss = compressCss;</span>
+<span class="fc" id="L1635">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if Yahoo YUI Compressor will only minify javascript without obfuscating local symbols.
+     * This corresponds to &lt;code&gt;--nomunge&lt;/code&gt; command line option.
+     *
+     * @return &lt;code&gt;nomunge&lt;/code&gt; parameter value used for JavaScript compression.
+     *
+     * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
+     */
+    public boolean isYuiJsNoMunge() {
+<span class="nc" id="L1646">        return yuiJsNoMunge;</span>
+    }
+
+    /**
+     * Tells Yahoo YUI Compressor to only minify javascript without obfuscating local symbols. This corresponds to
+     * &lt;code&gt;--nomunge&lt;/code&gt; command line option. This option has effect only if JavaScript compression is enabled.
+     * Default is &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param yuiJsNoMunge
+     *            set &lt;code&gt;true&lt;/code&gt; to enable &lt;code&gt;nomunge&lt;/code&gt; mode
+     *
+     * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
+     */
+    public void setYuiJsNoMunge(boolean yuiJsNoMunge) {
+<span class="fc" id="L1660">        this.yuiJsNoMunge = yuiJsNoMunge;</span>
+<span class="fc" id="L1661">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if Yahoo YUI Compressor will preserve unnecessary semicolons during JavaScript
+     * compression. This corresponds to &lt;code&gt;--preserve-semi&lt;/code&gt; command line option.
+     *
+     * @return &lt;code&gt;preserve-semi&lt;/code&gt; parameter value used for JavaScript compression.
+     *
+     * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
+     */
+    public boolean isYuiJsPreserveAllSemiColons() {
+<span class="nc" id="L1672">        return yuiJsPreserveAllSemiColons;</span>
+    }
+
+    /**
+     * Tells Yahoo YUI Compressor to preserve unnecessary semicolons during JavaScript compression. This corresponds to
+     * &lt;code&gt;--preserve-semi&lt;/code&gt; command line option. This option has effect only if JavaScript compression is
+     * enabled. Default is &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param yuiJsPreserveAllSemiColons
+     *            set &lt;code&gt;true&lt;/code&gt; to enable &lt;code&gt;preserve-semi&lt;/code&gt; mode
+     *
+     * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
+     */
+    public void setYuiJsPreserveAllSemiColons(boolean yuiJsPreserveAllSemiColons) {
+<span class="fc" id="L1686">        this.yuiJsPreserveAllSemiColons = yuiJsPreserveAllSemiColons;</span>
+<span class="fc" id="L1687">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if Yahoo YUI Compressor will disable all the built-in micro optimizations during
+     * JavaScript compression. This corresponds to &lt;code&gt;--disable-optimizations&lt;/code&gt; command line option.
+     *
+     * @return &lt;code&gt;disable-optimizations&lt;/code&gt; parameter value used for JavaScript compression.
+     *
+     * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
+     */
+    public boolean isYuiJsDisableOptimizations() {
+<span class="nc" id="L1698">        return yuiJsDisableOptimizations;</span>
+    }
+
+    /**
+     * Tells Yahoo YUI Compressor to disable all the built-in micro optimizations during JavaScript compression. This
+     * corresponds to &lt;code&gt;--disable-optimizations&lt;/code&gt; command line option. This option has effect only if
+     * JavaScript compression is enabled. Default is &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param yuiJsDisableOptimizations
+     *            set &lt;code&gt;true&lt;/code&gt; to enable &lt;code&gt;disable-optimizations&lt;/code&gt; mode
+     *
+     * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
+     */
+    public void setYuiJsDisableOptimizations(boolean yuiJsDisableOptimizations) {
+<span class="fc" id="L1712">        this.yuiJsDisableOptimizations = yuiJsDisableOptimizations;</span>
+<span class="fc" id="L1713">    }</span>
+
+    /**
+     * Returns number of symbols per line Yahoo YUI Compressor will use during JavaScript compression. This corresponds
+     * to &lt;code&gt;--line-break&lt;/code&gt; command line option.
+     *
+     * @return &lt;code&gt;line-break&lt;/code&gt; parameter value used for JavaScript compression.
+     *
+     * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
+     */
+    public int getYuiJsLineBreak() {
+<span class="nc" id="L1724">        return yuiJsLineBreak;</span>
+    }
+
+    /**
+     * Tells Yahoo YUI Compressor to break lines after the specified number of symbols during JavaScript compression.
+     * This corresponds to &lt;code&gt;--line-break&lt;/code&gt; command line option. This option has effect only if JavaScript
+     * compression is enabled. Default is &lt;code&gt;-1&lt;/code&gt; to disable line breaks.
+     *
+     * @param yuiJsLineBreak
+     *            set number of symbols per line
+     *
+     * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
+     */
+    public void setYuiJsLineBreak(int yuiJsLineBreak) {
+<span class="fc" id="L1738">        this.yuiJsLineBreak = yuiJsLineBreak;</span>
+<span class="fc" id="L1739">    }</span>
+
+    /**
+     * Returns number of symbols per line Yahoo YUI Compressor will use during CSS compression. This corresponds to
+     * &lt;code&gt;--line-break&lt;/code&gt; command line option.
+     *
+     * @return &lt;code&gt;line-break&lt;/code&gt; parameter value used for CSS compression.
+     *
+     * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
+     */
+    public int getYuiCssLineBreak() {
+<span class="nc" id="L1750">        return yuiCssLineBreak;</span>
+    }
+
+    /**
+     * Tells Yahoo YUI Compressor to break lines after the specified number of symbols during CSS compression. This
+     * corresponds to &lt;code&gt;--line-break&lt;/code&gt; command line option. This option has effect only if CSS compression is
+     * enabled. Default is &lt;code&gt;-1&lt;/code&gt; to disable line breaks.
+     *
+     * @param yuiCssLineBreak
+     *            set number of symbols per line
+     *
+     * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
+     */
+    public void setYuiCssLineBreak(int yuiCssLineBreak) {
+<span class="fc" id="L1764">        this.yuiCssLineBreak = yuiCssLineBreak;</span>
+<span class="fc" id="L1765">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if all unnecessary quotes will be removed from tag attributes.
+     *
+     * @return true, if is removes the quotes
+     */
+    public boolean isRemoveQuotes() {
+<span class="nc" id="L1773">        return removeQuotes;</span>
+    }
+
+    /**
+     * If set to &lt;code&gt;true&lt;/code&gt; all unnecessary quotes will be removed from tag attributes. Default is
+     * &lt;code&gt;false&lt;/code&gt;.
+     * &lt;p&gt;
+     * &lt;b&gt;Note:&lt;/b&gt; Even though quotes are removed only when it is safe to do so, it still might break strict HTML
+     * validation. Turn this option on only if a page validation is not very important or to squeeze the most out of the
+     * compression. This option has no performance impact.
+     *
+     * @param removeQuotes
+     *            set &lt;code&gt;true&lt;/code&gt; to remove unnecessary quotes from tag attributes
+     */
+    public void setRemoveQuotes(boolean removeQuotes) {
+<span class="fc" id="L1788">        this.removeQuotes = removeQuotes;</span>
+<span class="fc" id="L1789">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if compression is enabled.
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if compression is enabled.
+     */
+    public boolean isEnabled() {
+<span class="nc" id="L1797">        return enabled;</span>
+    }
+
+    /**
+     * If set to &lt;code&gt;false&lt;/code&gt; all compression will be bypassed. Might be useful for testing purposes. Default is
+     * &lt;code&gt;true&lt;/code&gt;.
+     *
+     * @param enabled
+     *            set &lt;code&gt;false&lt;/code&gt; to bypass all compression
+     */
+    public void setEnabled(boolean enabled) {
+<span class="fc" id="L1808">        this.enabled = enabled;</span>
+<span class="fc" id="L1809">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if all HTML comments will be removed.
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if all HTML comments will be removed
+     */
+    public boolean isRemoveComments() {
+<span class="nc" id="L1817">        return removeComments;</span>
+    }
+
+    /**
+     * If set to &lt;code&gt;true&lt;/code&gt; all HTML comments will be removed. Default is &lt;code&gt;true&lt;/code&gt;.
+     *
+     * @param removeComments
+     *            set &lt;code&gt;true&lt;/code&gt; to remove all HTML comments
+     */
+    public void setRemoveComments(boolean removeComments) {
+<span class="fc" id="L1827">        this.removeComments = removeComments;</span>
+<span class="fc" id="L1828">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if all multiple whitespace characters will be replaced with single spaces.
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if all multiple whitespace characters will be replaced with single spaces.
+     */
+    public boolean isRemoveMultiSpaces() {
+<span class="nc" id="L1836">        return removeMultiSpaces;</span>
+    }
+
+    /**
+     * If set to &lt;code&gt;true&lt;/code&gt; all multiple whitespace characters will be replaced with single spaces. Default is
+     * &lt;code&gt;true&lt;/code&gt;.
+     *
+     * @param removeMultiSpaces
+     *            set &lt;code&gt;true&lt;/code&gt; to replace all multiple whitespace characters will single spaces.
+     */
+    public void setRemoveMultiSpaces(boolean removeMultiSpaces) {
+<span class="fc" id="L1847">        this.removeMultiSpaces = removeMultiSpaces;</span>
+<span class="fc" id="L1848">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if all inter-tag whitespace characters will be removed.
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if all inter-tag whitespace characters will be removed.
+     */
+    public boolean isRemoveIntertagSpaces() {
+<span class="nc" id="L1856">        return removeIntertagSpaces;</span>
+    }
+
+    /**
+     * If set to &lt;code&gt;true&lt;/code&gt; all inter-tag whitespace characters will be removed. Default is &lt;code&gt;false&lt;/code&gt;.
+     * &lt;p&gt;
+     * &lt;b&gt;Note:&lt;/b&gt; It is fairly safe to turn this option on unless you rely on spaces for page formatting. Even if you
+     * do, you can always preserve required spaces with &lt;code&gt;&amp;amp;nbsp;&lt;/code&gt;. This option has no performance impact.
+     *
+     * @param removeIntertagSpaces
+     *            set &lt;code&gt;true&lt;/code&gt; to remove all inter-tag whitespace characters
+     */
+    public void setRemoveIntertagSpaces(boolean removeIntertagSpaces) {
+<span class="fc" id="L1869">        this.removeIntertagSpaces = removeIntertagSpaces;</span>
+<span class="fc" id="L1870">    }</span>
+
+    /**
+     * Returns a list of Patterns defining custom preserving block rules.
+     *
+     * @return list of &lt;code&gt;Pattern&lt;/code&gt; objects defining rules for preserving block rules
+     */
+    public List&lt;Pattern&gt; getPreservePatterns() {
+<span class="nc" id="L1878">        return preservePatterns;</span>
+    }
+
+    /**
+     * This method allows setting custom block preservation rules defined by regular expression patterns. Blocks that
+     * match provided patterns will be skipped during HTML compression.
+     * &lt;p&gt;
+     * Custom preservation rules have higher priority than default rules. Priority between custom rules are defined by
+     * their position in a list (beginning of a list has higher priority).
+     * &lt;p&gt;
+     * Besides custom patterns, you can use 3 predefined patterns: {@link #PHP_TAG_PATTERN PHP_TAG_PATTERN},
+     * {@link #SERVER_SCRIPT_TAG_PATTERN SERVER_SCRIPT_TAG_PATTERN}, {@link #SERVER_SIDE_INCLUDE_PATTERN
+     * SERVER_SIDE_INCLUDE_PATTERN}.
+     *
+     * @param preservePatterns
+     *            List of &lt;code&gt;Pattern&lt;/code&gt; objects that will be used to skip matched blocks during compression
+     */
+    public void setPreservePatterns(List&lt;Pattern&gt; preservePatterns) {
+<span class="fc" id="L1896">        this.preservePatterns = preservePatterns;</span>
+<span class="fc" id="L1897">    }</span>
+
+    /**
+     * Returns &lt;code&gt;ErrorReporter&lt;/code&gt; used by YUI Compressor to log error messages during JavasSript compression.
+     *
+     * @return &lt;code&gt;ErrorReporter&lt;/code&gt; used by YUI Compressor to log error messages during JavasSript compression
+     *
+     * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
+     * @see &lt;a href=&quot;http://www.mozilla.org/rhino/apidocs/org/mozilla/javascript/ErrorReporter.html&quot;&gt;Error Reporter
+     *      Interface&lt;/a&gt;
+     */
+    public ErrorReporter getYuiErrorReporter() {
+<span class="nc" id="L1909">        return yuiErrorReporter;</span>
+    }
+
+    /**
+     * Sets &lt;code&gt;ErrorReporter&lt;/code&gt; that YUI Compressor will use for reporting errors during JavaScript compression.
+     * If no &lt;code&gt;ErrorReporter&lt;/code&gt; was provided {@link YuiJavaScriptCompressor.DefaultErrorReporter} will be used
+     * which reports errors to &lt;code&gt;System.err&lt;/code&gt; stream.
+     *
+     * @param yuiErrorReporter
+     *            &lt;code&gt;ErrorReporter&lt;/code&gt; that will be used by YUI Compressor
+     *
+     * @see YuiJavaScriptCompressor.DefaultErrorReporter
+     * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
+     * @see &lt;a href=&quot;http://www.mozilla.org/rhino/apidocs/org/mozilla/javascript/ErrorReporter.html&quot;&gt;ErrorReporter
+     *      Interface&lt;/a&gt;
+     */
+    public void setYuiErrorReporter(ErrorReporter yuiErrorReporter) {
+<span class="fc" id="L1926">        this.yuiErrorReporter = yuiErrorReporter;</span>
+<span class="fc" id="L1927">    }</span>
+
+    /**
+     * Returns JavaScript compressor implementation that will be used to compress inline JavaScript in HTML.
+     *
+     * @return &lt;code&gt;Compressor&lt;/code&gt; implementation that will be used to compress inline JavaScript in HTML.
+     *
+     * @see YuiJavaScriptCompressor
+     * @see ClosureJavaScriptCompressor
+     * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
+     * @see &lt;a href=&quot;http://code.google.com/closure/compiler/&quot;&gt;Google Closure Compiler&lt;/a&gt;
+     */
+    public Compressor getJavaScriptCompressor() {
+<span class="nc" id="L1940">        return javaScriptCompressor;</span>
+    }
+
+    /**
+     * Sets JavaScript compressor implementation that will be used to compress inline JavaScript in HTML.
+     * &lt;p&gt;
+     * HtmlCompressor currently comes with basic implementations for
+     * &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt; (called
+     * {@link YuiJavaScriptCompressor}) and &lt;a href=&quot;http://code.google.com/closure/compiler/&quot;&gt;Google Closure
+     * Compiler&lt;/a&gt; (called {@link ClosureJavaScriptCompressor}) that should be enough for most cases, but users can
+     * also create their own JavaScript compressors for custom needs.
+     * &lt;p&gt;
+     * If no compressor is set {@link YuiJavaScriptCompressor} will be used by default.
+     *
+     * @param javaScriptCompressor
+     *            {@link Compressor} implementation that will be used for inline JavaScript compression
+     *
+     * @see YuiJavaScriptCompressor
+     * @see ClosureJavaScriptCompressor
+     * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
+     * @see &lt;a href=&quot;http://code.google.com/closure/compiler/&quot;&gt;Google Closure Compiler&lt;/a&gt;
+     */
+    public void setJavaScriptCompressor(Compressor javaScriptCompressor) {
+<span class="fc" id="L1963">        this.javaScriptCompressor = javaScriptCompressor;</span>
+<span class="fc" id="L1964">    }</span>
+
+    /**
+     * Returns CSS compressor implementation that will be used to compress inline CSS in HTML.
+     *
+     * @return &lt;code&gt;Compressor&lt;/code&gt; implementation that will be used to compress inline CSS in HTML.
+     *
+     * @see YuiCssCompressor
+     * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
+     */
+    public Compressor getCssCompressor() {
+<span class="nc" id="L1975">        return cssCompressor;</span>
+    }
+
+    /**
+     * Sets CSS compressor implementation that will be used to compress inline CSS in HTML.
+     * &lt;p&gt;
+     * HtmlCompressor currently comes with basic implementation for
+     * &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt; (called {@link YuiCssCompressor}),
+     * but users can also create their own CSS compressors for custom needs.
+     * &lt;p&gt;
+     * If no compressor is set {@link YuiCssCompressor} will be used by default.
+     *
+     * @param cssCompressor
+     *            {@link Compressor} implementation that will be used for inline CSS compression
+     *
+     * @see YuiCssCompressor
+     * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
+     */
+    public void setCssCompressor(Compressor cssCompressor) {
+<span class="fc" id="L1994">        this.cssCompressor = cssCompressor;</span>
+<span class="fc" id="L1995">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if existing DOCTYPE declaration will be replaced with simple
+     * &lt;code&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/code&gt; declaration.
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if existing DOCTYPE declaration will be replaced with simple
+     *         &lt;code&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/code&gt; declaration.
+     */
+    public boolean isSimpleDoctype() {
+<span class="nc" id="L2005">        return simpleDoctype;</span>
+    }
+
+    /**
+     * If set to &lt;code&gt;true&lt;/code&gt;, existing DOCTYPE declaration will be replaced with simple
+     * &lt;code&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/code&gt; declaration. Default is &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param simpleDoctype
+     *            set &lt;code&gt;true&lt;/code&gt; to replace existing DOCTYPE declaration with &lt;code&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/code&gt;
+     */
+    public void setSimpleDoctype(boolean simpleDoctype) {
+<span class="fc" id="L2016">        this.simpleDoctype = simpleDoctype;</span>
+<span class="fc" id="L2017">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if unnecessary attributes will be removed from &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tags.
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if unnecessary attributes will be removed from &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tags
+     */
+    public boolean isRemoveScriptAttributes() {
+<span class="nc" id="L2025">        return removeScriptAttributes;</span>
+    }
+
+    /**
+     * If set to &lt;code&gt;true&lt;/code&gt;, following attributes will be removed from &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tags:
+     * &lt;ul&gt;
+     * &lt;li&gt;type=&quot;text/javascript&quot;&lt;/li&gt;
+     * &lt;li&gt;type=&quot;application/javascript&quot;&lt;/li&gt;
+     * &lt;li&gt;language=&quot;javascript&quot;&lt;/li&gt;
+     * &lt;/ul&gt;
+     * &lt;p&gt;
+     * Default is &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param removeScriptAttributes
+     *            set &lt;code&gt;true&lt;/code&gt; to remove unnecessary attributes from &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tags
+     */
+    public void setRemoveScriptAttributes(boolean removeScriptAttributes) {
+<span class="fc" id="L2042">        this.removeScriptAttributes = removeScriptAttributes;</span>
+<span class="fc" id="L2043">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;type=&quot;text/style&quot;&lt;/code&gt; attributes will be removed from
+     * &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt; tags.
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;type=&quot;text/style&quot;&lt;/code&gt; attributes will be removed from
+     *         &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt; tags
+     */
+    public boolean isRemoveStyleAttributes() {
+<span class="nc" id="L2053">        return removeStyleAttributes;</span>
+    }
+
+    /**
+     * If set to &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;type=&quot;text/style&quot;&lt;/code&gt; attributes will be removed from
+     * &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt; tags. Default is &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param removeStyleAttributes
+     *            set &lt;code&gt;true&lt;/code&gt; to remove &lt;code&gt;type=&quot;text/style&quot;&lt;/code&gt; attributes from
+     *            &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt; tags
+     */
+    public void setRemoveStyleAttributes(boolean removeStyleAttributes) {
+<span class="fc" id="L2065">        this.removeStyleAttributes = removeStyleAttributes;</span>
+<span class="fc" id="L2066">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if unnecessary attributes will be removed from &lt;code&gt;&amp;lt;link&amp;gt;&lt;/code&gt; tags.
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if unnecessary attributes will be removed from &lt;code&gt;&amp;lt;link&amp;gt;&lt;/code&gt; tags
+     */
+    public boolean isRemoveLinkAttributes() {
+<span class="nc" id="L2074">        return removeLinkAttributes;</span>
+    }
+
+    /**
+     * If set to &lt;code&gt;true&lt;/code&gt;, following attributes will be removed from &lt;code&gt;&amp;lt;link rel=&quot;stylesheet&quot;&amp;gt;&lt;/code&gt;
+     * and &lt;code&gt;&amp;lt;link rel=&quot;alternate stylesheet&quot;&amp;gt;&lt;/code&gt; tags:
+     * &lt;ul&gt;
+     * &lt;li&gt;type=&quot;text/css&quot;&lt;/li&gt;
+     * &lt;li&gt;type=&quot;text/plain&quot;&lt;/li&gt;
+     * &lt;/ul&gt;
+     * &lt;p&gt;
+     * Default is &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param removeLinkAttributes
+     *            set &lt;code&gt;true&lt;/code&gt; to remove unnecessary attributes from &lt;code&gt;&amp;lt;link&amp;gt;&lt;/code&gt; tags
+     */
+    public void setRemoveLinkAttributes(boolean removeLinkAttributes) {
+<span class="fc" id="L2091">        this.removeLinkAttributes = removeLinkAttributes;</span>
+<span class="fc" id="L2092">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;method=&quot;get&quot;&lt;/code&gt; attributes will be removed from &lt;code&gt;&amp;lt;form&amp;gt;&lt;/code&gt;
+     * tags.
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;method=&quot;get&quot;&lt;/code&gt; attributes will be removed from &lt;code&gt;&amp;lt;form&amp;gt;&lt;/code&gt;
+     *         tags
+     */
+    public boolean isRemoveFormAttributes() {
+<span class="nc" id="L2102">        return removeFormAttributes;</span>
+    }
+
+    /**
+     * If set to &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;method=&quot;get&quot;&lt;/code&gt; attributes will be removed from &lt;code&gt;&amp;lt;form&amp;gt;&lt;/code&gt;
+     * tags. Default is &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param removeFormAttributes
+     *            set &lt;code&gt;true&lt;/code&gt; to remove &lt;code&gt;method=&quot;get&quot;&lt;/code&gt; attributes from &lt;code&gt;&amp;lt;form&amp;gt;&lt;/code&gt;
+     *            tags
+     */
+    public void setRemoveFormAttributes(boolean removeFormAttributes) {
+<span class="fc" id="L2114">        this.removeFormAttributes = removeFormAttributes;</span>
+<span class="fc" id="L2115">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;type=&quot;text&quot;&lt;/code&gt; attributes will be removed from &lt;code&gt;&amp;lt;input&amp;gt;&lt;/code&gt;
+     * tags.
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;type=&quot;text&quot;&lt;/code&gt; attributes will be removed from &lt;code&gt;&amp;lt;input&amp;gt;&lt;/code&gt;
+     *         tags
+     */
+    public boolean isRemoveInputAttributes() {
+<span class="nc" id="L2125">        return removeInputAttributes;</span>
+    }
+
+    /**
+     * If set to &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;type=&quot;text&quot;&lt;/code&gt; attributes will be removed from &lt;code&gt;&amp;lt;input&amp;gt;&lt;/code&gt;
+     * tags. Default is &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param removeInputAttributes
+     *            set &lt;code&gt;true&lt;/code&gt; to remove &lt;code&gt;type=&quot;text&quot;&lt;/code&gt; attributes from &lt;code&gt;&amp;lt;input&amp;gt;&lt;/code&gt;
+     *            tags
+     */
+    public void setRemoveInputAttributes(boolean removeInputAttributes) {
+<span class="fc" id="L2137">        this.removeInputAttributes = removeInputAttributes;</span>
+<span class="fc" id="L2138">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if boolean attributes will be simplified.
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if boolean attributes will be simplified
+     */
+    public boolean isSimpleBooleanAttributes() {
+<span class="nc" id="L2146">        return simpleBooleanAttributes;</span>
+    }
+
+    /**
+     * If set to &lt;code&gt;true&lt;/code&gt;, any values of following boolean attributes will be removed:
+     * &lt;ul&gt;
+     * &lt;li&gt;checked&lt;/li&gt;
+     * &lt;li&gt;selected&lt;/li&gt;
+     * &lt;li&gt;disabled&lt;/li&gt;
+     * &lt;li&gt;readonly&lt;/li&gt;
+     * &lt;/ul&gt;
+     * &lt;p&gt;
+     * For example, &lt;code&gt;&amp;lt;input readonly=&quot;readonly&quot;&amp;gt;&lt;/code&gt; would become &lt;code&gt;&amp;lt;input readonly&amp;gt;&lt;/code&gt;
+     * &lt;p&gt;
+     * Default is &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param simpleBooleanAttributes
+     *            set &lt;code&gt;true&lt;/code&gt; to simplify boolean attributes
+     */
+    public void setSimpleBooleanAttributes(boolean simpleBooleanAttributes) {
+<span class="fc" id="L2166">        this.simpleBooleanAttributes = simpleBooleanAttributes;</span>
+<span class="fc" id="L2167">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;javascript:&lt;/code&gt; pseudo-protocol will be removed from inline event handlers.
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;javascript:&lt;/code&gt; pseudo-protocol will be removed from inline event handlers.
+     */
+    public boolean isRemoveJavaScriptProtocol() {
+<span class="nc" id="L2175">        return removeJavaScriptProtocol;</span>
+    }
+
+    /**
+     * If set to &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;javascript:&lt;/code&gt; pseudo-protocol will be removed from inline event handlers.
+     * &lt;p&gt;
+     * For example, &lt;code&gt;&amp;lt;a onclick=&quot;javascript:alert()&quot;&amp;gt;&lt;/code&gt; would become
+     * &lt;code&gt;&amp;lt;a onclick=&quot;alert()&quot;&amp;gt;&lt;/code&gt;
+     * &lt;p&gt;
+     * Default is &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param removeJavaScriptProtocol
+     *            set &lt;code&gt;true&lt;/code&gt; to remove &lt;code&gt;javascript:&lt;/code&gt; pseudo-protocol from inline event handlers.
+     */
+    public void setRemoveJavaScriptProtocol(boolean removeJavaScriptProtocol) {
+<span class="fc" id="L2190">        this.removeJavaScriptProtocol = removeJavaScriptProtocol;</span>
+<span class="fc" id="L2191">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;HTTP&lt;/code&gt; protocol will be removed from &lt;code&gt;href&lt;/code&gt;, &lt;code&gt;src&lt;/code&gt;,
+     * &lt;code&gt;cite&lt;/code&gt;, and &lt;code&gt;action&lt;/code&gt; tag attributes.
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;HTTP&lt;/code&gt; protocol will be removed from &lt;code&gt;href&lt;/code&gt;, &lt;code&gt;src&lt;/code&gt;,
+     *         &lt;code&gt;cite&lt;/code&gt;, and &lt;code&gt;action&lt;/code&gt; tag attributes.
+     */
+    public boolean isRemoveHttpProtocol() {
+<span class="nc" id="L2201">        return removeHttpProtocol;</span>
+    }
+
+    /**
+     * If set to &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;HTTP&lt;/code&gt; protocol will be removed from &lt;code&gt;href&lt;/code&gt;, &lt;code&gt;src&lt;/code&gt;,
+     * &lt;code&gt;cite&lt;/code&gt;, and &lt;code&gt;action&lt;/code&gt; tag attributes. URL without a protocol would make a browser use
+     * document's current protocol instead.
+     * &lt;p&gt;
+     * Tags marked with &lt;code&gt;rel=&quot;external&quot;&lt;/code&gt; will be skipped.
+     * &lt;p&gt;
+     * For example:
+     * &lt;p&gt;
+     * &lt;code&gt;&amp;lt;a href=&quot;http://example.com&quot;&amp;gt; &amp;lt;script src=&quot;http://google.com/js.js&quot; rel=&quot;external&quot;&amp;gt;&lt;/code&gt;
+     * &lt;p&gt;
+     * would become:
+     * &lt;p&gt;
+     * &lt;code&gt;&amp;lt;a href=&quot;//example.com&quot;&amp;gt; &amp;lt;script src=&quot;http://google.com/js.js&quot; rel=&quot;external&quot;&amp;gt;&lt;/code&gt;
+     * &lt;p&gt;
+     * Default is &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param removeHttpProtocol
+     *            set &lt;code&gt;true&lt;/code&gt; to remove &lt;code&gt;HTTP&lt;/code&gt; protocol from tag attributes
+     */
+    public void setRemoveHttpProtocol(boolean removeHttpProtocol) {
+<span class="fc" id="L2225">        this.removeHttpProtocol = removeHttpProtocol;</span>
+<span class="fc" id="L2226">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;HTTPS&lt;/code&gt; protocol will be removed from &lt;code&gt;href&lt;/code&gt;, &lt;code&gt;src&lt;/code&gt;
+     * , &lt;code&gt;cite&lt;/code&gt;, and &lt;code&gt;action&lt;/code&gt; tag attributes.
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;HTTPS&lt;/code&gt; protocol will be removed from &lt;code&gt;href&lt;/code&gt;, &lt;code&gt;src&lt;/code&gt;
+     *         , &lt;code&gt;cite&lt;/code&gt;, and &lt;code&gt;action&lt;/code&gt; tag attributes.
+     */
+    public boolean isRemoveHttpsProtocol() {
+<span class="nc" id="L2236">        return removeHttpsProtocol;</span>
+    }
+
+    /**
+     * If set to &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;HTTPS&lt;/code&gt; protocol will be removed from &lt;code&gt;href&lt;/code&gt;, &lt;code&gt;src&lt;/code&gt;
+     * , &lt;code&gt;cite&lt;/code&gt;, and &lt;code&gt;action&lt;/code&gt; tag attributes. URL without a protocol would make a browser use
+     * document's current protocol instead.
+     * &lt;p&gt;
+     * Tags marked with &lt;code&gt;rel=&quot;external&quot;&lt;/code&gt; will be skipped.
+     * &lt;p&gt;
+     * For example:
+     * &lt;p&gt;
+     * &lt;code&gt;&amp;lt;a href=&quot;https://example.com&quot;&amp;gt; &amp;lt;script src=&quot;https://google.com/js.js&quot; rel=&quot;external&quot;&amp;gt;&lt;/code&gt;
+     * &lt;p&gt;
+     * would become:
+     * &lt;p&gt;
+     * &lt;code&gt;&amp;lt;a href=&quot;//example.com&quot;&amp;gt; &amp;lt;script src=&quot;https://google.com/js.js&quot; rel=&quot;external&quot;&amp;gt;&lt;/code&gt;
+     * &lt;p&gt;
+     * Default is &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param removeHttpsProtocol
+     *            set &lt;code&gt;true&lt;/code&gt; to remove &lt;code&gt;HTTP&lt;/code&gt; protocol from tag attributes
+     */
+    public void setRemoveHttpsProtocol(boolean removeHttpsProtocol) {
+<span class="fc" id="L2260">        this.removeHttpsProtocol = removeHttpsProtocol;</span>
+<span class="fc" id="L2261">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if HTML compression statistics is generated.
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if HTML compression statistics is generated
+     */
+    public boolean isGenerateStatistics() {
+<span class="nc" id="L2269">        return generateStatistics;</span>
+    }
+
+    /**
+     * If set to &lt;code&gt;true&lt;/code&gt;, HTML compression statistics will be generated.
+     * &lt;p&gt;
+     * &lt;strong&gt;Important:&lt;/strong&gt; Enabling statistics makes HTML compressor not thread safe.
+     * &lt;p&gt;
+     * Default is &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param generateStatistics
+     *            set &lt;code&gt;true&lt;/code&gt; to generate HTML compression statistics
+     *
+     * @see #getStatistics()
+     */
+    public void setGenerateStatistics(boolean generateStatistics) {
+<span class="nc" id="L2285">        this.generateStatistics = generateStatistics;</span>
+<span class="nc" id="L2286">    }</span>
+
+    /**
+     * Returns {@link HtmlCompressorStatistics} object containing statistics of the last HTML compression, if enabled.
+     * Should be called after {@link #compress(String)}
+     *
+     * @return {@link HtmlCompressorStatistics} object containing last HTML compression statistics
+     *
+     * @see HtmlCompressorStatistics
+     * @see #setGenerateStatistics(boolean)
+     */
+    public HtmlCompressorStatistics getStatistics() {
+<span class="nc" id="L2298">        return statistics;</span>
+    }
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if line breaks will be preserved.
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if line breaks will be preserved.
+     */
+    public boolean isPreserveLineBreaks() {
+<span class="nc" id="L2307">        return preserveLineBreaks;</span>
+    }
+
+    /**
+     * If set to &lt;code&gt;true&lt;/code&gt;, line breaks will be preserved.
+     * &lt;p&gt;
+     * Default is &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param preserveLineBreaks
+     *            set &lt;code&gt;true&lt;/code&gt; to preserve line breaks
+     */
+    public void setPreserveLineBreaks(boolean preserveLineBreaks) {
+<span class="fc" id="L2319">        this.preserveLineBreaks = preserveLineBreaks;</span>
+<span class="fc" id="L2320">    }</span>
+
+    /**
+     * Returns a comma separated list of tags around which spaces will be removed.
+     *
+     * @return a comma separated list of tags around which spaces will be removed.
+     */
+    public String getRemoveSurroundingSpaces() {
+<span class="nc" id="L2328">        return removeSurroundingSpaces;</span>
+    }
+
+    /**
+     * Enables surrounding spaces removal around provided comma separated list of tags.
+     * &lt;p&gt;
+     * Besides custom defined lists, you can pass one of 3 predefined lists of tags: {@link #BLOCK_TAGS_MIN
+     * BLOCK_TAGS_MIN}, {@link #BLOCK_TAGS_MAX BLOCK_TAGS_MAX}, {@link #ALL_TAGS ALL_TAGS}.
+     *
+     * @param tagList
+     *            a comma separated list of tags around which spaces will be removed
+     */
+    public void setRemoveSurroundingSpaces(String tagList) {
+<span class="pc bpc" id="L2341" title="2 of 4 branches missed.">        if (tagList != null &amp;&amp; tagList.length() == 0) {</span>
+<span class="nc" id="L2342">            tagList = null;</span>
+        }
+<span class="fc" id="L2344">        this.removeSurroundingSpaces = tagList;</span>
+<span class="fc" id="L2345">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

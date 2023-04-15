@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HtmlMetrics.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">HTML Compressor and Minifier</a> &gt; <a href="index.source.html" class="el_package">com.googlecode.htmlcompressor.compressor</a> &gt; <span class="el_source">HtmlMetrics.java</span></div><h1>HtmlMetrics.java</h1><pre class="source lang-java linenums">/*
+ *    Copyright 2009-2021 the original author or authors.
+ *
+ *    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+package com.googlecode.htmlcompressor.compressor;
+
+/**
+ * Class that stores metrics about HTML documents.
+ *
+ * @author &lt;a href=&quot;mailto:serg472@gmail.com&quot;&gt;Sergiy Kovalchuk&lt;/a&gt;
+ */
+<span class="nc" id="L23">public class HtmlMetrics {</span>
+
+    /** The filesize. */
+    private int filesize;
+
+    /** The empty chars. */
+    private int emptyChars;
+
+    /** The inline script size. */
+    private int inlineScriptSize;
+
+    /** The inline style size. */
+    private int inlineStyleSize;
+
+    /** The inline event size. */
+    private int inlineEventSize;
+
+    /**
+     * Returns total filesize of a document.
+     *
+     * @return total filesize of a document, in bytes
+     */
+    public int getFilesize() {
+<span class="nc" id="L46">        return filesize;</span>
+    }
+
+    /**
+     * Sets the filesize.
+     *
+     * @param filesize
+     *            the filesize to set
+     */
+    public void setFilesize(int filesize) {
+<span class="nc" id="L56">        this.filesize = filesize;</span>
+<span class="nc" id="L57">    }</span>
+
+    /**
+     * Returns number of empty characters (spaces, tabs, end of lines) in a document.
+     *
+     * @return number of empty characters in a document
+     */
+    public int getEmptyChars() {
+<span class="nc" id="L65">        return emptyChars;</span>
+    }
+
+    /**
+     * Sets the empty chars.
+     *
+     * @param emptyChars
+     *            the emptyChars to set
+     */
+    public void setEmptyChars(int emptyChars) {
+<span class="nc" id="L75">        this.emptyChars = emptyChars;</span>
+<span class="nc" id="L76">    }</span>
+
+    /**
+     * Returns total size of inline &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tags.
+     *
+     * @return total size of inline &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tags, in bytes
+     */
+    public int getInlineScriptSize() {
+<span class="nc" id="L84">        return inlineScriptSize;</span>
+    }
+
+    /**
+     * Sets the inline script size.
+     *
+     * @param inlineScriptSize
+     *            the inlineScriptSize to set
+     */
+    public void setInlineScriptSize(int inlineScriptSize) {
+<span class="nc" id="L94">        this.inlineScriptSize = inlineScriptSize;</span>
+<span class="nc" id="L95">    }</span>
+
+    /**
+     * Returns total size of inline &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt; tags.
+     *
+     * @return total size of inline &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt; tags, in bytes
+     */
+    public int getInlineStyleSize() {
+<span class="nc" id="L103">        return inlineStyleSize;</span>
+    }
+
+    /**
+     * Sets the inline style size.
+     *
+     * @param inlineStyleSize
+     *            the inlineStyleSize to set
+     */
+    public void setInlineStyleSize(int inlineStyleSize) {
+<span class="nc" id="L113">        this.inlineStyleSize = inlineStyleSize;</span>
+<span class="nc" id="L114">    }</span>
+
+    /**
+     * Returns total size of inline event handlers (&lt;code&gt;onclick&lt;/code&gt;, etc).
+     *
+     * @return total size of inline event handlers, in bytes
+     */
+    public int getInlineEventSize() {
+<span class="nc" id="L122">        return inlineEventSize;</span>
+    }
+
+    /**
+     * Sets the inline event size.
+     *
+     * @param inlineEventSize
+     *            the inlineEventSize to set
+     */
+    public void setInlineEventSize(int inlineEventSize) {
+<span class="nc" id="L132">        this.inlineEventSize = inlineEventSize;</span>
+<span class="nc" id="L133">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L137">        return String.format(&quot;Filesize=%d, Empty Chars=%d, Script Size=%d, Style Size=%d, Event Handler Size=%d&quot;,</span>
+<span class="nc" id="L138">                filesize, emptyChars, inlineScriptSize, inlineStyleSize, inlineEventSize);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

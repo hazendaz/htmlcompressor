@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClosureJavaScriptCompressor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">HTML Compressor and Minifier</a> &gt; <a href="index.source.html" class="el_package">com.googlecode.htmlcompressor.compressor</a> &gt; <span class="el_source">ClosureJavaScriptCompressor.java</span></div><h1>ClosureJavaScriptCompressor.java</h1><pre class="source lang-java linenums">/*
+ *    Copyright 2009-2022 the original author or authors.
+ *
+ *    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+package com.googlecode.htmlcompressor.compressor;
+
+import com.google.common.io.ByteStreams;
+import com.google.javascript.jscomp.CompilationLevel;
+import com.google.javascript.jscomp.Compiler;
+import com.google.javascript.jscomp.CompilerOptions;
+import com.google.javascript.jscomp.Result;
+import com.google.javascript.jscomp.SourceFile;
+import com.google.javascript.jscomp.WarningLevel;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Basic JavaScript compressor implementation using &lt;a href=&quot;http://code.google.com/closure/compiler/&quot;&gt;Google Closure
+ * Compiler&lt;/a&gt; that could be used by {@link HtmlCompressor} for inline JavaScript compression.
+ *
+ * @author &lt;a href=&quot;mailto:serg472@gmail.com&quot;&gt;Sergiy Kovalchuk&lt;/a&gt;
+ *
+ * @see HtmlCompressor#setJavaScriptCompressor(Compressor)
+ * @see &lt;a href=&quot;http://code.google.com/closure/compiler/&quot;&gt;Google Closure Compiler&lt;/a&gt;
+ */
+public class ClosureJavaScriptCompressor implements Compressor {
+
+    /** The constant LOGGER. */
+<span class="fc" id="L50">    private static final Logger logger = LoggerFactory.getLogger(ClosureJavaScriptCompressor.class);</span>
+
+    /** The Constant COMPILATION_LEVEL_SIMPLE. */
+    public static final String COMPILATION_LEVEL_SIMPLE = &quot;simple&quot;;
+
+    /** The Constant COMPILATION_LEVEL_ADVANCED. */
+    public static final String COMPILATION_LEVEL_ADVANCED = &quot;advanced&quot;;
+
+    /** The Constant COMPILATION_LEVEL_WHITESPACE. */
+    public static final String COMPILATION_LEVEL_WHITESPACE = &quot;whitespace&quot;;
+
+    // Closure compiler default settings
+
+    /** The compiler options. */
+<span class="pc" id="L64">    private CompilerOptions compilerOptions = new CompilerOptions();</span>
+
+    /** The compilation level. */
+<span class="pc" id="L67">    private CompilationLevel compilationLevel = CompilationLevel.SIMPLE_OPTIMIZATIONS;</span>
+
+    /** The logging level (note: closure compiler still uses java util logging, don't import Level. */
+<span class="pc" id="L70">    private java.util.logging.Level loggingLevel = java.util.logging.Level.SEVERE;</span>
+
+    /** The warning level. */
+<span class="pc" id="L73">    private WarningLevel warningLevel = WarningLevel.DEFAULT;</span>
+
+    /** The custom externs only. */
+    private boolean customExternsOnly;
+
+    /** The externs. */
+    private List&lt;SourceFile&gt; externs;
+
+    /**
+     * Instantiates a new closure java script compressor.
+     */
+<span class="nc" id="L84">    public ClosureJavaScriptCompressor() {</span>
+        // Required for override.
+<span class="nc" id="L86">    }</span>
+
+    /**
+     * Instantiates a new closure java script compressor.
+     *
+     * @param compilationLevel
+     *            the compilation level
+     */
+<span class="fc" id="L94">    public ClosureJavaScriptCompressor(CompilationLevel compilationLevel) {</span>
+<span class="fc" id="L95">        this.compilationLevel = compilationLevel;</span>
+<span class="fc" id="L96">    }</span>
+
+    @Override
+    public String compress(String source) {
+
+<span class="fc" id="L101">        StringWriter writer = new StringWriter();</span>
+
+        // prepare source
+<span class="fc" id="L104">        List&lt;SourceFile&gt; input = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L105">        input.add(SourceFile.fromCode(&quot;source.js&quot;, source));</span>
+
+        // prepare externs
+<span class="fc" id="L108">        List&lt;SourceFile&gt; externsList = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">        if (compilationLevel.equals(CompilationLevel.ADVANCED_OPTIMIZATIONS)) {</span>
+            // default externs
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">            if (!customExternsOnly) {</span>
+                try {
+<span class="fc" id="L113">                    externsList = getDefaultExterns();</span>
+<span class="nc" id="L114">                } catch (IOException e) {</span>
+<span class="nc" id="L115">                    logger.error(&quot;&quot;, e);</span>
+<span class="fc" id="L116">                }</span>
+            }
+            // add user defined externs
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">            if (externs != null) {</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">                for (SourceFile extern : externs) {</span>
+<span class="nc" id="L121">                    externsList.add(extern);</span>
+<span class="nc" id="L122">                }</span>
+            }
+            // add empty externs
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">            if (externsList.isEmpty()) {</span>
+<span class="nc" id="L126">                externsList.add(SourceFile.fromCode(&quot;externs.js&quot;, &quot;&quot;));</span>
+            }
+        } else {
+            // empty externs
+<span class="nc" id="L130">            externsList.add(SourceFile.fromCode(&quot;externs.js&quot;, &quot;&quot;));</span>
+        }
+
+<span class="fc" id="L133">        Compiler.setLoggingLevel(loggingLevel);</span>
+
+<span class="fc" id="L135">        Compiler compiler = new Compiler();</span>
+<span class="fc" id="L136">        compiler.disableThreads();</span>
+
+<span class="fc" id="L138">        compilationLevel.setOptionsForCompilationLevel(compilerOptions);</span>
+<span class="fc" id="L139">        warningLevel.setOptionsForWarningLevel(compilerOptions);</span>
+
+<span class="fc" id="L141">        Result result = compiler.compile(externsList, input, compilerOptions);</span>
+
+<span class="pc bpc" id="L143" title="1 of 2 branches missed.">        if (result.success) {</span>
+<span class="fc" id="L144">            writer.write(compiler.toSource());</span>
+        } else {
+<span class="nc" id="L146">            writer.write(source);</span>
+        }
+
+<span class="fc" id="L149">        return writer.toString();</span>
+
+    }
+
+    /**
+     * Gets the default externs.
+     *
+     * @return the default externs
+     *
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
+    // read default externs from closure.jar
+    private List&lt;SourceFile&gt; getDefaultExterns() throws IOException {
+<span class="fc" id="L163">        InputStream input = ClosureJavaScriptCompressor.class.getResourceAsStream(&quot;/externs.zip&quot;);</span>
+<span class="fc" id="L164">        List&lt;SourceFile&gt; externList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L165">        try (ZipInputStream zip = new ZipInputStream(input)) {</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">            for (ZipEntry entry; (entry = zip.getNextEntry()) != null;) {</span>
+<span class="fc" id="L167">                externList.add(SourceFile.builder().withCharset(Charset.defaultCharset())</span>
+<span class="fc" id="L168">                        .withContent(ByteStreams.limit(zip, entry.getSize())).withPath(entry.getName()).build());</span>
+            }
+        }
+<span class="fc" id="L171">        return externList;</span>
+    }
+
+    /**
+     * Returns level of optimization that is applied when compiling JavaScript code.
+     *
+     * @return &lt;code&gt;CompilationLevel&lt;/code&gt; that is applied when compiling JavaScript code.
+     *
+     * @see &lt;a href=
+     *      &quot;http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/CompilationLevel.html&quot;&gt;CompilationLevel&lt;/a&gt;
+     */
+    public CompilationLevel getCompilationLevel() {
+<span class="nc" id="L183">        return compilationLevel;</span>
+    }
+
+    /**
+     * Sets level of optimization that should be applied when compiling JavaScript code. If none is provided,
+     * &lt;code&gt;CompilationLevel.SIMPLE_OPTIMIZATIONS&lt;/code&gt; will be used by default.
+     * &lt;p&gt;
+     * &lt;b&gt;Warning:&lt;/b&gt; Using &lt;code&gt;CompilationLevel.ADVANCED_OPTIMIZATIONS&lt;/code&gt; could break inline JavaScript if
+     * externs are not set properly.
+     *
+     * @param compilationLevel
+     *            Optimization level to use, could be set to &lt;code&gt;CompilationLevel.ADVANCED_OPTIMIZATIONS&lt;/code&gt;,
+     *            &lt;code&gt;CompilationLevel.SIMPLE_OPTIMIZATIONS&lt;/code&gt;, &lt;code&gt;CompilationLevel.WHITESPACE_ONLY&lt;/code&gt;
+     *
+     * @see &lt;a href=&quot;http://code.google.com/closure/compiler/docs/api-tutorial3.html&quot;&gt;Advanced Compilation and
+     *      Externs&lt;/a&gt;
+     * @see &lt;a href=&quot;http://code.google.com/closure/compiler/docs/compilation_levels.html&quot;&gt;Closure Compiler Compilation
+     *      Levels&lt;/a&gt;
+     * @see &lt;a href=
+     *      &quot;http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/CompilationLevel.html&quot;&gt;CompilationLevel&lt;/a&gt;
+     */
+    public void setCompilationLevel(CompilationLevel compilationLevel) {
+<span class="nc" id="L205">        this.compilationLevel = compilationLevel;</span>
+<span class="nc" id="L206">    }</span>
+
+    /**
+     * Returns options that are used by the Closure compiler.
+     *
+     * @return &lt;code&gt;CompilerOptions&lt;/code&gt; that are used by the compiler
+     *
+     * @see &lt;a href=
+     *      &quot;http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/CompilerOptions.html&quot;&gt;CompilerOptions&lt;/a&gt;
+     */
+    public CompilerOptions getCompilerOptions() {
+<span class="nc" id="L217">        return compilerOptions;</span>
+    }
+
+    /**
+     * Sets options that will be used by the Closure compiler. If none is provided, default options constructor will be
+     * used: &lt;code&gt;new CompilerOptions()&lt;/code&gt;.
+     *
+     * @param compilerOptions
+     *            &lt;code&gt;CompilerOptions&lt;/code&gt; that will be used by the compiler
+     *
+     * @see &lt;a href=
+     *      &quot;http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/CompilerOptions.html&quot;&gt;CompilerOptions&lt;/a&gt;
+     */
+    public void setCompilerOptions(CompilerOptions compilerOptions) {
+<span class="nc" id="L231">        this.compilerOptions = compilerOptions;</span>
+<span class="nc" id="L232">    }</span>
+
+    /**
+     * Returns logging level used by the Closure compiler (note: closure compiler still uses java util logging, don't
+     * import Level).
+     *
+     * @return &lt;code&gt;Level&lt;/code&gt; of logging used by the Closure compiler
+     */
+    public java.util.logging.Level getLoggingLevel() {
+<span class="nc" id="L241">        return loggingLevel;</span>
+    }
+
+    /**
+     * Sets logging level for the Closure compiler (note: closure compiler still uses java util logging, don't import
+     * Level).
+     *
+     * @param loggingLevel
+     *            logging level for the Closure compiler.
+     *
+     * @see java.util.logging.Level
+     */
+    public void setLoggingLevel(java.util.logging.Level loggingLevel) {
+<span class="nc" id="L254">        this.loggingLevel = loggingLevel;</span>
+<span class="nc" id="L255">    }</span>
+
+    /**
+     * Returns &lt;code&gt;SourceFile&lt;/code&gt; used as a reference during the compression at
+     * &lt;code&gt;CompilationLevel.ADVANCED_OPTIMIZATIONS&lt;/code&gt; level.
+     *
+     * @return &lt;code&gt;SourceFile&lt;/code&gt; used as a reference during compression
+     */
+    public List&lt;SourceFile&gt; getExterns() {
+<span class="nc" id="L264">        return externs;</span>
+    }
+
+    /**
+     * Sets external JavaScript files that are used as a reference for function declarations if
+     * &lt;code&gt;CompilationLevel.ADVANCED_OPTIMIZATIONS&lt;/code&gt; compression level is used.
+     * &lt;p&gt;
+     * A number of default externs defined inside Closure's jar will be used besides user defined ones, to use only user
+     * defined externs set {@link #setCustomExternsOnly(boolean) setCustomExternsOnly(true)}
+     * &lt;p&gt;
+     * &lt;b&gt;Warning:&lt;/b&gt; Using &lt;code&gt;CompilationLevel.ADVANCED_OPTIMIZATIONS&lt;/code&gt; could break inline JavaScript if
+     * externs are not set properly.
+     *
+     * @param externs
+     *            &lt;code&gt;SourceFile&lt;/code&gt; to use as a reference during compression
+     *
+     * @see #setCompilationLevel(CompilationLevel)
+     * @see #setCustomExternsOnly(boolean)
+     * @see &lt;a href=&quot;http://code.google.com/closure/compiler/docs/api-tutorial3.html&quot;&gt;Advanced Compilation and
+     *      Externs&lt;/a&gt;
+     * @see &lt;a href=
+     *      &quot;http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/SourceFile.html&quot;&gt;SourceFile&lt;/a&gt;
+     */
+    public void setExterns(List&lt;SourceFile&gt; externs) {
+<span class="nc" id="L288">        this.externs = externs;</span>
+<span class="nc" id="L289">    }</span>
+
+    /**
+     * Returns &lt;code&gt;WarningLevel&lt;/code&gt; used by the Closure compiler.
+     *
+     * @return &lt;code&gt;WarningLevel&lt;/code&gt; used by the Closure compiler
+     */
+    public WarningLevel getWarningLevel() {
+<span class="nc" id="L297">        return warningLevel;</span>
+    }
+
+    /**
+     * Indicates the amount of information you want from the compiler about possible problems in your code.
+     *
+     * @param warningLevel
+     *            &lt;code&gt;WarningLevel&lt;/code&gt; to use
+     *
+     * @see &lt;a href=&quot;http://code.google.com/closure/compiler/docs/api-ref.html&quot;&gt;Google Closure Compiler&lt;/a&gt;
+     */
+    public void setWarningLevel(WarningLevel warningLevel) {
+<span class="nc" id="L309">        this.warningLevel = warningLevel;</span>
+<span class="nc" id="L310">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if default externs defined inside Closure's jar are ignored and only user defined ones
+     * are used.
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if default externs defined inside Closure's jar are ignored and only user defined ones
+     *         are used
+     */
+    public boolean isCustomExternsOnly() {
+<span class="nc" id="L320">        return customExternsOnly;</span>
+    }
+
+    /**
+     * If set to &lt;code&gt;true&lt;/code&gt;, default externs defined inside Closure's jar will be ignored and only user defined
+     * ones will be used.
+     *
+     * @param customExternsOnly
+     *            &lt;code&gt;true&lt;/code&gt; to skip default externs and use only user defined ones
+     *
+     * @see #setExterns(List)
+     * @see #setCompilationLevel(CompilationLevel)
+     */
+    public void setCustomExternsOnly(boolean customExternsOnly) {
+<span class="nc" id="L334">        this.customExternsOnly = customExternsOnly;</span>
+<span class="nc" id="L335">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
