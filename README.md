@@ -42,5 +42,5 @@ PROJECT BUILD:
 	- Run build.bat or build.sh
 	- Compiled binaries will be placed in /target subdirectory
 
-CHANGELOG:
-	http://code.google.com/p/htmlcompressor/wiki/Changelog
+## CHANGELOG ##
+    Changelog for 1.5.3 and before found [here](CHANGELOG.md)
