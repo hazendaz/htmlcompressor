@@ -169,10 +169,14 @@
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
         <configuration>
-          <excludes combine.children="append">
-            <exclude>**/src/test/resources/html/*</exclude>
-            <exclude>**/src/test/resources/xml/*</exclude>
-          </excludes>
+        <licenseSets>
+          <licenseSet>
+            <excludes combine.children="append">
+              <exclude>**/src/test/resources/html/*</exclude>
+              <exclude>**/src/test/resources/xml/*</exclude>
+            </excludes>
+          </licenseSet>
+        </licenseSets>
         </configuration>
       </plugin>
 
