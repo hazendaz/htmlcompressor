@@ -1,5 +1,12 @@
-HtmlCompressor
-==============
+# HtmlCompressor #
+
+[![Java CI](https://github.com/hazendaz/htmlcompressor/workflows/Java%20CI/badge.svg)](https://github.com/hazendaz/htmlcompressor/actions?query=workflow%3A%22Java+CI%22)
+[![Maven central](https://maven-badges.herokuapp.com/maven-central/com.github.hazendaz/htmlcompressor/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.hazendaz/htmlcompressor)
+[![Apache 2](http://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+
+![hazendaz](src/site/resources/images/hazendaz-banner.jpg)
+
+See site page [here](https://hazendaz.github.io/htmlcompressor/)
 
 Small, fast and very easy to use Java library that minifies given HTML or XML source by removing extra whitespaces, comments and other unneeded characters without breaking the content structure. As a result pages become smaller in size and load faster. A command-line version of the compressor is also available. 
 
