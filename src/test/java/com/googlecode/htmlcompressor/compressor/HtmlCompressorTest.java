@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2022 the original author or authors.
+ *    Copyright 2009-2023 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -76,7 +76,7 @@ public class HtmlCompressorTest {
         HtmlCompressor compressor = new HtmlCompressor();
         compressor.setRemoveMultiSpaces(false);
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -94,7 +94,7 @@ public class HtmlCompressorTest {
         compressor.setRemoveComments(true);
         compressor.setRemoveIntertagSpaces(true);
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -111,7 +111,7 @@ public class HtmlCompressorTest {
         HtmlCompressor compressor = new HtmlCompressor();
         compressor.setRemoveQuotes(true);
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -128,7 +128,7 @@ public class HtmlCompressorTest {
         HtmlCompressor compressor = new HtmlCompressor();
         compressor.setRemoveMultiSpaces(true);
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -145,7 +145,7 @@ public class HtmlCompressorTest {
         HtmlCompressor compressor = new HtmlCompressor();
         compressor.setRemoveIntertagSpaces(true);
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -178,7 +178,7 @@ public class HtmlCompressorTest {
         compressor.setRemoveComments(true);
         compressor.setRemoveIntertagSpaces(true);
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -196,7 +196,7 @@ public class HtmlCompressorTest {
         compressor.setCompressJavaScript(true);
         compressor.setRemoveIntertagSpaces(true);
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -215,7 +215,7 @@ public class HtmlCompressorTest {
         compressor.setJavaScriptCompressor(new ClosureJavaScriptCompressor(CompilationLevel.ADVANCED_OPTIMIZATIONS));
         compressor.setRemoveIntertagSpaces(true);
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -233,7 +233,7 @@ public class HtmlCompressorTest {
         compressor.setCompressCss(true);
         compressor.setRemoveIntertagSpaces(true);
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -249,7 +249,7 @@ public class HtmlCompressorTest {
 
         HtmlCompressor compressor = new HtmlCompressor();
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -266,7 +266,7 @@ public class HtmlCompressorTest {
         HtmlCompressor compressor = new HtmlCompressor();
         compressor.setSimpleDoctype(true);
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -283,7 +283,7 @@ public class HtmlCompressorTest {
         HtmlCompressor compressor = new HtmlCompressor();
         compressor.setRemoveScriptAttributes(true);
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -300,7 +300,7 @@ public class HtmlCompressorTest {
         HtmlCompressor compressor = new HtmlCompressor();
         compressor.setRemoveStyleAttributes(true);
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -317,7 +317,7 @@ public class HtmlCompressorTest {
         HtmlCompressor compressor = new HtmlCompressor();
         compressor.setRemoveLinkAttributes(true);
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -334,7 +334,7 @@ public class HtmlCompressorTest {
         HtmlCompressor compressor = new HtmlCompressor();
         compressor.setRemoveFormAttributes(true);
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -351,7 +351,7 @@ public class HtmlCompressorTest {
         HtmlCompressor compressor = new HtmlCompressor();
         compressor.setRemoveInputAttributes(true);
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -368,7 +368,7 @@ public class HtmlCompressorTest {
         HtmlCompressor compressor = new HtmlCompressor();
         compressor.setRemoveJavaScriptProtocol(true);
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -385,7 +385,7 @@ public class HtmlCompressorTest {
         HtmlCompressor compressor = new HtmlCompressor();
         compressor.setRemoveHttpProtocol(true);
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -402,7 +402,7 @@ public class HtmlCompressorTest {
         HtmlCompressor compressor = new HtmlCompressor();
         compressor.setRemoveHttpsProtocol(true);
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
@@ -437,7 +437,7 @@ public class HtmlCompressorTest {
         compressor.setRemoveIntertagSpaces(true);
         compressor.setRemoveSurroundingSpaces("p,br");
 
-        assertEquals(result, compressor.compress(source));
+        assertEquals(result, compressor.compress(source) + System.lineSeparator());
     }
 
     /**
