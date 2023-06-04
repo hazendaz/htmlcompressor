@@ -47,7 +47,7 @@ public class XmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testCompress() throws Exception {
+    void testCompress() throws Exception {
         String source = readResource("testCompress.xml");
         String result = readResource("testCompressResult.xml");
 
@@ -63,7 +63,7 @@ public class XmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testEnabled() throws Exception {
+    void testEnabled() throws Exception {
         String source = readResource("testEnabled.xml");
         String result = readResource("testEnabledResult.xml");
 
@@ -80,7 +80,7 @@ public class XmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testRemoveComments() throws Exception {
+    void testRemoveComments() throws Exception {
         String source = readResource("testRemoveComments.xml");
         String result = readResource("testRemoveCommentsResult.xml");
 
@@ -97,7 +97,7 @@ public class XmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testRemoveIntertagSpaces() throws Exception {
+    void testRemoveIntertagSpaces() throws Exception {
         String source = readResource("testRemoveIntertagSpaces.xml");
         String result = readResource("testRemoveIntertagSpacesResult.xml");
 

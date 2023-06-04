@@ -52,7 +52,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testEnabled() throws Exception {
+    void testEnabled() throws Exception {
         String source = readResource("testEnabled.html");
         String result = readResource("testEnabledResult.html");
 
@@ -69,7 +69,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testRemoveSpacesInsideTags() throws Exception {
+    void testRemoveSpacesInsideTags() throws Exception {
         String source = readResource("testRemoveSpacesInsideTags.html");
         String result = readResource("testRemoveSpacesInsideTagsResult.html");
 
@@ -86,7 +86,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testRemoveComments() throws Exception {
+    void testRemoveComments() throws Exception {
         String source = readResource("testRemoveComments.html");
         String result = readResource("testRemoveCommentsResult.html");
 
@@ -104,7 +104,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testRemoveQuotes() throws Exception {
+    void testRemoveQuotes() throws Exception {
         String source = readResource("testRemoveQuotes.html");
         String result = readResource("testRemoveQuotesResult.html");
 
@@ -121,7 +121,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testRemoveMultiSpaces() throws Exception {
+    void testRemoveMultiSpaces() throws Exception {
         String source = readResource("testRemoveMultiSpaces.html");
         String result = readResource("testRemoveMultiSpacesResult.html");
 
@@ -138,7 +138,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testRemoveIntertagSpaces() throws Exception {
+    void testRemoveIntertagSpaces() throws Exception {
         String source = readResource("testRemoveIntertagSpaces.html");
         String result = readResource("testRemoveIntertagSpacesResult.html");
 
@@ -155,7 +155,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testPreservePatterns() throws Exception {
+    void testPreservePatterns() throws Exception {
         String source = readResource("testPreservePatterns.html");
         String result = readResource("testPreservePatternsResult.html");
 
@@ -188,7 +188,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testCompressJavaScriptYui() throws Exception {
+    void testCompressJavaScriptYui() throws Exception {
         String source = readResource("testCompressJavaScript.html");
         String result = readResource("testCompressJavaScriptYuiResult.html");
 
@@ -206,7 +206,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testCompressJavaScriptClosure() throws Exception {
+    void testCompressJavaScriptClosure() throws Exception {
         String source = readResource("testCompressJavaScript.html");
         String result = readResource("testCompressJavaScriptClosureResult.html");
 
@@ -225,7 +225,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testCompressCss() throws Exception {
+    void testCompressCss() throws Exception {
         String source = readResource("testCompressCss.html");
         String result = readResource("testCompressCssResult.html");
 
@@ -243,7 +243,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testCompress() throws Exception {
+    void testCompress() throws Exception {
         String source = readResource("testCompress.html");
         String result = readResource("testCompressResult.html");
 
@@ -259,7 +259,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testSimpleDoctype() throws Exception {
+    void testSimpleDoctype() throws Exception {
         String source = readResource("testSimpleDoctype.html");
         String result = readResource("testSimpleDoctypeResult.html");
 
@@ -276,7 +276,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testRemoveScriptAttributes() throws Exception {
+    void testRemoveScriptAttributes() throws Exception {
         String source = readResource("testRemoveScriptAttributes.html");
         String result = readResource("testRemoveScriptAttributesResult.html");
 
@@ -293,7 +293,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testRemoveStyleAttributes() throws Exception {
+    void testRemoveStyleAttributes() throws Exception {
         String source = readResource("testRemoveStyleAttributes.html");
         String result = readResource("testRemoveStyleAttributesResult.html");
 
@@ -310,7 +310,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testRemoveLinkAttributes() throws Exception {
+    void testRemoveLinkAttributes() throws Exception {
         String source = readResource("testRemoveLinkAttributes.html");
         String result = readResource("testRemoveLinkAttributesResult.html");
 
@@ -327,7 +327,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testRemoveFormAttributes() throws Exception {
+    void testRemoveFormAttributes() throws Exception {
         String source = readResource("testRemoveFormAttributes.html");
         String result = readResource("testRemoveFormAttributesResult.html");
 
@@ -344,7 +344,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testRemoveInputAttributes() throws Exception {
+    void testRemoveInputAttributes() throws Exception {
         String source = readResource("testRemoveInputAttributes.html");
         String result = readResource("testRemoveInputAttributesResult.html");
 
@@ -361,7 +361,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testRemoveJavaScriptProtocol() throws Exception {
+    void testRemoveJavaScriptProtocol() throws Exception {
         String source = readResource("testRemoveJavaScriptProtocol.html");
         String result = readResource("testRemoveJavaScriptProtocolResult.html");
 
@@ -378,7 +378,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testRemoveHttpProtocol() throws Exception {
+    void testRemoveHttpProtocol() throws Exception {
         String source = readResource("testRemoveHttpProtocol.html");
         String result = readResource("testRemoveHttpProtocolResult.html");
 
@@ -395,7 +395,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testRemoveHttpsProtocol() throws Exception {
+    void testRemoveHttpsProtocol() throws Exception {
         String source = readResource("testRemoveHttpsProtocol.html");
         String result = readResource("testRemoveHttpsProtocolResult.html");
 
@@ -412,7 +412,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testPreserveLineBreaks() throws Exception {
+    void testPreserveLineBreaks() throws Exception {
         String source = readResource("testPreserveLineBreaks.html");
         String result = readResource("testPreserveLineBreaksResult.html");
 
@@ -429,7 +429,7 @@ public class HtmlCompressorTest {
      *             the exception
      */
     @Test
-    public void testSurroundingSpaces() throws Exception {
+    void testSurroundingSpaces() throws Exception {
         String source = readResource("testSurroundingSpaces.html");
         String result = readResource("testSurroundingSpacesResult.html");
 
