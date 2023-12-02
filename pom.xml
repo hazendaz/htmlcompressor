@@ -28,7 +28,7 @@
 
   <groupId>com.github.hazendaz</groupId>
   <artifactId>htmlcompressor</artifactId>
-  <version>1.9.2</version>
+  <version>1.9.3-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>htmlcompressor</name>
@@ -86,7 +86,7 @@
     <connection>scm:git:ssh://git@github.com/hazendaz/htmlcompressor.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/hazendaz/htmlcompressor.git</developerConnection>
     <url>https://github.com/hazendaz/htmlcompressor/</url>
-    <tag>htmlcompressor-1.9.2</tag>
+    <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <system>Github</system>
@@ -112,7 +112,7 @@
     <module.name>com.github.hazendaz.htmlcompressor</module.name>
 
     <!-- Reproducible Builds -->
-    <project.build.outputTimestamp>1701560768</project.build.outputTimestamp>
+    <project.build.outputTimestamp>1701560819</project.build.outputTimestamp>
 
     <!-- External Modules -->
     <slf4j.version>2.0.9</slf4j.version>
