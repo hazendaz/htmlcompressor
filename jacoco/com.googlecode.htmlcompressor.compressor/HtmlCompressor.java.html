@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HtmlCompressor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">htmlcompressor</a> &gt; <a href="index.source.html" class="el_package">com.googlecode.htmlcompressor.compressor</a> &gt; <span class="el_source">HtmlCompressor.java</span></div><h1>HtmlCompressor.java</h1><pre class="source lang-java linenums">/*
- *    Copyright 2009-2022 the original author or authors.
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HtmlCompressor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">htmlcompressor</a> &gt; <a href="index.source.html" class="el_package">com.googlecode.htmlcompressor.compressor</a> &gt; <span class="el_source">HtmlCompressor.java</span></div><h1>HtmlCompressor.java</h1><pre class="source lang-java linenums">/*
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  *    you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package com.googlecode.htmlcompressor.compressor;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,7 +40,7 @@ import org.mozilla.javascript.ErrorReporter;
  *
  * @author &lt;a href=&quot;mailto:serg472@gmail.com&quot;&gt;Sergiy Kovalchuk&lt;/a&gt;
  */
-<span class="fc" id="L42">public class HtmlCompressor implements Compressor {</span>
+<span class="fc" id="L43">public class HtmlCompressor implements Compressor {</span>
 
     /** The Constant JS_COMPRESSOR_YUI. */
     public static final String JS_COMPRESSOR_YUI = &quot;yui&quot;;
@@ -51,20 +52,20 @@ import org.mozilla.javascript.ErrorReporter;
      * Predefined pattern that matches &lt;code&gt;&amp;lt;?php ... ?&amp;gt;&lt;/code&gt; tags. Could be passed inside a list to
      * {@link #setPreservePatterns(List) setPreservePatterns} method.
      */
-<span class="fc" id="L54">    public static final Pattern PHP_TAG_PATTERN = Pattern.compile(&quot;&lt;\\?php.*?\\?&gt;&quot;,</span>
+<span class="fc" id="L55">    public static final Pattern PHP_TAG_PATTERN = Pattern.compile(&quot;&lt;\\?php.*?\\?&gt;&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /**
      * Predefined pattern that matches &lt;code&gt;&amp;lt;% ... %&amp;gt;&lt;/code&gt; tags. Could be passed inside a list to
      * {@link #setPreservePatterns(List) setPreservePatterns} method.
      */
-<span class="fc" id="L61">    public static final Pattern SERVER_SCRIPT_TAG_PATTERN = Pattern.compile(&quot;&lt;%.*?%&gt;&quot;, Pattern.DOTALL);</span>
+<span class="fc" id="L62">    public static final Pattern SERVER_SCRIPT_TAG_PATTERN = Pattern.compile(&quot;&lt;%.*?%&gt;&quot;, Pattern.DOTALL);</span>
 
     /**
      * Predefined pattern that matches &lt;code&gt;&amp;lt;--# ... --&amp;gt;&lt;/code&gt; tags. Could be passed inside a list to
      * {@link #setPreservePatterns(List) setPreservePatterns} method.
      */
-<span class="fc" id="L67">    public static final Pattern SERVER_SIDE_INCLUDE_PATTERN = Pattern.compile(&quot;&lt;!--\\s*#.*?--&gt;&quot;, Pattern.DOTALL);</span>
+<span class="fc" id="L68">    public static final Pattern SERVER_SIDE_INCLUDE_PATTERN = Pattern.compile(&quot;&lt;!--\\s*#.*?--&gt;&quot;, Pattern.DOTALL);</span>
 
     /**
      * Predefined list of tags that are very likely to be block-level. Could be passed to
@@ -87,7 +88,7 @@ import org.mozilla.javascript.ErrorReporter;
     public static final String ALL_TAGS = &quot;all&quot;;
 
     /** The enabled. */
-<span class="fc" id="L90">    private boolean enabled = true;</span>
+<span class="fc" id="L91">    private boolean enabled = true;</span>
 
     // javascript and css compressor implementations
 
@@ -100,10 +101,10 @@ import org.mozilla.javascript.ErrorReporter;
     // default settings
 
     /** The remove comments. */
-<span class="fc" id="L103">    private boolean removeComments = true;</span>
+<span class="fc" id="L104">    private boolean removeComments = true;</span>
 
     /** The remove multi spaces. */
-<span class="fc" id="L106">    private boolean removeMultiSpaces = true;</span>
+<span class="fc" id="L107">    private boolean removeMultiSpaces = true;</span>
 
     // optional settings
 
@@ -178,10 +179,10 @@ import org.mozilla.javascript.ErrorReporter;
     private boolean yuiJsDisableOptimizations;
 
     /** The yui js line break. */
-<span class="fc" id="L181">    private int yuiJsLineBreak = -1;</span>
+<span class="fc" id="L182">    private int yuiJsLineBreak = -1;</span>
 
     /** The yui css line break. */
-<span class="fc" id="L184">    private int yuiCssLineBreak = -1;</span>
+<span class="fc" id="L185">    private int yuiCssLineBreak = -1;</span>
 
     /** The yui error reporter. */
     // error reporter implementation for YUI compressor
@@ -217,189 +218,189 @@ import org.mozilla.javascript.ErrorReporter;
 
     /** The Constant emptyPattern. */
     // compiled regex patterns
-<span class="fc" id="L220">    protected static final Pattern emptyPattern = Pattern.compile(&quot;\\s&quot;);</span>
+<span class="fc" id="L221">    protected static final Pattern emptyPattern = Pattern.compile(&quot;\\s&quot;);</span>
 
     /** The Constant skipPattern. */
-<span class="fc" id="L223">    protected static final Pattern skipPattern = Pattern.compile(</span>
+<span class="fc" id="L224">    protected static final Pattern skipPattern = Pattern.compile(</span>
             &quot;&lt;!--\\s*\\{\\{\\{\\s*--&gt;(.*?)&lt;!--\\s*\\}\\}\\}\\s*--&gt;&quot;, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant condCommentPattern. */
-<span class="fc" id="L227">    protected static final Pattern condCommentPattern = Pattern</span>
-<span class="fc" id="L228">            .compile(&quot;(&lt;!(?:--)?\\[[^\\]]+?]&gt;)(.*?)(&lt;!\\[[^\\]]+]--&gt;)&quot;, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);</span>
+<span class="fc" id="L228">    protected static final Pattern condCommentPattern = Pattern</span>
+<span class="fc" id="L229">            .compile(&quot;(&lt;!(?:--)?\\[[^\\]]+?]&gt;)(.*?)(&lt;!\\[[^\\]]+]--&gt;)&quot;, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);</span>
 
     /** The Constant commentPattern. */
-<span class="fc" id="L231">    protected static final Pattern commentPattern = Pattern.compile(&quot;&lt;!----&gt;|&lt;!--[^\\[].*?--&gt;&quot;,</span>
+<span class="fc" id="L232">    protected static final Pattern commentPattern = Pattern.compile(&quot;&lt;!----&gt;|&lt;!--[^\\[].*?--&gt;&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant intertagPattern_TagTag. */
-<span class="fc" id="L235">    protected static final Pattern intertagPattern_TagTag = Pattern.compile(&quot;&gt;\\s+&lt;&quot;,</span>
+<span class="fc" id="L236">    protected static final Pattern intertagPattern_TagTag = Pattern.compile(&quot;&gt;\\s+&lt;&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant intertagPattern_TagCustom. */
-<span class="fc" id="L239">    protected static final Pattern intertagPattern_TagCustom = Pattern.compile(&quot;&gt;\\s+%%%~&quot;,</span>
+<span class="fc" id="L240">    protected static final Pattern intertagPattern_TagCustom = Pattern.compile(&quot;&gt;\\s+%%%~&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant intertagPattern_CustomTag. */
-<span class="fc" id="L243">    protected static final Pattern intertagPattern_CustomTag = Pattern.compile(&quot;~%%%\\s+&lt;&quot;,</span>
+<span class="fc" id="L244">    protected static final Pattern intertagPattern_CustomTag = Pattern.compile(&quot;~%%%\\s+&lt;&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant intertagPattern_CustomCustom. */
-<span class="fc" id="L247">    protected static final Pattern intertagPattern_CustomCustom = Pattern.compile(&quot;~%%%\\s+%%%~&quot;,</span>
+<span class="fc" id="L248">    protected static final Pattern intertagPattern_CustomCustom = Pattern.compile(&quot;~%%%\\s+%%%~&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant multispacePattern. */
-<span class="fc" id="L251">    protected static final Pattern multispacePattern = Pattern.compile(&quot;\\s+&quot;,</span>
+<span class="fc" id="L252">    protected static final Pattern multispacePattern = Pattern.compile(&quot;\\s+&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant tagEndSpacePattern. */
-<span class="fc" id="L255">    protected static final Pattern tagEndSpacePattern = Pattern.compile(&quot;(&lt;(?:[^&gt;]+?))(?:\\s+?)(/?&gt;)&quot;,</span>
+<span class="fc" id="L256">    protected static final Pattern tagEndSpacePattern = Pattern.compile(&quot;(&lt;(?:[^&gt;]+?))(?:\\s+?)(/?&gt;)&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant tagLastUnquotedValuePattern. */
-<span class="fc" id="L259">    protected static final Pattern tagLastUnquotedValuePattern = Pattern.compile(&quot;=\\s*[a-z0-9-_]+$&quot;,</span>
+<span class="fc" id="L260">    protected static final Pattern tagLastUnquotedValuePattern = Pattern.compile(&quot;=\\s*[a-z0-9-_]+$&quot;,</span>
             Pattern.CASE_INSENSITIVE);
 
     /** The Constant tagQuotePattern. */
-<span class="fc" id="L263">    protected static final Pattern tagQuotePattern = Pattern.compile(&quot;\\s*=\\s*([\&quot;'])([a-z0-9-_]+?)\\1(/?)(?=[^&lt;]*?&gt;)&quot;,</span>
+<span class="fc" id="L264">    protected static final Pattern tagQuotePattern = Pattern.compile(&quot;\\s*=\\s*([\&quot;'])([a-z0-9-_]+?)\\1(/?)(?=[^&lt;]*?&gt;)&quot;,</span>
             Pattern.CASE_INSENSITIVE);
 
     /** The Constant prePattern. */
-<span class="fc" id="L267">    protected static final Pattern prePattern = Pattern.compile(&quot;(&lt;pre[^&gt;]*?&gt;)(.*?)(&lt;/pre&gt;)&quot;,</span>
+<span class="fc" id="L268">    protected static final Pattern prePattern = Pattern.compile(&quot;(&lt;pre[^&gt;]*?&gt;)(.*?)(&lt;/pre&gt;)&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant taPattern. */
-<span class="fc" id="L271">    protected static final Pattern taPattern = Pattern.compile(&quot;(&lt;textarea[^&gt;]*?&gt;)(.*?)(&lt;/textarea&gt;)&quot;,</span>
+<span class="fc" id="L272">    protected static final Pattern taPattern = Pattern.compile(&quot;(&lt;textarea[^&gt;]*?&gt;)(.*?)(&lt;/textarea&gt;)&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant scriptPattern. */
-<span class="fc" id="L275">    protected static final Pattern scriptPattern = Pattern.compile(&quot;(&lt;script[^&gt;]*?&gt;)(.*?)(&lt;/script&gt;)&quot;,</span>
+<span class="fc" id="L276">    protected static final Pattern scriptPattern = Pattern.compile(&quot;(&lt;script[^&gt;]*?&gt;)(.*?)(&lt;/script&gt;)&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant stylePattern. */
-<span class="fc" id="L279">    protected static final Pattern stylePattern = Pattern.compile(&quot;(&lt;style[^&gt;]*?&gt;)(.*?)(&lt;/style&gt;)&quot;,</span>
+<span class="fc" id="L280">    protected static final Pattern stylePattern = Pattern.compile(&quot;(&lt;style[^&gt;]*?&gt;)(.*?)(&lt;/style&gt;)&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant tagPropertyPattern. */
-<span class="fc" id="L283">    protected static final Pattern tagPropertyPattern = Pattern.compile(&quot;(\\s\\w+)\\s*=\\s*(?=[^&lt;]*?&gt;)&quot;,</span>
+<span class="fc" id="L284">    protected static final Pattern tagPropertyPattern = Pattern.compile(&quot;(\\s\\w+)\\s*=\\s*(?=[^&lt;]*?&gt;)&quot;,</span>
             Pattern.CASE_INSENSITIVE);
 
     /** The Constant cdataPattern. */
-<span class="fc" id="L287">    protected static final Pattern cdataPattern = Pattern.compile(&quot;\\s*&lt;!\\[CDATA\\[(.*?)\\]\\]&gt;\\s*&quot;,</span>
+<span class="fc" id="L288">    protected static final Pattern cdataPattern = Pattern.compile(&quot;\\s*&lt;!\\[CDATA\\[(.*?)\\]\\]&gt;\\s*&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant doctypePattern. */
-<span class="fc" id="L291">    protected static final Pattern doctypePattern = Pattern.compile(&quot;&lt;!DOCTYPE[^&gt;]*&gt;&quot;,</span>
+<span class="fc" id="L292">    protected static final Pattern doctypePattern = Pattern.compile(&quot;&lt;!DOCTYPE[^&gt;]*&gt;&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant typeAttrPattern. */
-<span class="fc" id="L295">    protected static final Pattern typeAttrPattern = Pattern.compile(&quot;type\\s*=\\s*([\\\&quot;']*)(.+?)\\1&quot;,</span>
+<span class="fc" id="L296">    protected static final Pattern typeAttrPattern = Pattern.compile(&quot;type\\s*=\\s*([\\\&quot;']*)(.+?)\\1&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant jsTypeAttrPattern. */
-<span class="fc" id="L299">    protected static final Pattern jsTypeAttrPattern = Pattern.compile(</span>
+<span class="fc" id="L300">    protected static final Pattern jsTypeAttrPattern = Pattern.compile(</span>
             &quot;(&lt;script[^&gt;]*)type\\s*=\\s*([\&quot;']*)(?:text|application)/javascript\\2([^&gt;]*&gt;)&quot;,
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant jsLangAttrPattern. */
-<span class="fc" id="L304">    protected static final Pattern jsLangAttrPattern = Pattern.compile(</span>
+<span class="fc" id="L305">    protected static final Pattern jsLangAttrPattern = Pattern.compile(</span>
             &quot;(&lt;script[^&gt;]*)language\\s*=\\s*([\&quot;']*)javascript\\2([^&gt;]*&gt;)&quot;, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant styleTypeAttrPattern. */
-<span class="fc" id="L308">    protected static final Pattern styleTypeAttrPattern = Pattern.compile(</span>
+<span class="fc" id="L309">    protected static final Pattern styleTypeAttrPattern = Pattern.compile(</span>
             &quot;(&lt;style[^&gt;]*)type\\s*=\\s*([\&quot;']*)text/style\\2([^&gt;]*&gt;)&quot;, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant linkTypeAttrPattern. */
-<span class="fc" id="L312">    protected static final Pattern linkTypeAttrPattern = Pattern.compile(</span>
+<span class="fc" id="L313">    protected static final Pattern linkTypeAttrPattern = Pattern.compile(</span>
             &quot;(&lt;link[^&gt;]*)type\\s*=\\s*([\&quot;']*)text/(?:css|plain)\\2([^&gt;]*&gt;)&quot;,
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant linkRelAttrPattern. */
-<span class="fc" id="L317">    protected static final Pattern linkRelAttrPattern = Pattern.compile(</span>
+<span class="fc" id="L318">    protected static final Pattern linkRelAttrPattern = Pattern.compile(</span>
             &quot;&lt;link(?:[^&gt;]*)rel\\s*=\\s*([\&quot;']*)(?:alternate\\s+)?stylesheet\\1(?:[^&gt;]*)&gt;&quot;,
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant formMethodAttrPattern. */
-<span class="fc" id="L322">    protected static final Pattern formMethodAttrPattern = Pattern</span>
-<span class="fc" id="L323">            .compile(&quot;(&lt;form[^&gt;]*)method\\s*=\\s*([\&quot;']*)get\\2([^&gt;]*&gt;)&quot;, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);</span>
+<span class="fc" id="L323">    protected static final Pattern formMethodAttrPattern = Pattern</span>
+<span class="fc" id="L324">            .compile(&quot;(&lt;form[^&gt;]*)method\\s*=\\s*([\&quot;']*)get\\2([^&gt;]*&gt;)&quot;, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);</span>
 
     /** The Constant inputTypeAttrPattern. */
-<span class="fc" id="L326">    protected static final Pattern inputTypeAttrPattern = Pattern</span>
-<span class="fc" id="L327">            .compile(&quot;(&lt;input[^&gt;]*)type\\s*=\\s*([\&quot;']*)text\\2([^&gt;]*&gt;)&quot;, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);</span>
+<span class="fc" id="L327">    protected static final Pattern inputTypeAttrPattern = Pattern</span>
+<span class="fc" id="L328">            .compile(&quot;(&lt;input[^&gt;]*)type\\s*=\\s*([\&quot;']*)text\\2([^&gt;]*&gt;)&quot;, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);</span>
 
     /** The Constant booleanAttrPattern. */
-<span class="fc" id="L330">    protected static final Pattern booleanAttrPattern = Pattern.compile(</span>
+<span class="fc" id="L331">    protected static final Pattern booleanAttrPattern = Pattern.compile(</span>
             &quot;(&lt;\\w+[^&gt;]*)(checked|selected|disabled|readonly)\\s*=\\s*([\&quot;']*)\\w*\\3([^&gt;]*&gt;)&quot;,
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant eventJsProtocolPattern. */
-<span class="fc" id="L335">    protected static final Pattern eventJsProtocolPattern = Pattern.compile(&quot;^javascript:\\s*(.+)&quot;,</span>
+<span class="fc" id="L336">    protected static final Pattern eventJsProtocolPattern = Pattern.compile(&quot;^javascript:\\s*(.+)&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant httpProtocolPattern. */
-<span class="fc" id="L339">    protected static final Pattern httpProtocolPattern = Pattern.compile(</span>
+<span class="fc" id="L340">    protected static final Pattern httpProtocolPattern = Pattern.compile(</span>
             &quot;(&lt;[^&gt;]+?(?:href|src|cite|action)\\s*=\\s*['\&quot;])http:(//[^&gt;]+?&gt;)&quot;,
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant httpsProtocolPattern. */
-<span class="fc" id="L344">    protected static final Pattern httpsProtocolPattern = Pattern.compile(</span>
+<span class="fc" id="L345">    protected static final Pattern httpsProtocolPattern = Pattern.compile(</span>
             &quot;(&lt;[^&gt;]+?(?:href|src|cite|action)\\s*=\\s*['\&quot;])https:(//[^&gt;]+?&gt;)&quot;,
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant relExternalPattern. */
-<span class="fc" id="L349">    protected static final Pattern relExternalPattern = Pattern.compile(</span>
+<span class="fc" id="L350">    protected static final Pattern relExternalPattern = Pattern.compile(</span>
             &quot;&lt;(?:[^&gt;]*)rel\\s*=\\s*([\&quot;']*)(?:alternate\\s+)?external\\1(?:[^&gt;]*)&gt;&quot;,
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant eventPattern1 (unmasked). */
-<span class="fc" id="L354">    protected static final Pattern eventPattern1 = Pattern.compile(</span>
+<span class="fc" id="L355">    protected static final Pattern eventPattern1 = Pattern.compile(</span>
             &quot;(\\son[a-z]+\\s*=\\s*\&quot;)([^\&quot;\\\\\\r\\n]*(?:\\\\.[^\&quot;\\\\\\r\\n]*)*)(\&quot;)&quot;, Pattern.CASE_INSENSITIVE);
 
     /** The Constant eventPattern2. */
     // \son[a-z]+\s*=\s*&quot;[^&quot;\\\r\n]*(?:\\.[^&quot;\\\r\n]*)*&quot;
-<span class="fc" id="L359">    protected static final Pattern eventPattern2 = Pattern</span>
-<span class="fc" id="L360">            .compile(&quot;(\\son[a-z]+\\s*=\\s*')([^'\\\\\\r\\n]*(?:\\\\.[^'\\\\\\r\\n]*)*)(')&quot;, Pattern.CASE_INSENSITIVE);</span>
+<span class="fc" id="L360">    protected static final Pattern eventPattern2 = Pattern</span>
+<span class="fc" id="L361">            .compile(&quot;(\\son[a-z]+\\s*=\\s*')([^'\\\\\\r\\n]*(?:\\\\.[^'\\\\\\r\\n]*)*)(')&quot;, Pattern.CASE_INSENSITIVE);</span>
 
     /** The Constant lineBreakPattern. */
-<span class="fc" id="L363">    protected static final Pattern lineBreakPattern = Pattern.compile(&quot;(?:\\p{Blank}*(\\r?\\n)\\p{Blank}*)+&quot;);</span>
+<span class="fc" id="L364">    protected static final Pattern lineBreakPattern = Pattern.compile(&quot;(?:\\p{Blank}*(\\r?\\n)\\p{Blank}*)+&quot;);</span>
 
     /** The Constant surroundingSpacesMinPattern. */
-<span class="fc" id="L366">    protected static final Pattern surroundingSpacesMinPattern = Pattern.compile(</span>
-<span class="fc" id="L367">            &quot;\\s*(&lt;/?(?:&quot; + BLOCK_TAGS_MIN.replace(&quot;,&quot;, &quot;|&quot;) + &quot;)(?:&gt;|[\\s/][^&gt;]*&gt;))\\s*&quot;,</span>
+<span class="fc" id="L367">    protected static final Pattern surroundingSpacesMinPattern = Pattern.compile(</span>
+<span class="fc" id="L368">            &quot;\\s*(&lt;/?(?:&quot; + BLOCK_TAGS_MIN.replace(&quot;,&quot;, &quot;|&quot;) + &quot;)(?:&gt;|[\\s/][^&gt;]*&gt;))\\s*&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant surroundingSpacesMaxPattern. */
-<span class="fc" id="L371">    protected static final Pattern surroundingSpacesMaxPattern = Pattern.compile(</span>
-<span class="fc" id="L372">            &quot;\\s*(&lt;/?(?:&quot; + BLOCK_TAGS_MAX.replace(&quot;,&quot;, &quot;|&quot;) + &quot;)(?:&gt;|[\\s/][^&gt;]*&gt;))\\s*&quot;,</span>
+<span class="fc" id="L372">    protected static final Pattern surroundingSpacesMaxPattern = Pattern.compile(</span>
+<span class="fc" id="L373">            &quot;\\s*(&lt;/?(?:&quot; + BLOCK_TAGS_MAX.replace(&quot;,&quot;, &quot;|&quot;) + &quot;)(?:&gt;|[\\s/][^&gt;]*&gt;))\\s*&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant surroundingSpacesAllPattern. */
-<span class="fc" id="L376">    protected static final Pattern surroundingSpacesAllPattern = Pattern.compile(&quot;\\s*(&lt;[^&gt;]+&gt;)\\s*&quot;,</span>
+<span class="fc" id="L377">    protected static final Pattern surroundingSpacesAllPattern = Pattern.compile(&quot;\\s*(&lt;[^&gt;]+&gt;)\\s*&quot;,</span>
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     /** The Constant tempCondCommentPattern. */
     // patterns for searching for temporary replacements
-<span class="fc" id="L381">    protected static final Pattern tempCondCommentPattern = Pattern.compile(&quot;%%%~COMPRESS~COND~(\\d+?)~%%%&quot;);</span>
+<span class="fc" id="L382">    protected static final Pattern tempCondCommentPattern = Pattern.compile(&quot;%%%~COMPRESS~COND~(\\d+?)~%%%&quot;);</span>
 
     /** The Constant tempPrePattern. */
-<span class="fc" id="L384">    protected static final Pattern tempPrePattern = Pattern.compile(&quot;%%%~COMPRESS~PRE~(\\d+?)~%%%&quot;);</span>
+<span class="fc" id="L385">    protected static final Pattern tempPrePattern = Pattern.compile(&quot;%%%~COMPRESS~PRE~(\\d+?)~%%%&quot;);</span>
 
     /** The Constant tempTextAreaPattern. */
-<span class="fc" id="L387">    protected static final Pattern tempTextAreaPattern = Pattern.compile(&quot;%%%~COMPRESS~TEXTAREA~(\\d+?)~%%%&quot;);</span>
+<span class="fc" id="L388">    protected static final Pattern tempTextAreaPattern = Pattern.compile(&quot;%%%~COMPRESS~TEXTAREA~(\\d+?)~%%%&quot;);</span>
 
     /** The Constant tempScriptPattern. */
-<span class="fc" id="L390">    protected static final Pattern tempScriptPattern = Pattern.compile(&quot;%%%~COMPRESS~SCRIPT~(\\d+?)~%%%&quot;);</span>
+<span class="fc" id="L391">    protected static final Pattern tempScriptPattern = Pattern.compile(&quot;%%%~COMPRESS~SCRIPT~(\\d+?)~%%%&quot;);</span>
 
     /** The Constant tempStylePattern. */
-<span class="fc" id="L393">    protected static final Pattern tempStylePattern = Pattern.compile(&quot;%%%~COMPRESS~STYLE~(\\d+?)~%%%&quot;);</span>
+<span class="fc" id="L394">    protected static final Pattern tempStylePattern = Pattern.compile(&quot;%%%~COMPRESS~STYLE~(\\d+?)~%%%&quot;);</span>
 
     /** The Constant tempEventPattern. */
-<span class="fc" id="L396">    protected static final Pattern tempEventPattern = Pattern.compile(&quot;%%%~COMPRESS~EVENT~(\\d+?)~%%%&quot;);</span>
+<span class="fc" id="L397">    protected static final Pattern tempEventPattern = Pattern.compile(&quot;%%%~COMPRESS~EVENT~(\\d+?)~%%%&quot;);</span>
 
     /** The Constant tempSkipPattern. */
-<span class="fc" id="L399">    protected static final Pattern tempSkipPattern = Pattern.compile(&quot;%%%~COMPRESS~SKIP~(\\d+?)~%%%&quot;);</span>
+<span class="fc" id="L400">    protected static final Pattern tempSkipPattern = Pattern.compile(&quot;%%%~COMPRESS~SKIP~(\\d+?)~%%%&quot;);</span>
 
     /** The Constant tempLineBreakPattern. */
-<span class="fc" id="L402">    protected static final Pattern tempLineBreakPattern = Pattern.compile(&quot;%%%~COMPRESS~LT~(\\d+?)~%%%&quot;);</span>
+<span class="fc" id="L403">    protected static final Pattern tempLineBreakPattern = Pattern.compile(&quot;%%%~COMPRESS~LT~(\\d+?)~%%%&quot;);</span>
 
     /**
      * The main method that compresses given HTML source and returns compressed result.
@@ -411,43 +412,43 @@ import org.mozilla.javascript.ErrorReporter;
      */
     @Override
     public String compress(String html) {
-<span class="pc bpc" id="L414" title="2 of 6 branches missed.">        if (!enabled || html == null || html.length() == 0) {</span>
-<span class="fc" id="L415">            return html;</span>
+<span class="pc bpc" id="L415" title="2 of 6 branches missed.">        if (!enabled || html == null || html.length() == 0) {</span>
+<span class="fc" id="L416">            return html;</span>
         }
 
         // calculate uncompressed statistics
-<span class="fc" id="L419">        initStatistics(html);</span>
+<span class="fc" id="L420">        initStatistics(html);</span>
 
         // preserved block containers
-<span class="fc" id="L422">        List&lt;String&gt; condCommentBlocks = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L423">        List&lt;String&gt; preBlocks = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L424">        List&lt;String&gt; taBlocks = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L425">        List&lt;String&gt; scriptBlocks = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L426">        List&lt;String&gt; styleBlocks = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L427">        List&lt;String&gt; eventBlocks = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L428">        List&lt;String&gt; skipBlocks = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L429">        List&lt;String&gt; lineBreakBlocks = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L430">        List&lt;List&lt;String&gt;&gt; userBlocks = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L423">        List&lt;String&gt; condCommentBlocks = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L424">        List&lt;String&gt; preBlocks = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L425">        List&lt;String&gt; taBlocks = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L426">        List&lt;String&gt; scriptBlocks = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L427">        List&lt;String&gt; styleBlocks = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L428">        List&lt;String&gt; eventBlocks = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L429">        List&lt;String&gt; skipBlocks = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L430">        List&lt;String&gt; lineBreakBlocks = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L431">        List&lt;List&lt;String&gt;&gt; userBlocks = new ArrayList&lt;&gt;();</span>
 
         // preserve blocks
-<span class="fc" id="L433">        html = preserveBlocks(html, preBlocks, taBlocks, scriptBlocks, styleBlocks, eventBlocks, condCommentBlocks,</span>
+<span class="fc" id="L434">        html = preserveBlocks(html, preBlocks, taBlocks, scriptBlocks, styleBlocks, eventBlocks, condCommentBlocks,</span>
                 skipBlocks, lineBreakBlocks, userBlocks);
 
         // process pure html
-<span class="fc" id="L437">        html = processHtml(html);</span>
+<span class="fc" id="L438">        html = processHtml(html);</span>
 
         // process preserved blocks
-<span class="fc" id="L440">        processPreservedBlocks(preBlocks, taBlocks, scriptBlocks, styleBlocks, eventBlocks, condCommentBlocks,</span>
+<span class="fc" id="L441">        processPreservedBlocks(preBlocks, taBlocks, scriptBlocks, styleBlocks, eventBlocks, condCommentBlocks,</span>
                 skipBlocks, lineBreakBlocks, userBlocks);
 
         // put preserved blocks back
-<span class="fc" id="L444">        html = returnBlocks(html, preBlocks, taBlocks, scriptBlocks, styleBlocks, eventBlocks, condCommentBlocks,</span>
+<span class="fc" id="L445">        html = returnBlocks(html, preBlocks, taBlocks, scriptBlocks, styleBlocks, eventBlocks, condCommentBlocks,</span>
                 skipBlocks, lineBreakBlocks, userBlocks);
 
         // calculate compressed statistics
-<span class="fc" id="L448">        endStatistics(html);</span>
+<span class="fc" id="L449">        endStatistics(html);</span>
 
-<span class="fc" id="L450">        return html;</span>
+<span class="fc" id="L451">        return html;</span>
     }
 
     /**
@@ -458,20 +459,20 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected void initStatistics(String html) {
         // create stats
-<span class="pc bpc" id="L461" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
-<span class="nc" id="L462">            statistics = new HtmlCompressorStatistics();</span>
-<span class="nc" id="L463">            statistics.setTime(System.currentTimeMillis());</span>
-<span class="nc" id="L464">            statistics.getOriginalMetrics().setFilesize(html.length());</span>
+<span class="pc bpc" id="L462" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc" id="L463">            statistics = new HtmlCompressorStatistics();</span>
+<span class="nc" id="L464">            statistics.setTime(System.currentTimeMillis());</span>
+<span class="nc" id="L465">            statistics.getOriginalMetrics().setFilesize(html.length());</span>
 
             // calculate number of empty chars
-<span class="nc" id="L467">            Matcher matcher = emptyPattern.matcher(html);</span>
-<span class="nc bnc" id="L468" title="All 2 branches missed.">            while (matcher.find()) {</span>
-<span class="nc" id="L469">                statistics.getOriginalMetrics().setEmptyChars(statistics.getOriginalMetrics().getEmptyChars() + 1);</span>
+<span class="nc" id="L468">            Matcher matcher = emptyPattern.matcher(html);</span>
+<span class="nc bnc" id="L469" title="All 2 branches missed.">            while (matcher.find()) {</span>
+<span class="nc" id="L470">                statistics.getOriginalMetrics().setEmptyChars(statistics.getOriginalMetrics().getEmptyChars() + 1);</span>
             }
-<span class="nc" id="L471">        } else {</span>
-<span class="fc" id="L472">            statistics = null;</span>
+<span class="nc" id="L472">        } else {</span>
+<span class="fc" id="L473">            statistics = null;</span>
         }
-<span class="fc" id="L474">    }</span>
+<span class="fc" id="L475">    }</span>
 
     /**
      * End statistics.
@@ -481,17 +482,17 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected void endStatistics(String html) {
         // calculate compression time
-<span class="pc bpc" id="L484" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
-<span class="nc" id="L485">            statistics.setTime(System.currentTimeMillis() - statistics.getTime());</span>
-<span class="nc" id="L486">            statistics.getCompressedMetrics().setFilesize(html.length());</span>
+<span class="pc bpc" id="L485" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc" id="L486">            statistics.setTime(System.currentTimeMillis() - statistics.getTime());</span>
+<span class="nc" id="L487">            statistics.getCompressedMetrics().setFilesize(html.length());</span>
 
             // calculate number of empty chars
-<span class="nc" id="L489">            Matcher matcher = emptyPattern.matcher(html);</span>
-<span class="nc bnc" id="L490" title="All 2 branches missed.">            while (matcher.find()) {</span>
-<span class="nc" id="L491">                statistics.getCompressedMetrics().setEmptyChars(statistics.getCompressedMetrics().getEmptyChars() + 1);</span>
+<span class="nc" id="L490">            Matcher matcher = emptyPattern.matcher(html);</span>
+<span class="nc bnc" id="L491" title="All 2 branches missed.">            while (matcher.find()) {</span>
+<span class="nc" id="L492">                statistics.getCompressedMetrics().setEmptyChars(statistics.getCompressedMetrics().getEmptyChars() + 1);</span>
             }
         }
-<span class="fc" id="L494">    }</span>
+<span class="fc" id="L495">    }</span>
 
     /**
      * Preserve blocks.
@@ -525,163 +526,163 @@ import org.mozilla.javascript.ErrorReporter;
             List&lt;List&lt;String&gt;&gt; userBlocks) {
 
         // preserve user blocks
-<span class="fc bfc" id="L528" title="All 2 branches covered.">        if (preservePatterns != null) {</span>
-<span class="fc bfc" id="L529" title="All 2 branches covered.">            for (int p = 0; p &lt; preservePatterns.size(); p++) {</span>
-<span class="fc" id="L530">                List&lt;String&gt; userBlock = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L529" title="All 2 branches covered.">        if (preservePatterns != null) {</span>
+<span class="fc bfc" id="L530" title="All 2 branches covered.">            for (int p = 0; p &lt; preservePatterns.size(); p++) {</span>
+<span class="fc" id="L531">                List&lt;String&gt; userBlock = new ArrayList&lt;&gt;();</span>
 
-<span class="fc" id="L532">                Matcher matcher = preservePatterns.get(p).matcher(html);</span>
-<span class="fc" id="L533">                int index = 0;</span>
-<span class="fc" id="L534">                StringBuilder sb = new StringBuilder();</span>
-<span class="fc bfc" id="L535" title="All 2 branches covered.">                while (matcher.find()) {</span>
-<span class="pc bpc" id="L536" title="1 of 2 branches missed.">                    if (matcher.group(0).trim().length() &gt; 0) {</span>
-<span class="fc" id="L537">                        userBlock.add(matcher.group(0));</span>
-<span class="fc" id="L538">                        matcher.appendReplacement(sb, MessageFormat.format(TEMP_USER_BLOCK, p, index++));</span>
+<span class="fc" id="L533">                Matcher matcher = preservePatterns.get(p).matcher(html);</span>
+<span class="fc" id="L534">                int index = 0;</span>
+<span class="fc" id="L535">                StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L536" title="All 2 branches covered.">                while (matcher.find()) {</span>
+<span class="pc bpc" id="L537" title="1 of 2 branches missed.">                    if (matcher.group(0).trim().length() &gt; 0) {</span>
+<span class="fc" id="L538">                        userBlock.add(matcher.group(0));</span>
+<span class="fc" id="L539">                        matcher.appendReplacement(sb, MessageFormat.format(TEMP_USER_BLOCK, p, index++));</span>
                     }
                 }
-<span class="fc" id="L541">                matcher.appendTail(sb);</span>
-<span class="fc" id="L542">                html = sb.toString();</span>
-<span class="fc" id="L543">                userBlocks.add(userBlock);</span>
+<span class="fc" id="L542">                matcher.appendTail(sb);</span>
+<span class="fc" id="L543">                html = sb.toString();</span>
+<span class="fc" id="L544">                userBlocks.add(userBlock);</span>
             }
         }
 
         // preserve &lt;!-- {{{ ---&gt;&lt;!-- }}} ---&gt; skip blocks
-<span class="fc" id="L548">        Matcher matcher = skipPattern.matcher(html);</span>
-<span class="fc" id="L549">        int skipBlockIndex = 0;</span>
-<span class="fc" id="L550">        StringBuilder sb = new StringBuilder();</span>
-<span class="pc bpc" id="L551" title="1 of 2 branches missed.">        while (matcher.find()) {</span>
-<span class="nc bnc" id="L552" title="All 2 branches missed.">            if (matcher.group(1).trim().length() &gt; 0) {</span>
-<span class="nc" id="L553">                skipBlocks.add(matcher.group(1));</span>
-<span class="nc" id="L554">                matcher.appendReplacement(sb, MessageFormat.format(TEMP_SKIP_BLOCK, skipBlockIndex++));</span>
+<span class="fc" id="L549">        Matcher matcher = skipPattern.matcher(html);</span>
+<span class="fc" id="L550">        int skipBlockIndex = 0;</span>
+<span class="fc" id="L551">        StringBuilder sb = new StringBuilder();</span>
+<span class="pc bpc" id="L552" title="1 of 2 branches missed.">        while (matcher.find()) {</span>
+<span class="nc bnc" id="L553" title="All 2 branches missed.">            if (matcher.group(1).trim().length() &gt; 0) {</span>
+<span class="nc" id="L554">                skipBlocks.add(matcher.group(1));</span>
+<span class="nc" id="L555">                matcher.appendReplacement(sb, MessageFormat.format(TEMP_SKIP_BLOCK, skipBlockIndex++));</span>
             }
         }
-<span class="fc" id="L557">        matcher.appendTail(sb);</span>
-<span class="fc" id="L558">        html = sb.toString();</span>
+<span class="fc" id="L558">        matcher.appendTail(sb);</span>
+<span class="fc" id="L559">        html = sb.toString();</span>
 
         // preserve conditional comments
-<span class="fc" id="L561">        HtmlCompressor condCommentCompressor = createCompressorClone();</span>
-<span class="fc" id="L562">        matcher = condCommentPattern.matcher(html);</span>
-<span class="fc" id="L563">        int index = 0;</span>
-<span class="fc" id="L564">        sb = new StringBuilder();</span>
-<span class="fc bfc" id="L565" title="All 2 branches covered.">        while (matcher.find()) {</span>
-<span class="pc bpc" id="L566" title="1 of 2 branches missed.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
-<span class="fc" id="L567">                condCommentBlocks</span>
-<span class="fc" id="L568">                        .add(matcher.group(1) + condCommentCompressor.compress(matcher.group(2)) + matcher.group(3));</span>
-<span class="fc" id="L569">                matcher.appendReplacement(sb, MessageFormat.format(TEMP_COND_COMMENT_BLOCK, index++));</span>
+<span class="fc" id="L562">        HtmlCompressor condCommentCompressor = createCompressorClone();</span>
+<span class="fc" id="L563">        matcher = condCommentPattern.matcher(html);</span>
+<span class="fc" id="L564">        int index = 0;</span>
+<span class="fc" id="L565">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L566" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="pc bpc" id="L567" title="1 of 2 branches missed.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
+<span class="fc" id="L568">                condCommentBlocks</span>
+<span class="fc" id="L569">                        .add(matcher.group(1) + condCommentCompressor.compress(matcher.group(2)) + matcher.group(3));</span>
+<span class="fc" id="L570">                matcher.appendReplacement(sb, MessageFormat.format(TEMP_COND_COMMENT_BLOCK, index++));</span>
             }
         }
-<span class="fc" id="L572">        matcher.appendTail(sb);</span>
-<span class="fc" id="L573">        html = sb.toString();</span>
+<span class="fc" id="L573">        matcher.appendTail(sb);</span>
+<span class="fc" id="L574">        html = sb.toString();</span>
 
         // preserve inline events
-<span class="fc" id="L576">        matcher = eventPattern1.matcher(html);</span>
-<span class="fc" id="L577">        index = 0;</span>
-<span class="fc" id="L578">        sb = new StringBuilder();</span>
-<span class="fc bfc" id="L579" title="All 2 branches covered.">        while (matcher.find()) {</span>
-<span class="pc bpc" id="L580" title="1 of 2 branches missed.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
-<span class="fc" id="L581">                eventBlocks.add(matcher.group(2));</span>
-<span class="fc" id="L582">                matcher.appendReplacement(sb, &quot;$1&quot; + MessageFormat.format(TEMP_EVENT_BLOCK, index++) + &quot;$3&quot;);</span>
+<span class="fc" id="L577">        matcher = eventPattern1.matcher(html);</span>
+<span class="fc" id="L578">        index = 0;</span>
+<span class="fc" id="L579">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L580" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="pc bpc" id="L581" title="1 of 2 branches missed.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
+<span class="fc" id="L582">                eventBlocks.add(matcher.group(2));</span>
+<span class="fc" id="L583">                matcher.appendReplacement(sb, &quot;$1&quot; + MessageFormat.format(TEMP_EVENT_BLOCK, index++) + &quot;$3&quot;);</span>
             }
         }
-<span class="fc" id="L585">        matcher.appendTail(sb);</span>
-<span class="fc" id="L586">        html = sb.toString();</span>
+<span class="fc" id="L586">        matcher.appendTail(sb);</span>
+<span class="fc" id="L587">        html = sb.toString();</span>
 
-<span class="fc" id="L588">        matcher = eventPattern2.matcher(html);</span>
-<span class="fc" id="L589">        sb = new StringBuilder();</span>
-<span class="pc bpc" id="L590" title="1 of 2 branches missed.">        while (matcher.find()) {</span>
-<span class="nc bnc" id="L591" title="All 2 branches missed.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
-<span class="nc" id="L592">                eventBlocks.add(matcher.group(2));</span>
-<span class="nc" id="L593">                matcher.appendReplacement(sb, &quot;$1&quot; + MessageFormat.format(TEMP_EVENT_BLOCK, index++) + &quot;$3&quot;);</span>
+<span class="fc" id="L589">        matcher = eventPattern2.matcher(html);</span>
+<span class="fc" id="L590">        sb = new StringBuilder();</span>
+<span class="pc bpc" id="L591" title="1 of 2 branches missed.">        while (matcher.find()) {</span>
+<span class="nc bnc" id="L592" title="All 2 branches missed.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
+<span class="nc" id="L593">                eventBlocks.add(matcher.group(2));</span>
+<span class="nc" id="L594">                matcher.appendReplacement(sb, &quot;$1&quot; + MessageFormat.format(TEMP_EVENT_BLOCK, index++) + &quot;$3&quot;);</span>
             }
         }
-<span class="fc" id="L596">        matcher.appendTail(sb);</span>
-<span class="fc" id="L597">        html = sb.toString();</span>
+<span class="fc" id="L597">        matcher.appendTail(sb);</span>
+<span class="fc" id="L598">        html = sb.toString();</span>
 
         // preserve PRE tags
-<span class="fc" id="L600">        matcher = prePattern.matcher(html);</span>
-<span class="fc" id="L601">        index = 0;</span>
-<span class="fc" id="L602">        sb = new StringBuilder();</span>
-<span class="fc bfc" id="L603" title="All 2 branches covered.">        while (matcher.find()) {</span>
-<span class="pc bpc" id="L604" title="1 of 2 branches missed.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
-<span class="fc" id="L605">                preBlocks.add(matcher.group(2));</span>
-<span class="fc" id="L606">                matcher.appendReplacement(sb, &quot;$1&quot; + MessageFormat.format(TEMP_PRE_BLOCK, index++) + &quot;$3&quot;);</span>
+<span class="fc" id="L601">        matcher = prePattern.matcher(html);</span>
+<span class="fc" id="L602">        index = 0;</span>
+<span class="fc" id="L603">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L604" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="pc bpc" id="L605" title="1 of 2 branches missed.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
+<span class="fc" id="L606">                preBlocks.add(matcher.group(2));</span>
+<span class="fc" id="L607">                matcher.appendReplacement(sb, &quot;$1&quot; + MessageFormat.format(TEMP_PRE_BLOCK, index++) + &quot;$3&quot;);</span>
             }
         }
-<span class="fc" id="L609">        matcher.appendTail(sb);</span>
-<span class="fc" id="L610">        html = sb.toString();</span>
+<span class="fc" id="L610">        matcher.appendTail(sb);</span>
+<span class="fc" id="L611">        html = sb.toString();</span>
 
         // preserve SCRIPT tags
-<span class="fc" id="L613">        matcher = scriptPattern.matcher(html);</span>
-<span class="fc" id="L614">        index = 0;</span>
-<span class="fc" id="L615">        sb = new StringBuilder();</span>
-<span class="fc bfc" id="L616" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="fc" id="L614">        matcher = scriptPattern.matcher(html);</span>
+<span class="fc" id="L615">        index = 0;</span>
+<span class="fc" id="L616">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L617" title="All 2 branches covered.">        while (matcher.find()) {</span>
             // ignore empty scripts
-<span class="fc bfc" id="L618" title="All 2 branches covered.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
+<span class="fc bfc" id="L619" title="All 2 branches covered.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
 
                 // check type
-<span class="fc" id="L621">                String type = &quot;&quot;;</span>
-<span class="fc" id="L622">                Matcher typeMatcher = typeAttrPattern.matcher(matcher.group(1));</span>
-<span class="fc bfc" id="L623" title="All 2 branches covered.">                if (typeMatcher.find()) {</span>
-<span class="fc" id="L624">                    type = typeMatcher.group(2).toLowerCase();</span>
+<span class="fc" id="L622">                String type = &quot;&quot;;</span>
+<span class="fc" id="L623">                Matcher typeMatcher = typeAttrPattern.matcher(matcher.group(1));</span>
+<span class="fc bfc" id="L624" title="All 2 branches covered.">                if (typeMatcher.find()) {</span>
+<span class="fc" id="L625">                    type = typeMatcher.group(2).toLowerCase(Locale.ENGLISH);</span>
                 }
 
-<span class="pc bpc" id="L627" title="1 of 6 branches missed.">                if (type.length() == 0 || &quot;text/javascript&quot;.equals(type) || &quot;application/javascript&quot;.equals(type)) {</span>
+<span class="pc bpc" id="L628" title="1 of 6 branches missed.">                if (type.length() == 0 || &quot;text/javascript&quot;.equals(type) || &quot;application/javascript&quot;.equals(type)) {</span>
                     // javascript block, preserve and compress with js compressor
-<span class="fc" id="L629">                    scriptBlocks.add(matcher.group(2));</span>
-<span class="fc" id="L630">                    matcher.appendReplacement(sb, &quot;$1&quot; + MessageFormat.format(TEMP_SCRIPT_BLOCK, index++) + &quot;$3&quot;);</span>
-<span class="fc bfc" id="L631" title="All 2 branches covered.">                } else if (&quot;text/x-jquery-tmpl&quot;.equals(type)) {</span>
+<span class="fc" id="L630">                    scriptBlocks.add(matcher.group(2));</span>
+<span class="fc" id="L631">                    matcher.appendReplacement(sb, &quot;$1&quot; + MessageFormat.format(TEMP_SCRIPT_BLOCK, index++) + &quot;$3&quot;);</span>
+<span class="fc bfc" id="L632" title="All 2 branches covered.">                } else if (&quot;text/x-jquery-tmpl&quot;.equals(type)) {</span>
                     // jquery template, ignore so it gets compressed with the rest of html
                 } else {
                     // some custom script, preserve it inside &quot;skip blocks&quot; so it won't be compressed with js compressor
-<span class="fc" id="L635">                    skipBlocks.add(matcher.group(2));</span>
-<span class="fc" id="L636">                    matcher.appendReplacement(sb,</span>
-<span class="fc" id="L637">                            &quot;$1&quot; + MessageFormat.format(TEMP_SKIP_BLOCK, skipBlockIndex++) + &quot;$3&quot;);</span>
+<span class="fc" id="L636">                    skipBlocks.add(matcher.group(2));</span>
+<span class="fc" id="L637">                    matcher.appendReplacement(sb,</span>
+<span class="fc" id="L638">                            &quot;$1&quot; + MessageFormat.format(TEMP_SKIP_BLOCK, skipBlockIndex++) + &quot;$3&quot;);</span>
                 }
 
-<span class="fc" id="L640">            }</span>
+<span class="fc" id="L641">            }</span>
         }
-<span class="fc" id="L642">        matcher.appendTail(sb);</span>
-<span class="fc" id="L643">        html = sb.toString();</span>
+<span class="fc" id="L643">        matcher.appendTail(sb);</span>
+<span class="fc" id="L644">        html = sb.toString();</span>
 
         // preserve STYLE tags
-<span class="fc" id="L646">        matcher = stylePattern.matcher(html);</span>
-<span class="fc" id="L647">        index = 0;</span>
-<span class="fc" id="L648">        sb = new StringBuilder();</span>
-<span class="fc bfc" id="L649" title="All 2 branches covered.">        while (matcher.find()) {</span>
-<span class="fc bfc" id="L650" title="All 2 branches covered.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
-<span class="fc" id="L651">                styleBlocks.add(matcher.group(2));</span>
-<span class="fc" id="L652">                matcher.appendReplacement(sb, &quot;$1&quot; + MessageFormat.format(TEMP_STYLE_BLOCK, index++) + &quot;$3&quot;);</span>
+<span class="fc" id="L647">        matcher = stylePattern.matcher(html);</span>
+<span class="fc" id="L648">        index = 0;</span>
+<span class="fc" id="L649">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L650" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="fc bfc" id="L651" title="All 2 branches covered.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
+<span class="fc" id="L652">                styleBlocks.add(matcher.group(2));</span>
+<span class="fc" id="L653">                matcher.appendReplacement(sb, &quot;$1&quot; + MessageFormat.format(TEMP_STYLE_BLOCK, index++) + &quot;$3&quot;);</span>
             }
         }
-<span class="fc" id="L655">        matcher.appendTail(sb);</span>
-<span class="fc" id="L656">        html = sb.toString();</span>
+<span class="fc" id="L656">        matcher.appendTail(sb);</span>
+<span class="fc" id="L657">        html = sb.toString();</span>
 
         // preserve TEXTAREA tags
-<span class="fc" id="L659">        matcher = taPattern.matcher(html);</span>
-<span class="fc" id="L660">        index = 0;</span>
-<span class="fc" id="L661">        sb = new StringBuilder();</span>
-<span class="fc bfc" id="L662" title="All 2 branches covered.">        while (matcher.find()) {</span>
-<span class="pc bpc" id="L663" title="1 of 2 branches missed.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
-<span class="fc" id="L664">                taBlocks.add(matcher.group(2));</span>
-<span class="fc" id="L665">                matcher.appendReplacement(sb, &quot;$1&quot; + MessageFormat.format(TEMP_TEXT_AREA_BLOCK, index++) + &quot;$3&quot;);</span>
+<span class="fc" id="L660">        matcher = taPattern.matcher(html);</span>
+<span class="fc" id="L661">        index = 0;</span>
+<span class="fc" id="L662">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L663" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="pc bpc" id="L664" title="1 of 2 branches missed.">            if (matcher.group(2).trim().length() &gt; 0) {</span>
+<span class="fc" id="L665">                taBlocks.add(matcher.group(2));</span>
+<span class="fc" id="L666">                matcher.appendReplacement(sb, &quot;$1&quot; + MessageFormat.format(TEMP_TEXT_AREA_BLOCK, index++) + &quot;$3&quot;);</span>
             }
         }
-<span class="fc" id="L668">        matcher.appendTail(sb);</span>
-<span class="fc" id="L669">        html = sb.toString();</span>
+<span class="fc" id="L669">        matcher.appendTail(sb);</span>
+<span class="fc" id="L670">        html = sb.toString();</span>
 
         // preserve line breaks
-<span class="fc bfc" id="L672" title="All 2 branches covered.">        if (preserveLineBreaks) {</span>
-<span class="fc" id="L673">            matcher = lineBreakPattern.matcher(html);</span>
-<span class="fc" id="L674">            index = 0;</span>
-<span class="fc" id="L675">            sb = new StringBuilder();</span>
-<span class="fc bfc" id="L676" title="All 2 branches covered.">            while (matcher.find()) {</span>
-<span class="fc" id="L677">                lineBreakBlocks.add(matcher.group(1));</span>
-<span class="fc" id="L678">                matcher.appendReplacement(sb, MessageFormat.format(TEMP_LINE_BREAK_BLOCK, index++));</span>
+<span class="fc bfc" id="L673" title="All 2 branches covered.">        if (preserveLineBreaks) {</span>
+<span class="fc" id="L674">            matcher = lineBreakPattern.matcher(html);</span>
+<span class="fc" id="L675">            index = 0;</span>
+<span class="fc" id="L676">            sb = new StringBuilder();</span>
+<span class="fc bfc" id="L677" title="All 2 branches covered.">            while (matcher.find()) {</span>
+<span class="fc" id="L678">                lineBreakBlocks.add(matcher.group(1));</span>
+<span class="fc" id="L679">                matcher.appendReplacement(sb, MessageFormat.format(TEMP_LINE_BREAK_BLOCK, index++));</span>
             }
-<span class="fc" id="L680">            matcher.appendTail(sb);</span>
-<span class="fc" id="L681">            html = sb.toString();</span>
+<span class="fc" id="L681">            matcher.appendTail(sb);</span>
+<span class="fc" id="L682">            html = sb.toString();</span>
         }
 
-<span class="fc" id="L684">        return html;</span>
+<span class="fc" id="L685">        return html;</span>
     }
 
     /**
@@ -715,121 +716,121 @@ import org.mozilla.javascript.ErrorReporter;
             List&lt;String&gt; lineBreakBlocks, List&lt;List&lt;String&gt;&gt; userBlocks) {
 
         // put line breaks back
-<span class="fc bfc" id="L718" title="All 2 branches covered.">        if (preserveLineBreaks) {</span>
-<span class="fc" id="L719">            Matcher matcher = tempLineBreakPattern.matcher(html);</span>
-<span class="fc" id="L720">            StringBuilder sb = new StringBuilder();</span>
-<span class="fc bfc" id="L721" title="All 2 branches covered.">            while (matcher.find()) {</span>
-<span class="fc" id="L722">                int i = Integer.parseInt(matcher.group(1));</span>
-<span class="pc bpc" id="L723" title="1 of 2 branches missed.">                if (lineBreakBlocks.size() &gt; i) {</span>
-<span class="fc" id="L724">                    matcher.appendReplacement(sb, lineBreakBlocks.get(i));</span>
+<span class="fc bfc" id="L719" title="All 2 branches covered.">        if (preserveLineBreaks) {</span>
+<span class="fc" id="L720">            Matcher matcher = tempLineBreakPattern.matcher(html);</span>
+<span class="fc" id="L721">            StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L722" title="All 2 branches covered.">            while (matcher.find()) {</span>
+<span class="fc" id="L723">                int i = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L724" title="1 of 2 branches missed.">                if (lineBreakBlocks.size() &gt; i) {</span>
+<span class="fc" id="L725">                    matcher.appendReplacement(sb, lineBreakBlocks.get(i));</span>
                 }
-<span class="fc" id="L726">            }</span>
-<span class="fc" id="L727">            matcher.appendTail(sb);</span>
-<span class="fc" id="L728">            html = sb.toString();</span>
+<span class="fc" id="L727">            }</span>
+<span class="fc" id="L728">            matcher.appendTail(sb);</span>
+<span class="fc" id="L729">            html = sb.toString();</span>
         }
 
         // put TEXTAREA blocks back
-<span class="fc" id="L732">        Matcher matcher = tempTextAreaPattern.matcher(html);</span>
-<span class="fc" id="L733">        StringBuilder sb = new StringBuilder();</span>
-<span class="fc bfc" id="L734" title="All 2 branches covered.">        while (matcher.find()) {</span>
-<span class="fc" id="L735">            int i = Integer.parseInt(matcher.group(1));</span>
-<span class="pc bpc" id="L736" title="1 of 2 branches missed.">            if (taBlocks.size() &gt; i) {</span>
-<span class="fc" id="L737">                matcher.appendReplacement(sb, Matcher.quoteReplacement(taBlocks.get(i)));</span>
+<span class="fc" id="L733">        Matcher matcher = tempTextAreaPattern.matcher(html);</span>
+<span class="fc" id="L734">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L735" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="fc" id="L736">            int i = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L737" title="1 of 2 branches missed.">            if (taBlocks.size() &gt; i) {</span>
+<span class="fc" id="L738">                matcher.appendReplacement(sb, Matcher.quoteReplacement(taBlocks.get(i)));</span>
             }
-<span class="fc" id="L739">        }</span>
-<span class="fc" id="L740">        matcher.appendTail(sb);</span>
-<span class="fc" id="L741">        html = sb.toString();</span>
+<span class="fc" id="L740">        }</span>
+<span class="fc" id="L741">        matcher.appendTail(sb);</span>
+<span class="fc" id="L742">        html = sb.toString();</span>
 
         // put STYLE blocks back
-<span class="fc" id="L744">        matcher = tempStylePattern.matcher(html);</span>
-<span class="fc" id="L745">        sb = new StringBuilder();</span>
-<span class="fc bfc" id="L746" title="All 2 branches covered.">        while (matcher.find()) {</span>
-<span class="fc" id="L747">            int i = Integer.parseInt(matcher.group(1));</span>
-<span class="pc bpc" id="L748" title="1 of 2 branches missed.">            if (styleBlocks.size() &gt; i) {</span>
-<span class="fc" id="L749">                matcher.appendReplacement(sb, Matcher.quoteReplacement(styleBlocks.get(i)));</span>
+<span class="fc" id="L745">        matcher = tempStylePattern.matcher(html);</span>
+<span class="fc" id="L746">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L747" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="fc" id="L748">            int i = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L749" title="1 of 2 branches missed.">            if (styleBlocks.size() &gt; i) {</span>
+<span class="fc" id="L750">                matcher.appendReplacement(sb, Matcher.quoteReplacement(styleBlocks.get(i)));</span>
             }
-<span class="fc" id="L751">        }</span>
-<span class="fc" id="L752">        matcher.appendTail(sb);</span>
-<span class="fc" id="L753">        html = sb.toString();</span>
+<span class="fc" id="L752">        }</span>
+<span class="fc" id="L753">        matcher.appendTail(sb);</span>
+<span class="fc" id="L754">        html = sb.toString();</span>
 
         // put SCRIPT blocks back
-<span class="fc" id="L756">        matcher = tempScriptPattern.matcher(html);</span>
-<span class="fc" id="L757">        sb = new StringBuilder();</span>
-<span class="fc bfc" id="L758" title="All 2 branches covered.">        while (matcher.find()) {</span>
-<span class="fc" id="L759">            int i = Integer.parseInt(matcher.group(1));</span>
-<span class="pc bpc" id="L760" title="1 of 2 branches missed.">            if (scriptBlocks.size() &gt; i) {</span>
-<span class="fc" id="L761">                matcher.appendReplacement(sb, Matcher.quoteReplacement(scriptBlocks.get(i)));</span>
+<span class="fc" id="L757">        matcher = tempScriptPattern.matcher(html);</span>
+<span class="fc" id="L758">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L759" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="fc" id="L760">            int i = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L761" title="1 of 2 branches missed.">            if (scriptBlocks.size() &gt; i) {</span>
+<span class="fc" id="L762">                matcher.appendReplacement(sb, Matcher.quoteReplacement(scriptBlocks.get(i)));</span>
             }
-<span class="fc" id="L763">        }</span>
-<span class="fc" id="L764">        matcher.appendTail(sb);</span>
-<span class="fc" id="L765">        html = sb.toString();</span>
+<span class="fc" id="L764">        }</span>
+<span class="fc" id="L765">        matcher.appendTail(sb);</span>
+<span class="fc" id="L766">        html = sb.toString();</span>
 
         // put PRE blocks back
-<span class="fc" id="L768">        matcher = tempPrePattern.matcher(html);</span>
-<span class="fc" id="L769">        sb = new StringBuilder();</span>
-<span class="fc bfc" id="L770" title="All 2 branches covered.">        while (matcher.find()) {</span>
-<span class="fc" id="L771">            int i = Integer.parseInt(matcher.group(1));</span>
-<span class="pc bpc" id="L772" title="1 of 2 branches missed.">            if (preBlocks.size() &gt; i) {</span>
-<span class="fc" id="L773">                matcher.appendReplacement(sb, Matcher.quoteReplacement(preBlocks.get(i)));</span>
+<span class="fc" id="L769">        matcher = tempPrePattern.matcher(html);</span>
+<span class="fc" id="L770">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L771" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="fc" id="L772">            int i = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L773" title="1 of 2 branches missed.">            if (preBlocks.size() &gt; i) {</span>
+<span class="fc" id="L774">                matcher.appendReplacement(sb, Matcher.quoteReplacement(preBlocks.get(i)));</span>
             }
-<span class="fc" id="L775">        }</span>
-<span class="fc" id="L776">        matcher.appendTail(sb);</span>
-<span class="fc" id="L777">        html = sb.toString();</span>
+<span class="fc" id="L776">        }</span>
+<span class="fc" id="L777">        matcher.appendTail(sb);</span>
+<span class="fc" id="L778">        html = sb.toString();</span>
 
         // put event blocks back
-<span class="fc" id="L780">        matcher = tempEventPattern.matcher(html);</span>
-<span class="fc" id="L781">        sb = new StringBuilder();</span>
-<span class="fc bfc" id="L782" title="All 2 branches covered.">        while (matcher.find()) {</span>
-<span class="fc" id="L783">            int i = Integer.parseInt(matcher.group(1));</span>
-<span class="pc bpc" id="L784" title="1 of 2 branches missed.">            if (eventBlocks.size() &gt; i) {</span>
-<span class="fc" id="L785">                matcher.appendReplacement(sb, Matcher.quoteReplacement(eventBlocks.get(i)));</span>
+<span class="fc" id="L781">        matcher = tempEventPattern.matcher(html);</span>
+<span class="fc" id="L782">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L783" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="fc" id="L784">            int i = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L785" title="1 of 2 branches missed.">            if (eventBlocks.size() &gt; i) {</span>
+<span class="fc" id="L786">                matcher.appendReplacement(sb, Matcher.quoteReplacement(eventBlocks.get(i)));</span>
             }
-<span class="fc" id="L787">        }</span>
-<span class="fc" id="L788">        matcher.appendTail(sb);</span>
-<span class="fc" id="L789">        html = sb.toString();</span>
+<span class="fc" id="L788">        }</span>
+<span class="fc" id="L789">        matcher.appendTail(sb);</span>
+<span class="fc" id="L790">        html = sb.toString();</span>
 
         // put conditional comments back
-<span class="fc" id="L792">        matcher = tempCondCommentPattern.matcher(html);</span>
-<span class="fc" id="L793">        sb = new StringBuilder();</span>
-<span class="fc bfc" id="L794" title="All 2 branches covered.">        while (matcher.find()) {</span>
-<span class="fc" id="L795">            int i = Integer.parseInt(matcher.group(1));</span>
-<span class="pc bpc" id="L796" title="1 of 2 branches missed.">            if (condCommentBlocks.size() &gt; i) {</span>
-<span class="fc" id="L797">                matcher.appendReplacement(sb, Matcher.quoteReplacement(condCommentBlocks.get(i)));</span>
+<span class="fc" id="L793">        matcher = tempCondCommentPattern.matcher(html);</span>
+<span class="fc" id="L794">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L795" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="fc" id="L796">            int i = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L797" title="1 of 2 branches missed.">            if (condCommentBlocks.size() &gt; i) {</span>
+<span class="fc" id="L798">                matcher.appendReplacement(sb, Matcher.quoteReplacement(condCommentBlocks.get(i)));</span>
             }
-<span class="fc" id="L799">        }</span>
-<span class="fc" id="L800">        matcher.appendTail(sb);</span>
-<span class="fc" id="L801">        html = sb.toString();</span>
+<span class="fc" id="L800">        }</span>
+<span class="fc" id="L801">        matcher.appendTail(sb);</span>
+<span class="fc" id="L802">        html = sb.toString();</span>
 
         // put skip blocks back
-<span class="fc" id="L804">        matcher = tempSkipPattern.matcher(html);</span>
-<span class="fc" id="L805">        sb = new StringBuilder();</span>
-<span class="fc bfc" id="L806" title="All 2 branches covered.">        while (matcher.find()) {</span>
-<span class="fc" id="L807">            int i = Integer.parseInt(matcher.group(1));</span>
-<span class="pc bpc" id="L808" title="1 of 2 branches missed.">            if (skipBlocks.size() &gt; i) {</span>
-<span class="fc" id="L809">                matcher.appendReplacement(sb, Matcher.quoteReplacement(skipBlocks.get(i)));</span>
+<span class="fc" id="L805">        matcher = tempSkipPattern.matcher(html);</span>
+<span class="fc" id="L806">        sb = new StringBuilder();</span>
+<span class="fc bfc" id="L807" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="fc" id="L808">            int i = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L809" title="1 of 2 branches missed.">            if (skipBlocks.size() &gt; i) {</span>
+<span class="fc" id="L810">                matcher.appendReplacement(sb, Matcher.quoteReplacement(skipBlocks.get(i)));</span>
             }
-<span class="fc" id="L811">        }</span>
-<span class="fc" id="L812">        matcher.appendTail(sb);</span>
-<span class="fc" id="L813">        html = sb.toString();</span>
+<span class="fc" id="L812">        }</span>
+<span class="fc" id="L813">        matcher.appendTail(sb);</span>
+<span class="fc" id="L814">        html = sb.toString();</span>
 
         // put user blocks back
-<span class="fc bfc" id="L816" title="All 2 branches covered.">        if (preservePatterns != null) {</span>
-<span class="fc bfc" id="L817" title="All 2 branches covered.">            for (int p = preservePatterns.size() - 1; p &gt;= 0; p--) {</span>
-<span class="fc" id="L818">                Pattern tempUserPattern = Pattern.compile(&quot;%%%~COMPRESS~USER&quot; + p + &quot;~(\\d+?)~%%%&quot;);</span>
-<span class="fc" id="L819">                matcher = tempUserPattern.matcher(html);</span>
-<span class="fc" id="L820">                sb = new StringBuilder();</span>
-<span class="fc bfc" id="L821" title="All 2 branches covered.">                while (matcher.find()) {</span>
-<span class="fc" id="L822">                    int i = Integer.parseInt(matcher.group(1));</span>
-<span class="pc bpc" id="L823" title="2 of 4 branches missed.">                    if (userBlocks.size() &gt; p &amp;&amp; userBlocks.get(p).size() &gt; i) {</span>
-<span class="fc" id="L824">                        matcher.appendReplacement(sb, Matcher.quoteReplacement(userBlocks.get(p).get(i)));</span>
+<span class="fc bfc" id="L817" title="All 2 branches covered.">        if (preservePatterns != null) {</span>
+<span class="fc bfc" id="L818" title="All 2 branches covered.">            for (int p = preservePatterns.size() - 1; p &gt;= 0; p--) {</span>
+<span class="fc" id="L819">                Pattern tempUserPattern = Pattern.compile(&quot;%%%~COMPRESS~USER&quot; + p + &quot;~(\\d+?)~%%%&quot;);</span>
+<span class="fc" id="L820">                matcher = tempUserPattern.matcher(html);</span>
+<span class="fc" id="L821">                sb = new StringBuilder();</span>
+<span class="fc bfc" id="L822" title="All 2 branches covered.">                while (matcher.find()) {</span>
+<span class="fc" id="L823">                    int i = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L824" title="2 of 4 branches missed.">                    if (userBlocks.size() &gt; p &amp;&amp; userBlocks.get(p).size() &gt; i) {</span>
+<span class="fc" id="L825">                        matcher.appendReplacement(sb, Matcher.quoteReplacement(userBlocks.get(p).get(i)));</span>
                     }
-<span class="fc" id="L826">                }</span>
-<span class="fc" id="L827">                matcher.appendTail(sb);</span>
-<span class="fc" id="L828">                html = sb.toString();</span>
+<span class="fc" id="L827">                }</span>
+<span class="fc" id="L828">                matcher.appendTail(sb);</span>
+<span class="fc" id="L829">                html = sb.toString();</span>
             }
         }
 
-<span class="fc" id="L832">        return html;</span>
+<span class="fc" id="L833">        return html;</span>
     }
 
     /**
@@ -843,51 +844,51 @@ import org.mozilla.javascript.ErrorReporter;
     protected String processHtml(String html) {
 
         // remove comments
-<span class="fc" id="L846">        html = removeComments(html);</span>
+<span class="fc" id="L847">        html = removeComments(html);</span>
 
         // simplify doctype
-<span class="fc" id="L849">        html = simpleDoctype(html);</span>
+<span class="fc" id="L850">        html = simpleDoctype(html);</span>
 
         // remove script attributes
-<span class="fc" id="L852">        html = removeScriptAttributes(html);</span>
+<span class="fc" id="L853">        html = removeScriptAttributes(html);</span>
 
         // remove style attributes
-<span class="fc" id="L855">        html = removeStyleAttributes(html);</span>
+<span class="fc" id="L856">        html = removeStyleAttributes(html);</span>
 
         // remove link attributes
-<span class="fc" id="L858">        html = removeLinkAttributes(html);</span>
+<span class="fc" id="L859">        html = removeLinkAttributes(html);</span>
 
         // remove form attributes
-<span class="fc" id="L861">        html = removeFormAttributes(html);</span>
+<span class="fc" id="L862">        html = removeFormAttributes(html);</span>
 
         // remove input attributes
-<span class="fc" id="L864">        html = removeInputAttributes(html);</span>
+<span class="fc" id="L865">        html = removeInputAttributes(html);</span>
 
         // simplify boolean attributes
-<span class="fc" id="L867">        html = simpleBooleanAttributes(html);</span>
+<span class="fc" id="L868">        html = simpleBooleanAttributes(html);</span>
 
         // remove http from attributes
-<span class="fc" id="L870">        html = removeHttpProtocol(html);</span>
+<span class="fc" id="L871">        html = removeHttpProtocol(html);</span>
 
         // remove https from attributes
-<span class="fc" id="L873">        html = removeHttpsProtocol(html);</span>
+<span class="fc" id="L874">        html = removeHttpsProtocol(html);</span>
 
         // remove inter-tag spaces
-<span class="fc" id="L876">        html = removeIntertagSpaces(html);</span>
+<span class="fc" id="L877">        html = removeIntertagSpaces(html);</span>
 
         // remove multi whitespace characters
-<span class="fc" id="L879">        html = removeMultiSpaces(html);</span>
+<span class="fc" id="L880">        html = removeMultiSpaces(html);</span>
 
         // remove spaces around equals sign and ending spaces
-<span class="fc" id="L882">        html = removeSpacesInsideTags(html);</span>
+<span class="fc" id="L883">        html = removeSpacesInsideTags(html);</span>
 
         // remove quotes from tag attributes
-<span class="fc" id="L885">        html = removeQuotesInsideTags(html);</span>
+<span class="fc" id="L886">        html = removeQuotesInsideTags(html);</span>
 
         // remove surrounding spaces
-<span class="fc" id="L888">        html = removeSurroundingSpaces(html);</span>
+<span class="fc" id="L889">        html = removeSurroundingSpaces(html);</span>
 
-<span class="fc" id="L890">        return html.trim();</span>
+<span class="fc" id="L891">        return html.trim();</span>
     }
 
     /**
@@ -900,31 +901,31 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected String removeSurroundingSpaces(String html) {
         // remove spaces around provided tags
-<span class="fc bfc" id="L903" title="All 2 branches covered.">        if (removeSurroundingSpaces != null) {</span>
+<span class="fc bfc" id="L904" title="All 2 branches covered.">        if (removeSurroundingSpaces != null) {</span>
             Pattern pattern;
-<span class="pc bpc" id="L905" title="1 of 2 branches missed.">            if (removeSurroundingSpaces.equalsIgnoreCase(BLOCK_TAGS_MIN)) {</span>
-<span class="nc" id="L906">                pattern = surroundingSpacesMinPattern;</span>
-<span class="pc bpc" id="L907" title="1 of 2 branches missed.">            } else if (removeSurroundingSpaces.equalsIgnoreCase(BLOCK_TAGS_MAX)) {</span>
-<span class="nc" id="L908">                pattern = surroundingSpacesMaxPattern;</span>
+<span class="pc bpc" id="L906" title="1 of 2 branches missed.">            if (removeSurroundingSpaces.equalsIgnoreCase(BLOCK_TAGS_MIN)) {</span>
+<span class="nc" id="L907">                pattern = surroundingSpacesMinPattern;</span>
+<span class="pc bpc" id="L908" title="1 of 2 branches missed.">            } else if (removeSurroundingSpaces.equalsIgnoreCase(BLOCK_TAGS_MAX)) {</span>
+<span class="nc" id="L909">                pattern = surroundingSpacesMaxPattern;</span>
             }
-<span class="pc bpc" id="L910" title="1 of 2 branches missed.">            if (removeSurroundingSpaces.equalsIgnoreCase(ALL_TAGS)) {</span>
-<span class="nc" id="L911">                pattern = surroundingSpacesAllPattern;</span>
+<span class="pc bpc" id="L911" title="1 of 2 branches missed.">            if (removeSurroundingSpaces.equalsIgnoreCase(ALL_TAGS)) {</span>
+<span class="nc" id="L912">                pattern = surroundingSpacesAllPattern;</span>
             } else {
-<span class="fc" id="L913">                pattern = Pattern.compile(</span>
-<span class="fc" id="L914">                        &quot;\\s*(&lt;/?(?:&quot; + removeSurroundingSpaces.replaceAll(&quot;,&quot;, &quot;|&quot;) + &quot;)(?:&gt;|[\\s/][^&gt;]*&gt;))\\s*&quot;,</span>
+<span class="fc" id="L914">                pattern = Pattern.compile(</span>
+<span class="fc" id="L915">                        &quot;\\s*(&lt;/?(?:&quot; + removeSurroundingSpaces.replaceAll(&quot;,&quot;, &quot;|&quot;) + &quot;)(?:&gt;|[\\s/][^&gt;]*&gt;))\\s*&quot;,</span>
                         Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
             }
 
-<span class="fc" id="L918">            Matcher matcher = pattern.matcher(html);</span>
-<span class="fc" id="L919">            StringBuilder sb = new StringBuilder();</span>
-<span class="fc bfc" id="L920" title="All 2 branches covered.">            while (matcher.find()) {</span>
-<span class="fc" id="L921">                matcher.appendReplacement(sb, &quot;$1&quot;);</span>
+<span class="fc" id="L919">            Matcher matcher = pattern.matcher(html);</span>
+<span class="fc" id="L920">            StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L921" title="All 2 branches covered.">            while (matcher.find()) {</span>
+<span class="fc" id="L922">                matcher.appendReplacement(sb, &quot;$1&quot;);</span>
             }
-<span class="fc" id="L923">            matcher.appendTail(sb);</span>
-<span class="fc" id="L924">            html = sb.toString();</span>
+<span class="fc" id="L924">            matcher.appendTail(sb);</span>
+<span class="fc" id="L925">            html = sb.toString();</span>
 
         }
-<span class="fc" id="L927">        return html;</span>
+<span class="fc" id="L928">        return html;</span>
     }
 
     /**
@@ -937,22 +938,22 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected String removeQuotesInsideTags(String html) {
         // remove quotes from tag attributes
-<span class="fc bfc" id="L940" title="All 2 branches covered.">        if (removeQuotes) {</span>
-<span class="fc" id="L941">            Matcher matcher = tagQuotePattern.matcher(html);</span>
-<span class="fc" id="L942">            StringBuilder sb = new StringBuilder();</span>
-<span class="fc bfc" id="L943" title="All 2 branches covered.">            while (matcher.find()) {</span>
+<span class="fc bfc" id="L941" title="All 2 branches covered.">        if (removeQuotes) {</span>
+<span class="fc" id="L942">            Matcher matcher = tagQuotePattern.matcher(html);</span>
+<span class="fc" id="L943">            StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L944" title="All 2 branches covered.">            while (matcher.find()) {</span>
                 // if quoted attribute is followed by &quot;/&quot; add extra space
-<span class="fc bfc" id="L945" title="All 2 branches covered.">                if (matcher.group(3).trim().length() == 0) {</span>
-<span class="fc" id="L946">                    matcher.appendReplacement(sb, &quot;=$2&quot;);</span>
+<span class="fc bfc" id="L946" title="All 2 branches covered.">                if (matcher.group(3).trim().length() == 0) {</span>
+<span class="fc" id="L947">                    matcher.appendReplacement(sb, &quot;=$2&quot;);</span>
                 } else {
-<span class="fc" id="L948">                    matcher.appendReplacement(sb, &quot;=$2 $3&quot;);</span>
+<span class="fc" id="L949">                    matcher.appendReplacement(sb, &quot;=$2 $3&quot;);</span>
                 }
             }
-<span class="fc" id="L951">            matcher.appendTail(sb);</span>
-<span class="fc" id="L952">            html = sb.toString();</span>
+<span class="fc" id="L952">            matcher.appendTail(sb);</span>
+<span class="fc" id="L953">            html = sb.toString();</span>
 
         }
-<span class="fc" id="L955">        return html;</span>
+<span class="fc" id="L956">        return html;</span>
     }
 
     /**
@@ -965,24 +966,24 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected String removeSpacesInsideTags(String html) {
         // remove spaces around equals sign inside tags
-<span class="fc" id="L968">        html = tagPropertyPattern.matcher(html).replaceAll(&quot;$1=&quot;);</span>
+<span class="fc" id="L969">        html = tagPropertyPattern.matcher(html).replaceAll(&quot;$1=&quot;);</span>
 
         // remove ending spaces inside tags
         // html = tagEndSpacePattern.matcher(html).replaceAll(&quot;$1$2&quot;);
-<span class="fc" id="L972">        Matcher matcher = tagEndSpacePattern.matcher(html);</span>
-<span class="fc" id="L973">        StringBuilder sb = new StringBuilder();</span>
-<span class="fc bfc" id="L974" title="All 2 branches covered.">        while (matcher.find()) {</span>
+<span class="fc" id="L973">        Matcher matcher = tagEndSpacePattern.matcher(html);</span>
+<span class="fc" id="L974">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L975" title="All 2 branches covered.">        while (matcher.find()) {</span>
             // keep space if attribute value is unquoted before trailing slash
-<span class="fc bfc" id="L976" title="All 4 branches covered.">            if (matcher.group(2).startsWith(&quot;/&quot;) &amp;&amp; tagLastUnquotedValuePattern.matcher(matcher.group(1)).find()) {</span>
-<span class="fc" id="L977">                matcher.appendReplacement(sb, &quot;$1 $2&quot;);</span>
+<span class="fc bfc" id="L977" title="All 4 branches covered.">            if (matcher.group(2).startsWith(&quot;/&quot;) &amp;&amp; tagLastUnquotedValuePattern.matcher(matcher.group(1)).find()) {</span>
+<span class="fc" id="L978">                matcher.appendReplacement(sb, &quot;$1 $2&quot;);</span>
             } else {
-<span class="fc" id="L979">                matcher.appendReplacement(sb, &quot;$1$2&quot;);</span>
+<span class="fc" id="L980">                matcher.appendReplacement(sb, &quot;$1$2&quot;);</span>
             }
         }
-<span class="fc" id="L982">        matcher.appendTail(sb);</span>
-<span class="fc" id="L983">        html = sb.toString();</span>
+<span class="fc" id="L983">        matcher.appendTail(sb);</span>
+<span class="fc" id="L984">        html = sb.toString();</span>
 
-<span class="fc" id="L985">        return html;</span>
+<span class="fc" id="L986">        return html;</span>
     }
 
     /**
@@ -995,10 +996,10 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected String removeMultiSpaces(String html) {
         // collapse multiple spaces
-<span class="fc bfc" id="L998" title="All 2 branches covered.">        if (removeMultiSpaces) {</span>
-<span class="fc" id="L999">            html = multispacePattern.matcher(html).replaceAll(&quot; &quot;);</span>
+<span class="fc bfc" id="L999" title="All 2 branches covered.">        if (removeMultiSpaces) {</span>
+<span class="fc" id="L1000">            html = multispacePattern.matcher(html).replaceAll(&quot; &quot;);</span>
         }
-<span class="fc" id="L1001">        return html;</span>
+<span class="fc" id="L1002">        return html;</span>
     }
 
     /**
@@ -1011,13 +1012,13 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected String removeIntertagSpaces(String html) {
         // remove inter-tag spaces
-<span class="fc bfc" id="L1014" title="All 2 branches covered.">        if (removeIntertagSpaces) {</span>
-<span class="fc" id="L1015">            html = intertagPattern_TagTag.matcher(html).replaceAll(&quot;&gt;&lt;&quot;);</span>
-<span class="fc" id="L1016">            html = intertagPattern_TagCustom.matcher(html).replaceAll(&quot;&gt;%%%~&quot;);</span>
-<span class="fc" id="L1017">            html = intertagPattern_CustomTag.matcher(html).replaceAll(&quot;~%%%&lt;&quot;);</span>
-<span class="fc" id="L1018">            html = intertagPattern_CustomCustom.matcher(html).replaceAll(&quot;~%%%%%%~&quot;);</span>
+<span class="fc bfc" id="L1015" title="All 2 branches covered.">        if (removeIntertagSpaces) {</span>
+<span class="fc" id="L1016">            html = intertagPattern_TagTag.matcher(html).replaceAll(&quot;&gt;&lt;&quot;);</span>
+<span class="fc" id="L1017">            html = intertagPattern_TagCustom.matcher(html).replaceAll(&quot;&gt;%%%~&quot;);</span>
+<span class="fc" id="L1018">            html = intertagPattern_CustomTag.matcher(html).replaceAll(&quot;~%%%&lt;&quot;);</span>
+<span class="fc" id="L1019">            html = intertagPattern_CustomCustom.matcher(html).replaceAll(&quot;~%%%%%%~&quot;);</span>
         }
-<span class="fc" id="L1020">        return html;</span>
+<span class="fc" id="L1021">        return html;</span>
     }
 
     /**
@@ -1030,10 +1031,10 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected String removeComments(String html) {
         // remove comments
-<span class="pc bpc" id="L1033" title="1 of 2 branches missed.">        if (removeComments) {</span>
-<span class="fc" id="L1034">            html = commentPattern.matcher(html).replaceAll(&quot;&quot;);</span>
+<span class="pc bpc" id="L1034" title="1 of 2 branches missed.">        if (removeComments) {</span>
+<span class="fc" id="L1035">            html = commentPattern.matcher(html).replaceAll(&quot;&quot;);</span>
         }
-<span class="fc" id="L1036">        return html;</span>
+<span class="fc" id="L1037">        return html;</span>
     }
 
     /**
@@ -1046,10 +1047,10 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected String simpleDoctype(String html) {
         // simplify doctype
-<span class="fc bfc" id="L1049" title="All 2 branches covered.">        if (simpleDoctype) {</span>
-<span class="fc" id="L1050">            html = doctypePattern.matcher(html).replaceAll(&quot;&lt;!DOCTYPE html&gt;&quot;);</span>
+<span class="fc bfc" id="L1050" title="All 2 branches covered.">        if (simpleDoctype) {</span>
+<span class="fc" id="L1051">            html = doctypePattern.matcher(html).replaceAll(&quot;&lt;!DOCTYPE html&gt;&quot;);</span>
         }
-<span class="fc" id="L1052">        return html;</span>
+<span class="fc" id="L1053">        return html;</span>
     }
 
     /**
@@ -1062,14 +1063,14 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected String removeScriptAttributes(String html) {
 
-<span class="fc bfc" id="L1065" title="All 2 branches covered.">        if (removeScriptAttributes) {</span>
+<span class="fc bfc" id="L1066" title="All 2 branches covered.">        if (removeScriptAttributes) {</span>
             // remove type from script tags
-<span class="fc" id="L1067">            html = jsTypeAttrPattern.matcher(html).replaceAll(&quot;$1$3&quot;);</span>
+<span class="fc" id="L1068">            html = jsTypeAttrPattern.matcher(html).replaceAll(&quot;$1$3&quot;);</span>
 
             // remove language from script tags
-<span class="fc" id="L1070">            html = jsLangAttrPattern.matcher(html).replaceAll(&quot;$1$3&quot;);</span>
+<span class="fc" id="L1071">            html = jsLangAttrPattern.matcher(html).replaceAll(&quot;$1$3&quot;);</span>
         }
-<span class="fc" id="L1072">        return html;</span>
+<span class="fc" id="L1073">        return html;</span>
     }
 
     /**
@@ -1082,10 +1083,10 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected String removeStyleAttributes(String html) {
         // remove type from style tags
-<span class="fc bfc" id="L1085" title="All 2 branches covered.">        if (removeStyleAttributes) {</span>
-<span class="fc" id="L1086">            html = styleTypeAttrPattern.matcher(html).replaceAll(&quot;$1$3&quot;);</span>
+<span class="fc bfc" id="L1086" title="All 2 branches covered.">        if (removeStyleAttributes) {</span>
+<span class="fc" id="L1087">            html = styleTypeAttrPattern.matcher(html).replaceAll(&quot;$1$3&quot;);</span>
         }
-<span class="fc" id="L1088">        return html;</span>
+<span class="fc" id="L1089">        return html;</span>
     }
 
     /**
@@ -1098,21 +1099,21 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected String removeLinkAttributes(String html) {
         // remove type from link tags with rel=stylesheet
-<span class="fc bfc" id="L1101" title="All 2 branches covered.">        if (removeLinkAttributes) {</span>
-<span class="fc" id="L1102">            Matcher matcher = linkTypeAttrPattern.matcher(html);</span>
-<span class="fc" id="L1103">            StringBuilder sb = new StringBuilder();</span>
-<span class="fc bfc" id="L1104" title="All 2 branches covered.">            while (matcher.find()) {</span>
+<span class="fc bfc" id="L1102" title="All 2 branches covered.">        if (removeLinkAttributes) {</span>
+<span class="fc" id="L1103">            Matcher matcher = linkTypeAttrPattern.matcher(html);</span>
+<span class="fc" id="L1104">            StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L1105" title="All 2 branches covered.">            while (matcher.find()) {</span>
                 // if rel=stylesheet
-<span class="fc bfc" id="L1106" title="All 2 branches covered.">                if (linkRelAttrPattern.matcher(matcher.group(0)).matches()) {</span>
-<span class="fc" id="L1107">                    matcher.appendReplacement(sb, &quot;$1$3&quot;);</span>
+<span class="fc bfc" id="L1107" title="All 2 branches covered.">                if (linkRelAttrPattern.matcher(matcher.group(0)).matches()) {</span>
+<span class="fc" id="L1108">                    matcher.appendReplacement(sb, &quot;$1$3&quot;);</span>
                 } else {
-<span class="fc" id="L1109">                    matcher.appendReplacement(sb, &quot;$0&quot;);</span>
+<span class="fc" id="L1110">                    matcher.appendReplacement(sb, &quot;$0&quot;);</span>
                 }
             }
-<span class="fc" id="L1112">            matcher.appendTail(sb);</span>
-<span class="fc" id="L1113">            html = sb.toString();</span>
+<span class="fc" id="L1113">            matcher.appendTail(sb);</span>
+<span class="fc" id="L1114">            html = sb.toString();</span>
         }
-<span class="fc" id="L1115">        return html;</span>
+<span class="fc" id="L1116">        return html;</span>
     }
 
     /**
@@ -1125,10 +1126,10 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected String removeFormAttributes(String html) {
         // remove method from form tags
-<span class="fc bfc" id="L1128" title="All 2 branches covered.">        if (removeFormAttributes) {</span>
-<span class="fc" id="L1129">            html = formMethodAttrPattern.matcher(html).replaceAll(&quot;$1$3&quot;);</span>
+<span class="fc bfc" id="L1129" title="All 2 branches covered.">        if (removeFormAttributes) {</span>
+<span class="fc" id="L1130">            html = formMethodAttrPattern.matcher(html).replaceAll(&quot;$1$3&quot;);</span>
         }
-<span class="fc" id="L1131">        return html;</span>
+<span class="fc" id="L1132">        return html;</span>
     }
 
     /**
@@ -1141,10 +1142,10 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected String removeInputAttributes(String html) {
         // remove type from input tags
-<span class="fc bfc" id="L1144" title="All 2 branches covered.">        if (removeInputAttributes) {</span>
-<span class="fc" id="L1145">            html = inputTypeAttrPattern.matcher(html).replaceAll(&quot;$1$3&quot;);</span>
+<span class="fc bfc" id="L1145" title="All 2 branches covered.">        if (removeInputAttributes) {</span>
+<span class="fc" id="L1146">            html = inputTypeAttrPattern.matcher(html).replaceAll(&quot;$1$3&quot;);</span>
         }
-<span class="fc" id="L1147">        return html;</span>
+<span class="fc" id="L1148">        return html;</span>
     }
 
     /**
@@ -1157,10 +1158,10 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected String simpleBooleanAttributes(String html) {
         // simplify boolean attributes
-<span class="pc bpc" id="L1160" title="1 of 2 branches missed.">        if (simpleBooleanAttributes) {</span>
-<span class="nc" id="L1161">            html = booleanAttrPattern.matcher(html).replaceAll(&quot;$1$2$4&quot;);</span>
+<span class="pc bpc" id="L1161" title="1 of 2 branches missed.">        if (simpleBooleanAttributes) {</span>
+<span class="nc" id="L1162">            html = booleanAttrPattern.matcher(html).replaceAll(&quot;$1$2$4&quot;);</span>
         }
-<span class="fc" id="L1163">        return html;</span>
+<span class="fc" id="L1164">        return html;</span>
     }
 
     /**
@@ -1173,21 +1174,21 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected String removeHttpProtocol(String html) {
         // remove http protocol from tag attributes
-<span class="fc bfc" id="L1176" title="All 2 branches covered.">        if (removeHttpProtocol) {</span>
-<span class="fc" id="L1177">            Matcher matcher = httpProtocolPattern.matcher(html);</span>
-<span class="fc" id="L1178">            StringBuilder sb = new StringBuilder();</span>
-<span class="fc bfc" id="L1179" title="All 2 branches covered.">            while (matcher.find()) {</span>
+<span class="fc bfc" id="L1177" title="All 2 branches covered.">        if (removeHttpProtocol) {</span>
+<span class="fc" id="L1178">            Matcher matcher = httpProtocolPattern.matcher(html);</span>
+<span class="fc" id="L1179">            StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L1180" title="All 2 branches covered.">            while (matcher.find()) {</span>
                 // if rel!=external
-<span class="fc bfc" id="L1181" title="All 2 branches covered.">                if (!relExternalPattern.matcher(matcher.group(0)).matches()) {</span>
-<span class="fc" id="L1182">                    matcher.appendReplacement(sb, &quot;$1$2&quot;);</span>
+<span class="fc bfc" id="L1182" title="All 2 branches covered.">                if (!relExternalPattern.matcher(matcher.group(0)).matches()) {</span>
+<span class="fc" id="L1183">                    matcher.appendReplacement(sb, &quot;$1$2&quot;);</span>
                 } else {
-<span class="fc" id="L1184">                    matcher.appendReplacement(sb, &quot;$0&quot;);</span>
+<span class="fc" id="L1185">                    matcher.appendReplacement(sb, &quot;$0&quot;);</span>
                 }
             }
-<span class="fc" id="L1187">            matcher.appendTail(sb);</span>
-<span class="fc" id="L1188">            html = sb.toString();</span>
+<span class="fc" id="L1188">            matcher.appendTail(sb);</span>
+<span class="fc" id="L1189">            html = sb.toString();</span>
         }
-<span class="fc" id="L1190">        return html;</span>
+<span class="fc" id="L1191">        return html;</span>
     }
 
     /**
@@ -1200,21 +1201,21 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected String removeHttpsProtocol(String html) {
         // remove https protocol from tag attributes
-<span class="fc bfc" id="L1203" title="All 2 branches covered.">        if (removeHttpsProtocol) {</span>
-<span class="fc" id="L1204">            Matcher matcher = httpsProtocolPattern.matcher(html);</span>
-<span class="fc" id="L1205">            StringBuilder sb = new StringBuilder();</span>
-<span class="fc bfc" id="L1206" title="All 2 branches covered.">            while (matcher.find()) {</span>
+<span class="fc bfc" id="L1204" title="All 2 branches covered.">        if (removeHttpsProtocol) {</span>
+<span class="fc" id="L1205">            Matcher matcher = httpsProtocolPattern.matcher(html);</span>
+<span class="fc" id="L1206">            StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L1207" title="All 2 branches covered.">            while (matcher.find()) {</span>
                 // if rel!=external
-<span class="fc bfc" id="L1208" title="All 2 branches covered.">                if (!relExternalPattern.matcher(matcher.group(0)).matches()) {</span>
-<span class="fc" id="L1209">                    matcher.appendReplacement(sb, &quot;$1$2&quot;);</span>
+<span class="fc bfc" id="L1209" title="All 2 branches covered.">                if (!relExternalPattern.matcher(matcher.group(0)).matches()) {</span>
+<span class="fc" id="L1210">                    matcher.appendReplacement(sb, &quot;$1$2&quot;);</span>
                 } else {
-<span class="fc" id="L1211">                    matcher.appendReplacement(sb, &quot;$0&quot;);</span>
+<span class="fc" id="L1212">                    matcher.appendReplacement(sb, &quot;$0&quot;);</span>
                 }
             }
-<span class="fc" id="L1214">            matcher.appendTail(sb);</span>
-<span class="fc" id="L1215">            html = sb.toString();</span>
+<span class="fc" id="L1215">            matcher.appendTail(sb);</span>
+<span class="fc" id="L1216">            html = sb.toString();</span>
         }
-<span class="fc" id="L1217">        return html;</span>
+<span class="fc" id="L1218">        return html;</span>
     }
 
     /**
@@ -1242,16 +1243,16 @@ import org.mozilla.javascript.ErrorReporter;
     protected void processPreservedBlocks(List&lt;String&gt; preBlocks, List&lt;String&gt; taBlocks, List&lt;String&gt; scriptBlocks,
             List&lt;String&gt; styleBlocks, List&lt;String&gt; eventBlocks, List&lt;String&gt; condCommentBlocks, List&lt;String&gt; skipBlocks,
             List&lt;String&gt; lineBreakBlocks, List&lt;List&lt;String&gt;&gt; userBlocks) {
-<span class="fc" id="L1245">        processPreBlocks(preBlocks);</span>
-<span class="fc" id="L1246">        processTextAreaBlocks(taBlocks);</span>
-<span class="fc" id="L1247">        processScriptBlocks(scriptBlocks);</span>
-<span class="fc" id="L1248">        processStyleBlocks(styleBlocks);</span>
-<span class="fc" id="L1249">        processEventBlocks(eventBlocks);</span>
-<span class="fc" id="L1250">        processCondCommentBlocks(condCommentBlocks);</span>
-<span class="fc" id="L1251">        processSkipBlocks(skipBlocks);</span>
-<span class="fc" id="L1252">        processUserBlocks(userBlocks);</span>
-<span class="fc" id="L1253">        processLineBreakBlocks(lineBreakBlocks);</span>
-<span class="fc" id="L1254">    }</span>
+<span class="fc" id="L1246">        processPreBlocks(preBlocks);</span>
+<span class="fc" id="L1247">        processTextAreaBlocks(taBlocks);</span>
+<span class="fc" id="L1248">        processScriptBlocks(scriptBlocks);</span>
+<span class="fc" id="L1249">        processStyleBlocks(styleBlocks);</span>
+<span class="fc" id="L1250">        processEventBlocks(eventBlocks);</span>
+<span class="fc" id="L1251">        processCondCommentBlocks(condCommentBlocks);</span>
+<span class="fc" id="L1252">        processSkipBlocks(skipBlocks);</span>
+<span class="fc" id="L1253">        processUserBlocks(userBlocks);</span>
+<span class="fc" id="L1254">        processLineBreakBlocks(lineBreakBlocks);</span>
+<span class="fc" id="L1255">    }</span>
 
     /**
      * Process pre blocks.
@@ -1260,12 +1261,12 @@ import org.mozilla.javascript.ErrorReporter;
      *            the pre blocks
      */
     protected void processPreBlocks(List&lt;String&gt; preBlocks) {
-<span class="pc bpc" id="L1263" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
-<span class="nc bnc" id="L1264" title="All 2 branches missed.">            for (String block : preBlocks) {</span>
-<span class="nc" id="L1265">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
-<span class="nc" id="L1266">            }</span>
+<span class="pc bpc" id="L1264" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1265" title="All 2 branches missed.">            for (String block : preBlocks) {</span>
+<span class="nc" id="L1266">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
+<span class="nc" id="L1267">            }</span>
         }
-<span class="fc" id="L1268">    }</span>
+<span class="fc" id="L1269">    }</span>
 
     /**
      * Process text area blocks.
@@ -1274,12 +1275,12 @@ import org.mozilla.javascript.ErrorReporter;
      *            the ta blocks
      */
     protected void processTextAreaBlocks(List&lt;String&gt; taBlocks) {
-<span class="pc bpc" id="L1277" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
-<span class="nc bnc" id="L1278" title="All 2 branches missed.">            for (String block : taBlocks) {</span>
-<span class="nc" id="L1279">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
-<span class="nc" id="L1280">            }</span>
+<span class="pc bpc" id="L1278" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1279" title="All 2 branches missed.">            for (String block : taBlocks) {</span>
+<span class="nc" id="L1280">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
+<span class="nc" id="L1281">            }</span>
         }
-<span class="fc" id="L1282">    }</span>
+<span class="fc" id="L1283">    }</span>
 
     /**
      * Process cond comment blocks.
@@ -1288,12 +1289,12 @@ import org.mozilla.javascript.ErrorReporter;
      *            the cond comment blocks
      */
     protected void processCondCommentBlocks(List&lt;String&gt; condCommentBlocks) {
-<span class="pc bpc" id="L1291" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
-<span class="nc bnc" id="L1292" title="All 2 branches missed.">            for (String block : condCommentBlocks) {</span>
-<span class="nc" id="L1293">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
-<span class="nc" id="L1294">            }</span>
+<span class="pc bpc" id="L1292" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1293" title="All 2 branches missed.">            for (String block : condCommentBlocks) {</span>
+<span class="nc" id="L1294">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
+<span class="nc" id="L1295">            }</span>
         }
-<span class="fc" id="L1296">    }</span>
+<span class="fc" id="L1297">    }</span>
 
     /**
      * Process skip blocks.
@@ -1302,12 +1303,12 @@ import org.mozilla.javascript.ErrorReporter;
      *            the skip blocks
      */
     protected void processSkipBlocks(List&lt;String&gt; skipBlocks) {
-<span class="pc bpc" id="L1305" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
-<span class="nc bnc" id="L1306" title="All 2 branches missed.">            for (String block : skipBlocks) {</span>
-<span class="nc" id="L1307">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
-<span class="nc" id="L1308">            }</span>
+<span class="pc bpc" id="L1306" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1307" title="All 2 branches missed.">            for (String block : skipBlocks) {</span>
+<span class="nc" id="L1308">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
+<span class="nc" id="L1309">            }</span>
         }
-<span class="fc" id="L1310">    }</span>
+<span class="fc" id="L1311">    }</span>
 
     /**
      * Process line break blocks.
@@ -1316,12 +1317,12 @@ import org.mozilla.javascript.ErrorReporter;
      *            the line break blocks
      */
     protected void processLineBreakBlocks(List&lt;String&gt; lineBreakBlocks) {
-<span class="pc bpc" id="L1319" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
-<span class="nc bnc" id="L1320" title="All 2 branches missed.">            for (String block : lineBreakBlocks) {</span>
-<span class="nc" id="L1321">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
-<span class="nc" id="L1322">            }</span>
+<span class="pc bpc" id="L1320" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1321" title="All 2 branches missed.">            for (String block : lineBreakBlocks) {</span>
+<span class="nc" id="L1322">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
+<span class="nc" id="L1323">            }</span>
         }
-<span class="fc" id="L1324">    }</span>
+<span class="fc" id="L1325">    }</span>
 
     /**
      * Process user blocks.
@@ -1330,14 +1331,14 @@ import org.mozilla.javascript.ErrorReporter;
      *            the user blocks
      */
     protected void processUserBlocks(List&lt;List&lt;String&gt;&gt; userBlocks) {
-<span class="pc bpc" id="L1333" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
-<span class="nc bnc" id="L1334" title="All 2 branches missed.">            for (List&lt;String&gt; blockList : userBlocks) {</span>
-<span class="nc bnc" id="L1335" title="All 2 branches missed.">                for (String block : blockList) {</span>
-<span class="nc" id="L1336">                    statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
-<span class="nc" id="L1337">                }</span>
-<span class="nc" id="L1338">            }</span>
+<span class="pc bpc" id="L1334" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1335" title="All 2 branches missed.">            for (List&lt;String&gt; blockList : userBlocks) {</span>
+<span class="nc bnc" id="L1336" title="All 2 branches missed.">                for (String block : blockList) {</span>
+<span class="nc" id="L1337">                    statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
+<span class="nc" id="L1338">                }</span>
+<span class="nc" id="L1339">            }</span>
         }
-<span class="fc" id="L1340">    }</span>
+<span class="fc" id="L1341">    }</span>
 
     /**
      * Process event blocks.
@@ -1347,30 +1348,30 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected void processEventBlocks(List&lt;String&gt; eventBlocks) {
 
-<span class="pc bpc" id="L1350" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
-<span class="nc bnc" id="L1351" title="All 2 branches missed.">            for (String block : eventBlocks) {</span>
-<span class="nc" id="L1352">                statistics.getOriginalMetrics()</span>
-<span class="nc" id="L1353">                        .setInlineEventSize(statistics.getOriginalMetrics().getInlineEventSize() + block.length());</span>
-<span class="nc" id="L1354">            }</span>
+<span class="pc bpc" id="L1351" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1352" title="All 2 branches missed.">            for (String block : eventBlocks) {</span>
+<span class="nc" id="L1353">                statistics.getOriginalMetrics()</span>
+<span class="nc" id="L1354">                        .setInlineEventSize(statistics.getOriginalMetrics().getInlineEventSize() + block.length());</span>
+<span class="nc" id="L1355">            }</span>
         }
 
-<span class="fc bfc" id="L1357" title="All 2 branches covered.">        if (removeJavaScriptProtocol) {</span>
-<span class="fc bfc" id="L1358" title="All 2 branches covered.">            for (int i = 0; i &lt; eventBlocks.size(); i++) {</span>
-<span class="fc" id="L1359">                eventBlocks.set(i, removeJavaScriptProtocol(eventBlocks.get(i)));</span>
+<span class="fc bfc" id="L1358" title="All 2 branches covered.">        if (removeJavaScriptProtocol) {</span>
+<span class="fc bfc" id="L1359" title="All 2 branches covered.">            for (int i = 0; i &lt; eventBlocks.size(); i++) {</span>
+<span class="fc" id="L1360">                eventBlocks.set(i, removeJavaScriptProtocol(eventBlocks.get(i)));</span>
             }
-<span class="pc bpc" id="L1361" title="1 of 2 branches missed.">        } else if (generateStatistics) {</span>
-<span class="nc bnc" id="L1362" title="All 2 branches missed.">            for (String block : eventBlocks) {</span>
-<span class="nc" id="L1363">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
-<span class="nc" id="L1364">            }</span>
+<span class="pc bpc" id="L1362" title="1 of 2 branches missed.">        } else if (generateStatistics) {</span>
+<span class="nc bnc" id="L1363" title="All 2 branches missed.">            for (String block : eventBlocks) {</span>
+<span class="nc" id="L1364">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
+<span class="nc" id="L1365">            }</span>
         }
 
-<span class="pc bpc" id="L1367" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
-<span class="nc bnc" id="L1368" title="All 2 branches missed.">            for (String block : eventBlocks) {</span>
-<span class="nc" id="L1369">                statistics.getCompressedMetrics()</span>
-<span class="nc" id="L1370">                        .setInlineEventSize(statistics.getCompressedMetrics().getInlineEventSize() + block.length());</span>
-<span class="nc" id="L1371">            }</span>
+<span class="pc bpc" id="L1368" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1369" title="All 2 branches missed.">            for (String block : eventBlocks) {</span>
+<span class="nc" id="L1370">                statistics.getCompressedMetrics()</span>
+<span class="nc" id="L1371">                        .setInlineEventSize(statistics.getCompressedMetrics().getInlineEventSize() + block.length());</span>
+<span class="nc" id="L1372">            }</span>
         }
-<span class="fc" id="L1373">    }</span>
+<span class="fc" id="L1374">    }</span>
 
     /**
      * Removes the java script protocol.
@@ -1382,18 +1383,18 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected String removeJavaScriptProtocol(String source) {
         // remove javascript: from inline events
-<span class="fc" id="L1385">        String result = source;</span>
+<span class="fc" id="L1386">        String result = source;</span>
 
-<span class="fc" id="L1387">        Matcher matcher = eventJsProtocolPattern.matcher(source);</span>
-<span class="fc bfc" id="L1388" title="All 2 branches covered.">        if (matcher.matches()) {</span>
-<span class="fc" id="L1389">            result = matcher.replaceFirst(&quot;$1&quot;);</span>
+<span class="fc" id="L1388">        Matcher matcher = eventJsProtocolPattern.matcher(source);</span>
+<span class="fc bfc" id="L1389" title="All 2 branches covered.">        if (matcher.matches()) {</span>
+<span class="fc" id="L1390">            result = matcher.replaceFirst(&quot;$1&quot;);</span>
         }
 
-<span class="pc bpc" id="L1392" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
-<span class="nc" id="L1393">            statistics.setPreservedSize(statistics.getPreservedSize() + result.length());</span>
+<span class="pc bpc" id="L1393" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc" id="L1394">            statistics.setPreservedSize(statistics.getPreservedSize() + result.length());</span>
         }
 
-<span class="fc" id="L1396">        return result;</span>
+<span class="fc" id="L1397">        return result;</span>
     }
 
     /**
@@ -1404,30 +1405,30 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected void processScriptBlocks(List&lt;String&gt; scriptBlocks) {
 
-<span class="pc bpc" id="L1407" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
-<span class="nc bnc" id="L1408" title="All 2 branches missed.">            for (String block : scriptBlocks) {</span>
-<span class="nc" id="L1409">                statistics.getOriginalMetrics()</span>
-<span class="nc" id="L1410">                        .setInlineScriptSize(statistics.getOriginalMetrics().getInlineScriptSize() + block.length());</span>
-<span class="nc" id="L1411">            }</span>
+<span class="pc bpc" id="L1408" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1409" title="All 2 branches missed.">            for (String block : scriptBlocks) {</span>
+<span class="nc" id="L1410">                statistics.getOriginalMetrics()</span>
+<span class="nc" id="L1411">                        .setInlineScriptSize(statistics.getOriginalMetrics().getInlineScriptSize() + block.length());</span>
+<span class="nc" id="L1412">            }</span>
         }
 
-<span class="fc bfc" id="L1414" title="All 2 branches covered.">        if (compressJavaScript) {</span>
-<span class="fc bfc" id="L1415" title="All 2 branches covered.">            for (int i = 0; i &lt; scriptBlocks.size(); i++) {</span>
-<span class="fc" id="L1416">                scriptBlocks.set(i, compressJavaScript(scriptBlocks.get(i)));</span>
+<span class="fc bfc" id="L1415" title="All 2 branches covered.">        if (compressJavaScript) {</span>
+<span class="fc bfc" id="L1416" title="All 2 branches covered.">            for (int i = 0; i &lt; scriptBlocks.size(); i++) {</span>
+<span class="fc" id="L1417">                scriptBlocks.set(i, compressJavaScript(scriptBlocks.get(i)));</span>
             }
-<span class="pc bpc" id="L1418" title="1 of 2 branches missed.">        } else if (generateStatistics) {</span>
-<span class="nc bnc" id="L1419" title="All 2 branches missed.">            for (String block : scriptBlocks) {</span>
-<span class="nc" id="L1420">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
-<span class="nc" id="L1421">            }</span>
+<span class="pc bpc" id="L1419" title="1 of 2 branches missed.">        } else if (generateStatistics) {</span>
+<span class="nc bnc" id="L1420" title="All 2 branches missed.">            for (String block : scriptBlocks) {</span>
+<span class="nc" id="L1421">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
+<span class="nc" id="L1422">            }</span>
         }
 
-<span class="pc bpc" id="L1424" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
-<span class="nc bnc" id="L1425" title="All 2 branches missed.">            for (String block : scriptBlocks) {</span>
-<span class="nc" id="L1426">                statistics.getCompressedMetrics()</span>
-<span class="nc" id="L1427">                        .setInlineScriptSize(statistics.getCompressedMetrics().getInlineScriptSize() + block.length());</span>
-<span class="nc" id="L1428">            }</span>
+<span class="pc bpc" id="L1425" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1426" title="All 2 branches missed.">            for (String block : scriptBlocks) {</span>
+<span class="nc" id="L1427">                statistics.getCompressedMetrics()</span>
+<span class="nc" id="L1428">                        .setInlineScriptSize(statistics.getCompressedMetrics().getInlineScriptSize() + block.length());</span>
+<span class="nc" id="L1429">            }</span>
         }
-<span class="fc" id="L1430">    }</span>
+<span class="fc" id="L1431">    }</span>
 
     /**
      * Process style blocks.
@@ -1437,30 +1438,30 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected void processStyleBlocks(List&lt;String&gt; styleBlocks) {
 
-<span class="pc bpc" id="L1440" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
-<span class="nc bnc" id="L1441" title="All 2 branches missed.">            for (String block : styleBlocks) {</span>
-<span class="nc" id="L1442">                statistics.getOriginalMetrics()</span>
-<span class="nc" id="L1443">                        .setInlineStyleSize(statistics.getOriginalMetrics().getInlineStyleSize() + block.length());</span>
-<span class="nc" id="L1444">            }</span>
+<span class="pc bpc" id="L1441" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1442" title="All 2 branches missed.">            for (String block : styleBlocks) {</span>
+<span class="nc" id="L1443">                statistics.getOriginalMetrics()</span>
+<span class="nc" id="L1444">                        .setInlineStyleSize(statistics.getOriginalMetrics().getInlineStyleSize() + block.length());</span>
+<span class="nc" id="L1445">            }</span>
         }
 
-<span class="fc bfc" id="L1447" title="All 2 branches covered.">        if (compressCss) {</span>
-<span class="fc bfc" id="L1448" title="All 2 branches covered.">            for (int i = 0; i &lt; styleBlocks.size(); i++) {</span>
-<span class="fc" id="L1449">                styleBlocks.set(i, compressCssStyles(styleBlocks.get(i)));</span>
+<span class="fc bfc" id="L1448" title="All 2 branches covered.">        if (compressCss) {</span>
+<span class="fc bfc" id="L1449" title="All 2 branches covered.">            for (int i = 0; i &lt; styleBlocks.size(); i++) {</span>
+<span class="fc" id="L1450">                styleBlocks.set(i, compressCssStyles(styleBlocks.get(i)));</span>
             }
-<span class="pc bpc" id="L1451" title="1 of 2 branches missed.">        } else if (generateStatistics) {</span>
-<span class="nc bnc" id="L1452" title="All 2 branches missed.">            for (String block : styleBlocks) {</span>
-<span class="nc" id="L1453">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
-<span class="nc" id="L1454">            }</span>
+<span class="pc bpc" id="L1452" title="1 of 2 branches missed.">        } else if (generateStatistics) {</span>
+<span class="nc bnc" id="L1453" title="All 2 branches missed.">            for (String block : styleBlocks) {</span>
+<span class="nc" id="L1454">                statistics.setPreservedSize(statistics.getPreservedSize() + block.length());</span>
+<span class="nc" id="L1455">            }</span>
         }
 
-<span class="pc bpc" id="L1457" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
-<span class="nc bnc" id="L1458" title="All 2 branches missed.">            for (String block : styleBlocks) {</span>
-<span class="nc" id="L1459">                statistics.getCompressedMetrics()</span>
-<span class="nc" id="L1460">                        .setInlineStyleSize(statistics.getCompressedMetrics().getInlineStyleSize() + block.length());</span>
-<span class="nc" id="L1461">            }</span>
+<span class="pc bpc" id="L1458" title="1 of 2 branches missed.">        if (generateStatistics) {</span>
+<span class="nc bnc" id="L1459" title="All 2 branches missed.">            for (String block : styleBlocks) {</span>
+<span class="nc" id="L1460">                statistics.getCompressedMetrics()</span>
+<span class="nc" id="L1461">                        .setInlineStyleSize(statistics.getCompressedMetrics().getInlineStyleSize() + block.length());</span>
+<span class="nc" id="L1462">            }</span>
         }
-<span class="fc" id="L1463">    }</span>
+<span class="fc" id="L1464">    }</span>
 
     /**
      * Compress java script.
@@ -1473,35 +1474,35 @@ import org.mozilla.javascript.ErrorReporter;
     protected String compressJavaScript(String source) {
 
         // set default javascript compressor
-<span class="fc bfc" id="L1476" title="All 2 branches covered.">        if (javaScriptCompressor == null) {</span>
-<span class="fc" id="L1477">            YuiJavaScriptCompressor yuiJsCompressor = new YuiJavaScriptCompressor();</span>
-<span class="fc" id="L1478">            yuiJsCompressor.setNoMunge(yuiJsNoMunge);</span>
-<span class="fc" id="L1479">            yuiJsCompressor.setPreserveAllSemiColons(yuiJsPreserveAllSemiColons);</span>
-<span class="fc" id="L1480">            yuiJsCompressor.setDisableOptimizations(yuiJsDisableOptimizations);</span>
-<span class="fc" id="L1481">            yuiJsCompressor.setLineBreak(yuiJsLineBreak);</span>
+<span class="fc bfc" id="L1477" title="All 2 branches covered.">        if (javaScriptCompressor == null) {</span>
+<span class="fc" id="L1478">            YuiJavaScriptCompressor yuiJsCompressor = new YuiJavaScriptCompressor();</span>
+<span class="fc" id="L1479">            yuiJsCompressor.setNoMunge(yuiJsNoMunge);</span>
+<span class="fc" id="L1480">            yuiJsCompressor.setPreserveAllSemiColons(yuiJsPreserveAllSemiColons);</span>
+<span class="fc" id="L1481">            yuiJsCompressor.setDisableOptimizations(yuiJsDisableOptimizations);</span>
+<span class="fc" id="L1482">            yuiJsCompressor.setLineBreak(yuiJsLineBreak);</span>
 
-<span class="pc bpc" id="L1483" title="1 of 2 branches missed.">            if (yuiErrorReporter != null) {</span>
-<span class="nc" id="L1484">                yuiJsCompressor.setErrorReporter(yuiErrorReporter);</span>
+<span class="pc bpc" id="L1484" title="1 of 2 branches missed.">            if (yuiErrorReporter != null) {</span>
+<span class="nc" id="L1485">                yuiJsCompressor.setErrorReporter(yuiErrorReporter);</span>
             }
 
-<span class="fc" id="L1487">            javaScriptCompressor = yuiJsCompressor;</span>
+<span class="fc" id="L1488">            javaScriptCompressor = yuiJsCompressor;</span>
         }
 
         // detect CDATA wrapper
-<span class="fc" id="L1491">        boolean cdataWrapper = false;</span>
-<span class="fc" id="L1492">        Matcher matcher = cdataPattern.matcher(source);</span>
-<span class="fc bfc" id="L1493" title="All 2 branches covered.">        if (matcher.matches()) {</span>
-<span class="fc" id="L1494">            cdataWrapper = true;</span>
-<span class="fc" id="L1495">            source = matcher.group(1);</span>
+<span class="fc" id="L1492">        boolean cdataWrapper = false;</span>
+<span class="fc" id="L1493">        Matcher matcher = cdataPattern.matcher(source);</span>
+<span class="fc bfc" id="L1494" title="All 2 branches covered.">        if (matcher.matches()) {</span>
+<span class="fc" id="L1495">            cdataWrapper = true;</span>
+<span class="fc" id="L1496">            source = matcher.group(1);</span>
         }
 
-<span class="fc" id="L1498">        String result = javaScriptCompressor.compress(source);</span>
+<span class="fc" id="L1499">        String result = javaScriptCompressor.compress(source);</span>
 
-<span class="fc bfc" id="L1500" title="All 2 branches covered.">        if (cdataWrapper) {</span>
-<span class="fc" id="L1501">            result = &quot;&lt;![CDATA[&quot; + result + &quot;]]&gt;&quot;;</span>
+<span class="fc bfc" id="L1501" title="All 2 branches covered.">        if (cdataWrapper) {</span>
+<span class="fc" id="L1502">            result = &quot;&lt;![CDATA[&quot; + result + &quot;]]&gt;&quot;;</span>
         }
 
-<span class="fc" id="L1504">        return result;</span>
+<span class="fc" id="L1505">        return result;</span>
 
     }
 
@@ -1516,28 +1517,28 @@ import org.mozilla.javascript.ErrorReporter;
     protected String compressCssStyles(String source) {
 
         // set default css compressor
-<span class="pc bpc" id="L1519" title="1 of 2 branches missed.">        if (cssCompressor == null) {</span>
-<span class="fc" id="L1520">            YuiCssCompressor yuiCssCompressor = new YuiCssCompressor();</span>
-<span class="fc" id="L1521">            yuiCssCompressor.setLineBreak(yuiCssLineBreak);</span>
+<span class="pc bpc" id="L1520" title="1 of 2 branches missed.">        if (cssCompressor == null) {</span>
+<span class="fc" id="L1521">            YuiCssCompressor yuiCssCompressor = new YuiCssCompressor();</span>
+<span class="fc" id="L1522">            yuiCssCompressor.setLineBreak(yuiCssLineBreak);</span>
 
-<span class="fc" id="L1523">            cssCompressor = yuiCssCompressor;</span>
+<span class="fc" id="L1524">            cssCompressor = yuiCssCompressor;</span>
         }
 
         // detect CDATA wrapper
-<span class="fc" id="L1527">        boolean cdataWrapper = false;</span>
-<span class="fc" id="L1528">        Matcher matcher = cdataPattern.matcher(source);</span>
-<span class="pc bpc" id="L1529" title="1 of 2 branches missed.">        if (matcher.matches()) {</span>
-<span class="nc" id="L1530">            cdataWrapper = true;</span>
-<span class="nc" id="L1531">            source = matcher.group(1);</span>
+<span class="fc" id="L1528">        boolean cdataWrapper = false;</span>
+<span class="fc" id="L1529">        Matcher matcher = cdataPattern.matcher(source);</span>
+<span class="pc bpc" id="L1530" title="1 of 2 branches missed.">        if (matcher.matches()) {</span>
+<span class="nc" id="L1531">            cdataWrapper = true;</span>
+<span class="nc" id="L1532">            source = matcher.group(1);</span>
         }
 
-<span class="fc" id="L1534">        String result = cssCompressor.compress(source);</span>
+<span class="fc" id="L1535">        String result = cssCompressor.compress(source);</span>
 
-<span class="pc bpc" id="L1536" title="1 of 2 branches missed.">        if (cdataWrapper) {</span>
-<span class="nc" id="L1537">            result = &quot;&lt;![CDATA[&quot; + result + &quot;]]&gt;&quot;;</span>
+<span class="pc bpc" id="L1537" title="1 of 2 branches missed.">        if (cdataWrapper) {</span>
+<span class="nc" id="L1538">            result = &quot;&lt;![CDATA[&quot; + result + &quot;]]&gt;&quot;;</span>
         }
 
-<span class="fc" id="L1540">        return result;</span>
+<span class="fc" id="L1541">        return result;</span>
 
     }
 
@@ -1547,34 +1548,34 @@ import org.mozilla.javascript.ErrorReporter;
      * @return the html compressor
      */
     protected HtmlCompressor createCompressorClone() {
-<span class="fc" id="L1550">        HtmlCompressor clone = new HtmlCompressor();</span>
-<span class="fc" id="L1551">        clone.setJavaScriptCompressor(javaScriptCompressor);</span>
-<span class="fc" id="L1552">        clone.setCssCompressor(cssCompressor);</span>
-<span class="fc" id="L1553">        clone.setRemoveComments(removeComments);</span>
-<span class="fc" id="L1554">        clone.setRemoveMultiSpaces(removeMultiSpaces);</span>
-<span class="fc" id="L1555">        clone.setRemoveIntertagSpaces(removeIntertagSpaces);</span>
-<span class="fc" id="L1556">        clone.setRemoveQuotes(removeQuotes);</span>
-<span class="fc" id="L1557">        clone.setCompressJavaScript(compressJavaScript);</span>
-<span class="fc" id="L1558">        clone.setCompressCss(compressCss);</span>
-<span class="fc" id="L1559">        clone.setSimpleDoctype(simpleDoctype);</span>
-<span class="fc" id="L1560">        clone.setRemoveScriptAttributes(removeScriptAttributes);</span>
-<span class="fc" id="L1561">        clone.setRemoveStyleAttributes(removeStyleAttributes);</span>
-<span class="fc" id="L1562">        clone.setRemoveLinkAttributes(removeLinkAttributes);</span>
-<span class="fc" id="L1563">        clone.setRemoveFormAttributes(removeFormAttributes);</span>
-<span class="fc" id="L1564">        clone.setRemoveInputAttributes(removeInputAttributes);</span>
-<span class="fc" id="L1565">        clone.setSimpleBooleanAttributes(simpleBooleanAttributes);</span>
-<span class="fc" id="L1566">        clone.setRemoveJavaScriptProtocol(removeJavaScriptProtocol);</span>
-<span class="fc" id="L1567">        clone.setRemoveHttpProtocol(removeHttpProtocol);</span>
-<span class="fc" id="L1568">        clone.setRemoveHttpsProtocol(removeHttpsProtocol);</span>
-<span class="fc" id="L1569">        clone.setPreservePatterns(preservePatterns);</span>
-<span class="fc" id="L1570">        clone.setYuiJsNoMunge(yuiJsNoMunge);</span>
-<span class="fc" id="L1571">        clone.setYuiJsPreserveAllSemiColons(yuiJsPreserveAllSemiColons);</span>
-<span class="fc" id="L1572">        clone.setYuiJsDisableOptimizations(yuiJsDisableOptimizations);</span>
-<span class="fc" id="L1573">        clone.setYuiJsLineBreak(yuiJsLineBreak);</span>
-<span class="fc" id="L1574">        clone.setYuiCssLineBreak(yuiCssLineBreak);</span>
-<span class="fc" id="L1575">        clone.setYuiErrorReporter(yuiErrorReporter);</span>
+<span class="fc" id="L1551">        HtmlCompressor clone = new HtmlCompressor();</span>
+<span class="fc" id="L1552">        clone.setJavaScriptCompressor(javaScriptCompressor);</span>
+<span class="fc" id="L1553">        clone.setCssCompressor(cssCompressor);</span>
+<span class="fc" id="L1554">        clone.setRemoveComments(removeComments);</span>
+<span class="fc" id="L1555">        clone.setRemoveMultiSpaces(removeMultiSpaces);</span>
+<span class="fc" id="L1556">        clone.setRemoveIntertagSpaces(removeIntertagSpaces);</span>
+<span class="fc" id="L1557">        clone.setRemoveQuotes(removeQuotes);</span>
+<span class="fc" id="L1558">        clone.setCompressJavaScript(compressJavaScript);</span>
+<span class="fc" id="L1559">        clone.setCompressCss(compressCss);</span>
+<span class="fc" id="L1560">        clone.setSimpleDoctype(simpleDoctype);</span>
+<span class="fc" id="L1561">        clone.setRemoveScriptAttributes(removeScriptAttributes);</span>
+<span class="fc" id="L1562">        clone.setRemoveStyleAttributes(removeStyleAttributes);</span>
+<span class="fc" id="L1563">        clone.setRemoveLinkAttributes(removeLinkAttributes);</span>
+<span class="fc" id="L1564">        clone.setRemoveFormAttributes(removeFormAttributes);</span>
+<span class="fc" id="L1565">        clone.setRemoveInputAttributes(removeInputAttributes);</span>
+<span class="fc" id="L1566">        clone.setSimpleBooleanAttributes(simpleBooleanAttributes);</span>
+<span class="fc" id="L1567">        clone.setRemoveJavaScriptProtocol(removeJavaScriptProtocol);</span>
+<span class="fc" id="L1568">        clone.setRemoveHttpProtocol(removeHttpProtocol);</span>
+<span class="fc" id="L1569">        clone.setRemoveHttpsProtocol(removeHttpsProtocol);</span>
+<span class="fc" id="L1570">        clone.setPreservePatterns(preservePatterns);</span>
+<span class="fc" id="L1571">        clone.setYuiJsNoMunge(yuiJsNoMunge);</span>
+<span class="fc" id="L1572">        clone.setYuiJsPreserveAllSemiColons(yuiJsPreserveAllSemiColons);</span>
+<span class="fc" id="L1573">        clone.setYuiJsDisableOptimizations(yuiJsDisableOptimizations);</span>
+<span class="fc" id="L1574">        clone.setYuiJsLineBreak(yuiJsLineBreak);</span>
+<span class="fc" id="L1575">        clone.setYuiCssLineBreak(yuiCssLineBreak);</span>
+<span class="fc" id="L1576">        clone.setYuiErrorReporter(yuiErrorReporter);</span>
 
-<span class="fc" id="L1577">        return clone;</span>
+<span class="fc" id="L1578">        return clone;</span>
 
     }
 
@@ -1584,7 +1585,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @return current state of JavaScript compression.
      */
     public boolean isCompressJavaScript() {
-<span class="nc" id="L1587">        return compressJavaScript;</span>
+<span class="nc" id="L1588">        return compressJavaScript;</span>
     }
 
     /**
@@ -1603,8 +1604,8 @@ import org.mozilla.javascript.ErrorReporter;
      * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
      */
     public void setCompressJavaScript(boolean compressJavaScript) {
-<span class="fc" id="L1606">        this.compressJavaScript = compressJavaScript;</span>
-<span class="fc" id="L1607">    }</span>
+<span class="fc" id="L1607">        this.compressJavaScript = compressJavaScript;</span>
+<span class="fc" id="L1608">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if CSS compression is enabled.
@@ -1612,7 +1613,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @return current state of CSS compression.
      */
     public boolean isCompressCss() {
-<span class="nc" id="L1615">        return compressCss;</span>
+<span class="nc" id="L1616">        return compressCss;</span>
     }
 
     /**
@@ -1631,8 +1632,8 @@ import org.mozilla.javascript.ErrorReporter;
      * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
      */
     public void setCompressCss(boolean compressCss) {
-<span class="fc" id="L1634">        this.compressCss = compressCss;</span>
-<span class="fc" id="L1635">    }</span>
+<span class="fc" id="L1635">        this.compressCss = compressCss;</span>
+<span class="fc" id="L1636">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if Yahoo YUI Compressor will only minify javascript without obfuscating local symbols.
@@ -1643,7 +1644,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
      */
     public boolean isYuiJsNoMunge() {
-<span class="nc" id="L1646">        return yuiJsNoMunge;</span>
+<span class="nc" id="L1647">        return yuiJsNoMunge;</span>
     }
 
     /**
@@ -1657,8 +1658,8 @@ import org.mozilla.javascript.ErrorReporter;
      * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
      */
     public void setYuiJsNoMunge(boolean yuiJsNoMunge) {
-<span class="fc" id="L1660">        this.yuiJsNoMunge = yuiJsNoMunge;</span>
-<span class="fc" id="L1661">    }</span>
+<span class="fc" id="L1661">        this.yuiJsNoMunge = yuiJsNoMunge;</span>
+<span class="fc" id="L1662">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if Yahoo YUI Compressor will preserve unnecessary semicolons during JavaScript
@@ -1669,7 +1670,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
      */
     public boolean isYuiJsPreserveAllSemiColons() {
-<span class="nc" id="L1672">        return yuiJsPreserveAllSemiColons;</span>
+<span class="nc" id="L1673">        return yuiJsPreserveAllSemiColons;</span>
     }
 
     /**
@@ -1683,8 +1684,8 @@ import org.mozilla.javascript.ErrorReporter;
      * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
      */
     public void setYuiJsPreserveAllSemiColons(boolean yuiJsPreserveAllSemiColons) {
-<span class="fc" id="L1686">        this.yuiJsPreserveAllSemiColons = yuiJsPreserveAllSemiColons;</span>
-<span class="fc" id="L1687">    }</span>
+<span class="fc" id="L1687">        this.yuiJsPreserveAllSemiColons = yuiJsPreserveAllSemiColons;</span>
+<span class="fc" id="L1688">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if Yahoo YUI Compressor will disable all the built-in micro optimizations during
@@ -1695,7 +1696,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
      */
     public boolean isYuiJsDisableOptimizations() {
-<span class="nc" id="L1698">        return yuiJsDisableOptimizations;</span>
+<span class="nc" id="L1699">        return yuiJsDisableOptimizations;</span>
     }
 
     /**
@@ -1709,8 +1710,8 @@ import org.mozilla.javascript.ErrorReporter;
      * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
      */
     public void setYuiJsDisableOptimizations(boolean yuiJsDisableOptimizations) {
-<span class="fc" id="L1712">        this.yuiJsDisableOptimizations = yuiJsDisableOptimizations;</span>
-<span class="fc" id="L1713">    }</span>
+<span class="fc" id="L1713">        this.yuiJsDisableOptimizations = yuiJsDisableOptimizations;</span>
+<span class="fc" id="L1714">    }</span>
 
     /**
      * Returns number of symbols per line Yahoo YUI Compressor will use during JavaScript compression. This corresponds
@@ -1721,7 +1722,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
      */
     public int getYuiJsLineBreak() {
-<span class="nc" id="L1724">        return yuiJsLineBreak;</span>
+<span class="nc" id="L1725">        return yuiJsLineBreak;</span>
     }
 
     /**
@@ -1735,8 +1736,8 @@ import org.mozilla.javascript.ErrorReporter;
      * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
      */
     public void setYuiJsLineBreak(int yuiJsLineBreak) {
-<span class="fc" id="L1738">        this.yuiJsLineBreak = yuiJsLineBreak;</span>
-<span class="fc" id="L1739">    }</span>
+<span class="fc" id="L1739">        this.yuiJsLineBreak = yuiJsLineBreak;</span>
+<span class="fc" id="L1740">    }</span>
 
     /**
      * Returns number of symbols per line Yahoo YUI Compressor will use during CSS compression. This corresponds to
@@ -1747,7 +1748,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
      */
     public int getYuiCssLineBreak() {
-<span class="nc" id="L1750">        return yuiCssLineBreak;</span>
+<span class="nc" id="L1751">        return yuiCssLineBreak;</span>
     }
 
     /**
@@ -1761,8 +1762,8 @@ import org.mozilla.javascript.ErrorReporter;
      * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
      */
     public void setYuiCssLineBreak(int yuiCssLineBreak) {
-<span class="fc" id="L1764">        this.yuiCssLineBreak = yuiCssLineBreak;</span>
-<span class="fc" id="L1765">    }</span>
+<span class="fc" id="L1765">        this.yuiCssLineBreak = yuiCssLineBreak;</span>
+<span class="fc" id="L1766">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if all unnecessary quotes will be removed from tag attributes.
@@ -1770,7 +1771,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @return true, if is removes the quotes
      */
     public boolean isRemoveQuotes() {
-<span class="nc" id="L1773">        return removeQuotes;</span>
+<span class="nc" id="L1774">        return removeQuotes;</span>
     }
 
     /**
@@ -1785,8 +1786,8 @@ import org.mozilla.javascript.ErrorReporter;
      *            set &lt;code&gt;true&lt;/code&gt; to remove unnecessary quotes from tag attributes
      */
     public void setRemoveQuotes(boolean removeQuotes) {
-<span class="fc" id="L1788">        this.removeQuotes = removeQuotes;</span>
-<span class="fc" id="L1789">    }</span>
+<span class="fc" id="L1789">        this.removeQuotes = removeQuotes;</span>
+<span class="fc" id="L1790">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if compression is enabled.
@@ -1794,7 +1795,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @return &lt;code&gt;true&lt;/code&gt; if compression is enabled.
      */
     public boolean isEnabled() {
-<span class="nc" id="L1797">        return enabled;</span>
+<span class="nc" id="L1798">        return enabled;</span>
     }
 
     /**
@@ -1805,8 +1806,8 @@ import org.mozilla.javascript.ErrorReporter;
      *            set &lt;code&gt;false&lt;/code&gt; to bypass all compression
      */
     public void setEnabled(boolean enabled) {
-<span class="fc" id="L1808">        this.enabled = enabled;</span>
-<span class="fc" id="L1809">    }</span>
+<span class="fc" id="L1809">        this.enabled = enabled;</span>
+<span class="fc" id="L1810">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if all HTML comments will be removed.
@@ -1814,7 +1815,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @return &lt;code&gt;true&lt;/code&gt; if all HTML comments will be removed
      */
     public boolean isRemoveComments() {
-<span class="nc" id="L1817">        return removeComments;</span>
+<span class="nc" id="L1818">        return removeComments;</span>
     }
 
     /**
@@ -1824,8 +1825,8 @@ import org.mozilla.javascript.ErrorReporter;
      *            set &lt;code&gt;true&lt;/code&gt; to remove all HTML comments
      */
     public void setRemoveComments(boolean removeComments) {
-<span class="fc" id="L1827">        this.removeComments = removeComments;</span>
-<span class="fc" id="L1828">    }</span>
+<span class="fc" id="L1828">        this.removeComments = removeComments;</span>
+<span class="fc" id="L1829">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if all multiple whitespace characters will be replaced with single spaces.
@@ -1833,7 +1834,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @return &lt;code&gt;true&lt;/code&gt; if all multiple whitespace characters will be replaced with single spaces.
      */
     public boolean isRemoveMultiSpaces() {
-<span class="nc" id="L1836">        return removeMultiSpaces;</span>
+<span class="nc" id="L1837">        return removeMultiSpaces;</span>
     }
 
     /**
@@ -1844,8 +1845,8 @@ import org.mozilla.javascript.ErrorReporter;
      *            set &lt;code&gt;true&lt;/code&gt; to replace all multiple whitespace characters will single spaces.
      */
     public void setRemoveMultiSpaces(boolean removeMultiSpaces) {
-<span class="fc" id="L1847">        this.removeMultiSpaces = removeMultiSpaces;</span>
-<span class="fc" id="L1848">    }</span>
+<span class="fc" id="L1848">        this.removeMultiSpaces = removeMultiSpaces;</span>
+<span class="fc" id="L1849">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if all inter-tag whitespace characters will be removed.
@@ -1853,7 +1854,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @return &lt;code&gt;true&lt;/code&gt; if all inter-tag whitespace characters will be removed.
      */
     public boolean isRemoveIntertagSpaces() {
-<span class="nc" id="L1856">        return removeIntertagSpaces;</span>
+<span class="nc" id="L1857">        return removeIntertagSpaces;</span>
     }
 
     /**
@@ -1866,8 +1867,8 @@ import org.mozilla.javascript.ErrorReporter;
      *            set &lt;code&gt;true&lt;/code&gt; to remove all inter-tag whitespace characters
      */
     public void setRemoveIntertagSpaces(boolean removeIntertagSpaces) {
-<span class="fc" id="L1869">        this.removeIntertagSpaces = removeIntertagSpaces;</span>
-<span class="fc" id="L1870">    }</span>
+<span class="fc" id="L1870">        this.removeIntertagSpaces = removeIntertagSpaces;</span>
+<span class="fc" id="L1871">    }</span>
 
     /**
      * Returns a list of Patterns defining custom preserving block rules.
@@ -1875,7 +1876,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @return list of &lt;code&gt;Pattern&lt;/code&gt; objects defining rules for preserving block rules
      */
     public List&lt;Pattern&gt; getPreservePatterns() {
-<span class="nc" id="L1878">        return preservePatterns;</span>
+<span class="nc" id="L1879">        return preservePatterns;</span>
     }
 
     /**
@@ -1893,8 +1894,8 @@ import org.mozilla.javascript.ErrorReporter;
      *            List of &lt;code&gt;Pattern&lt;/code&gt; objects that will be used to skip matched blocks during compression
      */
     public void setPreservePatterns(List&lt;Pattern&gt; preservePatterns) {
-<span class="fc" id="L1896">        this.preservePatterns = preservePatterns;</span>
-<span class="fc" id="L1897">    }</span>
+<span class="fc" id="L1897">        this.preservePatterns = preservePatterns;</span>
+<span class="fc" id="L1898">    }</span>
 
     /**
      * Returns &lt;code&gt;ErrorReporter&lt;/code&gt; used by YUI Compressor to log error messages during JavasSript compression.
@@ -1906,7 +1907,7 @@ import org.mozilla.javascript.ErrorReporter;
      *      Interface&lt;/a&gt;
      */
     public ErrorReporter getYuiErrorReporter() {
-<span class="nc" id="L1909">        return yuiErrorReporter;</span>
+<span class="nc" id="L1910">        return yuiErrorReporter;</span>
     }
 
     /**
@@ -1923,8 +1924,8 @@ import org.mozilla.javascript.ErrorReporter;
      *      Interface&lt;/a&gt;
      */
     public void setYuiErrorReporter(ErrorReporter yuiErrorReporter) {
-<span class="fc" id="L1926">        this.yuiErrorReporter = yuiErrorReporter;</span>
-<span class="fc" id="L1927">    }</span>
+<span class="fc" id="L1927">        this.yuiErrorReporter = yuiErrorReporter;</span>
+<span class="fc" id="L1928">    }</span>
 
     /**
      * Returns JavaScript compressor implementation that will be used to compress inline JavaScript in HTML.
@@ -1937,7 +1938,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @see &lt;a href=&quot;http://code.google.com/closure/compiler/&quot;&gt;Google Closure Compiler&lt;/a&gt;
      */
     public Compressor getJavaScriptCompressor() {
-<span class="nc" id="L1940">        return javaScriptCompressor;</span>
+<span class="nc" id="L1941">        return javaScriptCompressor;</span>
     }
 
     /**
@@ -1960,8 +1961,8 @@ import org.mozilla.javascript.ErrorReporter;
      * @see &lt;a href=&quot;http://code.google.com/closure/compiler/&quot;&gt;Google Closure Compiler&lt;/a&gt;
      */
     public void setJavaScriptCompressor(Compressor javaScriptCompressor) {
-<span class="fc" id="L1963">        this.javaScriptCompressor = javaScriptCompressor;</span>
-<span class="fc" id="L1964">    }</span>
+<span class="fc" id="L1964">        this.javaScriptCompressor = javaScriptCompressor;</span>
+<span class="fc" id="L1965">    }</span>
 
     /**
      * Returns CSS compressor implementation that will be used to compress inline CSS in HTML.
@@ -1972,7 +1973,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
      */
     public Compressor getCssCompressor() {
-<span class="nc" id="L1975">        return cssCompressor;</span>
+<span class="nc" id="L1976">        return cssCompressor;</span>
     }
 
     /**
@@ -1991,8 +1992,8 @@ import org.mozilla.javascript.ErrorReporter;
      * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
      */
     public void setCssCompressor(Compressor cssCompressor) {
-<span class="fc" id="L1994">        this.cssCompressor = cssCompressor;</span>
-<span class="fc" id="L1995">    }</span>
+<span class="fc" id="L1995">        this.cssCompressor = cssCompressor;</span>
+<span class="fc" id="L1996">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if existing DOCTYPE declaration will be replaced with simple
@@ -2002,7 +2003,7 @@ import org.mozilla.javascript.ErrorReporter;
      *         &lt;code&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/code&gt; declaration.
      */
     public boolean isSimpleDoctype() {
-<span class="nc" id="L2005">        return simpleDoctype;</span>
+<span class="nc" id="L2006">        return simpleDoctype;</span>
     }
 
     /**
@@ -2013,8 +2014,8 @@ import org.mozilla.javascript.ErrorReporter;
      *            set &lt;code&gt;true&lt;/code&gt; to replace existing DOCTYPE declaration with &lt;code&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/code&gt;
      */
     public void setSimpleDoctype(boolean simpleDoctype) {
-<span class="fc" id="L2016">        this.simpleDoctype = simpleDoctype;</span>
-<span class="fc" id="L2017">    }</span>
+<span class="fc" id="L2017">        this.simpleDoctype = simpleDoctype;</span>
+<span class="fc" id="L2018">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if unnecessary attributes will be removed from &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tags.
@@ -2022,7 +2023,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @return &lt;code&gt;true&lt;/code&gt; if unnecessary attributes will be removed from &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tags
      */
     public boolean isRemoveScriptAttributes() {
-<span class="nc" id="L2025">        return removeScriptAttributes;</span>
+<span class="nc" id="L2026">        return removeScriptAttributes;</span>
     }
 
     /**
@@ -2039,8 +2040,8 @@ import org.mozilla.javascript.ErrorReporter;
      *            set &lt;code&gt;true&lt;/code&gt; to remove unnecessary attributes from &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tags
      */
     public void setRemoveScriptAttributes(boolean removeScriptAttributes) {
-<span class="fc" id="L2042">        this.removeScriptAttributes = removeScriptAttributes;</span>
-<span class="fc" id="L2043">    }</span>
+<span class="fc" id="L2043">        this.removeScriptAttributes = removeScriptAttributes;</span>
+<span class="fc" id="L2044">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;type=&quot;text/style&quot;&lt;/code&gt; attributes will be removed from
@@ -2050,7 +2051,7 @@ import org.mozilla.javascript.ErrorReporter;
      *         &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt; tags
      */
     public boolean isRemoveStyleAttributes() {
-<span class="nc" id="L2053">        return removeStyleAttributes;</span>
+<span class="nc" id="L2054">        return removeStyleAttributes;</span>
     }
 
     /**
@@ -2062,8 +2063,8 @@ import org.mozilla.javascript.ErrorReporter;
      *            &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt; tags
      */
     public void setRemoveStyleAttributes(boolean removeStyleAttributes) {
-<span class="fc" id="L2065">        this.removeStyleAttributes = removeStyleAttributes;</span>
-<span class="fc" id="L2066">    }</span>
+<span class="fc" id="L2066">        this.removeStyleAttributes = removeStyleAttributes;</span>
+<span class="fc" id="L2067">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if unnecessary attributes will be removed from &lt;code&gt;&amp;lt;link&amp;gt;&lt;/code&gt; tags.
@@ -2071,7 +2072,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @return &lt;code&gt;true&lt;/code&gt; if unnecessary attributes will be removed from &lt;code&gt;&amp;lt;link&amp;gt;&lt;/code&gt; tags
      */
     public boolean isRemoveLinkAttributes() {
-<span class="nc" id="L2074">        return removeLinkAttributes;</span>
+<span class="nc" id="L2075">        return removeLinkAttributes;</span>
     }
 
     /**
@@ -2088,8 +2089,8 @@ import org.mozilla.javascript.ErrorReporter;
      *            set &lt;code&gt;true&lt;/code&gt; to remove unnecessary attributes from &lt;code&gt;&amp;lt;link&amp;gt;&lt;/code&gt; tags
      */
     public void setRemoveLinkAttributes(boolean removeLinkAttributes) {
-<span class="fc" id="L2091">        this.removeLinkAttributes = removeLinkAttributes;</span>
-<span class="fc" id="L2092">    }</span>
+<span class="fc" id="L2092">        this.removeLinkAttributes = removeLinkAttributes;</span>
+<span class="fc" id="L2093">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;method=&quot;get&quot;&lt;/code&gt; attributes will be removed from &lt;code&gt;&amp;lt;form&amp;gt;&lt;/code&gt;
@@ -2099,7 +2100,7 @@ import org.mozilla.javascript.ErrorReporter;
      *         tags
      */
     public boolean isRemoveFormAttributes() {
-<span class="nc" id="L2102">        return removeFormAttributes;</span>
+<span class="nc" id="L2103">        return removeFormAttributes;</span>
     }
 
     /**
@@ -2111,8 +2112,8 @@ import org.mozilla.javascript.ErrorReporter;
      *            tags
      */
     public void setRemoveFormAttributes(boolean removeFormAttributes) {
-<span class="fc" id="L2114">        this.removeFormAttributes = removeFormAttributes;</span>
-<span class="fc" id="L2115">    }</span>
+<span class="fc" id="L2115">        this.removeFormAttributes = removeFormAttributes;</span>
+<span class="fc" id="L2116">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;type=&quot;text&quot;&lt;/code&gt; attributes will be removed from &lt;code&gt;&amp;lt;input&amp;gt;&lt;/code&gt;
@@ -2122,7 +2123,7 @@ import org.mozilla.javascript.ErrorReporter;
      *         tags
      */
     public boolean isRemoveInputAttributes() {
-<span class="nc" id="L2125">        return removeInputAttributes;</span>
+<span class="nc" id="L2126">        return removeInputAttributes;</span>
     }
 
     /**
@@ -2134,8 +2135,8 @@ import org.mozilla.javascript.ErrorReporter;
      *            tags
      */
     public void setRemoveInputAttributes(boolean removeInputAttributes) {
-<span class="fc" id="L2137">        this.removeInputAttributes = removeInputAttributes;</span>
-<span class="fc" id="L2138">    }</span>
+<span class="fc" id="L2138">        this.removeInputAttributes = removeInputAttributes;</span>
+<span class="fc" id="L2139">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if boolean attributes will be simplified.
@@ -2143,7 +2144,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @return &lt;code&gt;true&lt;/code&gt; if boolean attributes will be simplified
      */
     public boolean isSimpleBooleanAttributes() {
-<span class="nc" id="L2146">        return simpleBooleanAttributes;</span>
+<span class="nc" id="L2147">        return simpleBooleanAttributes;</span>
     }
 
     /**
@@ -2163,8 +2164,8 @@ import org.mozilla.javascript.ErrorReporter;
      *            set &lt;code&gt;true&lt;/code&gt; to simplify boolean attributes
      */
     public void setSimpleBooleanAttributes(boolean simpleBooleanAttributes) {
-<span class="fc" id="L2166">        this.simpleBooleanAttributes = simpleBooleanAttributes;</span>
-<span class="fc" id="L2167">    }</span>
+<span class="fc" id="L2167">        this.simpleBooleanAttributes = simpleBooleanAttributes;</span>
+<span class="fc" id="L2168">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;javascript:&lt;/code&gt; pseudo-protocol will be removed from inline event handlers.
@@ -2172,7 +2173,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @return &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;javascript:&lt;/code&gt; pseudo-protocol will be removed from inline event handlers.
      */
     public boolean isRemoveJavaScriptProtocol() {
-<span class="nc" id="L2175">        return removeJavaScriptProtocol;</span>
+<span class="nc" id="L2176">        return removeJavaScriptProtocol;</span>
     }
 
     /**
@@ -2187,8 +2188,8 @@ import org.mozilla.javascript.ErrorReporter;
      *            set &lt;code&gt;true&lt;/code&gt; to remove &lt;code&gt;javascript:&lt;/code&gt; pseudo-protocol from inline event handlers.
      */
     public void setRemoveJavaScriptProtocol(boolean removeJavaScriptProtocol) {
-<span class="fc" id="L2190">        this.removeJavaScriptProtocol = removeJavaScriptProtocol;</span>
-<span class="fc" id="L2191">    }</span>
+<span class="fc" id="L2191">        this.removeJavaScriptProtocol = removeJavaScriptProtocol;</span>
+<span class="fc" id="L2192">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;HTTP&lt;/code&gt; protocol will be removed from &lt;code&gt;href&lt;/code&gt;, &lt;code&gt;src&lt;/code&gt;,
@@ -2198,7 +2199,7 @@ import org.mozilla.javascript.ErrorReporter;
      *         &lt;code&gt;cite&lt;/code&gt;, and &lt;code&gt;action&lt;/code&gt; tag attributes.
      */
     public boolean isRemoveHttpProtocol() {
-<span class="nc" id="L2201">        return removeHttpProtocol;</span>
+<span class="nc" id="L2202">        return removeHttpProtocol;</span>
     }
 
     /**
@@ -2222,8 +2223,8 @@ import org.mozilla.javascript.ErrorReporter;
      *            set &lt;code&gt;true&lt;/code&gt; to remove &lt;code&gt;HTTP&lt;/code&gt; protocol from tag attributes
      */
     public void setRemoveHttpProtocol(boolean removeHttpProtocol) {
-<span class="fc" id="L2225">        this.removeHttpProtocol = removeHttpProtocol;</span>
-<span class="fc" id="L2226">    }</span>
+<span class="fc" id="L2226">        this.removeHttpProtocol = removeHttpProtocol;</span>
+<span class="fc" id="L2227">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;HTTPS&lt;/code&gt; protocol will be removed from &lt;code&gt;href&lt;/code&gt;, &lt;code&gt;src&lt;/code&gt;
@@ -2233,7 +2234,7 @@ import org.mozilla.javascript.ErrorReporter;
      *         , &lt;code&gt;cite&lt;/code&gt;, and &lt;code&gt;action&lt;/code&gt; tag attributes.
      */
     public boolean isRemoveHttpsProtocol() {
-<span class="nc" id="L2236">        return removeHttpsProtocol;</span>
+<span class="nc" id="L2237">        return removeHttpsProtocol;</span>
     }
 
     /**
@@ -2257,8 +2258,8 @@ import org.mozilla.javascript.ErrorReporter;
      *            set &lt;code&gt;true&lt;/code&gt; to remove &lt;code&gt;HTTP&lt;/code&gt; protocol from tag attributes
      */
     public void setRemoveHttpsProtocol(boolean removeHttpsProtocol) {
-<span class="fc" id="L2260">        this.removeHttpsProtocol = removeHttpsProtocol;</span>
-<span class="fc" id="L2261">    }</span>
+<span class="fc" id="L2261">        this.removeHttpsProtocol = removeHttpsProtocol;</span>
+<span class="fc" id="L2262">    }</span>
 
     /**
      * Returns &lt;code&gt;true&lt;/code&gt; if HTML compression statistics is generated.
@@ -2266,7 +2267,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @return &lt;code&gt;true&lt;/code&gt; if HTML compression statistics is generated
      */
     public boolean isGenerateStatistics() {
-<span class="nc" id="L2269">        return generateStatistics;</span>
+<span class="nc" id="L2270">        return generateStatistics;</span>
     }
 
     /**
@@ -2282,8 +2283,8 @@ import org.mozilla.javascript.ErrorReporter;
      * @see #getStatistics()
      */
     public void setGenerateStatistics(boolean generateStatistics) {
-<span class="nc" id="L2285">        this.generateStatistics = generateStatistics;</span>
-<span class="nc" id="L2286">    }</span>
+<span class="nc" id="L2286">        this.generateStatistics = generateStatistics;</span>
+<span class="nc" id="L2287">    }</span>
 
     /**
      * Returns {@link HtmlCompressorStatistics} object containing statistics of the last HTML compression, if enabled.
@@ -2295,7 +2296,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @see #setGenerateStatistics(boolean)
      */
     public HtmlCompressorStatistics getStatistics() {
-<span class="nc" id="L2298">        return statistics;</span>
+<span class="nc" id="L2299">        return statistics;</span>
     }
 
     /**
@@ -2304,7 +2305,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @return &lt;code&gt;true&lt;/code&gt; if line breaks will be preserved.
      */
     public boolean isPreserveLineBreaks() {
-<span class="nc" id="L2307">        return preserveLineBreaks;</span>
+<span class="nc" id="L2308">        return preserveLineBreaks;</span>
     }
 
     /**
@@ -2316,8 +2317,8 @@ import org.mozilla.javascript.ErrorReporter;
      *            set &lt;code&gt;true&lt;/code&gt; to preserve line breaks
      */
     public void setPreserveLineBreaks(boolean preserveLineBreaks) {
-<span class="fc" id="L2319">        this.preserveLineBreaks = preserveLineBreaks;</span>
-<span class="fc" id="L2320">    }</span>
+<span class="fc" id="L2320">        this.preserveLineBreaks = preserveLineBreaks;</span>
+<span class="fc" id="L2321">    }</span>
 
     /**
      * Returns a comma separated list of tags around which spaces will be removed.
@@ -2325,7 +2326,7 @@ import org.mozilla.javascript.ErrorReporter;
      * @return a comma separated list of tags around which spaces will be removed.
      */
     public String getRemoveSurroundingSpaces() {
-<span class="nc" id="L2328">        return removeSurroundingSpaces;</span>
+<span class="nc" id="L2329">        return removeSurroundingSpaces;</span>
     }
 
     /**
@@ -2338,11 +2339,11 @@ import org.mozilla.javascript.ErrorReporter;
      *            a comma separated list of tags around which spaces will be removed
      */
     public void setRemoveSurroundingSpaces(String tagList) {
-<span class="pc bpc" id="L2341" title="2 of 4 branches missed.">        if (tagList != null &amp;&amp; tagList.length() == 0) {</span>
-<span class="nc" id="L2342">            tagList = null;</span>
+<span class="pc bpc" id="L2342" title="2 of 4 branches missed.">        if (tagList != null &amp;&amp; tagList.length() == 0) {</span>
+<span class="nc" id="L2343">            tagList = null;</span>
         }
-<span class="fc" id="L2344">        this.removeSurroundingSpaces = tagList;</span>
-<span class="fc" id="L2345">    }</span>
+<span class="fc" id="L2345">        this.removeSurroundingSpaces = tagList;</span>
+<span class="fc" id="L2346">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
