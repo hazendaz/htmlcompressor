@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2022 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package com.googlecode.htmlcompressor.compressor;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -621,7 +622,7 @@ public class HtmlCompressor implements Compressor {
                 String type = "";
                 Matcher typeMatcher = typeAttrPattern.matcher(matcher.group(1));
                 if (typeMatcher.find()) {
-                    type = typeMatcher.group(2).toLowerCase();
+                    type = typeMatcher.group(2).toLowerCase(Locale.ENGLISH);
                 }
 
                 if (type.length() == 0 || "text/javascript".equals(type) || "application/javascript".equals(type)) {
