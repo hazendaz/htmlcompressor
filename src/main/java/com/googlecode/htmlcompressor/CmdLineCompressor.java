@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2022 the original author or authors.
+ *    Copyright 2009-2024 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -356,7 +357,7 @@ public class CmdLineCompressor {
                 }
             } else if (type == null) {
                 // detect type from extension
-                if (fileArgsOpt.get(0).toLowerCase().endsWith(".xml")) {
+                if (fileArgsOpt.get(0).toLowerCase(Locale.ENGLISH).endsWith(".xml")) {
                     type = "xml";
                 } else {
                     type = "html";

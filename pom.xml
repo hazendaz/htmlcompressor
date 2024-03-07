@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-       Copyright 2009-2023 the original author or authors.
+       Copyright 2009-2024 the original author or authors.
 
        Licensed under the Apache License, Version 2.0 (the "License");
        you may not use this file except in compliance with the License.
@@ -17,217 +17,216 @@
 
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
+    <parent>
+        <groupId>com.github.hazendaz</groupId>
+        <artifactId>base-parent</artifactId>
+        <version>44</version>
+        <relativePath />
+    </parent>
+
     <groupId>com.github.hazendaz</groupId>
-    <artifactId>base-parent</artifactId>
-    <version>42</version>
-    <relativePath />
-  </parent>
+    <artifactId>htmlcompressor</artifactId>
+    <version>1.9.3-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
-  <groupId>com.github.hazendaz</groupId>
-  <artifactId>htmlcompressor</artifactId>
-  <version>1.9.3-SNAPSHOT</version>
-  <packaging>jar</packaging>
-
-  <name>htmlcompressor</name>
-  <description>HtmlCompressor is a small, fast and very easy to use Java library that minifies given HTML or XML source by
+    <name>htmlcompressor</name>
+    <description>HtmlCompressor is a small, fast and very easy to use Java library that minifies given HTML or XML source by
                removing extra whitespaces, comments and other unneeded characters without breaking the content structure.
                As a result pages become smaller in size and load faster. A command-line version of the compressor is also
-               available.
-  </description>
-  <url>https://github.com/hazendaz/htmlcompressor/</url>
-  <inceptionYear>2009</inceptionYear>
-  <organization>
-    <name>Jeremy Landis</name>
+               available.</description>
     <url>https://github.com/hazendaz/htmlcompressor/</url>
-  </organization>
+    <inceptionYear>2009</inceptionYear>
+    <organization>
+        <name>Jeremy Landis</name>
+        <url>https://github.com/hazendaz/htmlcompressor/</url>
+    </organization>
 
-  <licenses>
-    <license>
-      <name>Apache License 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
-      <distribution>repo</distribution>
-      <comments>htmlcompressor is distributed under Apache License 2.0</comments>
-    </license>
-  </licenses>
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+            <comments>htmlcompressor is distributed under Apache License 2.0</comments>
+        </license>
+    </licenses>
 
-  <developers>
-    <developer>
-      <id>serg472</id>
-      <name>Sergiy Kovalchuk</name>
-      <email>serg472@gmail.com</email>
-      <url>http://code.google.com/p/htmlcompressor/</url>
-      <organization>Sergiy Kovalchuk</organization>
-      <organizationUrl>http://code.google.com/p/htmlcompressor/</organizationUrl>
-      <roles>
-        <role>owner</role>
-        <role>developer</role>
-      </roles>
-      <timezone>-8</timezone>
-    </developer>
-  </developers>
-  <contributors>
-    <contributor>
-      <name>Alex Tunyk</name>
-      <email>alextunyk@gmail.com</email>
-      <url>http://alex.tunyk.com</url>
-      <organization>TUNYK.COM</organization>
-      <organizationUrl>http://tunyk.com</organizationUrl>
-      <roles>
-        <role>developer</role>
-      </roles>
-      <timezone>+2</timezone>
-    </contributor>
-  </contributors>
+    <developers>
+        <developer>
+            <id>serg472</id>
+            <name>Sergiy Kovalchuk</name>
+            <email>serg472@gmail.com</email>
+            <url>http://code.google.com/p/htmlcompressor/</url>
+            <organization>Sergiy Kovalchuk</organization>
+            <organizationUrl>http://code.google.com/p/htmlcompressor/</organizationUrl>
+            <roles>
+                <role>owner</role>
+                <role>developer</role>
+            </roles>
+            <timezone>-8</timezone>
+        </developer>
+    </developers>
+    <contributors>
+        <contributor>
+            <name>Alex Tunyk</name>
+            <email>alextunyk@gmail.com</email>
+            <url>http://alex.tunyk.com</url>
+            <organization>TUNYK.COM</organization>
+            <organizationUrl>http://tunyk.com</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>+2</timezone>
+        </contributor>
+    </contributors>
 
-  <scm>
-    <connection>scm:git:ssh://git@github.com/hazendaz/htmlcompressor.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/hazendaz/htmlcompressor.git</developerConnection>
-    <url>https://github.com/hazendaz/htmlcompressor/</url>
-    <tag>HEAD</tag>
-  </scm>
-  <issueManagement>
-    <system>Github</system>
-    <url>https://github.com/hazendaz/htmlcompressor/issues</url>
-  </issueManagement>
-  <distributionManagement>
-    <site>
-        <id>gh-pages-scm</id>
-        <name>GitHub Pages</name>
-        <url>scm:git:ssh://git@github.com/hazendaz/htmlcompressor.git</url>
-    </site>
-  </distributionManagement>
+    <scm>
+        <connection>scm:git:ssh://git@github.com/hazendaz/htmlcompressor.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/hazendaz/htmlcompressor.git</developerConnection>
+        <tag>HEAD</tag>
+        <url>https://github.com/hazendaz/htmlcompressor/</url>
+    </scm>
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/hazendaz/htmlcompressor/issues</url>
+    </issueManagement>
+    <distributionManagement>
+        <site>
+            <id>gh-pages-scm</id>
+            <name>GitHub Pages</name>
+            <url>scm:git:ssh://git@github.com/hazendaz/htmlcompressor.git</url>
+        </site>
+    </distributionManagement>
 
-  <properties>
-    <!-- Maven compiler options -->
-    <java.version>11</java.version>
-    <java.release.version>11</java.release.version>
-    <!-- Future need for javadocs, we are at 8 now but org.jspecify export issue haven't figured out.
+    <properties>
+        <!-- Maven compiler options -->
+        <java.version>11</java.version>
+        <java.release.version>11</java.release.version>
+        <!-- Future need for javadocs, we are at 8 now but org.jspecify export issue haven't figured out.
     <javadoc.java.release.version>11</javadoc.java.release.version>
     -->
 
-    <!-- Automatic Module Name -->
-    <module.name>com.github.hazendaz.htmlcompressor</module.name>
+        <!-- Automatic Module Name -->
+        <module.name>com.github.hazendaz.htmlcompressor</module.name>
 
-    <!-- Reproducible Builds -->
-    <project.build.outputTimestamp>1701560819</project.build.outputTimestamp>
+        <!-- Reproducible Builds -->
+        <project.build.outputTimestamp>1701560819</project.build.outputTimestamp>
 
-    <!-- External Modules -->
-    <slf4j.version>2.0.9</slf4j.version>
+        <!-- External Modules -->
+        <slf4j.version>2.0.12</slf4j.version>
 
-    <!-- Skip formatting plugins that will break test cases and unnecessary in this case. -->
-    <spotless.apply.skip>true</spotless.apply.skip>
-    <whitespace.skip>true</whitespace.skip>
-  </properties>
+        <!-- Skip formatting plugins that will break test cases and unnecessary in this case. -->
+        <spotless.apply.skip>true</spotless.apply.skip>
+        <whitespace.skip>true</whitespace.skip>
+    </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>${slf4j.version}</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>com.google.javascript</groupId>
-      <artifactId>closure-compiler</artifactId>
-      <version>v20231112</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>32.1.3-jre</version>
-        <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>jakarta.servlet.jsp</groupId>
-      <artifactId>jakarta.servlet.jsp-api</artifactId>
-      <version>2.3.6</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.velocity</groupId>
-      <artifactId>velocity-engine-core</artifactId>
-      <version>2.3</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.14.0</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.yahoo.platform.yui</groupId>
-      <artifactId>yuicompressor</artifactId>
-      <version>2.4.8</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.10.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.google.javascript</groupId>
+            <artifactId>closure-compiler</artifactId>
+            <version>v20231112</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>33.0.0-jre</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet.jsp</groupId>
+            <artifactId>jakarta.servlet.jsp-api</artifactId>
+            <version>2.3.6</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>2.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.14.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.yahoo.platform.yui</groupId>
+            <artifactId>yuicompressor</artifactId>
+            <version>2.4.8</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
-  <build>
-    <plugins>
+    <build>
+        <plugins>
 
-      <plugin>
-        <groupId>com.mycila</groupId>
-        <artifactId>license-maven-plugin</artifactId>
-        <configuration>
-        <licenseSets>
-          <licenseSet>
-            <excludes combine.children="append">
-              <exclude>**/src/test/resources/html/*</exclude>
-              <exclude>**/src/test/resources/xml/*</exclude>
-            </excludes>
-          </licenseSet>
-        </licenseSets>
-        </configuration>
-      </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <configuration>
+                    <licenseSets>
+                        <licenseSet>
+                            <excludes combine.children="append">
+                                <exclude>**/src/test/resources/html/*</exclude>
+                                <exclude>**/src/test/resources/xml/*</exclude>
+                            </excludes>
+                        </licenseSet>
+                    </licenseSets>
+                </configuration>
+            </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <mainClass>com.googlecode.htmlcompressor.CmdLineCompressor</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>com.googlecode.htmlcompressor.CmdLineCompressor</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <appendAssemblyId>false</appendAssemblyId>
-          <descriptors>
-            <descriptor>${project.basedir}/src/main/assembly/distributive.xml</descriptor>
-          </descriptors>
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>${project.basedir}/src/main/assembly/distributive.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
