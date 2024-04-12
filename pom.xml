@@ -114,7 +114,7 @@
         <project.build.outputTimestamp>1709784795</project.build.outputTimestamp>
 
         <!-- External Modules -->
-        <slf4j.version>2.0.12</slf4j.version>
+        <slf4j.version>2.0.13</slf4j.version>
 
         <!-- Skip formatting plugins that will break test cases and unnecessary in this case. -->
         <spotless.apply.skip>true</spotless.apply.skip>
