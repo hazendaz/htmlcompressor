@@ -197,6 +197,21 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <configuration>
+                    <rules>
+                        <enforceBytecodeVersion>
+                            <excludes>
+                                <!-- JSP Api requires java 17 but is provided so we can safely ignore this -->
+                                <exclude>jakarta.servlet.jsp:jakarta.servlet.jsp-api</exclude>
+                            </excludes>
+                        </enforceBytecodeVersion>
+                    </rules>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
