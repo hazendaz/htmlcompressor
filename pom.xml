@@ -17,6 +17,7 @@
 
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -29,7 +30,6 @@
     <groupId>com.github.hazendaz</groupId>
     <artifactId>htmlcompressor</artifactId>
     <version>1.9.4-SNAPSHOT</version>
-    <packaging>jar</packaging>
 
     <name>htmlcompressor</name>
     <description>HtmlCompressor is a small, fast and very easy to use Java library that minifies given HTML or XML source by
@@ -103,9 +103,9 @@
         <!-- Maven compiler options -->
         <java.version>11</java.version>
         <java.release.version>11</java.release.version>
-        <!-- Future need for javadocs, we are at 8 now but org.jspecify export issue haven't figured out.
-    <javadoc.java.release.version>11</javadoc.java.release.version>
-    -->
+
+        <!-- Future need for javadocs, we are at 8 now but org.jspecify export issue haven't figured out -->
+        <javadoc.java.release.version>8</javadoc.java.release.version>
 
         <!-- Automatic Module Name -->
         <module.name>com.github.hazendaz.htmlcompressor</module.name>
