@@ -1,6 +1,7 @@
 # HtmlCompressor #
 
 [![Java CI](https://github.com/hazendaz/htmlcompressor/workflows/Java%20CI/badge.svg)](https://github.com/hazendaz/htmlcompressor/actions?query=workflow%3A%22Java+CI%22)
+[![Coverage Status](https://coveralls.io/repos/github/hazendaz/htmlcompressor/badge.svg?branch=master)](https://coveralls.io/github/hazendaz/htmlcompressor?branch=master)
 [![Maven central](https://maven-badges.herokuapp.com/maven-central/com.github.hazendaz/htmlcompressor/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.hazendaz/htmlcompressor)
 [![Apache 2](http://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
