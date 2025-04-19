@@ -101,11 +101,12 @@
 
     <properties>
         <!-- Maven compiler options -->
-        <java.version>11</java.version>
-        <java.release.version>11</java.release.version>
+        <java.version>21</java.version>
+        <java.release.version>21</java.release.version>
 
-        <!-- Future need for javadocs, we are at 8 now but org.jspecify export issue haven't figured out -->
-        <javadoc.java.release.version>8</javadoc.java.release.version>
+        <!-- Keep javadocs in legacy mode as various issues in oss modules preventing update. -->
+        <javadoc.java.release.version>21</javadoc.java.release.version>
+        <legacyMode>true</legacyMode>
 
         <!-- Automatic Module Name -->
         <module.name>com.github.hazendaz.htmlcompressor</module.name>
@@ -136,7 +137,7 @@
         <dependency>
             <groupId>com.google.javascript</groupId>
             <artifactId>closure-compiler</artifactId>
-            <version>v20240317</version>
+            <version>v20250407</version>
             <optional>true</optional>
         </dependency>
         <dependency>

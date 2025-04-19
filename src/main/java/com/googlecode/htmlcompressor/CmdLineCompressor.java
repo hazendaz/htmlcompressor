@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.net.URL;
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -383,12 +383,16 @@ public class CmdLineCompressor {
 
         } catch (NoClassDefFoundError e) {
             if (HtmlCompressor.JS_COMPRESSOR_CLOSURE.equalsIgnoreCase(jsCompressorOpt)) {
-                logger.info("ERROR: For JavaScript compression using Google Closure Compiler\n"
-                        + "additional jar file called compiler.jar must be present\n"
-                        + "in the same directory as HtmlCompressor jar");
+                logger.info("""
+                        ERROR: For JavaScript compression using Google Closure Compiler
+                        additional jar file called compiler.jar must be present
+                        in the same directory as HtmlCompressor jar
+                        """);
             } else {
-                logger.info("ERROR: For CSS or JavaScript compression using YUICompressor additional jar file \n"
-                        + "called yuicompressor.jar must be present\n" + "in the same directory as HtmlCompressor jar");
+                logger.info("""
+                        ERROR: For CSS or JavaScript compression using YUICompressor additional jar file
+                        called yuicompressor.jar must be present\n" + "in the same directory as HtmlCompressor jar
+                        """);
             }
             logger.trace("", e);
         } catch (OptionException e) {
@@ -647,7 +651,7 @@ public class CmdLineCompressor {
             return new BufferedReader(new InputStreamReader(System.in, charsetOpt));
         } else if (urlPattern.matcher(filename).matches()) {
             return new BufferedReader(
-                    new InputStreamReader(new URL(filename).openConnection().getInputStream(), charsetOpt));
+                    new InputStreamReader(URI.create(filename).toURL().openConnection().getInputStream(), charsetOpt));
         } else {
             return Files.newBufferedReader(Path.of(filename), charsetOpt);
         }
@@ -748,73 +752,77 @@ public class CmdLineCompressor {
      * Prints the usage.
      */
     private void printUsage() {
-        logger.info("Usage: java -jar htmlcompressor.jar [options] [input]\n\n"
+        logger.info("""
+                Usage: java -jar htmlcompressor.jar [options] [input]
 
-                + "[input]                        URL, filename, directory, or space separated list\n"
-                + "                               of files and directories to compress.\n"
-                + "                               If none provided reads from <stdin>\n\n"
+                [input]                        URL, filename, directory, or space separated list
+                                               of files and directories to compress.
+                                               If none provided reads from <stdin>
 
-                + "Global Options:\n" + " -?, /?, -h, --help            Displays this help screen\n"
-                + " -t, --type <html|xml>         If not provided autodetects from file extension\n"
-                + " -r, --recursive               Process files inside subdirectories\n"
-                + " -c, --charset <charset>       Charset for reading files, UTF-8 by default\n"
-                + " -m, --mask <filemask>         Filter input files inside directories by mask\n"
-                + " -o, --output <path>           Filename or directory for compression results.\n"
-                + "                               If none provided outputs result to <stdout>\n"
-                + " -a, --analyze                 Tries different settings and displays report.\n"
-                + "                               All settings except --js-compressor are ignored\n\n"
+                Global Options:
+                 -?, /?, -h, --help            Displays this help screen
+                 -t, --type <html|xml>         If not provided autodetects from file extension
+                 -r, --recursive               Process files inside subdirectories
+                 -c, --charset <charset>       Charset for reading files, UTF-8 by default
+                 -m, --mask <filemask>         Filter input files inside directories by mask
+                 -o, --output <path>           Filename or directory for compression results.
+                                               If none provided outputs result to <stdout>
+                 -a, --analyze                 Tries different settings and displays report.
+                                               All settings except --js-compressor are ignored
 
-                + "XML Compression Options:\n" + " --preserve-comments           Preserve comments\n"
-                + " --preserve-intertag-spaces    Preserve intertag spaces\n\n"
+                XML Compression Options:
+                 --preserve-comments           Preserve comments
+                 --preserve-intertag-spaces    Preserve intertag spaces
 
-                + "HTML Compression Options:\n" + " --preserve-comments           Preserve comments\n"
-                + " --preserve-multi-spaces       Preserve multiple spaces\n"
-                + " --preserve-line-breaks        Preserve line breaks\n"
-                + " --remove-intertag-spaces      Remove intertag spaces\n"
-                + " --remove-quotes               Remove unneeded quotes\n"
-                + " --simple-doctype              Change doctype to <!DOCTYPE html>\n"
-                + " --remove-style-attr           Remove TYPE attribute from STYLE tags\n"
-                + " --remove-link-attr            Remove TYPE attribute from LINK tags\n"
-                + " --remove-script-attr          Remove TYPE and LANGUAGE from SCRIPT tags\n"
-                + " --remove-form-attr            Remove METHOD=\"GET\" from FORM tags\n"
-                + " --remove-input-attr           Remove TYPE=\"TEXT\" from INPUT tags\n"
-                + " --simple-bool-attr            Remove values from boolean tag attributes\n"
-                + " --remove-js-protocol          Remove \"javascript:\" from inline event handlers\n"
-                + " --remove-http-protocol        Remove \"http:\" from tag attributes\n"
-                + " --remove-https-protocol       Remove \"https:\" from tag attributes\n"
-                + " --remove-surrounding-spaces <min|max|all|custom_list>\n"
-                + "                               Predefined or custom comma separated list of tags\n"
-                + " --compress-js                 Enable inline JavaScript compression\n"
-                + " --compress-css                Enable inline CSS compression using YUICompressor\n"
-                + " --js-compressor <yui|closure> Switch inline JavaScript compressor between\n"
-                + "                               YUICompressor (default) and Closure Compiler\n\n"
+                HTML Compression Options:
+                 --preserve-comments           Preserve comments
+                 --preserve-multi-spaces       Preserve multiple spaces
+                 --preserve-line-breaks        Preserve line breaks
+                 --remove-intertag-spaces      Remove intertag spaces
+                 --remove-quotes               Remove unneeded quotes
+                 --simple-doctype              Change doctype to <!DOCTYPE html>
+                 --remove-style-attr           Remove TYPE attribute from STYLE tags
+                 --remove-link-attr            Remove TYPE attribute from LINK tags
+                 --remove-script-attr          Remove TYPE and LANGUAGE from SCRIPT tags
+                 --remove-form-attr            Remove METHOD=\"GET\" from FORM tags
+                 --remove-input-attr           Remove TYPE=\"TEXT\" from INPUT tags
+                 --simple-bool-attr            Remove values from boolean tag attributes
+                 --remove-js-protocol          Remove \"javascript:\" from inline event handlers
+                 --remove-http-protocol        Remove \"http:\" from tag attributes
+                 --remove-https-protocol       Remove \"https:\" from tag attributes
+                 --remove-surrounding-spaces <min|max|all|custom_list>
+                                               Predefined or custom comma separated list of tags
+                 --compress-js                 Enable inline JavaScript compression
+                 --compress-css                Enable inline CSS compression using YUICompressor
+                 --js-compressor <yui|closure> Switch inline JavaScript compressor between
+                                               YUICompressor (default) and Closure Compiler
 
-                + "JavaScript Compression Options for YUI Compressor:\n"
-                + " --nomunge                     Minify only, do not obfuscate\n"
-                + " --preserve-semi               Preserve all semicolons\n"
-                + " --disable-optimizations       Disable all micro optimizations\n"
-                + " --line-break <column num>     Insert a line break after the specified column\n\n"
+                JavaScript Compression Options for YUI Compressor:
+                 --nomunge                     Minify only, do not obfuscate
+                 --preserve-semi               Preserve all semicolons
+                 --disable-optimizations       Disable all micro optimizations
+                 --line-break <column num>     Insert a line break after the specified column
 
-                + "JavaScript Compression Options for Google Closure Compiler:\n"
-                + " --closure-opt-level <simple|advanced|whitespace>\n"
-                + "                               Sets level of optimization (simple by default)\n"
-                + " --closure-externs <file>      Sets custom externs file, repeat for each file\n"
-                + " --closure-custom-externs-only Disable default built-in externs\n\n"
+                JavaScript Compression Options for Google Closure Compiler:
+                 --closure-opt-level <simple|advanced|whitespace>
+                                               Sets level of optimization (simple by default)
+                 --closure-externs <file>      Sets custom externs file, repeat for each file
+                 --closure-custom-externs-only Disable default built-in externs
 
-                + "CSS Compression Options for YUI Compressor:\n"
-                + " --line-break <column num>     Insert a line break after the specified column\n\n"
+                CSS Compression Options for YUI Compressor:
+                 --line-break <column num>     Insert a line break after the specified column
 
-                + "Custom Block Preservation Options:\n" + " --preserve-php                Preserve <?php ... ?> tags\n"
-                + " --preserve-server-script      Preserve <% ... %> tags\n"
-                + " --preserve-ssi                Preserve <!--# ... --> tags\n"
-                + " -p, --preserve <path>         Read regular expressions that define\n"
-                + "                               custom preservation rules from a file\n\n"
+                Custom Block Preservation Options:
+                 --preserve-php                Preserve <?php ... ?> tags
+                 --preserve-server-script      Preserve <% ... %> tags
+                 --preserve-ssi                Preserve <!--# ... --> tags
+                 -p, --preserve <path>         Read regular expressions that define
+                                               custom preservation rules from a file
 
-                + "Please note that if you enable CSS or JavaScript compression, additional\n"
-                + "YUI Compressor or Google Closure Compiler jar files must be present\n"
-                + "in the same directory as this jar."
-
-        );
+                Please note that if you enable CSS or JavaScript compression, additional
+                YUI Compressor or Google Closure Compiler jar files must be present
+                in the same directory as this jar.
+                """);
     }
 
     /**
