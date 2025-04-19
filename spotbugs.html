@@ -97,7 +97,7 @@
           <ul class="breadcrumb">
         <li id="publishDate">Last Published: 2025-04-19<span class="divider">|</span>
 </li>
-          <li id="projectVersion">Version: 1.10.0</li>
+          <li id="projectVersion">Version: 2.2.0</li>
           </ul>
         </div>
       </header>
@@ -245,25 +245,25 @@
 <td>Non derivable method com.googlecode.htmlcompressor.CmdLineCompressor.createXmlCompressor() declares throwing an exception that isn't thrown</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#BED_BOGUS_EXCEPTION_DECLARATION">BED_BOGUS_EXCEPTION_DECLARATION</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L525">525</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L529">529</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Collection variable fileStack is named with a different type of collection in the name</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#CNC_COLLECTION_NAMING_CONFUSION">CNC_COLLECTION_NAMING_CONFUSION</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L584">584</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L588">588</a></td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Method com.googlecode.htmlcompressor.CmdLineCompressor.createXmlCompressor() declares RuntimeException in throws clause</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#DRE_DECLARED_RUNTIME_EXCEPTION">DRE_DECLARED_RUNTIME_EXCEPTION</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L525">525-529</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L529">529-533</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Unconstrained method com.googlecode.htmlcompressor.CmdLineCompressor.createHtmlCompressor() converts checked exception to unchecked</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#EXS_EXCEPTION_SOFTENING_NO_CONSTRAINTS">EXS_EXCEPTION_SOFTENING_NO_CONSTRAINTS</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L451">451</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L455">455</a></td>
 <td>High</td></tr>
 <tr class="b">
 <td>Unconstrained method com.googlecode.htmlcompressor.CmdLineCompressor.process() converts checked exception to unchecked</td>
@@ -275,25 +275,25 @@
 <td>Method com.googlecode.htmlcompressor.CmdLineCompressor.createHtmlCompressor() throws alternative exception from catch block without history</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#LEST_LOST_EXCEPTION_STACK_TRACE">LEST_LOST_EXCEPTION_STACK_TRACE</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L451">451</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L455">455</a></td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Method com.googlecode.htmlcompressor.CmdLineCompressor.buildInputOutputMap() uses integer based for loops to iterate over a List</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#LII_LIST_INDEXED_ITERATING">LII_LIST_INDEXED_ITERATING</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L564">564</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L568">568</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Method com.googlecode.htmlcompressor.CmdLineCompressor.createHtmlCompressor() makes literal string comparisons passing the literal as an argument</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#LSC_LITERAL_STRING_COMPARISON">LSC_LITERAL_STRING_COMPARISON</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L490">490</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L494">494</a></td>
 <td>High</td></tr>
 <tr class="b">
 <td>Method com.googlecode.htmlcompressor.CmdLineCompressor.createHtmlCompressor() makes literal string comparisons passing the literal as an argument</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#LSC_LITERAL_STRING_COMPARISON">LSC_LITERAL_STRING_COMPARISON</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L502">502</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L506">506</a></td>
 <td>High</td></tr>
 <tr class="a">
 <td>Method new com.googlecode.htmlcompressor.CmdLineCompressor(String[]) needlessly boxes a boolean constant</td>
@@ -473,31 +473,31 @@
 <td>Possible null pointer dereference in com.googlecode.htmlcompressor.CmdLineCompressor.buildInputOutputMap() due to return value of called method</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE">NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L572">572</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L576">576</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Possible null pointer dereference in com.googlecode.htmlcompressor.CmdLineCompressor.buildInputOutputMap() due to return value of called method</td>
 <td>STYLE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE">NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L588">588</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L592">592</a></td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Method com.googlecode.htmlcompressor.CmdLineCompressor.buildInputOutputMap() appears to call the same method on the same object redundantly</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#PRMC_POSSIBLY_REDUNDANT_METHOD_CALLS">PRMC_POSSIBLY_REDUNDANT_METHOD_CALLS</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L576">576</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L580">580</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>Method com.googlecode.htmlcompressor.CmdLineCompressor.buildInputOutputMap() appears to call the same method on the same object redundantly</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#PRMC_POSSIBLY_REDUNDANT_METHOD_CALLS">PRMC_POSSIBLY_REDUNDANT_METHOD_CALLS</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L611">611</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L615">615</a></td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>Method com.googlecode.htmlcompressor.CmdLineCompressor.createHtmlCompressor() does not presize the allocation of a collection</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#PSC_PRESIZE_COLLECTIONS">PSC_PRESIZE_COLLECTIONS</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L498">498</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L502">502</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>To make log readable, log format ({}) should contain non-sign character.</td>
@@ -515,19 +515,7 @@
 <td>To make log readable, log format () should contain non-sign character.</td>
 <td>BAD_PRACTICE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#SLF4J_SIGN_ONLY_FORMAT">SLF4J_SIGN_ONLY_FORMAT</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L393">393</a></td>
-<td>Medium</td></tr>
-<tr class="b">
-<td>To make log readable, log format ({}) should contain non-sign character.</td>
-<td>BAD_PRACTICE</td>
-<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#SLF4J_SIGN_ONLY_FORMAT">SLF4J_SIGN_ONLY_FORMAT</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L395">395</a></td>
-<td>Medium</td></tr>
-<tr class="a">
-<td>To make log readable, log format () should contain non-sign character.</td>
-<td>BAD_PRACTICE</td>
-<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#SLF4J_SIGN_ONLY_FORMAT">SLF4J_SIGN_ONLY_FORMAT</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L396">396</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L397">397</a></td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>To make log readable, log format ({}) should contain non-sign character.</td>
@@ -542,28 +530,40 @@
 <td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L400">400</a></td>
 <td>Medium</td></tr>
 <tr class="b">
-<td>To make log readable, log format () should contain non-sign character.</td>
+<td>To make log readable, log format ({}) should contain non-sign character.</td>
 <td>BAD_PRACTICE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#SLF4J_SIGN_ONLY_FORMAT">SLF4J_SIGN_ONLY_FORMAT</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L443">443</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L403">403</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>To make log readable, log format () should contain non-sign character.</td>
 <td>BAD_PRACTICE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#SLF4J_SIGN_ONLY_FORMAT">SLF4J_SIGN_ONLY_FORMAT</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L450">450</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L404">404</a></td>
 <td>Medium</td></tr>
 <tr class="b">
 <td>To make log readable, log format () should contain non-sign character.</td>
 <td>BAD_PRACTICE</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#SLF4J_SIGN_ONLY_FORMAT">SLF4J_SIGN_ONLY_FORMAT</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L730">730</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L447">447</a></td>
+<td>Medium</td></tr>
+<tr class="a">
+<td>To make log readable, log format () should contain non-sign character.</td>
+<td>BAD_PRACTICE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#SLF4J_SIGN_ONLY_FORMAT">SLF4J_SIGN_ONLY_FORMAT</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L454">454</a></td>
+<td>Medium</td></tr>
+<tr class="b">
+<td>To make log readable, log format () should contain non-sign character.</td>
+<td>BAD_PRACTICE</td>
+<td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#SLF4J_SIGN_ONLY_FORMAT">SLF4J_SIGN_ONLY_FORMAT</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L734">734</a></td>
 <td>Medium</td></tr>
 <tr class="a">
 <td>This web server request could be used by an attacker to expose internal services and filesystem.</td>
 <td>SECURITY</td>
 <td><a class="externalLink" href="https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#URLCONNECTION_SSRF_FD">URLCONNECTION_SSRF_FD</a></td>
-<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L650">650</a></td>
+<td><a href="./xref/com/googlecode/htmlcompressor/CmdLineCompressor.html#L654">654</a></td>
 <td>Medium</td></tr></table></section><a name="com.googlecode.htmlcompressor.analyzer.HtmlAnalyzer"></a><section>
 <h2>com.googlecode.htmlcompressor.analyzer.HtmlAnalyzer</h2>
 <table class="table table-striped">

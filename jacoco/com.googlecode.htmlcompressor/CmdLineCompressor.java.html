@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.net.URL;
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -383,24 +383,28 @@ public class CmdLineCompressor {
 
 <span class="nc" id="L384">        } catch (NoClassDefFoundError e) {</span>
 <span class="nc bnc" id="L385" title="All 2 branches missed.">            if (HtmlCompressor.JS_COMPRESSOR_CLOSURE.equalsIgnoreCase(jsCompressorOpt)) {</span>
-<span class="nc" id="L386">                logger.info(&quot;ERROR: For JavaScript compression using Google Closure Compiler\n&quot;</span>
-                        + &quot;additional jar file called compiler.jar must be present\n&quot;
-                        + &quot;in the same directory as HtmlCompressor jar&quot;);
+<span class="nc" id="L386">                logger.info(&quot;&quot;&quot;</span>
+                        ERROR: For JavaScript compression using Google Closure Compiler
+                        additional jar file called compiler.jar must be present
+                        in the same directory as HtmlCompressor jar
+                        &quot;&quot;&quot;);
             } else {
-<span class="nc" id="L390">                logger.info(&quot;ERROR: For CSS or JavaScript compression using YUICompressor additional jar file \n&quot;</span>
-                        + &quot;called yuicompressor.jar must be present\n&quot; + &quot;in the same directory as HtmlCompressor jar&quot;);
+<span class="nc" id="L392">                logger.info(&quot;&quot;&quot;</span>
+                        ERROR: For CSS or JavaScript compression using YUICompressor additional jar file
+                        called yuicompressor.jar must be present\n&quot; + &quot;in the same directory as HtmlCompressor jar
+                        &quot;&quot;&quot;);
             }
-<span class="nc" id="L393">            logger.trace(&quot;&quot;, e);</span>
-<span class="nc" id="L394">        } catch (OptionException e) {</span>
-<span class="nc" id="L395">            logger.info(&quot;{}&quot;, e.getMessage());</span>
-<span class="nc" id="L396">            logger.trace(&quot;&quot;, e);</span>
-<span class="nc" id="L397">            printUsage();</span>
-<span class="nc" id="L398">        } catch (IOException | IllegalArgumentException e) {</span>
+<span class="nc" id="L397">            logger.trace(&quot;&quot;, e);</span>
+<span class="nc" id="L398">        } catch (OptionException e) {</span>
 <span class="nc" id="L399">            logger.info(&quot;{}&quot;, e.getMessage());</span>
 <span class="nc" id="L400">            logger.trace(&quot;&quot;, e);</span>
-<span class="nc" id="L401">        }</span>
+<span class="nc" id="L401">            printUsage();</span>
+<span class="nc" id="L402">        } catch (IOException | IllegalArgumentException e) {</span>
+<span class="nc" id="L403">            logger.info(&quot;{}&quot;, e.getMessage());</span>
+<span class="nc" id="L404">            logger.trace(&quot;&quot;, e);</span>
+<span class="nc" id="L405">        }</span>
 
-<span class="nc" id="L403">    }</span>
+<span class="nc" id="L407">    }</span>
 
     /**
      * Creates the html compressor.
@@ -412,103 +416,103 @@ public class CmdLineCompressor {
      */
     private Compressor createHtmlCompressor() throws OptionException {
 
-<span class="nc" id="L415">        boolean useClosureCompressor = HtmlCompressor.JS_COMPRESSOR_CLOSURE.equalsIgnoreCase(jsCompressorOpt);</span>
+<span class="nc" id="L419">        boolean useClosureCompressor = HtmlCompressor.JS_COMPRESSOR_CLOSURE.equalsIgnoreCase(jsCompressorOpt);</span>
 
         // custom preserve patterns
-<span class="nc" id="L418">        List&lt;Pattern&gt; preservePatterns = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L422">        List&lt;Pattern&gt; preservePatterns = new ArrayList&lt;&gt;();</span>
 
         // predefined
-<span class="nc bnc" id="L421" title="All 2 branches missed.">        if (preservePhpTagsOpt) {</span>
-<span class="nc" id="L422">            preservePatterns.add(HtmlCompressor.PHP_TAG_PATTERN);</span>
+<span class="nc bnc" id="L425" title="All 2 branches missed.">        if (preservePhpTagsOpt) {</span>
+<span class="nc" id="L426">            preservePatterns.add(HtmlCompressor.PHP_TAG_PATTERN);</span>
         }
 
-<span class="nc bnc" id="L425" title="All 2 branches missed.">        if (preserveServerScriptTagsOpt) {</span>
-<span class="nc" id="L426">            preservePatterns.add(HtmlCompressor.SERVER_SCRIPT_TAG_PATTERN);</span>
+<span class="nc bnc" id="L429" title="All 2 branches missed.">        if (preserveServerScriptTagsOpt) {</span>
+<span class="nc" id="L430">            preservePatterns.add(HtmlCompressor.SERVER_SCRIPT_TAG_PATTERN);</span>
         }
 
-<span class="nc bnc" id="L429" title="All 2 branches missed.">        if (preserveSsiTagsOpt) {</span>
-<span class="nc" id="L430">            preservePatterns.add(HtmlCompressor.SERVER_SIDE_INCLUDE_PATTERN);</span>
+<span class="nc bnc" id="L433" title="All 2 branches missed.">        if (preserveSsiTagsOpt) {</span>
+<span class="nc" id="L434">            preservePatterns.add(HtmlCompressor.SERVER_SIDE_INCLUDE_PATTERN);</span>
         }
 
-<span class="nc bnc" id="L433" title="All 2 branches missed.">        if (patternsFilenameOpt != null) {</span>
+<span class="nc bnc" id="L437" title="All 2 branches missed.">        if (patternsFilenameOpt != null) {</span>
 
-<span class="nc" id="L435">            try (BufferedReader patternsIn = Files.newBufferedReader(Path.of(patternsFilenameOpt), charsetOpt)) {</span>
+<span class="nc" id="L439">            try (BufferedReader patternsIn = Files.newBufferedReader(Path.of(patternsFilenameOpt), charsetOpt)) {</span>
 
-<span class="nc" id="L437">                String line = null;</span>
-<span class="nc bnc" id="L438" title="All 2 branches missed.">                while ((line = patternsIn.readLine()) != null) {</span>
-<span class="nc bnc" id="L439" title="All 2 branches missed.">                    if (line.length() &gt; 0) {</span>
+<span class="nc" id="L441">                String line = null;</span>
+<span class="nc bnc" id="L442" title="All 2 branches missed.">                while ((line = patternsIn.readLine()) != null) {</span>
+<span class="nc bnc" id="L443" title="All 2 branches missed.">                    if (line.length() &gt; 0) {</span>
                         try {
-<span class="nc" id="L441">                            preservePatterns.add(Pattern.compile(line));</span>
-<span class="nc" id="L442">                        } catch (PatternSyntaxException e) {</span>
-<span class="nc" id="L443">                            logger.trace(&quot;&quot;, e);</span>
-<span class="nc" id="L444">                            throw new IllegalArgumentException(</span>
-<span class="nc" id="L445">                                    &quot;Regular expression compilation error: &quot; + e.getMessage());</span>
-<span class="nc" id="L446">                        }</span>
+<span class="nc" id="L445">                            preservePatterns.add(Pattern.compile(line));</span>
+<span class="nc" id="L446">                        } catch (PatternSyntaxException e) {</span>
+<span class="nc" id="L447">                            logger.trace(&quot;&quot;, e);</span>
+<span class="nc" id="L448">                            throw new IllegalArgumentException(</span>
+<span class="nc" id="L449">                                    &quot;Regular expression compilation error: &quot; + e.getMessage());</span>
+<span class="nc" id="L450">                        }</span>
                     }
                 }
-<span class="nc" id="L449">            } catch (IOException e) {</span>
-<span class="nc" id="L450">                logger.trace(&quot;&quot;, e);</span>
-<span class="nc" id="L451">                throw new IllegalArgumentException(&quot;Unable to read custom pattern definitions file: &quot; + e.getMessage());</span>
-<span class="nc" id="L452">            }</span>
+<span class="nc" id="L453">            } catch (IOException e) {</span>
+<span class="nc" id="L454">                logger.trace(&quot;&quot;, e);</span>
+<span class="nc" id="L455">                throw new IllegalArgumentException(&quot;Unable to read custom pattern definitions file: &quot; + e.getMessage());</span>
+<span class="nc" id="L456">            }</span>
         }
 
         // set compressor options
-<span class="nc" id="L456">        HtmlCompressor htmlCompressor = new HtmlCompressor();</span>
+<span class="nc" id="L460">        HtmlCompressor htmlCompressor = new HtmlCompressor();</span>
 
-<span class="nc bnc" id="L458" title="All 2 branches missed.">        htmlCompressor.setRemoveComments(!preserveCommentsOpt);</span>
-<span class="nc bnc" id="L459" title="All 2 branches missed.">        htmlCompressor.setRemoveMultiSpaces(!preserveMultiSpacesOpt);</span>
-<span class="nc" id="L460">        htmlCompressor.setRemoveIntertagSpaces(removeIntertagSpacesOpt);</span>
-<span class="nc" id="L461">        htmlCompressor.setRemoveQuotes(removeQuotesOpt);</span>
-<span class="nc" id="L462">        htmlCompressor.setPreserveLineBreaks(preserveLineBreaksOpt);</span>
-<span class="nc" id="L463">        htmlCompressor.setCompressJavaScript(compressJsOpt);</span>
-<span class="nc" id="L464">        htmlCompressor.setCompressCss(compressCssOpt);</span>
+<span class="nc bnc" id="L462" title="All 2 branches missed.">        htmlCompressor.setRemoveComments(!preserveCommentsOpt);</span>
+<span class="nc bnc" id="L463" title="All 2 branches missed.">        htmlCompressor.setRemoveMultiSpaces(!preserveMultiSpacesOpt);</span>
+<span class="nc" id="L464">        htmlCompressor.setRemoveIntertagSpaces(removeIntertagSpacesOpt);</span>
+<span class="nc" id="L465">        htmlCompressor.setRemoveQuotes(removeQuotesOpt);</span>
+<span class="nc" id="L466">        htmlCompressor.setPreserveLineBreaks(preserveLineBreaksOpt);</span>
+<span class="nc" id="L467">        htmlCompressor.setCompressJavaScript(compressJsOpt);</span>
+<span class="nc" id="L468">        htmlCompressor.setCompressCss(compressCssOpt);</span>
 
-<span class="nc" id="L466">        htmlCompressor.setSimpleDoctype(simpleDoctypeOpt);</span>
-<span class="nc" id="L467">        htmlCompressor.setRemoveScriptAttributes(removeScriptAttributesOpt);</span>
-<span class="nc" id="L468">        htmlCompressor.setRemoveStyleAttributes(removeStyleAttributesOpt);</span>
-<span class="nc" id="L469">        htmlCompressor.setRemoveLinkAttributes(removeLinkAttributesOpt);</span>
-<span class="nc" id="L470">        htmlCompressor.setRemoveFormAttributes(removeFormAttributesOpt);</span>
-<span class="nc" id="L471">        htmlCompressor.setRemoveInputAttributes(removeInputAttributesOpt);</span>
-<span class="nc" id="L472">        htmlCompressor.setSimpleBooleanAttributes(simpleBooleanAttributesOpt);</span>
-<span class="nc" id="L473">        htmlCompressor.setRemoveJavaScriptProtocol(removeJavaScriptProtocolOpt);</span>
-<span class="nc" id="L474">        htmlCompressor.setRemoveHttpProtocol(removeHttpProtocolOpt);</span>
-<span class="nc" id="L475">        htmlCompressor.setRemoveHttpsProtocol(removeHttpsProtocolOpt);</span>
-<span class="nc" id="L476">        htmlCompressor.setRemoveSurroundingSpaces(removeSurroundingSpacesOpt);</span>
+<span class="nc" id="L470">        htmlCompressor.setSimpleDoctype(simpleDoctypeOpt);</span>
+<span class="nc" id="L471">        htmlCompressor.setRemoveScriptAttributes(removeScriptAttributesOpt);</span>
+<span class="nc" id="L472">        htmlCompressor.setRemoveStyleAttributes(removeStyleAttributesOpt);</span>
+<span class="nc" id="L473">        htmlCompressor.setRemoveLinkAttributes(removeLinkAttributesOpt);</span>
+<span class="nc" id="L474">        htmlCompressor.setRemoveFormAttributes(removeFormAttributesOpt);</span>
+<span class="nc" id="L475">        htmlCompressor.setRemoveInputAttributes(removeInputAttributesOpt);</span>
+<span class="nc" id="L476">        htmlCompressor.setSimpleBooleanAttributes(simpleBooleanAttributesOpt);</span>
+<span class="nc" id="L477">        htmlCompressor.setRemoveJavaScriptProtocol(removeJavaScriptProtocolOpt);</span>
+<span class="nc" id="L478">        htmlCompressor.setRemoveHttpProtocol(removeHttpProtocolOpt);</span>
+<span class="nc" id="L479">        htmlCompressor.setRemoveHttpsProtocol(removeHttpsProtocolOpt);</span>
+<span class="nc" id="L480">        htmlCompressor.setRemoveSurroundingSpaces(removeSurroundingSpacesOpt);</span>
 
-<span class="nc" id="L478">        htmlCompressor.setPreservePatterns(preservePatterns);</span>
+<span class="nc" id="L482">        htmlCompressor.setPreservePatterns(preservePatterns);</span>
 
-<span class="nc" id="L480">        htmlCompressor.setYuiJsNoMunge(nomungeOpt);</span>
-<span class="nc" id="L481">        htmlCompressor.setYuiJsPreserveAllSemiColons(preserveSemiOpt);</span>
-<span class="nc" id="L482">        htmlCompressor.setYuiJsDisableOptimizations(disableOptimizationsOpt);</span>
-<span class="nc" id="L483">        htmlCompressor.setYuiJsLineBreak(linebreakOpt);</span>
-<span class="nc" id="L484">        htmlCompressor.setYuiCssLineBreak(linebreakOpt);</span>
+<span class="nc" id="L484">        htmlCompressor.setYuiJsNoMunge(nomungeOpt);</span>
+<span class="nc" id="L485">        htmlCompressor.setYuiJsPreserveAllSemiColons(preserveSemiOpt);</span>
+<span class="nc" id="L486">        htmlCompressor.setYuiJsDisableOptimizations(disableOptimizationsOpt);</span>
+<span class="nc" id="L487">        htmlCompressor.setYuiJsLineBreak(linebreakOpt);</span>
+<span class="nc" id="L488">        htmlCompressor.setYuiCssLineBreak(linebreakOpt);</span>
 
         // switch js compressor to closure
-<span class="nc bnc" id="L487" title="All 4 branches missed.">        if (compressJsOpt &amp;&amp; useClosureCompressor) {</span>
-<span class="nc" id="L488">            ClosureJavaScriptCompressor closureCompressor = new ClosureJavaScriptCompressor();</span>
+<span class="nc bnc" id="L491" title="All 4 branches missed.">        if (compressJsOpt &amp;&amp; useClosureCompressor) {</span>
+<span class="nc" id="L492">            ClosureJavaScriptCompressor closureCompressor = new ClosureJavaScriptCompressor();</span>
 
-<span class="nc bnc" id="L490" title="All 2 branches missed.">            if (closureOptLevelOpt.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_ADVANCED)) {</span>
-<span class="nc" id="L491">                closureCompressor.setCompilationLevel(CompilationLevel.ADVANCED_OPTIMIZATIONS);</span>
-<span class="nc" id="L492">                closureCompressor.setCustomExternsOnly(closureCustomExternsOnlyOpt);</span>
+<span class="nc bnc" id="L494" title="All 2 branches missed.">            if (closureOptLevelOpt.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_ADVANCED)) {</span>
+<span class="nc" id="L495">                closureCompressor.setCompilationLevel(CompilationLevel.ADVANCED_OPTIMIZATIONS);</span>
+<span class="nc" id="L496">                closureCompressor.setCustomExternsOnly(closureCustomExternsOnlyOpt);</span>
 
                 // get externs
-<span class="nc bnc" id="L495" title="All 2 branches missed.">                if (!closureExternsOpt.isEmpty()) {</span>
-<span class="nc" id="L496">                    List&lt;SourceFile&gt; externs = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L497" title="All 2 branches missed.">                    for (String externFile : closureExternsOpt) {</span>
-<span class="nc" id="L498">                        externs.add(SourceFile.fromFile(externFile));</span>
-<span class="nc" id="L499">                    }</span>
-<span class="nc" id="L500">                    closureCompressor.setExterns(externs);</span>
-<span class="nc" id="L501">                }</span>
-<span class="nc bnc" id="L502" title="All 2 branches missed.">            } else if (closureOptLevelOpt.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_WHITESPACE)) {</span>
-<span class="nc" id="L503">                closureCompressor.setCompilationLevel(CompilationLevel.WHITESPACE_ONLY);</span>
+<span class="nc bnc" id="L499" title="All 2 branches missed.">                if (!closureExternsOpt.isEmpty()) {</span>
+<span class="nc" id="L500">                    List&lt;SourceFile&gt; externs = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L501" title="All 2 branches missed.">                    for (String externFile : closureExternsOpt) {</span>
+<span class="nc" id="L502">                        externs.add(SourceFile.fromFile(externFile));</span>
+<span class="nc" id="L503">                    }</span>
+<span class="nc" id="L504">                    closureCompressor.setExterns(externs);</span>
+<span class="nc" id="L505">                }</span>
+<span class="nc bnc" id="L506" title="All 2 branches missed.">            } else if (closureOptLevelOpt.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_WHITESPACE)) {</span>
+<span class="nc" id="L507">                closureCompressor.setCompilationLevel(CompilationLevel.WHITESPACE_ONLY);</span>
             } else {
-<span class="nc" id="L505">                closureCompressor.setCompilationLevel(CompilationLevel.SIMPLE_OPTIMIZATIONS);</span>
+<span class="nc" id="L509">                closureCompressor.setCompilationLevel(CompilationLevel.SIMPLE_OPTIMIZATIONS);</span>
             }
 
-<span class="nc" id="L508">            htmlCompressor.setJavaScriptCompressor(closureCompressor);</span>
+<span class="nc" id="L512">            htmlCompressor.setJavaScriptCompressor(closureCompressor);</span>
         }
 
-<span class="nc" id="L511">        return htmlCompressor;</span>
+<span class="nc" id="L515">        return htmlCompressor;</span>
     }
 
     /**
@@ -522,11 +526,11 @@ public class CmdLineCompressor {
      *             the option exception
      */
     private Compressor createXmlCompressor() throws IllegalArgumentException, OptionException {
-<span class="nc" id="L525">        XmlCompressor xmlCompressor = new XmlCompressor();</span>
-<span class="nc bnc" id="L526" title="All 2 branches missed.">        xmlCompressor.setRemoveComments(!preserveCommentsOpt);</span>
-<span class="nc bnc" id="L527" title="All 2 branches missed.">        xmlCompressor.setRemoveIntertagSpaces(!preserveIntertagSpacesOpt);</span>
+<span class="nc" id="L529">        XmlCompressor xmlCompressor = new XmlCompressor();</span>
+<span class="nc bnc" id="L530" title="All 2 branches missed.">        xmlCompressor.setRemoveComments(!preserveCommentsOpt);</span>
+<span class="nc bnc" id="L531" title="All 2 branches missed.">        xmlCompressor.setRemoveIntertagSpaces(!preserveIntertagSpacesOpt);</span>
 
-<span class="nc" id="L529">        return xmlCompressor;</span>
+<span class="nc" id="L533">        return xmlCompressor;</span>
     }
 
     /**
@@ -540,95 +544,95 @@ public class CmdLineCompressor {
      *             Signals that an I/O exception has occurred.
      */
     private Map&lt;String, String&gt; buildInputOutputMap() throws IllegalArgumentException, IOException {
-<span class="nc" id="L543">        Map&lt;String, String&gt; map = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L547">        Map&lt;String, String&gt; map = new HashMap&lt;&gt;();</span>
 
-<span class="nc" id="L545">        Path outputFile = null;</span>
-<span class="nc bnc" id="L546" title="All 2 branches missed.">        if (outputFilenameOpt != null) {</span>
-<span class="nc" id="L547">            outputFile = Path.of(outputFilenameOpt);</span>
+<span class="nc" id="L549">        Path outputFile = null;</span>
+<span class="nc bnc" id="L550" title="All 2 branches missed.">        if (outputFilenameOpt != null) {</span>
+<span class="nc" id="L551">            outputFile = Path.of(outputFilenameOpt);</span>
 
             // make dirs
-<span class="nc bnc" id="L550" title="All 4 branches missed.">            if (outputFilenameOpt.endsWith(&quot;/&quot;) || outputFilenameOpt.endsWith(&quot;\\&quot;)) {</span>
-<span class="nc" id="L551">                Files.createDirectories(outputFile);</span>
+<span class="nc bnc" id="L554" title="All 4 branches missed.">            if (outputFilenameOpt.endsWith(&quot;/&quot;) || outputFilenameOpt.endsWith(&quot;\\&quot;)) {</span>
+<span class="nc" id="L555">                Files.createDirectories(outputFile);</span>
             } else {
-<span class="nc" id="L553">                Files.createDirectories(outputFile.toFile().getCanonicalFile().getParentFile().toPath());</span>
+<span class="nc" id="L557">                Files.createDirectories(outputFile.toFile().getCanonicalFile().getParentFile().toPath());</span>
             }
         }
 
-<span class="nc bnc" id="L557" title="All 6 branches missed.">        if (fileArgsOpt.size() &gt; 1 &amp;&amp; (outputFile == null || !Files.isDirectory(outputFile))) {</span>
-<span class="nc" id="L558">            throw new IllegalArgumentException(&quot;Output must be a directory and end with a slash (/)&quot;);</span>
+<span class="nc bnc" id="L561" title="All 6 branches missed.">        if (fileArgsOpt.size() &gt; 1 &amp;&amp; (outputFile == null || !Files.isDirectory(outputFile))) {</span>
+<span class="nc" id="L562">            throw new IllegalArgumentException(&quot;Output must be a directory and end with a slash (/)&quot;);</span>
         }
 
-<span class="nc bnc" id="L561" title="All 2 branches missed.">        if (fileArgsOpt.isEmpty()) {</span>
-<span class="nc" id="L562">            map.put(null, outputFilenameOpt);</span>
+<span class="nc bnc" id="L565" title="All 2 branches missed.">        if (fileArgsOpt.isEmpty()) {</span>
+<span class="nc" id="L566">            map.put(null, outputFilenameOpt);</span>
         } else {
-<span class="nc bnc" id="L564" title="All 2 branches missed.">            for (int i = 0; i &lt; fileArgsOpt.size(); i++) {</span>
-<span class="nc bnc" id="L565" title="All 2 branches missed.">                if (!urlPattern.matcher(fileArgsOpt.get(i)).matches()) {</span>
-<span class="nc" id="L566">                    Path inputFile = Path.of(fileArgsOpt.get(i));</span>
-<span class="nc bnc" id="L567" title="All 2 branches missed.">                    if (Files.isDirectory(inputFile)) {</span>
+<span class="nc bnc" id="L568" title="All 2 branches missed.">            for (int i = 0; i &lt; fileArgsOpt.size(); i++) {</span>
+<span class="nc bnc" id="L569" title="All 2 branches missed.">                if (!urlPattern.matcher(fileArgsOpt.get(i)).matches()) {</span>
+<span class="nc" id="L570">                    Path inputFile = Path.of(fileArgsOpt.get(i));</span>
+<span class="nc bnc" id="L571" title="All 2 branches missed.">                    if (Files.isDirectory(inputFile)) {</span>
                         // is directory
-<span class="nc bnc" id="L569" title="All 4 branches missed.">                        if (outputFile != null &amp;&amp; Files.isDirectory(outputFile)) {</span>
-<span class="nc bnc" id="L570" title="All 2 branches missed.">                            if (!recursiveOpt) {</span>
+<span class="nc bnc" id="L573" title="All 4 branches missed.">                        if (outputFile != null &amp;&amp; Files.isDirectory(outputFile)) {</span>
+<span class="nc bnc" id="L574" title="All 2 branches missed.">                            if (!recursiveOpt) {</span>
                                 // non-recursive
-<span class="nc bnc" id="L572" title="All 2 branches missed.">                                for (File file : inputFile.toFile()</span>
-<span class="nc" id="L573">                                        .listFiles(new CompressorFileFilter(typeOpt, filemaskOpt, false))) {</span>
-<span class="nc bnc" id="L574" title="All 2 branches missed.">                                    if (!file.isDirectory()) {</span>
-<span class="nc" id="L575">                                        String from = file.getCanonicalPath();</span>
-<span class="nc" id="L576">                                        String to = from.replaceFirst(escRegEx(inputFile.toFile().getCanonicalPath()),</span>
-<span class="nc" id="L577">                                                Matcher.quoteReplacement(outputFile.toFile().getCanonicalPath()));</span>
-<span class="nc" id="L578">                                        map.put(from, to);</span>
+<span class="nc bnc" id="L576" title="All 2 branches missed.">                                for (File file : inputFile.toFile()</span>
+<span class="nc" id="L577">                                        .listFiles(new CompressorFileFilter(typeOpt, filemaskOpt, false))) {</span>
+<span class="nc bnc" id="L578" title="All 2 branches missed.">                                    if (!file.isDirectory()) {</span>
+<span class="nc" id="L579">                                        String from = file.getCanonicalPath();</span>
+<span class="nc" id="L580">                                        String to = from.replaceFirst(escRegEx(inputFile.toFile().getCanonicalPath()),</span>
+<span class="nc" id="L581">                                                Matcher.quoteReplacement(outputFile.toFile().getCanonicalPath()));</span>
+<span class="nc" id="L582">                                        map.put(from, to);</span>
                                     }
                                 }
                             } else {
                                 // recursive
-<span class="nc" id="L583">                                ArrayDeque&lt;File&gt; fileStack = new ArrayDeque&lt;&gt;();</span>
-<span class="nc" id="L584">                                fileStack.push(inputFile.toFile());</span>
-<span class="nc bnc" id="L585" title="All 2 branches missed.">                                while (!fileStack.isEmpty()) {</span>
-<span class="nc" id="L586">                                    File child = fileStack.pop();</span>
-<span class="nc bnc" id="L587" title="All 2 branches missed.">                                    if (child.isDirectory()) {</span>
-<span class="nc bnc" id="L588" title="All 2 branches missed.">                                        for (File f : child</span>
-<span class="nc" id="L589">                                                .listFiles(new CompressorFileFilter(typeOpt, filemaskOpt, true))) {</span>
-<span class="nc" id="L590">                                            fileStack.push(f);</span>
+<span class="nc" id="L587">                                ArrayDeque&lt;File&gt; fileStack = new ArrayDeque&lt;&gt;();</span>
+<span class="nc" id="L588">                                fileStack.push(inputFile.toFile());</span>
+<span class="nc bnc" id="L589" title="All 2 branches missed.">                                while (!fileStack.isEmpty()) {</span>
+<span class="nc" id="L590">                                    File child = fileStack.pop();</span>
+<span class="nc bnc" id="L591" title="All 2 branches missed.">                                    if (child.isDirectory()) {</span>
+<span class="nc bnc" id="L592" title="All 2 branches missed.">                                        for (File f : child</span>
+<span class="nc" id="L593">                                                .listFiles(new CompressorFileFilter(typeOpt, filemaskOpt, true))) {</span>
+<span class="nc" id="L594">                                            fileStack.push(f);</span>
                                         }
-<span class="nc bnc" id="L592" title="All 2 branches missed.">                                    } else if (child.isFile()) {</span>
-<span class="nc" id="L593">                                        String from = child.getCanonicalPath();</span>
-<span class="nc" id="L594">                                        String to = from.replaceFirst(escRegEx(inputFile.toFile().getCanonicalPath()),</span>
-<span class="nc" id="L595">                                                Matcher.quoteReplacement(outputFile.toFile().getCanonicalPath()));</span>
-<span class="nc" id="L596">                                        map.put(from, to);</span>
+<span class="nc bnc" id="L596" title="All 2 branches missed.">                                    } else if (child.isFile()) {</span>
+<span class="nc" id="L597">                                        String from = child.getCanonicalPath();</span>
+<span class="nc" id="L598">                                        String to = from.replaceFirst(escRegEx(inputFile.toFile().getCanonicalPath()),</span>
+<span class="nc" id="L599">                                                Matcher.quoteReplacement(outputFile.toFile().getCanonicalPath()));</span>
+<span class="nc" id="L600">                                        map.put(from, to);</span>
                                         // make directories
-<span class="nc" id="L598">                                        Files.createDirectories(</span>
-<span class="nc" id="L599">                                                Path.of(to).toFile().getCanonicalFile().getParentFile().toPath());</span>
+<span class="nc" id="L602">                                        Files.createDirectories(</span>
+<span class="nc" id="L603">                                                Path.of(to).toFile().getCanonicalFile().getParentFile().toPath());</span>
                                     }
-<span class="nc" id="L601">                                }</span>
-<span class="nc" id="L602">                            }</span>
+<span class="nc" id="L605">                                }</span>
+<span class="nc" id="L606">                            }</span>
                         } else {
-<span class="nc" id="L604">                            throw new IllegalArgumentException(&quot;Output must be a directory and end with a slash (/)&quot;);</span>
+<span class="nc" id="L608">                            throw new IllegalArgumentException(&quot;Output must be a directory and end with a slash (/)&quot;);</span>
                         }
                     } else {
                         // is file
-<span class="nc bnc" id="L608" title="All 4 branches missed.">                        if (outputFile != null &amp;&amp; Files.isDirectory(outputFile)) {</span>
-<span class="nc" id="L609">                            String from = inputFile.toFile().getCanonicalPath();</span>
-<span class="nc" id="L610">                            String to = from.replaceFirst(</span>
-<span class="nc" id="L611">                                    escRegEx(inputFile.toFile().getCanonicalFile().getParentFile().getCanonicalPath()),</span>
-<span class="nc" id="L612">                                    Matcher.quoteReplacement(outputFile.toFile().getCanonicalPath()));</span>
-<span class="nc" id="L613">                            map.put(fileArgsOpt.get(i), to);</span>
-<span class="nc" id="L614">                        } else {</span>
-<span class="nc" id="L615">                            map.put(fileArgsOpt.get(i), outputFilenameOpt);</span>
+<span class="nc bnc" id="L612" title="All 4 branches missed.">                        if (outputFile != null &amp;&amp; Files.isDirectory(outputFile)) {</span>
+<span class="nc" id="L613">                            String from = inputFile.toFile().getCanonicalPath();</span>
+<span class="nc" id="L614">                            String to = from.replaceFirst(</span>
+<span class="nc" id="L615">                                    escRegEx(inputFile.toFile().getCanonicalFile().getParentFile().getCanonicalPath()),</span>
+<span class="nc" id="L616">                                    Matcher.quoteReplacement(outputFile.toFile().getCanonicalPath()));</span>
+<span class="nc" id="L617">                            map.put(fileArgsOpt.get(i), to);</span>
+<span class="nc" id="L618">                        } else {</span>
+<span class="nc" id="L619">                            map.put(fileArgsOpt.get(i), outputFilenameOpt);</span>
                         }
 
                     }
-<span class="nc" id="L619">                } else {</span>
+<span class="nc" id="L623">                } else {</span>
                     // is url
-<span class="nc bnc" id="L621" title="All 6 branches missed.">                    if (fileArgsOpt.size() == 1 &amp;&amp; (outputFile == null || !Files.isDirectory(outputFile))) {</span>
-<span class="nc" id="L622">                        map.put(fileArgsOpt.get(i), outputFilenameOpt);</span>
+<span class="nc bnc" id="L625" title="All 6 branches missed.">                    if (fileArgsOpt.size() == 1 &amp;&amp; (outputFile == null || !Files.isDirectory(outputFile))) {</span>
+<span class="nc" id="L626">                        map.put(fileArgsOpt.get(i), outputFilenameOpt);</span>
                     } else {
-<span class="nc" id="L624">                        throw new IllegalArgumentException(</span>
+<span class="nc" id="L628">                        throw new IllegalArgumentException(</span>
                                 &quot;Input URL should be single and cannot have directory as output&quot;);
                     }
                 }
             }
         }
 
-<span class="nc" id="L631">        return map;</span>
+<span class="nc" id="L635">        return map;</span>
     }
 
     /**
@@ -643,13 +647,13 @@ public class CmdLineCompressor {
      *             Signals that an I/O exception has occurred.
      */
     private BufferedReader buildReader(String filename) throws IOException {
-<span class="nc bnc" id="L646" title="All 2 branches missed.">        if (filename == null) {</span>
-<span class="nc" id="L647">            return new BufferedReader(new InputStreamReader(System.in, charsetOpt));</span>
-<span class="nc bnc" id="L648" title="All 2 branches missed.">        } else if (urlPattern.matcher(filename).matches()) {</span>
-<span class="nc" id="L649">            return new BufferedReader(</span>
-<span class="nc" id="L650">                    new InputStreamReader(new URL(filename).openConnection().getInputStream(), charsetOpt));</span>
+<span class="nc bnc" id="L650" title="All 2 branches missed.">        if (filename == null) {</span>
+<span class="nc" id="L651">            return new BufferedReader(new InputStreamReader(System.in, charsetOpt));</span>
+<span class="nc bnc" id="L652" title="All 2 branches missed.">        } else if (urlPattern.matcher(filename).matches()) {</span>
+<span class="nc" id="L653">            return new BufferedReader(</span>
+<span class="nc" id="L654">                    new InputStreamReader(URI.create(filename).toURL().openConnection().getInputStream(), charsetOpt));</span>
         } else {
-<span class="nc" id="L652">            return Files.newBufferedReader(Path.of(filename), charsetOpt);</span>
+<span class="nc" id="L656">            return Files.newBufferedReader(Path.of(filename), charsetOpt);</span>
         }
     }
 
@@ -665,10 +669,10 @@ public class CmdLineCompressor {
      *             Signals that an I/O exception has occurred.
      */
     private Writer buildWriter(String filename) throws IOException {
-<span class="nc bnc" id="L668" title="All 2 branches missed.">        if (filename == null) {</span>
-<span class="nc" id="L669">            return new OutputStreamWriter(System.out, charsetOpt);</span>
+<span class="nc bnc" id="L672" title="All 2 branches missed.">        if (filename == null) {</span>
+<span class="nc" id="L673">            return new OutputStreamWriter(System.out, charsetOpt);</span>
         } else {
-<span class="nc" id="L671">            return new OutputStreamWriter(Files.newOutputStream(Path.of(filename)), charsetOpt);</span>
+<span class="nc" id="L675">            return new OutputStreamWriter(Files.newOutputStream(Path.of(filename)), charsetOpt);</span>
         }
     }
 
@@ -684,17 +688,17 @@ public class CmdLineCompressor {
      *             Signals that an I/O exception has occurred.
      */
     private String readResource(BufferedReader input) throws IOException {
-<span class="nc" id="L687">        StringBuilder source = new StringBuilder();</span>
+<span class="nc" id="L691">        StringBuilder source = new StringBuilder();</span>
         try {
-<span class="nc" id="L689">            String line = null;</span>
-<span class="nc bnc" id="L690" title="All 2 branches missed.">            while ((line = input.readLine()) != null) {</span>
-<span class="nc" id="L691">                source.append(line);</span>
-<span class="nc" id="L692">                source.append(System.getProperty(&quot;line.separator&quot;));</span>
+<span class="nc" id="L693">            String line = null;</span>
+<span class="nc bnc" id="L694" title="All 2 branches missed.">            while ((line = input.readLine()) != null) {</span>
+<span class="nc" id="L695">                source.append(line);</span>
+<span class="nc" id="L696">                source.append(System.getProperty(&quot;line.separator&quot;));</span>
             }
         } finally {
-<span class="nc" id="L695">            closeStream(input);</span>
+<span class="nc" id="L699">            closeStream(input);</span>
         }
-<span class="nc" id="L697">        return source.toString();</span>
+<span class="nc" id="L701">        return source.toString();</span>
     }
 
     /**
@@ -710,11 +714,11 @@ public class CmdLineCompressor {
      */
     private void writeResource(String content, Writer output) throws IOException {
         try {
-<span class="nc" id="L713">            output.write(content);</span>
+<span class="nc" id="L717">            output.write(content);</span>
         } finally {
-<span class="nc" id="L715">            closeStream(output);</span>
+<span class="nc" id="L719">            closeStream(output);</span>
         }
-<span class="nc" id="L717">    }</span>
+<span class="nc" id="L721">    }</span>
 
     /**
      * Close stream.
@@ -723,14 +727,14 @@ public class CmdLineCompressor {
      *            the stream
      */
     private void closeStream(Closeable stream) {
-<span class="nc bnc" id="L726" title="All 2 branches missed.">        if (stream != null) {</span>
+<span class="nc bnc" id="L730" title="All 2 branches missed.">        if (stream != null) {</span>
             try {
-<span class="nc" id="L728">                stream.close();</span>
-<span class="nc" id="L729">            } catch (IOException e) {</span>
-<span class="nc" id="L730">                logger.trace(&quot;&quot;, e);</span>
-<span class="nc" id="L731">            }</span>
+<span class="nc" id="L732">                stream.close();</span>
+<span class="nc" id="L733">            } catch (IOException e) {</span>
+<span class="nc" id="L734">                logger.trace(&quot;&quot;, e);</span>
+<span class="nc" id="L735">            }</span>
         }
-<span class="nc" id="L733">    }</span>
+<span class="nc" id="L737">    }</span>
 
     /**
      * Esc reg ex.
@@ -741,81 +745,85 @@ public class CmdLineCompressor {
      * @return the string
      */
     private String escRegEx(String inStr) {
-<span class="nc" id="L744">        return inStr.replaceAll(&quot;([\\\\*+\\[\\](){}\\$.?\\^|])&quot;, &quot;\\\\$1&quot;);</span>
+<span class="nc" id="L748">        return inStr.replaceAll(&quot;([\\\\*+\\[\\](){}\\$.?\\^|])&quot;, &quot;\\\\$1&quot;);</span>
     }
 
     /**
      * Prints the usage.
      */
     private void printUsage() {
-<span class="nc" id="L751">        logger.info(&quot;Usage: java -jar htmlcompressor.jar [options] [input]\n\n&quot;</span>
+<span class="nc" id="L755">        logger.info(&quot;&quot;&quot;</span>
+                Usage: java -jar htmlcompressor.jar [options] [input]
 
-                + &quot;[input]                        URL, filename, directory, or space separated list\n&quot;
-                + &quot;                               of files and directories to compress.\n&quot;
-                + &quot;                               If none provided reads from &lt;stdin&gt;\n\n&quot;
+                [input]                        URL, filename, directory, or space separated list
+                                               of files and directories to compress.
+                                               If none provided reads from &lt;stdin&gt;
 
-                + &quot;Global Options:\n&quot; + &quot; -?, /?, -h, --help            Displays this help screen\n&quot;
-                + &quot; -t, --type &lt;html|xml&gt;         If not provided autodetects from file extension\n&quot;
-                + &quot; -r, --recursive               Process files inside subdirectories\n&quot;
-                + &quot; -c, --charset &lt;charset&gt;       Charset for reading files, UTF-8 by default\n&quot;
-                + &quot; -m, --mask &lt;filemask&gt;         Filter input files inside directories by mask\n&quot;
-                + &quot; -o, --output &lt;path&gt;           Filename or directory for compression results.\n&quot;
-                + &quot;                               If none provided outputs result to &lt;stdout&gt;\n&quot;
-                + &quot; -a, --analyze                 Tries different settings and displays report.\n&quot;
-                + &quot;                               All settings except --js-compressor are ignored\n\n&quot;
+                Global Options:
+                 -?, /?, -h, --help            Displays this help screen
+                 -t, --type &lt;html|xml&gt;         If not provided autodetects from file extension
+                 -r, --recursive               Process files inside subdirectories
+                 -c, --charset &lt;charset&gt;       Charset for reading files, UTF-8 by default
+                 -m, --mask &lt;filemask&gt;         Filter input files inside directories by mask
+                 -o, --output &lt;path&gt;           Filename or directory for compression results.
+                                               If none provided outputs result to &lt;stdout&gt;
+                 -a, --analyze                 Tries different settings and displays report.
+                                               All settings except --js-compressor are ignored
 
-                + &quot;XML Compression Options:\n&quot; + &quot; --preserve-comments           Preserve comments\n&quot;
-                + &quot; --preserve-intertag-spaces    Preserve intertag spaces\n\n&quot;
+                XML Compression Options:
+                 --preserve-comments           Preserve comments
+                 --preserve-intertag-spaces    Preserve intertag spaces
 
-                + &quot;HTML Compression Options:\n&quot; + &quot; --preserve-comments           Preserve comments\n&quot;
-                + &quot; --preserve-multi-spaces       Preserve multiple spaces\n&quot;
-                + &quot; --preserve-line-breaks        Preserve line breaks\n&quot;
-                + &quot; --remove-intertag-spaces      Remove intertag spaces\n&quot;
-                + &quot; --remove-quotes               Remove unneeded quotes\n&quot;
-                + &quot; --simple-doctype              Change doctype to &lt;!DOCTYPE html&gt;\n&quot;
-                + &quot; --remove-style-attr           Remove TYPE attribute from STYLE tags\n&quot;
-                + &quot; --remove-link-attr            Remove TYPE attribute from LINK tags\n&quot;
-                + &quot; --remove-script-attr          Remove TYPE and LANGUAGE from SCRIPT tags\n&quot;
-                + &quot; --remove-form-attr            Remove METHOD=\&quot;GET\&quot; from FORM tags\n&quot;
-                + &quot; --remove-input-attr           Remove TYPE=\&quot;TEXT\&quot; from INPUT tags\n&quot;
-                + &quot; --simple-bool-attr            Remove values from boolean tag attributes\n&quot;
-                + &quot; --remove-js-protocol          Remove \&quot;javascript:\&quot; from inline event handlers\n&quot;
-                + &quot; --remove-http-protocol        Remove \&quot;http:\&quot; from tag attributes\n&quot;
-                + &quot; --remove-https-protocol       Remove \&quot;https:\&quot; from tag attributes\n&quot;
-                + &quot; --remove-surrounding-spaces &lt;min|max|all|custom_list&gt;\n&quot;
-                + &quot;                               Predefined or custom comma separated list of tags\n&quot;
-                + &quot; --compress-js                 Enable inline JavaScript compression\n&quot;
-                + &quot; --compress-css                Enable inline CSS compression using YUICompressor\n&quot;
-                + &quot; --js-compressor &lt;yui|closure&gt; Switch inline JavaScript compressor between\n&quot;
-                + &quot;                               YUICompressor (default) and Closure Compiler\n\n&quot;
+                HTML Compression Options:
+                 --preserve-comments           Preserve comments
+                 --preserve-multi-spaces       Preserve multiple spaces
+                 --preserve-line-breaks        Preserve line breaks
+                 --remove-intertag-spaces      Remove intertag spaces
+                 --remove-quotes               Remove unneeded quotes
+                 --simple-doctype              Change doctype to &lt;!DOCTYPE html&gt;
+                 --remove-style-attr           Remove TYPE attribute from STYLE tags
+                 --remove-link-attr            Remove TYPE attribute from LINK tags
+                 --remove-script-attr          Remove TYPE and LANGUAGE from SCRIPT tags
+                 --remove-form-attr            Remove METHOD=\&quot;GET\&quot; from FORM tags
+                 --remove-input-attr           Remove TYPE=\&quot;TEXT\&quot; from INPUT tags
+                 --simple-bool-attr            Remove values from boolean tag attributes
+                 --remove-js-protocol          Remove \&quot;javascript:\&quot; from inline event handlers
+                 --remove-http-protocol        Remove \&quot;http:\&quot; from tag attributes
+                 --remove-https-protocol       Remove \&quot;https:\&quot; from tag attributes
+                 --remove-surrounding-spaces &lt;min|max|all|custom_list&gt;
+                                               Predefined or custom comma separated list of tags
+                 --compress-js                 Enable inline JavaScript compression
+                 --compress-css                Enable inline CSS compression using YUICompressor
+                 --js-compressor &lt;yui|closure&gt; Switch inline JavaScript compressor between
+                                               YUICompressor (default) and Closure Compiler
 
-                + &quot;JavaScript Compression Options for YUI Compressor:\n&quot;
-                + &quot; --nomunge                     Minify only, do not obfuscate\n&quot;
-                + &quot; --preserve-semi               Preserve all semicolons\n&quot;
-                + &quot; --disable-optimizations       Disable all micro optimizations\n&quot;
-                + &quot; --line-break &lt;column num&gt;     Insert a line break after the specified column\n\n&quot;
+                JavaScript Compression Options for YUI Compressor:
+                 --nomunge                     Minify only, do not obfuscate
+                 --preserve-semi               Preserve all semicolons
+                 --disable-optimizations       Disable all micro optimizations
+                 --line-break &lt;column num&gt;     Insert a line break after the specified column
 
-                + &quot;JavaScript Compression Options for Google Closure Compiler:\n&quot;
-                + &quot; --closure-opt-level &lt;simple|advanced|whitespace&gt;\n&quot;
-                + &quot;                               Sets level of optimization (simple by default)\n&quot;
-                + &quot; --closure-externs &lt;file&gt;      Sets custom externs file, repeat for each file\n&quot;
-                + &quot; --closure-custom-externs-only Disable default built-in externs\n\n&quot;
+                JavaScript Compression Options for Google Closure Compiler:
+                 --closure-opt-level &lt;simple|advanced|whitespace&gt;
+                                               Sets level of optimization (simple by default)
+                 --closure-externs &lt;file&gt;      Sets custom externs file, repeat for each file
+                 --closure-custom-externs-only Disable default built-in externs
 
-                + &quot;CSS Compression Options for YUI Compressor:\n&quot;
-                + &quot; --line-break &lt;column num&gt;     Insert a line break after the specified column\n\n&quot;
+                CSS Compression Options for YUI Compressor:
+                 --line-break &lt;column num&gt;     Insert a line break after the specified column
 
-                + &quot;Custom Block Preservation Options:\n&quot; + &quot; --preserve-php                Preserve &lt;?php ... ?&gt; tags\n&quot;
-                + &quot; --preserve-server-script      Preserve &lt;% ... %&gt; tags\n&quot;
-                + &quot; --preserve-ssi                Preserve &lt;!--# ... --&gt; tags\n&quot;
-                + &quot; -p, --preserve &lt;path&gt;         Read regular expressions that define\n&quot;
-                + &quot;                               custom preservation rules from a file\n\n&quot;
+                Custom Block Preservation Options:
+                 --preserve-php                Preserve &lt;?php ... ?&gt; tags
+                 --preserve-server-script      Preserve &lt;% ... %&gt; tags
+                 --preserve-ssi                Preserve &lt;!--# ... --&gt; tags
+                 -p, --preserve &lt;path&gt;         Read regular expressions that define
+                                               custom preservation rules from a file
 
-                + &quot;Please note that if you enable CSS or JavaScript compression, additional\n&quot;
-                + &quot;YUI Compressor or Google Closure Compiler jar files must be present\n&quot;
-                + &quot;in the same directory as this jar.&quot;
-
-        );
-<span class="nc" id="L818">    }</span>
+                Please note that if you enable CSS or JavaScript compression, additional
+                YUI Compressor or Google Closure Compiler jar files must be present
+                in the same directory as this jar.
+                &quot;&quot;&quot;);
+<span class="nc" id="L826">    }</span>
 
     /**
      * The Class CompressorFileFilter.
@@ -838,40 +846,40 @@ public class CmdLineCompressor {
          * @param withDirs
          *            the with dirs
          */
-<span class="nc" id="L841">        public CompressorFileFilter(String type, String filemask, boolean withDirs) {</span>
+<span class="nc" id="L849">        public CompressorFileFilter(String type, String filemask, boolean withDirs) {</span>
 
-<span class="nc" id="L843">            this.withDirs = withDirs;</span>
+<span class="nc" id="L851">            this.withDirs = withDirs;</span>
 
-<span class="nc bnc" id="L845" title="All 2 branches missed.">            if (filemask == null) {</span>
-<span class="nc bnc" id="L846" title="All 4 branches missed.">                if (type != null &amp;&amp; &quot;xml&quot;.equalsIgnoreCase(type)) {</span>
-<span class="nc" id="L847">                    filemaskPattern = Pattern.compile(&quot;^.*\\.xml$&quot;, Pattern.CASE_INSENSITIVE);</span>
+<span class="nc bnc" id="L853" title="All 2 branches missed.">            if (filemask == null) {</span>
+<span class="nc bnc" id="L854" title="All 4 branches missed.">                if (type != null &amp;&amp; &quot;xml&quot;.equalsIgnoreCase(type)) {</span>
+<span class="nc" id="L855">                    filemaskPattern = Pattern.compile(&quot;^.*\\.xml$&quot;, Pattern.CASE_INSENSITIVE);</span>
                 } else {
-<span class="nc" id="L849">                    filemaskPattern = Pattern.compile(&quot;^.*\\.html?$&quot;, Pattern.CASE_INSENSITIVE);</span>
+<span class="nc" id="L857">                    filemaskPattern = Pattern.compile(&quot;^.*\\.html?$&quot;, Pattern.CASE_INSENSITIVE);</span>
                 }
             } else {
                 // turn mask into regexp
-<span class="nc" id="L853">                filemask = filemask.replaceAll(escRegEx(&quot;.&quot;), Matcher.quoteReplacement(&quot;\\.&quot;));</span>
-<span class="nc" id="L854">                filemask = filemask.replaceAll(escRegEx(&quot;*&quot;), Matcher.quoteReplacement(&quot;.*&quot;));</span>
-<span class="nc" id="L855">                filemask = filemask.replaceAll(escRegEx(&quot;?&quot;), Matcher.quoteReplacement(&quot;.&quot;));</span>
-<span class="nc" id="L856">                filemask = filemask.replaceAll(escRegEx(&quot;;&quot;), Matcher.quoteReplacement(&quot;$|^&quot;));</span>
-<span class="nc" id="L857">                filemask = &quot;^&quot; + filemask + &quot;$&quot;;</span>
+<span class="nc" id="L861">                filemask = filemask.replaceAll(escRegEx(&quot;.&quot;), Matcher.quoteReplacement(&quot;\\.&quot;));</span>
+<span class="nc" id="L862">                filemask = filemask.replaceAll(escRegEx(&quot;*&quot;), Matcher.quoteReplacement(&quot;.*&quot;));</span>
+<span class="nc" id="L863">                filemask = filemask.replaceAll(escRegEx(&quot;?&quot;), Matcher.quoteReplacement(&quot;.&quot;));</span>
+<span class="nc" id="L864">                filemask = filemask.replaceAll(escRegEx(&quot;;&quot;), Matcher.quoteReplacement(&quot;$|^&quot;));</span>
+<span class="nc" id="L865">                filemask = &quot;^&quot; + filemask + &quot;$&quot;;</span>
 
-<span class="nc" id="L859">                filemaskPattern = Pattern.compile(filemask, Pattern.CASE_INSENSITIVE);</span>
+<span class="nc" id="L867">                filemaskPattern = Pattern.compile(filemask, Pattern.CASE_INSENSITIVE);</span>
             }
-<span class="nc" id="L861">        }</span>
+<span class="nc" id="L869">        }</span>
 
         @Override
         public boolean accept(File file) {
-<span class="nc bnc" id="L865" title="All 2 branches missed.">            if (!withDirs) {</span>
+<span class="nc bnc" id="L873" title="All 2 branches missed.">            if (!withDirs) {</span>
                 // take only matching non-dirs
-<span class="nc bnc" id="L867" title="All 2 branches missed.">                if (!file.isDirectory()) {</span>
-<span class="nc" id="L868">                    return filemaskPattern.matcher(file.getName()).matches();</span>
+<span class="nc bnc" id="L875" title="All 2 branches missed.">                if (!file.isDirectory()) {</span>
+<span class="nc" id="L876">                    return filemaskPattern.matcher(file.getName()).matches();</span>
                 }
             } else {
                 // take matching files and dirs
-<span class="nc bnc" id="L872" title="All 4 branches missed.">                return file.isDirectory() || filemaskPattern.matcher(file.getName()).matches();</span>
+<span class="nc bnc" id="L880" title="All 4 branches missed.">                return file.isDirectory() || filemaskPattern.matcher(file.getName()).matches();</span>
             }
-<span class="nc" id="L874">            return false;</span>
+<span class="nc" id="L882">            return false;</span>
         }
 
     }
