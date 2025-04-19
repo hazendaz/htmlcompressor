@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.net.URL;
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -647,7 +647,7 @@ public class CmdLineCompressor {
             return new BufferedReader(new InputStreamReader(System.in, charsetOpt));
         } else if (urlPattern.matcher(filename).matches()) {
             return new BufferedReader(
-                    new InputStreamReader(new URL(filename).openConnection().getInputStream(), charsetOpt));
+                    new InputStreamReader(URI.create(filename).toURL().openConnection().getInputStream(), charsetOpt));
         } else {
             return Files.newBufferedReader(Path.of(filename), charsetOpt);
         }
