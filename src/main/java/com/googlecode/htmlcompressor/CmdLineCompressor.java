@@ -27,8 +27,6 @@ import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -36,6 +34,8 @@ import java.io.Writer;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -432,8 +432,7 @@ public class CmdLineCompressor {
 
         if (patternsFilenameOpt != null) {
 
-            try (FileInputStream stream = new FileInputStream(patternsFilenameOpt);
-                    BufferedReader patternsIn = new BufferedReader(new InputStreamReader(stream, charsetOpt))) {
+            try (BufferedReader patternsIn = Files.newBufferedReader(Path.of(patternsFilenameOpt), charsetOpt)) {
 
                 String line = null;
                 while ((line = patternsIn.readLine()) != null) {
@@ -543,19 +542,19 @@ public class CmdLineCompressor {
     private Map<String, String> buildInputOutputMap() throws IllegalArgumentException, IOException {
         Map<String, String> map = new HashMap<>();
 
-        File outpuFile = null;
+        Path outputFile = null;
         if (outputFilenameOpt != null) {
-            outpuFile = new File(outputFilenameOpt);
+            outputFile = Path.of(outputFilenameOpt);
 
             // make dirs
             if (outputFilenameOpt.endsWith("/") || outputFilenameOpt.endsWith("\\")) {
-                outpuFile.mkdirs();
+                Files.createDirectories(outputFile);
             } else {
-                new File(outpuFile.getCanonicalFile().getParent()).mkdirs();
+                Files.createDirectories(outputFile.toFile().getCanonicalFile().getParentFile().toPath());
             }
         }
 
-        if (fileArgsOpt.size() > 1 && (outpuFile == null || !outpuFile.isDirectory())) {
+        if (fileArgsOpt.size() > 1 && (outputFile == null || !Files.isDirectory(outputFile))) {
             throw new IllegalArgumentException("Output must be a directory and end with a slash (/)");
         }
 
@@ -564,25 +563,25 @@ public class CmdLineCompressor {
         } else {
             for (int i = 0; i < fileArgsOpt.size(); i++) {
                 if (!urlPattern.matcher(fileArgsOpt.get(i)).matches()) {
-                    File inputFile = new File(fileArgsOpt.get(i));
-                    if (inputFile.isDirectory()) {
-                        // is dir
-                        if (outpuFile != null && outpuFile.isDirectory()) {
+                    Path inputFile = Path.of(fileArgsOpt.get(i));
+                    if (Files.isDirectory(inputFile)) {
+                        // is directory
+                        if (outputFile != null && Files.isDirectory(outputFile)) {
                             if (!recursiveOpt) {
                                 // non-recursive
-                                for (File file : inputFile
+                                for (File file : inputFile.toFile()
                                         .listFiles(new CompressorFileFilter(typeOpt, filemaskOpt, false))) {
                                     if (!file.isDirectory()) {
                                         String from = file.getCanonicalPath();
-                                        String to = from.replaceFirst(escRegEx(inputFile.getCanonicalPath()),
-                                                Matcher.quoteReplacement(outpuFile.getCanonicalPath()));
+                                        String to = from.replaceFirst(escRegEx(inputFile.toFile().getCanonicalPath()),
+                                                Matcher.quoteReplacement(outputFile.toFile().getCanonicalPath()));
                                         map.put(from, to);
                                     }
                                 }
                             } else {
                                 // recursive
                                 ArrayDeque<File> fileStack = new ArrayDeque<>();
-                                fileStack.push(inputFile);
+                                fileStack.push(inputFile.toFile());
                                 while (!fileStack.isEmpty()) {
                                     File child = fileStack.pop();
                                     if (child.isDirectory()) {
@@ -592,11 +591,12 @@ public class CmdLineCompressor {
                                         }
                                     } else if (child.isFile()) {
                                         String from = child.getCanonicalPath();
-                                        String to = from.replaceFirst(escRegEx(inputFile.getCanonicalPath()),
-                                                Matcher.quoteReplacement(outpuFile.getCanonicalPath()));
+                                        String to = from.replaceFirst(escRegEx(inputFile.toFile().getCanonicalPath()),
+                                                Matcher.quoteReplacement(outputFile.toFile().getCanonicalPath()));
                                         map.put(from, to);
-                                        // make dirs
-                                        new File(new File(to).getCanonicalFile().getParent()).mkdirs();
+                                        // make directories
+                                        Files.createDirectories(
+                                                Path.of(to).toFile().getCanonicalFile().getParentFile().toPath());
                                     }
                                 }
                             }
@@ -605,11 +605,11 @@ public class CmdLineCompressor {
                         }
                     } else {
                         // is file
-                        if (outpuFile != null && outpuFile.isDirectory()) {
-                            String from = inputFile.getCanonicalPath();
+                        if (outputFile != null && Files.isDirectory(outputFile)) {
+                            String from = inputFile.toFile().getCanonicalPath();
                             String to = from.replaceFirst(
-                                    escRegEx(inputFile.getCanonicalFile().getParentFile().getCanonicalPath()),
-                                    Matcher.quoteReplacement(outpuFile.getCanonicalPath()));
+                                    escRegEx(inputFile.toFile().getCanonicalFile().getParentFile().getCanonicalPath()),
+                                    Matcher.quoteReplacement(outputFile.toFile().getCanonicalPath()));
                             map.put(fileArgsOpt.get(i), to);
                         } else {
                             map.put(fileArgsOpt.get(i), outputFilenameOpt);
@@ -618,7 +618,7 @@ public class CmdLineCompressor {
                     }
                 } else {
                     // is url
-                    if (fileArgsOpt.size() == 1 && (outpuFile == null || !outpuFile.isDirectory())) {
+                    if (fileArgsOpt.size() == 1 && (outputFile == null || !Files.isDirectory(outputFile))) {
                         map.put(fileArgsOpt.get(i), outputFilenameOpt);
                     } else {
                         throw new IllegalArgumentException(
@@ -649,7 +649,7 @@ public class CmdLineCompressor {
             return new BufferedReader(
                     new InputStreamReader(new URL(filename).openConnection().getInputStream(), charsetOpt));
         } else {
-            return new BufferedReader(new InputStreamReader(new FileInputStream(filename), charsetOpt));
+            return Files.newBufferedReader(Path.of(filename), charsetOpt);
         }
     }
 
@@ -668,7 +668,7 @@ public class CmdLineCompressor {
         if (filename == null) {
             return new OutputStreamWriter(System.out, charsetOpt);
         } else {
-            return new OutputStreamWriter(new FileOutputStream(filename), charsetOpt);
+            return new OutputStreamWriter(Files.newOutputStream(Path.of(filename)), charsetOpt);
         }
     }
 
