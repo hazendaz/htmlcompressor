@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2023 the original author or authors.
+ *    Copyright 2009-2025 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -19,13 +19,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.google.javascript.jscomp.CompilationLevel;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -450,8 +448,7 @@ public class HtmlCompressorTest {
      */
     private String readResource(String filename) {
         StringBuilder builder = new StringBuilder();
-        try (Reader reader = new BufferedReader(
-                new InputStreamReader(new FileInputStream(new File(resPath + filename)), StandardCharsets.UTF_8))) {
+        try (Reader reader = Files.newBufferedReader(Path.of(resPath + filename), StandardCharsets.UTF_8)) {
 
             char[] buffer = new char[8192];
             int read;
