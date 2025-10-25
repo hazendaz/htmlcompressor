@@ -910,7 +910,7 @@ public class HtmlCompressor implements Compressor {
                 pattern = surroundingSpacesAllPattern;
             } else {
                 pattern = Pattern.compile(
-                        "\\s*(</?(?:" + removeSurroundingSpaces.replaceAll(",", "|") + ")(?:>|[\\s/][^>]*>))\\s*",
+                        "\\s*(</?(?:" + removeSurroundingSpaces.replace(",", "|") + ")(?:>|[\\s/][^>]*>))\\s*",
                         Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
             }
 
