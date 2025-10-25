@@ -905,8 +905,7 @@ public class HtmlCompressor implements Compressor {
                 pattern = surroundingSpacesMinPattern;
             } else if (removeSurroundingSpaces.equalsIgnoreCase(BLOCK_TAGS_MAX)) {
                 pattern = surroundingSpacesMaxPattern;
-            }
-            if (removeSurroundingSpaces.equalsIgnoreCase(ALL_TAGS)) {
+            } else if (removeSurroundingSpaces.equalsIgnoreCase(ALL_TAGS)) {
                 pattern = surroundingSpacesAllPattern;
             } else {
                 pattern = Pattern.compile(
