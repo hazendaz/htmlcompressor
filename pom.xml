@@ -29,7 +29,7 @@
 
     <groupId>com.github.hazendaz</groupId>
     <artifactId>htmlcompressor</artifactId>
-    <version>1.12.0</version>
+    <version>1.12.1-SNAPSHOT</version>
 
     <name>htmlcompressor</name>
     <description>HtmlCompressor is a small, fast and very easy to use Java library that minifies given HTML or XML source by
@@ -112,7 +112,7 @@
         <module.name>com.github.hazendaz.htmlcompressor</module.name>
 
         <!-- Reproducible Builds -->
-        <project.build.outputTimestamp>1761416764</project.build.outputTimestamp>
+        <project.build.outputTimestamp>1761417241</project.build.outputTimestamp>
 
         <!-- External Modules -->
         <slf4j.version>2.0.17</slf4j.version>
