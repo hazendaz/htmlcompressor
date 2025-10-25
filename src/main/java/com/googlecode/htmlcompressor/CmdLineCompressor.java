@@ -393,10 +393,6 @@ public class CmdLineCompressor {
                         """);
             }
             logger.trace("", e);
-        } catch (OptionException e) {
-            logger.info("{}", e.getMessage());
-            logger.trace("", e);
-            printUsage();
         } catch (IOException | IllegalArgumentException e) {
             logger.info("{}", e.getMessage());
             logger.trace("", e);
@@ -408,11 +404,8 @@ public class CmdLineCompressor {
      * Creates the html compressor.
      *
      * @return the compressor
-     *
-     * @throws OptionException
-     *             the option exception
      */
-    private Compressor createHtmlCompressor() throws OptionException {
+    private Compressor createHtmlCompressor() {
 
         boolean useClosureCompressor = HtmlCompressor.JS_COMPRESSOR_CLOSURE.equalsIgnoreCase(jsCompressorOpt);
 
@@ -520,10 +513,8 @@ public class CmdLineCompressor {
      *
      * @throws IllegalArgumentException
      *             the illegal argument exception
-     * @throws OptionException
-     *             the option exception
      */
-    private Compressor createXmlCompressor() throws IllegalArgumentException, OptionException {
+    private Compressor createXmlCompressor() throws IllegalArgumentException {
         XmlCompressor xmlCompressor = new XmlCompressor();
         xmlCompressor.setRemoveComments(!preserveCommentsOpt);
         xmlCompressor.setRemoveIntertagSpaces(!preserveIntertagSpacesOpt);
