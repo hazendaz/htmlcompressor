@@ -23,7 +23,7 @@
     <parent>
         <groupId>com.github.hazendaz</groupId>
         <artifactId>base-parent</artifactId>
-        <version>55</version>
+        <version>56</version>
         <relativePath />
     </parent>
 
@@ -104,9 +104,9 @@
         <java.version>21</java.version>
         <java.release.version>21</java.release.version>
 
-        <!-- Keep javadocs in legacy mode as various issues in oss modules preventing update. -->
+        <!-- Keep javadocs in legacy mode as various issues in closure-compiler preventing update. -->
         <javadoc.java.release.version>21</javadoc.java.release.version>
-        <legacyMode>true</legacyMode>
+        <javadoc.legacy.mode>true</javadoc.legacy.mode>
 
         <!-- Automatic Module Name -->
         <module.name>com.github.hazendaz.htmlcompressor</module.name>
