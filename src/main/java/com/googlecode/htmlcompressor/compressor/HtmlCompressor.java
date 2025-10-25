@@ -967,7 +967,6 @@ public class HtmlCompressor implements Compressor {
         html = tagPropertyPattern.matcher(html).replaceAll("$1=");
 
         // remove ending spaces inside tags
-        // html = tagEndSpacePattern.matcher(html).replaceAll("$1$2");
         Matcher matcher = tagEndSpacePattern.matcher(html);
         StringBuilder sb = new StringBuilder();
         while (matcher.find()) {
