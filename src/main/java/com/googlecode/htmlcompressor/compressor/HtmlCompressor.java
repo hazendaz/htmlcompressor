@@ -410,7 +410,7 @@ public class HtmlCompressor implements Compressor {
      */
     @Override
     public String compress(String html) {
-        if (!enabled || html == null || html.length() == 0) {
+        if (!enabled || html == null || html.isEmpty()) {
             return html;
         }
 
@@ -532,7 +532,7 @@ public class HtmlCompressor implements Compressor {
                 int index = 0;
                 StringBuilder sb = new StringBuilder();
                 while (matcher.find()) {
-                    if (matcher.group(0).trim().length() > 0) {
+                    if (!matcher.group(0).trim().isEmpty()) {
                         userBlock.add(matcher.group(0));
                         matcher.appendReplacement(sb, MessageFormat.format(TEMP_USER_BLOCK, p, index++));
                     }
@@ -548,7 +548,7 @@ public class HtmlCompressor implements Compressor {
         int skipBlockIndex = 0;
         StringBuilder sb = new StringBuilder();
         while (matcher.find()) {
-            if (matcher.group(1).trim().length() > 0) {
+            if (!matcher.group(1).trim().isEmpty()) {
                 skipBlocks.add(matcher.group(1));
                 matcher.appendReplacement(sb, MessageFormat.format(TEMP_SKIP_BLOCK, skipBlockIndex++));
             }
@@ -562,7 +562,7 @@ public class HtmlCompressor implements Compressor {
         int index = 0;
         sb = new StringBuilder();
         while (matcher.find()) {
-            if (matcher.group(2).trim().length() > 0) {
+            if (!matcher.group(2).trim().isEmpty()) {
                 condCommentBlocks
                         .add(matcher.group(1) + condCommentCompressor.compress(matcher.group(2)) + matcher.group(3));
                 matcher.appendReplacement(sb, MessageFormat.format(TEMP_COND_COMMENT_BLOCK, index++));
@@ -576,7 +576,7 @@ public class HtmlCompressor implements Compressor {
         index = 0;
         sb = new StringBuilder();
         while (matcher.find()) {
-            if (matcher.group(2).trim().length() > 0) {
+            if (!matcher.group(2).trim().isEmpty()) {
                 eventBlocks.add(matcher.group(2));
                 matcher.appendReplacement(sb, "$1" + MessageFormat.format(TEMP_EVENT_BLOCK, index++) + "$3");
             }
@@ -587,7 +587,7 @@ public class HtmlCompressor implements Compressor {
         matcher = eventPattern2.matcher(html);
         sb = new StringBuilder();
         while (matcher.find()) {
-            if (matcher.group(2).trim().length() > 0) {
+            if (!matcher.group(2).trim().isEmpty()) {
                 eventBlocks.add(matcher.group(2));
                 matcher.appendReplacement(sb, "$1" + MessageFormat.format(TEMP_EVENT_BLOCK, index++) + "$3");
             }
@@ -600,7 +600,7 @@ public class HtmlCompressor implements Compressor {
         index = 0;
         sb = new StringBuilder();
         while (matcher.find()) {
-            if (matcher.group(2).trim().length() > 0) {
+            if (!matcher.group(2).trim().isEmpty()) {
                 preBlocks.add(matcher.group(2));
                 matcher.appendReplacement(sb, "$1" + MessageFormat.format(TEMP_PRE_BLOCK, index++) + "$3");
             }
@@ -614,7 +614,7 @@ public class HtmlCompressor implements Compressor {
         sb = new StringBuilder();
         while (matcher.find()) {
             // ignore empty scripts
-            if (matcher.group(2).trim().length() > 0) {
+            if (!matcher.group(2).trim().isEmpty()) {
 
                 // check type
                 String type = "";
@@ -623,7 +623,7 @@ public class HtmlCompressor implements Compressor {
                     type = typeMatcher.group(2).toLowerCase(Locale.ENGLISH);
                 }
 
-                if (type.length() == 0 || "text/javascript".equals(type) || "application/javascript".equals(type)) {
+                if (type.isEmpty() || "text/javascript".equals(type) || "application/javascript".equals(type)) {
                     // javascript block, preserve and compress with js compressor
                     scriptBlocks.add(matcher.group(2));
                     matcher.appendReplacement(sb, "$1" + MessageFormat.format(TEMP_SCRIPT_BLOCK, index++) + "$3");
@@ -646,7 +646,7 @@ public class HtmlCompressor implements Compressor {
         index = 0;
         sb = new StringBuilder();
         while (matcher.find()) {
-            if (matcher.group(2).trim().length() > 0) {
+            if (!matcher.group(2).trim().isEmpty()) {
                 styleBlocks.add(matcher.group(2));
                 matcher.appendReplacement(sb, "$1" + MessageFormat.format(TEMP_STYLE_BLOCK, index++) + "$3");
             }
@@ -659,7 +659,7 @@ public class HtmlCompressor implements Compressor {
         index = 0;
         sb = new StringBuilder();
         while (matcher.find()) {
-            if (matcher.group(2).trim().length() > 0) {
+            if (!matcher.group(2).trim().isEmpty()) {
                 taBlocks.add(matcher.group(2));
                 matcher.appendReplacement(sb, "$1" + MessageFormat.format(TEMP_TEXT_AREA_BLOCK, index++) + "$3");
             }
@@ -941,7 +941,7 @@ public class HtmlCompressor implements Compressor {
             StringBuilder sb = new StringBuilder();
             while (matcher.find()) {
                 // if quoted attribute is followed by "/" add extra space
-                if (matcher.group(3).trim().length() == 0) {
+                if (matcher.group(3).trim().isEmpty()) {
                     matcher.appendReplacement(sb, "=$2");
                 } else {
                     matcher.appendReplacement(sb, "=$2 $3");
@@ -2337,7 +2337,7 @@ public class HtmlCompressor implements Compressor {
      *            a comma separated list of tags around which spaces will be removed
      */
     public void setRemoveSurroundingSpaces(String tagList) {
-        if (tagList != null && tagList.length() == 0) {
+        if (tagList != null && tagList.isEmpty()) {
             tagList = null;
         }
         this.removeSurroundingSpaces = tagList;

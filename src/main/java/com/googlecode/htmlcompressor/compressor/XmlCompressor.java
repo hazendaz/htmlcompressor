@@ -80,7 +80,7 @@ public class XmlCompressor implements Compressor {
      */
     @Override
     public String compress(String xml) {
-        if (!enabled || xml == null || xml.length() == 0) {
+        if (!enabled || xml == null || xml.isEmpty()) {
             return xml;
         }
 

@@ -438,7 +438,7 @@ public class CmdLineCompressor {
 
                 String line = null;
                 while ((line = patternsIn.readLine()) != null) {
-                    if (line.length() > 0) {
+                    if (!line.isEmpty()) {
                         try {
                             preservePatterns.add(Pattern.compile(line));
                         } catch (PatternSyntaxException e) {
