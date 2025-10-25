@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class HtmlCompressorTest.
  */
+// Keep public for javadocs
 public class HtmlCompressorTest {
 
     /** The Constant logger. */

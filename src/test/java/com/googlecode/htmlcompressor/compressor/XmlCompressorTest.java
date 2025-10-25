@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class XmlCompressorTest.
  */
+// Keep public for javadocs
 public class XmlCompressorTest {
 
     /** The Constant logger. */
