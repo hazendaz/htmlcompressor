@@ -66,120 +66,160 @@ public class HtmlAnalyzer {
 
         printHeader();
 
-        logger.info(formatLine("Compression disabled", originalSize, originalSize, originalSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("Compression disabled", originalSize, originalSize, originalSize));
+        }
         int prevSize = originalSize;
 
         // spaces inside tags
-        logger.info(formatLine("All settings disabled", originalSize, compResult.length(), prevSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("All settings disabled", originalSize, compResult.length(), prevSize));
+        }
         prevSize = compResult.length();
 
         // remove comments
         compressor.setRemoveComments(true);
         compResult = compressor.compress(source);
-        logger.info(formatLine("Comments removed", originalSize, compResult.length(), prevSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("Comments removed", originalSize, compResult.length(), prevSize));
+        }
         prevSize = compResult.length();
 
         // remove mulispaces
         compressor.setRemoveMultiSpaces(true);
         compResult = compressor.compress(source);
-        logger.info(formatLine("Multiple spaces removed", originalSize, compResult.length(), prevSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("Multiple spaces removed", originalSize, compResult.length(), prevSize));
+        }
         prevSize = compResult.length();
 
         // remove intertag spaces
         compressor.setRemoveIntertagSpaces(true);
         compResult = compressor.compress(source);
-        logger.info(formatLine("No spaces between tags", originalSize, compResult.length(), prevSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("No spaces between tags", originalSize, compResult.length(), prevSize));
+        }
         prevSize = compResult.length();
 
         // remove min surrounding spaces
         compressor.setRemoveSurroundingSpaces(HtmlCompressor.BLOCK_TAGS_MIN);
         compResult = compressor.compress(source);
-        logger.info(formatLine("No surround spaces (min)", originalSize, compResult.length(), prevSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("No surround spaces (min)", originalSize, compResult.length(), prevSize));
+        }
         prevSize = compResult.length();
 
         // remove max surrounding spaces
         compressor.setRemoveSurroundingSpaces(HtmlCompressor.BLOCK_TAGS_MAX);
         compResult = compressor.compress(source);
-        logger.info(formatLine("No surround spaces (max)", originalSize, compResult.length(), prevSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("No surround spaces (max)", originalSize, compResult.length(), prevSize));
+        }
         prevSize = compResult.length();
 
         // remove all surrounding spaces
         compressor.setRemoveSurroundingSpaces(HtmlCompressor.ALL_TAGS);
         compResult = compressor.compress(source);
-        logger.info(formatLine("No surround spaces (all)", originalSize, compResult.length(), prevSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("No surround spaces (all)", originalSize, compResult.length(), prevSize));
+        }
         prevSize = compResult.length();
 
         // remove quotes
         compressor.setRemoveQuotes(true);
         compResult = compressor.compress(source);
-        logger.info(formatLine("Quotes removed from tags", originalSize, compResult.length(), prevSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("Quotes removed from tags", originalSize, compResult.length(), prevSize));
+        }
         prevSize = compResult.length();
 
         // link attrib
         compressor.setRemoveLinkAttributes(true);
         compResult = compressor.compress(source);
-        logger.info(formatLine("<link> attr. removed", originalSize, compResult.length(), prevSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("<link> attr. removed", originalSize, compResult.length(), prevSize));
+        }
         prevSize = compResult.length();
 
         // style attrib
         compressor.setRemoveStyleAttributes(true);
         compResult = compressor.compress(source);
-        logger.info(formatLine("<style> attr. removed", originalSize, compResult.length(), prevSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("<style> attr. removed", originalSize, compResult.length(), prevSize));
+        }
         prevSize = compResult.length();
 
         // script attrib
         compressor.setRemoveScriptAttributes(true);
         compResult = compressor.compress(source);
-        logger.info(formatLine("<script> attr. removed", originalSize, compResult.length(), prevSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("<script> attr. removed", originalSize, compResult.length(), prevSize));
+        }
         prevSize = compResult.length();
 
         // form attrib
         compressor.setRemoveFormAttributes(true);
         compResult = compressor.compress(source);
-        logger.info(formatLine("<form> attr. removed", originalSize, compResult.length(), prevSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("<form> attr. removed", originalSize, compResult.length(), prevSize));
+        }
         prevSize = compResult.length();
 
         // input attrib
         compressor.setRemoveInputAttributes(true);
         compResult = compressor.compress(source);
-        logger.info(formatLine("<input> attr. removed", originalSize, compResult.length(), prevSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("<input> attr. removed", originalSize, compResult.length(), prevSize));
+        }
         prevSize = compResult.length();
 
         // simple bool
         compressor.setSimpleBooleanAttributes(true);
         compResult = compressor.compress(source);
-        logger.info(formatLine("Simple boolean attributes", originalSize, compResult.length(), prevSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("Simple boolean attributes", originalSize, compResult.length(), prevSize));
+        }
         prevSize = compResult.length();
 
         // simple doctype
         compressor.setSimpleDoctype(true);
         compResult = compressor.compress(source);
-        logger.info(formatLine("Simple doctype", originalSize, compResult.length(), prevSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("Simple doctype", originalSize, compResult.length(), prevSize));
+        }
         prevSize = compResult.length();
 
         // js protocol
         compressor.setRemoveJavaScriptProtocol(true);
         compResult = compressor.compress(source);
-        logger.info(formatLine("Remove js pseudo-protocol", originalSize, compResult.length(), prevSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("Remove js pseudo-protocol", originalSize, compResult.length(), prevSize));
+        }
         prevSize = compResult.length();
 
         // http protocol
         compressor.setRemoveHttpProtocol(true);
         compResult = compressor.compress(source);
-        logger.info(formatLine("Remove http protocol", originalSize, compResult.length(), prevSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("Remove http protocol", originalSize, compResult.length(), prevSize));
+        }
         prevSize = compResult.length();
 
         // https protocol
         compressor.setRemoveHttpsProtocol(true);
         compResult = compressor.compress(source);
-        logger.info(formatLine("Remove https protocol", originalSize, compResult.length(), prevSize));
+        if (logger.isInfoEnabled()) {
+            logger.info(formatLine("Remove https protocol", originalSize, compResult.length(), prevSize));
+        }
         prevSize = compResult.length();
 
         // inline css
         try {
             compressor.setCompressCss(true);
             compResult = compressor.compress(source);
-            logger.info(formatLine("Compress inline CSS (YUI)", originalSize, compResult.length(), prevSize));
+            if (logger.isInfoEnabled()) {
+                logger.info(formatLine("Compress inline CSS (YUI)", originalSize, compResult.length(), prevSize));
+            }
             prevSize = compResult.length();
         } catch (NoClassDefFoundError e) {
             logger.info(formatEmptyLine("Compress inline CSS (YUI)"));
@@ -191,7 +231,9 @@ public class HtmlAnalyzer {
             try {
                 compressor.setCompressJavaScript(true);
                 compResult = compressor.compress(source);
-                logger.info(formatLine("Compress inline JS (YUI)", originalSize, compResult.length(), prevSize));
+                if (logger.isInfoEnabled()) {
+                    logger.info(formatLine("Compress inline JS (YUI)", originalSize, compResult.length(), prevSize));
+                }
             } catch (NoClassDefFoundError e) {
                 logger.info(formatEmptyLine("Compress inline JS (YUI)"));
                 logger.trace("", e);
@@ -202,7 +244,9 @@ public class HtmlAnalyzer {
                 compressor.setCompressJavaScript(true);
                 compressor.setJavaScriptCompressor(new ClosureJavaScriptCompressor());
                 compResult = compressor.compress(source);
-                logger.info(formatLine("Compress JS (Closure)", originalSize, compResult.length(), prevSize));
+                if (logger.isInfoEnabled()) {
+                    logger.info(formatLine("Compress JS (Closure)", originalSize, compResult.length(), prevSize));
+                }
             } catch (NoClassDefFoundError e) {
                 logger.info(formatEmptyLine("Compress JS (Closure)"));
                 logger.trace("", e);
@@ -271,24 +315,27 @@ public class HtmlAnalyzer {
      * Prints the header.
      */
     private void printHeader() {
-        logger.info("\n");
-        logger.info("=".repeat(80));
-        logger.info(String.format("%-25s | %-16s | %-16s | %-12s |", "         Setting", "Incremental Gain",
-                "   Total Gain", " Page Size"));
-        logger.info("\n");
-        logger.info("=".repeat(80));
-
+        if (logger.isInfoEnabled()) {
+            logger.info("\n");
+            logger.info("=".repeat(80));
+            logger.info(String.format("%-25s | %-16s | %-16s | %-12s |", "         Setting", "Incremental Gain",
+                    "   Total Gain", " Page Size"));
+            logger.info("\n");
+            logger.info("=".repeat(80));
+        }
     }
 
     /**
      * Prints the footer.
      */
     private void printFooter() {
-        logger.info("=".repeat(80));
-        logger.info("\n");
-        logger.info("Each consecutive compressor setting is applied on top of previous ones.");
-        logger.info("In order to see JS and CSS compression results, YUI jar file must be present.");
-        logger.info("All sizes are in bytes.");
+        if (logger.isInfoEnabled()) {
+            logger.info("=".repeat(80));
+            logger.info("\n");
+            logger.info("Each consecutive compressor setting is applied on top of previous ones.");
+            logger.info("In order to see JS and CSS compression results, YUI jar file must be present.");
+            logger.info("All sizes are in bytes.");
+        }
     }
 
     /**
