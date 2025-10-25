@@ -37,10 +37,10 @@ public class CmdLineParser {
     private List<String> remainingArgs;
 
     /** The options. */
-    private HashMap<Object, Option> options = new HashMap<>(10);
+    private HashMap<Object, Option> options = HashMap.newHashMap(10);
 
     /** The values. */
-    private HashMap<String, Object> values = new HashMap<>(10);
+    private HashMap<String, Object> values = HashMap.newHashMap(10);
 
     /**
      * Base class for exceptions that may be thrown when options are parsed.
@@ -803,7 +803,7 @@ public class CmdLineParser {
 
         List<String> otherArgs = new ArrayList<>();
         int position = 0;
-        this.values = new HashMap<>(10);
+        this.values = HashMap.newHashMap(10);
         while (position < argv.length) {
             String curArg = argv[position];
             if (curArg.startsWith("-")) {
