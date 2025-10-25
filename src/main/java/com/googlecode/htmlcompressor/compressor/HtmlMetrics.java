@@ -17,8 +17,6 @@ package com.googlecode.htmlcompressor.compressor;
 
 /**
  * Class that stores metrics about HTML documents.
- *
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  */
 public class HtmlMetrics {
 

@@ -24,8 +24,6 @@ import java.util.regex.Pattern;
 /**
  * Class that compresses given XML source by removing comments, extra spaces and line breaks while preserving content
  * within CDATA blocks.
- *
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  */
 public class XmlCompressor implements Compressor {
 
@@ -82,7 +80,7 @@ public class XmlCompressor implements Compressor {
      */
     @Override
     public String compress(String xml) {
-        if (!enabled || xml == null || xml.length() == 0) {
+        if (!enabled || xml == null || xml.isEmpty()) {
             return xml;
         }
 

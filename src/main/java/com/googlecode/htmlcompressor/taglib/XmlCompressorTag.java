@@ -29,8 +29,6 @@ import org.slf4j.LoggerFactory;
 /**
  * JSP tag that compresses an XML content within &lt;compress:xml&gt;. Compression parameters are set by default.
  *
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
- *
  * @see XmlCompressor
  */
 public class XmlCompressorTag extends BodyTagSupport {

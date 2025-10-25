@@ -35,8 +35,6 @@ import org.apache.velocity.runtime.parser.node.Node;
  * Velocity directive that compresses an JavaScript content within #compressJs ... #end block. All JavaScript-related
  * properties from {@link HtmlCompressor} are supported.
  *
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
- *
  * @see HtmlCompressor
  * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
  * @see <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a>

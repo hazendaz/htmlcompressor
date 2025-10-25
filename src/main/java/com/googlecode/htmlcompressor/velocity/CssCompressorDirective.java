@@ -33,8 +33,6 @@ import org.apache.velocity.runtime.parser.node.Node;
  * Velocity directive that compresses an CSS content within #compressCss ... #end block. All CSS-related properties from
  * {@link HtmlCompressor} are supported.
  *
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
- *
  * @see HtmlCompressor
  * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
  */

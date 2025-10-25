@@ -61,8 +61,6 @@ import jargs.gnu.CmdLineParser.OptionException;
  * To view a list of all available parameters please run with <code>-?</code> option:
  * <p>
  * <code>java -jar htmlcompressor.jar -?</code>
- *
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  */
 public class CmdLineCompressor {
 
@@ -391,14 +389,10 @@ public class CmdLineCompressor {
             } else {
                 logger.info("""
                         ERROR: For CSS or JavaScript compression using YUICompressor additional jar file
-                        called yuicompressor.jar must be present\n" + "in the same directory as HtmlCompressor jar
+                        called yuicompressor.jar must be present in the same directory as HtmlCompressor jar
                         """);
             }
             logger.trace("", e);
-        } catch (OptionException e) {
-            logger.info("{}", e.getMessage());
-            logger.trace("", e);
-            printUsage();
         } catch (IOException | IllegalArgumentException e) {
             logger.info("{}", e.getMessage());
             logger.trace("", e);
@@ -410,11 +404,8 @@ public class CmdLineCompressor {
      * Creates the html compressor.
      *
      * @return the compressor
-     *
-     * @throws OptionException
-     *             the option exception
      */
-    private Compressor createHtmlCompressor() throws OptionException {
+    private Compressor createHtmlCompressor() {
 
         boolean useClosureCompressor = HtmlCompressor.JS_COMPRESSOR_CLOSURE.equalsIgnoreCase(jsCompressorOpt);
 
@@ -440,7 +431,7 @@ public class CmdLineCompressor {
 
                 String line = null;
                 while ((line = patternsIn.readLine()) != null) {
-                    if (line.length() > 0) {
+                    if (!line.isEmpty()) {
                         try {
                             preservePatterns.add(Pattern.compile(line));
                         } catch (PatternSyntaxException e) {
@@ -522,10 +513,8 @@ public class CmdLineCompressor {
      *
      * @throws IllegalArgumentException
      *             the illegal argument exception
-     * @throws OptionException
-     *             the option exception
      */
-    private Compressor createXmlCompressor() throws IllegalArgumentException, OptionException {
+    private Compressor createXmlCompressor() throws IllegalArgumentException {
         XmlCompressor xmlCompressor = new XmlCompressor();
         xmlCompressor.setRemoveComments(!preserveCommentsOpt);
         xmlCompressor.setRemoveIntertagSpaces(!preserveIntertagSpacesOpt);
@@ -784,12 +773,12 @@ public class CmdLineCompressor {
                  --remove-style-attr           Remove TYPE attribute from STYLE tags
                  --remove-link-attr            Remove TYPE attribute from LINK tags
                  --remove-script-attr          Remove TYPE and LANGUAGE from SCRIPT tags
-                 --remove-form-attr            Remove METHOD=\"GET\" from FORM tags
-                 --remove-input-attr           Remove TYPE=\"TEXT\" from INPUT tags
+                 --remove-form-attr            Remove METHOD="GET" from FORM tags
+                 --remove-input-attr           Remove TYPE="TEXT" from INPUT tags
                  --simple-bool-attr            Remove values from boolean tag attributes
-                 --remove-js-protocol          Remove \"javascript:\" from inline event handlers
-                 --remove-http-protocol        Remove \"http:\" from tag attributes
-                 --remove-https-protocol       Remove \"https:\" from tag attributes
+                 --remove-js-protocol          Remove "javascript:" from inline event handlers
+                 --remove-http-protocol        Remove "http:" from tag attributes
+                 --remove-https-protocol       Remove "https:" from tag attributes
                  --remove-surrounding-spaces <min|max|all|custom_list>
                                                Predefined or custom comma separated list of tags
                  --compress-js                 Enable inline JavaScript compression
@@ -846,7 +835,7 @@ public class CmdLineCompressor {
          * @param withDirs
          *            the with dirs
          */
-        public CompressorFileFilter(String type, String filemask, boolean withDirs) {
+        CompressorFileFilter(String type, String filemask, boolean withDirs) {
 
             this.withDirs = withDirs;
 

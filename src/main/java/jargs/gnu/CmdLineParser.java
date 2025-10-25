@@ -28,10 +28,6 @@ import java.util.Locale;
  * allows options with associated values (-d 2, --debug 2, --debug=2). Option processing can be explicitly terminated by
  * the argument '--'.
  *
- * @author Steve Purcell
- *
- * @version $Revision$
- *
  * @see <a href="https://github.com/purcell/jargs/tree/master/src/examples/java/com/sanityinc/jargs/examples">jargs
  *      examples</a>
  */
@@ -41,10 +37,10 @@ public class CmdLineParser {
     private List<String> remainingArgs;
 
     /** The options. */
-    private HashMap<Object, Option> options = new HashMap<>(10);
+    private HashMap<Object, Option> options = HashMap.newHashMap(10);
 
     /** The values. */
-    private HashMap<String, Object> values = new HashMap<>(10);
+    private HashMap<String, Object> values = HashMap.newHashMap(10);
 
     /**
      * Base class for exceptions that may be thrown when options are parsed.
@@ -113,8 +109,6 @@ public class CmdLineParser {
     /**
      * Thrown when the parsed commandline contains multiple concatenated short options, such as -abcd, where one is
      * unknown. <code>getMessage()</code> returns an english human-readable error string.
-     *
-     * @author Vidar Holen
      */
     public static class UnknownSuboptionException extends UnknownOptionException {
 
@@ -150,8 +144,6 @@ public class CmdLineParser {
     /**
      * Thrown when the parsed commandline contains multiple concatenated short options, such as -abcd, where one or more
      * requires a value. <code>getMessage()</code> returns an english human-readable error string.
-     *
-     * @author Vidar Holen
      */
     public static class NotFlagException extends UnknownOptionException {
 
@@ -811,7 +803,7 @@ public class CmdLineParser {
 
         List<String> otherArgs = new ArrayList<>();
         int position = 0;
-        this.values = new HashMap<>(10);
+        this.values = HashMap.newHashMap(10);
         while (position < argv.length) {
             String curArg = argv[position];
             if (curArg.startsWith("-")) {
