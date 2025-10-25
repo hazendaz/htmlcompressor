@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JavaScriptCompressorDirective.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">htmlcompressor</a> &gt; <a href="index.source.html" class="el_package">com.googlecode.htmlcompressor.velocity</a> &gt; <span class="el_source">JavaScriptCompressorDirective.java</span></div><h1>JavaScriptCompressorDirective.java</h1><pre class="source lang-java linenums">/*
- *    Copyright 2009-2022 the original author or authors.
+ *    Copyright 2009-2025 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
@@ -35,19 +35,17 @@ import org.apache.velocity.runtime.parser.node.Node;
  * Velocity directive that compresses an JavaScript content within #compressJs ... #end block. All JavaScript-related
  * properties from {@link HtmlCompressor} are supported.
  *
- * @author &lt;a href=&quot;mailto:serg472@gmail.com&quot;&gt;Sergiy Kovalchuk&lt;/a&gt;
- *
  * @see HtmlCompressor
  * @see &lt;a href=&quot;http://developer.yahoo.com/yui/compressor/&quot;&gt;Yahoo YUI Compressor&lt;/a&gt;
  * @see &lt;a href=&quot;http://code.google.com/closure/compiler/&quot;&gt;Google Closure Compiler&lt;/a&gt;
  */
-<span class="nc" id="L44">public class JavaScriptCompressorDirective extends Directive {</span>
+<span class="nc" id="L42">public class JavaScriptCompressorDirective extends Directive {</span>
 
     /** The enabled. */
-<span class="nc" id="L47">    private boolean enabled = true;</span>
+<span class="nc" id="L45">    private boolean enabled = true;</span>
 
     /** The js compressor. */
-<span class="nc" id="L50">    private String jsCompressor = HtmlCompressor.JS_COMPRESSOR_YUI;</span>
+<span class="nc" id="L48">    private String jsCompressor = HtmlCompressor.JS_COMPRESSOR_YUI;</span>
 
     // YUICompressor settings
 
@@ -61,91 +59,91 @@ import org.apache.velocity.runtime.parser.node.Node;
     private boolean yuiJsDisableOptimizations;
 
     /** The yui js line break. */
-<span class="nc" id="L64">    private int yuiJsLineBreak = -1;</span>
+<span class="nc" id="L62">    private int yuiJsLineBreak = -1;</span>
 
     // Closure compressor settings
 
     /** The closure opt level. */
-<span class="nc" id="L69">    private String closureOptLevel = ClosureJavaScriptCompressor.COMPILATION_LEVEL_SIMPLE;</span>
+<span class="nc" id="L67">    private String closureOptLevel = ClosureJavaScriptCompressor.COMPILATION_LEVEL_SIMPLE;</span>
 
     @Override
     public String getName() {
-<span class="nc" id="L73">        return &quot;compressJs&quot;;</span>
+<span class="nc" id="L71">        return &quot;compressJs&quot;;</span>
     }
 
     @Override
     public int getType() {
-<span class="nc" id="L78">        return BLOCK;</span>
+<span class="nc" id="L76">        return BLOCK;</span>
     }
 
     @Override
     public void init(RuntimeServices rs, InternalContextAdapter context, Node node) throws TemplateInitException {
-<span class="nc" id="L83">        super.init(rs, context, node);</span>
-<span class="nc" id="L84">        log = rs.getLog();</span>
+<span class="nc" id="L81">        super.init(rs, context, node);</span>
+<span class="nc" id="L82">        log = rs.getLog();</span>
 
         // set compressor properties
-<span class="nc" id="L87">        enabled = rs.getBoolean(&quot;userdirective.compressJs.enabled&quot;, true);</span>
-<span class="nc" id="L88">        jsCompressor = rs.getString(&quot;userdirective.compressHtml.jsCompressor&quot;, HtmlCompressor.JS_COMPRESSOR_YUI);</span>
-<span class="nc" id="L89">        yuiJsNoMunge = rs.getBoolean(&quot;userdirective.compressJs.yuiJsNoMunge&quot;, false);</span>
-<span class="nc" id="L90">        yuiJsPreserveAllSemiColons = rs.getBoolean(&quot;userdirective.compressJs.yuiJsPreserveAllSemiColons&quot;, false);</span>
-<span class="nc" id="L91">        yuiJsLineBreak = rs.getInt(&quot;userdirective.compressJs.yuiJsLineBreak&quot;, -1);</span>
-<span class="nc" id="L92">        closureOptLevel = rs.getString(&quot;userdirective.compressHtml.closureOptLevel&quot;,</span>
+<span class="nc" id="L85">        enabled = rs.getBoolean(&quot;userdirective.compressJs.enabled&quot;, true);</span>
+<span class="nc" id="L86">        jsCompressor = rs.getString(&quot;userdirective.compressHtml.jsCompressor&quot;, HtmlCompressor.JS_COMPRESSOR_YUI);</span>
+<span class="nc" id="L87">        yuiJsNoMunge = rs.getBoolean(&quot;userdirective.compressJs.yuiJsNoMunge&quot;, false);</span>
+<span class="nc" id="L88">        yuiJsPreserveAllSemiColons = rs.getBoolean(&quot;userdirective.compressJs.yuiJsPreserveAllSemiColons&quot;, false);</span>
+<span class="nc" id="L89">        yuiJsLineBreak = rs.getInt(&quot;userdirective.compressJs.yuiJsLineBreak&quot;, -1);</span>
+<span class="nc" id="L90">        closureOptLevel = rs.getString(&quot;userdirective.compressHtml.closureOptLevel&quot;,</span>
                 ClosureJavaScriptCompressor.COMPILATION_LEVEL_SIMPLE);
-<span class="nc" id="L94">    }</span>
+<span class="nc" id="L92">    }</span>
 
     @Override
     public boolean render(InternalContextAdapter context, Writer writer, Node node)
             throws IOException, MethodInvocationException {
 
         // render content
-<span class="nc" id="L101">        StringWriter content = new StringWriter();</span>
-<span class="nc" id="L102">        node.jjtGetChild(0).render(context, content);</span>
+<span class="nc" id="L99">        StringWriter content = new StringWriter();</span>
+<span class="nc" id="L100">        node.jjtGetChild(0).render(context, content);</span>
 
         // compress
-<span class="nc bnc" id="L105" title="All 2 branches missed.">        if (enabled) {</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if (enabled) {</span>
             try {
-<span class="nc" id="L107">                String result = content.toString();</span>
+<span class="nc" id="L105">                String result = content.toString();</span>
 
-<span class="nc bnc" id="L109" title="All 2 branches missed.">                if (jsCompressor.equalsIgnoreCase(HtmlCompressor.JS_COMPRESSOR_CLOSURE)) {</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">                if (jsCompressor.equalsIgnoreCase(HtmlCompressor.JS_COMPRESSOR_CLOSURE)) {</span>
                     // call Closure compressor
-<span class="nc" id="L111">                    ClosureJavaScriptCompressor closureCompressor = new ClosureJavaScriptCompressor();</span>
-<span class="nc bnc" id="L112" title="All 2 branches missed.">                    if (closureOptLevel.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_ADVANCED)) {</span>
-<span class="nc" id="L113">                        closureCompressor.setCompilationLevel(CompilationLevel.ADVANCED_OPTIMIZATIONS);</span>
-<span class="nc" id="L114">                    } else if (closureOptLevel</span>
-<span class="nc bnc" id="L115" title="All 2 branches missed.">                            .equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_WHITESPACE)) {</span>
-<span class="nc" id="L116">                        closureCompressor.setCompilationLevel(CompilationLevel.WHITESPACE_ONLY);</span>
+<span class="nc" id="L109">                    ClosureJavaScriptCompressor closureCompressor = new ClosureJavaScriptCompressor();</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">                    if (closureOptLevel.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_ADVANCED)) {</span>
+<span class="nc" id="L111">                        closureCompressor.setCompilationLevel(CompilationLevel.ADVANCED_OPTIMIZATIONS);</span>
+<span class="nc" id="L112">                    } else if (closureOptLevel</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">                            .equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_WHITESPACE)) {</span>
+<span class="nc" id="L114">                        closureCompressor.setCompilationLevel(CompilationLevel.WHITESPACE_ONLY);</span>
                     } else {
-<span class="nc" id="L118">                        closureCompressor.setCompilationLevel(CompilationLevel.SIMPLE_OPTIMIZATIONS);</span>
+<span class="nc" id="L116">                        closureCompressor.setCompilationLevel(CompilationLevel.SIMPLE_OPTIMIZATIONS);</span>
                     }
 
-<span class="nc" id="L121">                    result = closureCompressor.compress(result);</span>
+<span class="nc" id="L119">                    result = closureCompressor.compress(result);</span>
 
-<span class="nc" id="L123">                } else {</span>
+<span class="nc" id="L121">                } else {</span>
                     // call YUICompressor
-<span class="nc" id="L125">                    YuiJavaScriptCompressor yuiCompressor = new YuiJavaScriptCompressor();</span>
-<span class="nc" id="L126">                    yuiCompressor.setDisableOptimizations(yuiJsDisableOptimizations);</span>
-<span class="nc" id="L127">                    yuiCompressor.setLineBreak(yuiJsLineBreak);</span>
-<span class="nc" id="L128">                    yuiCompressor.setNoMunge(yuiJsNoMunge);</span>
-<span class="nc" id="L129">                    yuiCompressor.setPreserveAllSemiColons(yuiJsPreserveAllSemiColons);</span>
+<span class="nc" id="L123">                    YuiJavaScriptCompressor yuiCompressor = new YuiJavaScriptCompressor();</span>
+<span class="nc" id="L124">                    yuiCompressor.setDisableOptimizations(yuiJsDisableOptimizations);</span>
+<span class="nc" id="L125">                    yuiCompressor.setLineBreak(yuiJsLineBreak);</span>
+<span class="nc" id="L126">                    yuiCompressor.setNoMunge(yuiJsNoMunge);</span>
+<span class="nc" id="L127">                    yuiCompressor.setPreserveAllSemiColons(yuiJsPreserveAllSemiColons);</span>
 
-<span class="nc" id="L131">                    result = yuiCompressor.compress(result);</span>
+<span class="nc" id="L129">                    result = yuiCompressor.compress(result);</span>
                 }
 
-<span class="nc" id="L134">                writer.write(result);</span>
-<span class="nc" id="L135">            } catch (Exception e) {</span>
-<span class="nc" id="L136">                writer.write(content.toString());</span>
-<span class="nc" id="L137">                String msg = &quot;Failed to compress content: &quot; + content.toString();</span>
-<span class="nc" id="L138">                log.error(msg, e);</span>
-<span class="nc" id="L139">                throw new RuntimeException(msg, e);</span>
+<span class="nc" id="L132">                writer.write(result);</span>
+<span class="nc" id="L133">            } catch (Exception e) {</span>
+<span class="nc" id="L134">                writer.write(content.toString());</span>
+<span class="nc" id="L135">                String msg = &quot;Failed to compress content: &quot; + content.toString();</span>
+<span class="nc" id="L136">                log.error(msg, e);</span>
+<span class="nc" id="L137">                throw new RuntimeException(msg, e);</span>
 
-<span class="nc" id="L141">            }</span>
+<span class="nc" id="L139">            }</span>
         } else {
-<span class="nc" id="L143">            writer.write(content.toString());</span>
+<span class="nc" id="L141">            writer.write(content.toString());</span>
         }
 
-<span class="nc" id="L146">        return true;</span>
+<span class="nc" id="L144">        return true;</span>
 
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

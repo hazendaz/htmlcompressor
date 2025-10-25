@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HtmlMetrics.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">htmlcompressor</a> &gt; <a href="index.source.html" class="el_package">com.googlecode.htmlcompressor.compressor</a> &gt; <span class="el_source">HtmlMetrics.java</span></div><h1>HtmlMetrics.java</h1><pre class="source lang-java linenums">/*
- *    Copyright 2009-2021 the original author or authors.
+ *    Copyright 2009-2025 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
@@ -17,10 +17,8 @@ package com.googlecode.htmlcompressor.compressor;
 
 /**
  * Class that stores metrics about HTML documents.
- *
- * @author &lt;a href=&quot;mailto:serg472@gmail.com&quot;&gt;Sergiy Kovalchuk&lt;/a&gt;
  */
-<span class="nc" id="L23">public class HtmlMetrics {</span>
+<span class="nc" id="L21">public class HtmlMetrics {</span>
 
     /** The filesize. */
     private int filesize;
@@ -43,7 +41,7 @@ package com.googlecode.htmlcompressor.compressor;
      * @return total filesize of a document, in bytes
      */
     public int getFilesize() {
-<span class="nc" id="L46">        return filesize;</span>
+<span class="nc" id="L44">        return filesize;</span>
     }
 
     /**
@@ -53,8 +51,8 @@ package com.googlecode.htmlcompressor.compressor;
      *            the filesize to set
      */
     public void setFilesize(int filesize) {
-<span class="nc" id="L56">        this.filesize = filesize;</span>
-<span class="nc" id="L57">    }</span>
+<span class="nc" id="L54">        this.filesize = filesize;</span>
+<span class="nc" id="L55">    }</span>
 
     /**
      * Returns number of empty characters (spaces, tabs, end of lines) in a document.
@@ -62,7 +60,7 @@ package com.googlecode.htmlcompressor.compressor;
      * @return number of empty characters in a document
      */
     public int getEmptyChars() {
-<span class="nc" id="L65">        return emptyChars;</span>
+<span class="nc" id="L63">        return emptyChars;</span>
     }
 
     /**
@@ -72,8 +70,8 @@ package com.googlecode.htmlcompressor.compressor;
      *            the emptyChars to set
      */
     public void setEmptyChars(int emptyChars) {
-<span class="nc" id="L75">        this.emptyChars = emptyChars;</span>
-<span class="nc" id="L76">    }</span>
+<span class="nc" id="L73">        this.emptyChars = emptyChars;</span>
+<span class="nc" id="L74">    }</span>
 
     /**
      * Returns total size of inline &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tags.
@@ -81,7 +79,7 @@ package com.googlecode.htmlcompressor.compressor;
      * @return total size of inline &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tags, in bytes
      */
     public int getInlineScriptSize() {
-<span class="nc" id="L84">        return inlineScriptSize;</span>
+<span class="nc" id="L82">        return inlineScriptSize;</span>
     }
 
     /**
@@ -91,8 +89,8 @@ package com.googlecode.htmlcompressor.compressor;
      *            the inlineScriptSize to set
      */
     public void setInlineScriptSize(int inlineScriptSize) {
-<span class="nc" id="L94">        this.inlineScriptSize = inlineScriptSize;</span>
-<span class="nc" id="L95">    }</span>
+<span class="nc" id="L92">        this.inlineScriptSize = inlineScriptSize;</span>
+<span class="nc" id="L93">    }</span>
 
     /**
      * Returns total size of inline &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt; tags.
@@ -100,7 +98,7 @@ package com.googlecode.htmlcompressor.compressor;
      * @return total size of inline &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt; tags, in bytes
      */
     public int getInlineStyleSize() {
-<span class="nc" id="L103">        return inlineStyleSize;</span>
+<span class="nc" id="L101">        return inlineStyleSize;</span>
     }
 
     /**
@@ -110,8 +108,8 @@ package com.googlecode.htmlcompressor.compressor;
      *            the inlineStyleSize to set
      */
     public void setInlineStyleSize(int inlineStyleSize) {
-<span class="nc" id="L113">        this.inlineStyleSize = inlineStyleSize;</span>
-<span class="nc" id="L114">    }</span>
+<span class="nc" id="L111">        this.inlineStyleSize = inlineStyleSize;</span>
+<span class="nc" id="L112">    }</span>
 
     /**
      * Returns total size of inline event handlers (&lt;code&gt;onclick&lt;/code&gt;, etc).
@@ -119,7 +117,7 @@ package com.googlecode.htmlcompressor.compressor;
      * @return total size of inline event handlers, in bytes
      */
     public int getInlineEventSize() {
-<span class="nc" id="L122">        return inlineEventSize;</span>
+<span class="nc" id="L120">        return inlineEventSize;</span>
     }
 
     /**
@@ -129,14 +127,14 @@ package com.googlecode.htmlcompressor.compressor;
      *            the inlineEventSize to set
      */
     public void setInlineEventSize(int inlineEventSize) {
-<span class="nc" id="L132">        this.inlineEventSize = inlineEventSize;</span>
-<span class="nc" id="L133">    }</span>
+<span class="nc" id="L130">        this.inlineEventSize = inlineEventSize;</span>
+<span class="nc" id="L131">    }</span>
 
     @Override
     public String toString() {
-<span class="nc" id="L137">        return String.format(&quot;Filesize=%d, Empty Chars=%d, Script Size=%d, Style Size=%d, Event Handler Size=%d&quot;,</span>
-<span class="nc" id="L138">                filesize, emptyChars, inlineScriptSize, inlineStyleSize, inlineEventSize);</span>
+<span class="nc" id="L135">        return String.format(&quot;Filesize=%d, Empty Chars=%d, Script Size=%d, Style Size=%d, Event Handler Size=%d&quot;,</span>
+<span class="nc" id="L136">                filesize, emptyChars, inlineScriptSize, inlineStyleSize, inlineEventSize);</span>
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

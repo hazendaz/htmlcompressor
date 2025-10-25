@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HtmlCompressorDirective.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">htmlcompressor</a> &gt; <a href="index.source.html" class="el_package">com.googlecode.htmlcompressor.velocity</a> &gt; <span class="el_source">HtmlCompressorDirective.java</span></div><h1>HtmlCompressorDirective.java</h1><pre class="source lang-java linenums">/*
- *    Copyright 2009-2022 the original author or authors.
+ *    Copyright 2009-2025 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
@@ -34,102 +34,100 @@ import org.apache.velocity.runtime.parser.node.Node;
  * Velocity directive that compresses an HTML content within #compressHtml ... #end block. Compression parameters are
  * set by default (no JavaScript and CSS compression).
  *
- * @author &lt;a href=&quot;mailto:serg472@gmail.com&quot;&gt;Sergiy Kovalchuk&lt;/a&gt;
- *
  * @see HtmlCompressor
  */
-<span class="nc" id="L41">public class HtmlCompressorDirective extends Directive {</span>
+<span class="nc" id="L39">public class HtmlCompressorDirective extends Directive {</span>
 
     /** The Constant htmlCompressor. */
-<span class="nc" id="L44">    private static final HtmlCompressor htmlCompressor = new HtmlCompressor();</span>
+<span class="nc" id="L42">    private static final HtmlCompressor htmlCompressor = new HtmlCompressor();</span>
 
     @Override
     public String getName() {
-<span class="nc" id="L48">        return &quot;compressHtml&quot;;</span>
+<span class="nc" id="L46">        return &quot;compressHtml&quot;;</span>
     }
 
     @Override
     public int getType() {
-<span class="nc" id="L53">        return BLOCK;</span>
+<span class="nc" id="L51">        return BLOCK;</span>
     }
 
     @Override
     public void init(RuntimeServices rs, InternalContextAdapter context, Node node) throws TemplateInitException {
-<span class="nc" id="L58">        super.init(rs, context, node);</span>
-<span class="nc" id="L59">        log = rs.getLog();</span>
+<span class="nc" id="L56">        super.init(rs, context, node);</span>
+<span class="nc" id="L57">        log = rs.getLog();</span>
 
-<span class="nc" id="L61">        boolean compressJavaScript = rs.getBoolean(&quot;userdirective.compressHtml.compressJavaScript&quot;, false);</span>
+<span class="nc" id="L59">        boolean compressJavaScript = rs.getBoolean(&quot;userdirective.compressHtml.compressJavaScript&quot;, false);</span>
 
         // set compressor properties
-<span class="nc" id="L64">        htmlCompressor.setEnabled(rs.getBoolean(&quot;userdirective.compressHtml.enabled&quot;, true));</span>
-<span class="nc" id="L65">        htmlCompressor.setRemoveComments(rs.getBoolean(&quot;userdirective.compressHtml.removeComments&quot;, true));</span>
-<span class="nc" id="L66">        htmlCompressor.setRemoveMultiSpaces(rs.getBoolean(&quot;userdirective.compressHtml.removeMultiSpaces&quot;, true));</span>
-<span class="nc" id="L67">        htmlCompressor.setRemoveIntertagSpaces(rs.getBoolean(&quot;userdirective.compressHtml.removeIntertagSpaces&quot;, false));</span>
-<span class="nc" id="L68">        htmlCompressor.setRemoveQuotes(rs.getBoolean(&quot;userdirective.compressHtml.removeQuotes&quot;, false));</span>
-<span class="nc" id="L69">        htmlCompressor.setPreserveLineBreaks(rs.getBoolean(&quot;userdirective.compressHtml.preserveLineBreaks&quot;, false));</span>
-<span class="nc" id="L70">        htmlCompressor.setCompressJavaScript(compressJavaScript);</span>
-<span class="nc" id="L71">        htmlCompressor.setCompressCss(rs.getBoolean(&quot;userdirective.compressHtml.compressCss&quot;, false));</span>
-<span class="nc" id="L72">        htmlCompressor.setYuiJsNoMunge(rs.getBoolean(&quot;userdirective.compressHtml.yuiJsNoMunge&quot;, false));</span>
-<span class="nc" id="L73">        htmlCompressor.setYuiJsPreserveAllSemiColons(</span>
-<span class="nc" id="L74">                rs.getBoolean(&quot;userdirective.compressHtml.yuiJsPreserveAllSemiColons&quot;, false));</span>
-<span class="nc" id="L75">        htmlCompressor.setYuiJsLineBreak(rs.getInt(&quot;userdirective.compressHtml.yuiJsLineBreak&quot;, -1));</span>
-<span class="nc" id="L76">        htmlCompressor.setYuiCssLineBreak(rs.getInt(&quot;userdirective.compressHtml.yuiCssLineBreak&quot;, -1));</span>
-<span class="nc" id="L77">        htmlCompressor.setSimpleDoctype(rs.getBoolean(&quot;userdirective.compressHtml.simpleDoctype&quot;, false));</span>
+<span class="nc" id="L62">        htmlCompressor.setEnabled(rs.getBoolean(&quot;userdirective.compressHtml.enabled&quot;, true));</span>
+<span class="nc" id="L63">        htmlCompressor.setRemoveComments(rs.getBoolean(&quot;userdirective.compressHtml.removeComments&quot;, true));</span>
+<span class="nc" id="L64">        htmlCompressor.setRemoveMultiSpaces(rs.getBoolean(&quot;userdirective.compressHtml.removeMultiSpaces&quot;, true));</span>
+<span class="nc" id="L65">        htmlCompressor.setRemoveIntertagSpaces(rs.getBoolean(&quot;userdirective.compressHtml.removeIntertagSpaces&quot;, false));</span>
+<span class="nc" id="L66">        htmlCompressor.setRemoveQuotes(rs.getBoolean(&quot;userdirective.compressHtml.removeQuotes&quot;, false));</span>
+<span class="nc" id="L67">        htmlCompressor.setPreserveLineBreaks(rs.getBoolean(&quot;userdirective.compressHtml.preserveLineBreaks&quot;, false));</span>
+<span class="nc" id="L68">        htmlCompressor.setCompressJavaScript(compressJavaScript);</span>
+<span class="nc" id="L69">        htmlCompressor.setCompressCss(rs.getBoolean(&quot;userdirective.compressHtml.compressCss&quot;, false));</span>
+<span class="nc" id="L70">        htmlCompressor.setYuiJsNoMunge(rs.getBoolean(&quot;userdirective.compressHtml.yuiJsNoMunge&quot;, false));</span>
+<span class="nc" id="L71">        htmlCompressor.setYuiJsPreserveAllSemiColons(</span>
+<span class="nc" id="L72">                rs.getBoolean(&quot;userdirective.compressHtml.yuiJsPreserveAllSemiColons&quot;, false));</span>
+<span class="nc" id="L73">        htmlCompressor.setYuiJsLineBreak(rs.getInt(&quot;userdirective.compressHtml.yuiJsLineBreak&quot;, -1));</span>
+<span class="nc" id="L74">        htmlCompressor.setYuiCssLineBreak(rs.getInt(&quot;userdirective.compressHtml.yuiCssLineBreak&quot;, -1));</span>
+<span class="nc" id="L75">        htmlCompressor.setSimpleDoctype(rs.getBoolean(&quot;userdirective.compressHtml.simpleDoctype&quot;, false));</span>
+<span class="nc" id="L76">        htmlCompressor</span>
+<span class="nc" id="L77">                .setRemoveScriptAttributes(rs.getBoolean(&quot;userdirective.compressHtml.removeScriptAttributes&quot;, false));</span>
 <span class="nc" id="L78">        htmlCompressor</span>
-<span class="nc" id="L79">                .setRemoveScriptAttributes(rs.getBoolean(&quot;userdirective.compressHtml.removeScriptAttributes&quot;, false));</span>
-<span class="nc" id="L80">        htmlCompressor</span>
-<span class="nc" id="L81">                .setRemoveStyleAttributes(rs.getBoolean(&quot;userdirective.compressHtml.removeStyleAttributes&quot;, false));</span>
-<span class="nc" id="L82">        htmlCompressor.setRemoveLinkAttributes(rs.getBoolean(&quot;userdirective.compressHtml.removeLinkAttributes&quot;, false));</span>
-<span class="nc" id="L83">        htmlCompressor.setRemoveFormAttributes(rs.getBoolean(&quot;userdirective.compressHtml.removeFormAttributes&quot;, false));</span>
+<span class="nc" id="L79">                .setRemoveStyleAttributes(rs.getBoolean(&quot;userdirective.compressHtml.removeStyleAttributes&quot;, false));</span>
+<span class="nc" id="L80">        htmlCompressor.setRemoveLinkAttributes(rs.getBoolean(&quot;userdirective.compressHtml.removeLinkAttributes&quot;, false));</span>
+<span class="nc" id="L81">        htmlCompressor.setRemoveFormAttributes(rs.getBoolean(&quot;userdirective.compressHtml.removeFormAttributes&quot;, false));</span>
+<span class="nc" id="L82">        htmlCompressor</span>
+<span class="nc" id="L83">                .setRemoveInputAttributes(rs.getBoolean(&quot;userdirective.compressHtml.removeInputAttributes&quot;, false));</span>
 <span class="nc" id="L84">        htmlCompressor</span>
-<span class="nc" id="L85">                .setRemoveInputAttributes(rs.getBoolean(&quot;userdirective.compressHtml.removeInputAttributes&quot;, false));</span>
-<span class="nc" id="L86">        htmlCompressor</span>
-<span class="nc" id="L87">                .setSimpleBooleanAttributes(rs.getBoolean(&quot;userdirective.compressHtml.simpleBooleanAttributes&quot;, false));</span>
-<span class="nc" id="L88">        htmlCompressor.setRemoveJavaScriptProtocol(</span>
-<span class="nc" id="L89">                rs.getBoolean(&quot;userdirective.compressHtml.removeJavaScriptProtocol&quot;, false));</span>
-<span class="nc" id="L90">        htmlCompressor.setRemoveHttpProtocol(rs.getBoolean(&quot;userdirective.compressHtml.removeHttpProtocol&quot;, false));</span>
-<span class="nc" id="L91">        htmlCompressor.setRemoveHttpsProtocol(rs.getBoolean(&quot;userdirective.compressHtml.removeHttpsProtocol&quot;, false));</span>
+<span class="nc" id="L85">                .setSimpleBooleanAttributes(rs.getBoolean(&quot;userdirective.compressHtml.simpleBooleanAttributes&quot;, false));</span>
+<span class="nc" id="L86">        htmlCompressor.setRemoveJavaScriptProtocol(</span>
+<span class="nc" id="L87">                rs.getBoolean(&quot;userdirective.compressHtml.removeJavaScriptProtocol&quot;, false));</span>
+<span class="nc" id="L88">        htmlCompressor.setRemoveHttpProtocol(rs.getBoolean(&quot;userdirective.compressHtml.removeHttpProtocol&quot;, false));</span>
+<span class="nc" id="L89">        htmlCompressor.setRemoveHttpsProtocol(rs.getBoolean(&quot;userdirective.compressHtml.removeHttpsProtocol&quot;, false));</span>
 
-<span class="nc bnc" id="L93" title="All 2 branches missed.">        if (compressJavaScript</span>
-<span class="nc" id="L94">                &amp;&amp; rs.getString(&quot;userdirective.compressHtml.jsCompressor&quot;, HtmlCompressor.JS_COMPRESSOR_YUI)</span>
-<span class="nc bnc" id="L95" title="All 2 branches missed.">                        .equalsIgnoreCase(HtmlCompressor.JS_COMPRESSOR_CLOSURE)) {</span>
-<span class="nc" id="L96">            String closureOptLevel = rs.getString(&quot;userdirective.compressHtml.closureOptLevel&quot;,</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (compressJavaScript</span>
+<span class="nc" id="L92">                &amp;&amp; rs.getString(&quot;userdirective.compressHtml.jsCompressor&quot;, HtmlCompressor.JS_COMPRESSOR_YUI)</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">                        .equalsIgnoreCase(HtmlCompressor.JS_COMPRESSOR_CLOSURE)) {</span>
+<span class="nc" id="L94">            String closureOptLevel = rs.getString(&quot;userdirective.compressHtml.closureOptLevel&quot;,</span>
                     ClosureJavaScriptCompressor.COMPILATION_LEVEL_SIMPLE);
 
-<span class="nc" id="L99">            ClosureJavaScriptCompressor closureCompressor = new ClosureJavaScriptCompressor();</span>
-<span class="nc bnc" id="L100" title="All 2 branches missed.">            if (closureOptLevel.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_ADVANCED)) {</span>
-<span class="nc" id="L101">                closureCompressor.setCompilationLevel(CompilationLevel.ADVANCED_OPTIMIZATIONS);</span>
-<span class="nc bnc" id="L102" title="All 2 branches missed.">            } else if (closureOptLevel.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_WHITESPACE)) {</span>
-<span class="nc" id="L103">                closureCompressor.setCompilationLevel(CompilationLevel.WHITESPACE_ONLY);</span>
+<span class="nc" id="L97">            ClosureJavaScriptCompressor closureCompressor = new ClosureJavaScriptCompressor();</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">            if (closureOptLevel.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_ADVANCED)) {</span>
+<span class="nc" id="L99">                closureCompressor.setCompilationLevel(CompilationLevel.ADVANCED_OPTIMIZATIONS);</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">            } else if (closureOptLevel.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_WHITESPACE)) {</span>
+<span class="nc" id="L101">                closureCompressor.setCompilationLevel(CompilationLevel.WHITESPACE_ONLY);</span>
             } else {
-<span class="nc" id="L105">                closureCompressor.setCompilationLevel(CompilationLevel.SIMPLE_OPTIMIZATIONS);</span>
+<span class="nc" id="L103">                closureCompressor.setCompilationLevel(CompilationLevel.SIMPLE_OPTIMIZATIONS);</span>
             }
 
-<span class="nc" id="L108">            htmlCompressor.setJavaScriptCompressor(closureCompressor);</span>
+<span class="nc" id="L106">            htmlCompressor.setJavaScriptCompressor(closureCompressor);</span>
         }
-<span class="nc" id="L110">    }</span>
+<span class="nc" id="L108">    }</span>
 
     @Override
     public boolean render(InternalContextAdapter context, Writer writer, Node node)
             throws IOException, MethodInvocationException {
 
         // render content
-<span class="nc" id="L117">        StringWriter content = new StringWriter();</span>
-<span class="nc" id="L118">        node.jjtGetChild(0).render(context, content);</span>
+<span class="nc" id="L115">        StringWriter content = new StringWriter();</span>
+<span class="nc" id="L116">        node.jjtGetChild(0).render(context, content);</span>
 
         // compress
         try {
-<span class="nc" id="L122">            writer.write(htmlCompressor.compress(content.toString()));</span>
-<span class="nc" id="L123">        } catch (Exception e) {</span>
-<span class="nc" id="L124">            writer.write(content.toString());</span>
-<span class="nc" id="L125">            String msg = &quot;Failed to compress content: &quot; + content.toString();</span>
-<span class="nc" id="L126">            log.error(msg, e);</span>
-<span class="nc" id="L127">            throw new RuntimeException(msg, e);</span>
+<span class="nc" id="L120">            writer.write(htmlCompressor.compress(content.toString()));</span>
+<span class="nc" id="L121">        } catch (Exception e) {</span>
+<span class="nc" id="L122">            writer.write(content.toString());</span>
+<span class="nc" id="L123">            String msg = &quot;Failed to compress content: &quot; + content.toString();</span>
+<span class="nc" id="L124">            log.error(msg, e);</span>
+<span class="nc" id="L125">            throw new RuntimeException(msg, e);</span>
 
-<span class="nc" id="L129">        }</span>
-<span class="nc" id="L130">        return true;</span>
+<span class="nc" id="L127">        }</span>
+<span class="nc" id="L128">        return true;</span>
 
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

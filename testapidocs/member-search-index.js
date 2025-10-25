@@ -1,1 +1,1 @@
-memberSearchIndex = [{"p":"com.googlecode.htmlcompressor.compressor","c":"HtmlCompressorTest","l":"HtmlCompressorTest()","u":"%3Cinit%3E()"},{"p":"com.googlecode.htmlcompressor.compressor","c":"XmlCompressorTest","l":"XmlCompressorTest()","u":"%3Cinit%3E()"}];updateSearchResults();
+memberSearchIndex = [{"p":"com.googlecode.htmlcompressor.compressor","c":"HtmlCompressorTest","l":"HtmlCompressorTest()","u":"%3Cinit%3E()","k":"3"},{"p":"com.googlecode.htmlcompressor.compressor","c":"XmlCompressorTest","l":"XmlCompressorTest()","u":"%3Cinit%3E()","k":"3"}];updateSearchResults();

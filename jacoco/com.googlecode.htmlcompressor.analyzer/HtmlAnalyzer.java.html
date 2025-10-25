@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HtmlAnalyzer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">htmlcompressor</a> &gt; <a href="index.source.html" class="el_package">com.googlecode.htmlcompressor.analyzer</a> &gt; <span class="el_source">HtmlAnalyzer.java</span></div><h1>HtmlAnalyzer.java</h1><pre class="source lang-java linenums">/*
- *    Copyright 2009-2022 the original author or authors.
+ *    Copyright 2009-2025 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
@@ -26,23 +26,21 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Class that compresses provided source with different compression settings and displays page size gains in a report.
- *
- * @author &lt;a href=&quot;mailto:serg472@gmail.com&quot;&gt;Sergiy Kovalchuk&lt;/a&gt;
  */
 public class HtmlAnalyzer {
 
     /** The Constant logger. */
-<span class="nc" id="L35">    private static final Logger logger = LoggerFactory.getLogger(HtmlAnalyzer.class);</span>
+<span class="nc" id="L33">    private static final Logger logger = LoggerFactory.getLogger(HtmlAnalyzer.class);</span>
 
     /** The js compressor. */
-<span class="nc" id="L38">    private String jsCompressor = HtmlCompressor.JS_COMPRESSOR_YUI;</span>
+<span class="nc" id="L36">    private String jsCompressor = HtmlCompressor.JS_COMPRESSOR_YUI;</span>
 
     /**
      * Instantiates a new html analyzer.
      */
-<span class="nc" id="L43">    public HtmlAnalyzer() {</span>
+<span class="nc" id="L41">    public HtmlAnalyzer() {</span>
         // Required for override
-<span class="nc" id="L45">    }</span>
+<span class="nc" id="L43">    }</span>
 
     /**
      * Instantiates a new html analyzer.
@@ -50,9 +48,9 @@ public class HtmlAnalyzer {
      * @param jsCompressor
      *            the js compressor
      */
-<span class="nc" id="L53">    public HtmlAnalyzer(String jsCompressor) {</span>
-<span class="nc" id="L54">        this.jsCompressor = jsCompressor;</span>
-<span class="nc" id="L55">    }</span>
+<span class="nc" id="L51">    public HtmlAnalyzer(String jsCompressor) {</span>
+<span class="nc" id="L52">        this.jsCompressor = jsCompressor;</span>
+<span class="nc" id="L53">    }</span>
 
     /**
      * Analyze.
@@ -61,159 +59,203 @@ public class HtmlAnalyzer {
      *            the source
      */
     public void analyze(String source) {
-<span class="nc" id="L64">        int originalSize = source.length();</span>
+<span class="nc" id="L62">        int originalSize = source.length();</span>
 
-<span class="nc" id="L66">        HtmlCompressor compressor = getCleanCompressor();</span>
-<span class="nc" id="L67">        String compResult = compressor.compress(source);</span>
+<span class="nc" id="L64">        HtmlCompressor compressor = getCleanCompressor();</span>
+<span class="nc" id="L65">        String compResult = compressor.compress(source);</span>
 
-<span class="nc" id="L69">        printHeader();</span>
+<span class="nc" id="L67">        printHeader();</span>
 
-<span class="nc" id="L71">        logger.info(formatLine(&quot;Compression disabled&quot;, originalSize, originalSize, originalSize));</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L70">            logger.info(formatLine(&quot;Compression disabled&quot;, originalSize, originalSize, originalSize));</span>
+        }
 <span class="nc" id="L72">        int prevSize = originalSize;</span>
 
         // spaces inside tags
-<span class="nc" id="L75">        logger.info(formatLine(&quot;All settings disabled&quot;, originalSize, compResult.length(), prevSize));</span>
-<span class="nc" id="L76">        prevSize = compResult.length();</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L76">            logger.info(formatLine(&quot;All settings disabled&quot;, originalSize, compResult.length(), prevSize));</span>
+        }
+<span class="nc" id="L78">        prevSize = compResult.length();</span>
 
         // remove comments
-<span class="nc" id="L79">        compressor.setRemoveComments(true);</span>
-<span class="nc" id="L80">        compResult = compressor.compress(source);</span>
-<span class="nc" id="L81">        logger.info(formatLine(&quot;Comments removed&quot;, originalSize, compResult.length(), prevSize));</span>
-<span class="nc" id="L82">        prevSize = compResult.length();</span>
+<span class="nc" id="L81">        compressor.setRemoveComments(true);</span>
+<span class="nc" id="L82">        compResult = compressor.compress(source);</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L84">            logger.info(formatLine(&quot;Comments removed&quot;, originalSize, compResult.length(), prevSize));</span>
+        }
+<span class="nc" id="L86">        prevSize = compResult.length();</span>
 
         // remove mulispaces
-<span class="nc" id="L85">        compressor.setRemoveMultiSpaces(true);</span>
-<span class="nc" id="L86">        compResult = compressor.compress(source);</span>
-<span class="nc" id="L87">        logger.info(formatLine(&quot;Multiple spaces removed&quot;, originalSize, compResult.length(), prevSize));</span>
-<span class="nc" id="L88">        prevSize = compResult.length();</span>
-
-        // remove intertag spaces
-<span class="nc" id="L91">        compressor.setRemoveIntertagSpaces(true);</span>
-<span class="nc" id="L92">        compResult = compressor.compress(source);</span>
-<span class="nc" id="L93">        logger.info(formatLine(&quot;No spaces between tags&quot;, originalSize, compResult.length(), prevSize));</span>
+<span class="nc" id="L89">        compressor.setRemoveMultiSpaces(true);</span>
+<span class="nc" id="L90">        compResult = compressor.compress(source);</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L92">            logger.info(formatLine(&quot;Multiple spaces removed&quot;, originalSize, compResult.length(), prevSize));</span>
+        }
 <span class="nc" id="L94">        prevSize = compResult.length();</span>
 
-        // remove min surrounding spaces
-<span class="nc" id="L97">        compressor.setRemoveSurroundingSpaces(HtmlCompressor.BLOCK_TAGS_MIN);</span>
+        // remove intertag spaces
+<span class="nc" id="L97">        compressor.setRemoveIntertagSpaces(true);</span>
 <span class="nc" id="L98">        compResult = compressor.compress(source);</span>
-<span class="nc" id="L99">        logger.info(formatLine(&quot;No surround spaces (min)&quot;, originalSize, compResult.length(), prevSize));</span>
-<span class="nc" id="L100">        prevSize = compResult.length();</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L100">            logger.info(formatLine(&quot;No spaces between tags&quot;, originalSize, compResult.length(), prevSize));</span>
+        }
+<span class="nc" id="L102">        prevSize = compResult.length();</span>
+
+        // remove min surrounding spaces
+<span class="nc" id="L105">        compressor.setRemoveSurroundingSpaces(HtmlCompressor.BLOCK_TAGS_MIN);</span>
+<span class="nc" id="L106">        compResult = compressor.compress(source);</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L108">            logger.info(formatLine(&quot;No surround spaces (min)&quot;, originalSize, compResult.length(), prevSize));</span>
+        }
+<span class="nc" id="L110">        prevSize = compResult.length();</span>
 
         // remove max surrounding spaces
-<span class="nc" id="L103">        compressor.setRemoveSurroundingSpaces(HtmlCompressor.BLOCK_TAGS_MAX);</span>
-<span class="nc" id="L104">        compResult = compressor.compress(source);</span>
-<span class="nc" id="L105">        logger.info(formatLine(&quot;No surround spaces (max)&quot;, originalSize, compResult.length(), prevSize));</span>
-<span class="nc" id="L106">        prevSize = compResult.length();</span>
-
-        // remove all surrounding spaces
-<span class="nc" id="L109">        compressor.setRemoveSurroundingSpaces(HtmlCompressor.ALL_TAGS);</span>
-<span class="nc" id="L110">        compResult = compressor.compress(source);</span>
-<span class="nc" id="L111">        logger.info(formatLine(&quot;No surround spaces (all)&quot;, originalSize, compResult.length(), prevSize));</span>
-<span class="nc" id="L112">        prevSize = compResult.length();</span>
-
-        // remove quotes
-<span class="nc" id="L115">        compressor.setRemoveQuotes(true);</span>
-<span class="nc" id="L116">        compResult = compressor.compress(source);</span>
-<span class="nc" id="L117">        logger.info(formatLine(&quot;Quotes removed from tags&quot;, originalSize, compResult.length(), prevSize));</span>
+<span class="nc" id="L113">        compressor.setRemoveSurroundingSpaces(HtmlCompressor.BLOCK_TAGS_MAX);</span>
+<span class="nc" id="L114">        compResult = compressor.compress(source);</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L116">            logger.info(formatLine(&quot;No surround spaces (max)&quot;, originalSize, compResult.length(), prevSize));</span>
+        }
 <span class="nc" id="L118">        prevSize = compResult.length();</span>
 
-        // link attrib
-<span class="nc" id="L121">        compressor.setRemoveLinkAttributes(true);</span>
+        // remove all surrounding spaces
+<span class="nc" id="L121">        compressor.setRemoveSurroundingSpaces(HtmlCompressor.ALL_TAGS);</span>
 <span class="nc" id="L122">        compResult = compressor.compress(source);</span>
-<span class="nc" id="L123">        logger.info(formatLine(&quot;&lt;link&gt; attr. removed&quot;, originalSize, compResult.length(), prevSize));</span>
-<span class="nc" id="L124">        prevSize = compResult.length();</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L124">            logger.info(formatLine(&quot;No surround spaces (all)&quot;, originalSize, compResult.length(), prevSize));</span>
+        }
+<span class="nc" id="L126">        prevSize = compResult.length();</span>
 
-        // style attrib
-<span class="nc" id="L127">        compressor.setRemoveStyleAttributes(true);</span>
-<span class="nc" id="L128">        compResult = compressor.compress(source);</span>
-<span class="nc" id="L129">        logger.info(formatLine(&quot;&lt;style&gt; attr. removed&quot;, originalSize, compResult.length(), prevSize));</span>
-<span class="nc" id="L130">        prevSize = compResult.length();</span>
+        // remove quotes
+<span class="nc" id="L129">        compressor.setRemoveQuotes(true);</span>
+<span class="nc" id="L130">        compResult = compressor.compress(source);</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L132">            logger.info(formatLine(&quot;Quotes removed from tags&quot;, originalSize, compResult.length(), prevSize));</span>
+        }
+<span class="nc" id="L134">        prevSize = compResult.length();</span>
 
-        // script attrib
-<span class="nc" id="L133">        compressor.setRemoveScriptAttributes(true);</span>
-<span class="nc" id="L134">        compResult = compressor.compress(source);</span>
-<span class="nc" id="L135">        logger.info(formatLine(&quot;&lt;script&gt; attr. removed&quot;, originalSize, compResult.length(), prevSize));</span>
-<span class="nc" id="L136">        prevSize = compResult.length();</span>
-
-        // form attrib
-<span class="nc" id="L139">        compressor.setRemoveFormAttributes(true);</span>
-<span class="nc" id="L140">        compResult = compressor.compress(source);</span>
-<span class="nc" id="L141">        logger.info(formatLine(&quot;&lt;form&gt; attr. removed&quot;, originalSize, compResult.length(), prevSize));</span>
+        // link attrib
+<span class="nc" id="L137">        compressor.setRemoveLinkAttributes(true);</span>
+<span class="nc" id="L138">        compResult = compressor.compress(source);</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L140">            logger.info(formatLine(&quot;&lt;link&gt; attr. removed&quot;, originalSize, compResult.length(), prevSize));</span>
+        }
 <span class="nc" id="L142">        prevSize = compResult.length();</span>
 
-        // input attrib
-<span class="nc" id="L145">        compressor.setRemoveInputAttributes(true);</span>
+        // style attrib
+<span class="nc" id="L145">        compressor.setRemoveStyleAttributes(true);</span>
 <span class="nc" id="L146">        compResult = compressor.compress(source);</span>
-<span class="nc" id="L147">        logger.info(formatLine(&quot;&lt;input&gt; attr. removed&quot;, originalSize, compResult.length(), prevSize));</span>
-<span class="nc" id="L148">        prevSize = compResult.length();</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L148">            logger.info(formatLine(&quot;&lt;style&gt; attr. removed&quot;, originalSize, compResult.length(), prevSize));</span>
+        }
+<span class="nc" id="L150">        prevSize = compResult.length();</span>
 
-        // simple bool
-<span class="nc" id="L151">        compressor.setSimpleBooleanAttributes(true);</span>
-<span class="nc" id="L152">        compResult = compressor.compress(source);</span>
-<span class="nc" id="L153">        logger.info(formatLine(&quot;Simple boolean attributes&quot;, originalSize, compResult.length(), prevSize));</span>
-<span class="nc" id="L154">        prevSize = compResult.length();</span>
+        // script attrib
+<span class="nc" id="L153">        compressor.setRemoveScriptAttributes(true);</span>
+<span class="nc" id="L154">        compResult = compressor.compress(source);</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L156">            logger.info(formatLine(&quot;&lt;script&gt; attr. removed&quot;, originalSize, compResult.length(), prevSize));</span>
+        }
+<span class="nc" id="L158">        prevSize = compResult.length();</span>
 
-        // simple doctype
-<span class="nc" id="L157">        compressor.setSimpleDoctype(true);</span>
-<span class="nc" id="L158">        compResult = compressor.compress(source);</span>
-<span class="nc" id="L159">        logger.info(formatLine(&quot;Simple doctype&quot;, originalSize, compResult.length(), prevSize));</span>
-<span class="nc" id="L160">        prevSize = compResult.length();</span>
-
-        // js protocol
-<span class="nc" id="L163">        compressor.setRemoveJavaScriptProtocol(true);</span>
-<span class="nc" id="L164">        compResult = compressor.compress(source);</span>
-<span class="nc" id="L165">        logger.info(formatLine(&quot;Remove js pseudo-protocol&quot;, originalSize, compResult.length(), prevSize));</span>
+        // form attrib
+<span class="nc" id="L161">        compressor.setRemoveFormAttributes(true);</span>
+<span class="nc" id="L162">        compResult = compressor.compress(source);</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L164">            logger.info(formatLine(&quot;&lt;form&gt; attr. removed&quot;, originalSize, compResult.length(), prevSize));</span>
+        }
 <span class="nc" id="L166">        prevSize = compResult.length();</span>
 
-        // http protocol
-<span class="nc" id="L169">        compressor.setRemoveHttpProtocol(true);</span>
+        // input attrib
+<span class="nc" id="L169">        compressor.setRemoveInputAttributes(true);</span>
 <span class="nc" id="L170">        compResult = compressor.compress(source);</span>
-<span class="nc" id="L171">        logger.info(formatLine(&quot;Remove http protocol&quot;, originalSize, compResult.length(), prevSize));</span>
-<span class="nc" id="L172">        prevSize = compResult.length();</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L172">            logger.info(formatLine(&quot;&lt;input&gt; attr. removed&quot;, originalSize, compResult.length(), prevSize));</span>
+        }
+<span class="nc" id="L174">        prevSize = compResult.length();</span>
+
+        // simple bool
+<span class="nc" id="L177">        compressor.setSimpleBooleanAttributes(true);</span>
+<span class="nc" id="L178">        compResult = compressor.compress(source);</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L180">            logger.info(formatLine(&quot;Simple boolean attributes&quot;, originalSize, compResult.length(), prevSize));</span>
+        }
+<span class="nc" id="L182">        prevSize = compResult.length();</span>
+
+        // simple doctype
+<span class="nc" id="L185">        compressor.setSimpleDoctype(true);</span>
+<span class="nc" id="L186">        compResult = compressor.compress(source);</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L188">            logger.info(formatLine(&quot;Simple doctype&quot;, originalSize, compResult.length(), prevSize));</span>
+        }
+<span class="nc" id="L190">        prevSize = compResult.length();</span>
+
+        // js protocol
+<span class="nc" id="L193">        compressor.setRemoveJavaScriptProtocol(true);</span>
+<span class="nc" id="L194">        compResult = compressor.compress(source);</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L196">            logger.info(formatLine(&quot;Remove js pseudo-protocol&quot;, originalSize, compResult.length(), prevSize));</span>
+        }
+<span class="nc" id="L198">        prevSize = compResult.length();</span>
+
+        // http protocol
+<span class="nc" id="L201">        compressor.setRemoveHttpProtocol(true);</span>
+<span class="nc" id="L202">        compResult = compressor.compress(source);</span>
+<span class="nc bnc" id="L203" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L204">            logger.info(formatLine(&quot;Remove http protocol&quot;, originalSize, compResult.length(), prevSize));</span>
+        }
+<span class="nc" id="L206">        prevSize = compResult.length();</span>
 
         // https protocol
-<span class="nc" id="L175">        compressor.setRemoveHttpsProtocol(true);</span>
-<span class="nc" id="L176">        compResult = compressor.compress(source);</span>
-<span class="nc" id="L177">        logger.info(formatLine(&quot;Remove https protocol&quot;, originalSize, compResult.length(), prevSize));</span>
-<span class="nc" id="L178">        prevSize = compResult.length();</span>
+<span class="nc" id="L209">        compressor.setRemoveHttpsProtocol(true);</span>
+<span class="nc" id="L210">        compResult = compressor.compress(source);</span>
+<span class="nc bnc" id="L211" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L212">            logger.info(formatLine(&quot;Remove https protocol&quot;, originalSize, compResult.length(), prevSize));</span>
+        }
+<span class="nc" id="L214">        prevSize = compResult.length();</span>
 
         // inline css
         try {
-<span class="nc" id="L182">            compressor.setCompressCss(true);</span>
-<span class="nc" id="L183">            compResult = compressor.compress(source);</span>
-<span class="nc" id="L184">            logger.info(formatLine(&quot;Compress inline CSS (YUI)&quot;, originalSize, compResult.length(), prevSize));</span>
-<span class="nc" id="L185">            prevSize = compResult.length();</span>
-<span class="nc" id="L186">        } catch (NoClassDefFoundError e) {</span>
-<span class="nc" id="L187">            logger.info(formatEmptyLine(&quot;Compress inline CSS (YUI)&quot;));</span>
-<span class="nc" id="L188">            logger.trace(&quot;&quot;, e);</span>
-<span class="nc" id="L189">        }</span>
+<span class="nc" id="L218">            compressor.setCompressCss(true);</span>
+<span class="nc" id="L219">            compResult = compressor.compress(source);</span>
+<span class="nc bnc" id="L220" title="All 2 branches missed.">            if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L221">                logger.info(formatLine(&quot;Compress inline CSS (YUI)&quot;, originalSize, compResult.length(), prevSize));</span>
+            }
+<span class="nc" id="L223">            prevSize = compResult.length();</span>
+<span class="nc" id="L224">        } catch (NoClassDefFoundError e) {</span>
+<span class="nc" id="L225">            logger.info(formatEmptyLine(&quot;Compress inline CSS (YUI)&quot;));</span>
+<span class="nc" id="L226">            logger.trace(&quot;&quot;, e);</span>
+<span class="nc" id="L227">        }</span>
 
-<span class="nc bnc" id="L191" title="All 2 branches missed.">        if (jsCompressor.equals(HtmlCompressor.JS_COMPRESSOR_YUI)) {</span>
+<span class="nc bnc" id="L229" title="All 2 branches missed.">        if (jsCompressor.equals(HtmlCompressor.JS_COMPRESSOR_YUI)) {</span>
             // inline js yui
             try {
-<span class="nc" id="L194">                compressor.setCompressJavaScript(true);</span>
-<span class="nc" id="L195">                compResult = compressor.compress(source);</span>
-<span class="nc" id="L196">                logger.info(formatLine(&quot;Compress inline JS (YUI)&quot;, originalSize, compResult.length(), prevSize));</span>
-<span class="nc" id="L197">            } catch (NoClassDefFoundError e) {</span>
-<span class="nc" id="L198">                logger.info(formatEmptyLine(&quot;Compress inline JS (YUI)&quot;));</span>
-<span class="nc" id="L199">                logger.trace(&quot;&quot;, e);</span>
-<span class="nc" id="L200">            }</span>
+<span class="nc" id="L232">                compressor.setCompressJavaScript(true);</span>
+<span class="nc" id="L233">                compResult = compressor.compress(source);</span>
+<span class="nc bnc" id="L234" title="All 2 branches missed.">                if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L235">                    logger.info(formatLine(&quot;Compress inline JS (YUI)&quot;, originalSize, compResult.length(), prevSize));</span>
+                }
+<span class="nc" id="L237">            } catch (NoClassDefFoundError e) {</span>
+<span class="nc" id="L238">                logger.info(formatEmptyLine(&quot;Compress inline JS (YUI)&quot;));</span>
+<span class="nc" id="L239">                logger.trace(&quot;&quot;, e);</span>
+<span class="nc" id="L240">            }</span>
         } else {
             // inline js yui
             try {
-<span class="nc" id="L204">                compressor.setCompressJavaScript(true);</span>
-<span class="nc" id="L205">                compressor.setJavaScriptCompressor(new ClosureJavaScriptCompressor());</span>
-<span class="nc" id="L206">                compResult = compressor.compress(source);</span>
-<span class="nc" id="L207">                logger.info(formatLine(&quot;Compress JS (Closure)&quot;, originalSize, compResult.length(), prevSize));</span>
-<span class="nc" id="L208">            } catch (NoClassDefFoundError e) {</span>
-<span class="nc" id="L209">                logger.info(formatEmptyLine(&quot;Compress JS (Closure)&quot;));</span>
-<span class="nc" id="L210">                logger.trace(&quot;&quot;, e);</span>
-<span class="nc" id="L211">            }</span>
+<span class="nc" id="L244">                compressor.setCompressJavaScript(true);</span>
+<span class="nc" id="L245">                compressor.setJavaScriptCompressor(new ClosureJavaScriptCompressor());</span>
+<span class="nc" id="L246">                compResult = compressor.compress(source);</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">                if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L248">                    logger.info(formatLine(&quot;Compress JS (Closure)&quot;, originalSize, compResult.length(), prevSize));</span>
+                }
+<span class="nc" id="L250">            } catch (NoClassDefFoundError e) {</span>
+<span class="nc" id="L251">                logger.info(formatEmptyLine(&quot;Compress JS (Closure)&quot;));</span>
+<span class="nc" id="L252">                logger.trace(&quot;&quot;, e);</span>
+<span class="nc" id="L253">            }</span>
         }
 
-<span class="nc" id="L214">        printFooter();</span>
+<span class="nc" id="L256">        printFooter();</span>
 
-<span class="nc" id="L216">    }</span>
+<span class="nc" id="L258">    }</span>
 
     /**
      * Gets the clean compressor.
@@ -221,11 +263,11 @@ public class HtmlAnalyzer {
      * @return the clean compressor
      */
     private HtmlCompressor getCleanCompressor() {
-<span class="nc" id="L224">        HtmlCompressor compressor = new HtmlCompressor();</span>
-<span class="nc" id="L225">        compressor.setRemoveComments(false);</span>
-<span class="nc" id="L226">        compressor.setRemoveMultiSpaces(false);</span>
+<span class="nc" id="L266">        HtmlCompressor compressor = new HtmlCompressor();</span>
+<span class="nc" id="L267">        compressor.setRemoveComments(false);</span>
+<span class="nc" id="L268">        compressor.setRemoveMultiSpaces(false);</span>
 
-<span class="nc" id="L228">        return compressor;</span>
+<span class="nc" id="L270">        return compressor;</span>
     }
 
     /**
@@ -244,12 +286,12 @@ public class HtmlAnalyzer {
      */
     private String formatLine(String descr, int originalSize, int compressedSize, int prevSize) {
         String result;
-<span class="nc" id="L247">        try (Formatter fmt = new Formatter()) {</span>
-<span class="nc" id="L248">            fmt.format(&quot;%-25s | %16s | %16s | %12s |&quot;, descr, formatDecrease(prevSize, compressedSize),</span>
-<span class="nc" id="L249">                    formatDecrease(originalSize, compressedSize), formatSize(compressedSize));</span>
-<span class="nc" id="L250">            result = fmt.toString();</span>
+<span class="nc" id="L289">        try (Formatter fmt = new Formatter()) {</span>
+<span class="nc" id="L290">            fmt.format(&quot;%-25s | %16s | %16s | %12s |&quot;, descr, formatDecrease(prevSize, compressedSize),</span>
+<span class="nc" id="L291">                    formatDecrease(originalSize, compressedSize), formatSize(compressedSize));</span>
+<span class="nc" id="L292">            result = fmt.toString();</span>
         }
-<span class="nc" id="L252">        return result;</span>
+<span class="nc" id="L294">        return result;</span>
     }
 
     /**
@@ -262,36 +304,39 @@ public class HtmlAnalyzer {
      */
     private String formatEmptyLine(String descr) {
         String result;
-<span class="nc" id="L265">        try (Formatter fmt = new Formatter()) {</span>
-<span class="nc" id="L266">            fmt.format(&quot;%-25s | %16s | %16s | %12s |&quot;, descr, &quot;-&quot;, &quot;-&quot;, &quot;-&quot;);</span>
-<span class="nc" id="L267">            result = fmt.toString();</span>
+<span class="nc" id="L307">        try (Formatter fmt = new Formatter()) {</span>
+<span class="nc" id="L308">            fmt.format(&quot;%-25s | %16s | %16s | %12s |&quot;, descr, &quot;-&quot;, &quot;-&quot;, &quot;-&quot;);</span>
+<span class="nc" id="L309">            result = fmt.toString();</span>
         }
-<span class="nc" id="L269">        return result;</span>
+<span class="nc" id="L311">        return result;</span>
     }
 
     /**
      * Prints the header.
      */
     private void printHeader() {
-<span class="nc" id="L276">        logger.info(&quot;\n&quot;);</span>
-<span class="nc" id="L277">        logger.info(&quot;=&quot;.repeat(80));</span>
-<span class="nc" id="L278">        logger.info(String.format(&quot;%-25s | %-16s | %-16s | %-12s |&quot;, &quot;         Setting&quot;, &quot;Incremental Gain&quot;,</span>
-                &quot;   Total Gain&quot;, &quot; Page Size&quot;));
-<span class="nc" id="L280">        logger.info(&quot;\n&quot;);</span>
-<span class="nc" id="L281">        logger.info(&quot;=&quot;.repeat(80));</span>
-
-<span class="nc" id="L283">    }</span>
+<span class="nc bnc" id="L318" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L319">            logger.info(&quot;\n&quot;);</span>
+<span class="nc" id="L320">            logger.info(&quot;=&quot;.repeat(80));</span>
+<span class="nc" id="L321">            logger.info(String.format(&quot;%-25s | %-16s | %-16s | %-12s |&quot;, &quot;         Setting&quot;, &quot;Incremental Gain&quot;,</span>
+                    &quot;   Total Gain&quot;, &quot; Page Size&quot;));
+<span class="nc" id="L323">            logger.info(&quot;\n&quot;);</span>
+<span class="nc" id="L324">            logger.info(&quot;=&quot;.repeat(80));</span>
+        }
+<span class="nc" id="L326">    }</span>
 
     /**
      * Prints the footer.
      */
     private void printFooter() {
-<span class="nc" id="L289">        logger.info(&quot;=&quot;.repeat(80));</span>
-<span class="nc" id="L290">        logger.info(&quot;\n&quot;);</span>
-<span class="nc" id="L291">        logger.info(&quot;Each consecutive compressor setting is applied on top of previous ones.&quot;);</span>
-<span class="nc" id="L292">        logger.info(&quot;In order to see JS and CSS compression results, YUI jar file must be present.&quot;);</span>
-<span class="nc" id="L293">        logger.info(&quot;All sizes are in bytes.&quot;);</span>
-<span class="nc" id="L294">    }</span>
+<span class="nc bnc" id="L332" title="All 2 branches missed.">        if (logger.isInfoEnabled()) {</span>
+<span class="nc" id="L333">            logger.info(&quot;=&quot;.repeat(80));</span>
+<span class="nc" id="L334">            logger.info(&quot;\n&quot;);</span>
+<span class="nc" id="L335">            logger.info(&quot;Each consecutive compressor setting is applied on top of previous ones.&quot;);</span>
+<span class="nc" id="L336">            logger.info(&quot;In order to see JS and CSS compression results, YUI jar file must be present.&quot;);</span>
+<span class="nc" id="L337">            logger.info(&quot;All sizes are in bytes.&quot;);</span>
+        }
+<span class="nc" id="L339">    }</span>
 
     /**
      * Format decrease.
@@ -304,12 +349,12 @@ public class HtmlAnalyzer {
      * @return the string
      */
     private String formatDecrease(int originalSize, int compressedSize) {
-<span class="nc" id="L307">        NumberFormat nf = NumberFormat.getPercentInstance();</span>
-<span class="nc" id="L308">        nf.setGroupingUsed(true);</span>
-<span class="nc" id="L309">        nf.setMinimumFractionDigits(1);</span>
-<span class="nc" id="L310">        nf.setMaximumFractionDigits(1);</span>
+<span class="nc" id="L352">        NumberFormat nf = NumberFormat.getPercentInstance();</span>
+<span class="nc" id="L353">        nf.setGroupingUsed(true);</span>
+<span class="nc" id="L354">        nf.setMinimumFractionDigits(1);</span>
+<span class="nc" id="L355">        nf.setMaximumFractionDigits(1);</span>
 
-<span class="nc" id="L312">        return formatSize(originalSize - compressedSize) + &quot; (&quot; + nf.format(1 - (double) compressedSize / originalSize)</span>
+<span class="nc" id="L357">        return formatSize(originalSize - compressedSize) + &quot; (&quot; + nf.format(1 - (double) compressedSize / originalSize)</span>
                 + &quot;)&quot;;
     }
 
@@ -322,10 +367,10 @@ public class HtmlAnalyzer {
      * @return the string
      */
     private String formatSize(int size) {
-<span class="nc" id="L325">        NumberFormat nf = NumberFormat.getInstance();</span>
-<span class="nc" id="L326">        nf.setGroupingUsed(true);</span>
-<span class="nc" id="L327">        nf.setParseIntegerOnly(true);</span>
-<span class="nc" id="L328">        return nf.format(size);</span>
+<span class="nc" id="L370">        NumberFormat nf = NumberFormat.getInstance();</span>
+<span class="nc" id="L371">        nf.setGroupingUsed(true);</span>
+<span class="nc" id="L372">        nf.setParseIntegerOnly(true);</span>
+<span class="nc" id="L373">        return nf.format(size);</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

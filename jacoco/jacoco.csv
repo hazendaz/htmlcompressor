@@ -10,7 +10,7 @@ htmlcompressor,jargs.gnu,CmdLineParser.UnknownSuboptionException,13,0,0,0,4,0,2,
 htmlcompressor,jargs.gnu,CmdLineParser.Option.LongOption,21,0,0,0,7,0,3,0,3,0
 htmlcompressor,jargs.gnu,CmdLineParser.Option.DoubleOption,29,0,0,0,9,0,3,0,3,0
 htmlcompressor,jargs.gnu,CmdLineParser.Option.BooleanOption,11,0,0,0,4,0,2,0,2,0
-htmlcompressor,jargs.gnu,CmdLineParser,376,0,38,0,88,0,38,0,19,0
+htmlcompressor,jargs.gnu,CmdLineParser,370,0,38,0,88,0,38,0,19,0
 htmlcompressor,jargs.gnu,CmdLineParser.NotFlagException,13,0,0,0,4,0,2,0,2,0
 htmlcompressor,jargs.gnu,CmdLineParser.UnknownOptionException,16,0,0,0,6,0,3,0,3,0
 htmlcompressor,jargs.gnu,CmdLineParser.Option.StringOption,13,0,0,0,5,0,3,0,3,0
@@ -19,14 +19,14 @@ htmlcompressor,com.googlecode.htmlcompressor.compressor,HtmlCompressorStatistics
 htmlcompressor,com.googlecode.htmlcompressor.compressor,YuiJavaScriptCompressor.DefaultErrorReporter,84,3,8,0,12,1,7,1,3,1
 htmlcompressor,com.googlecode.htmlcompressor.compressor,HtmlMetrics,73,0,0,0,18,0,12,0,12,0
 htmlcompressor,com.googlecode.htmlcompressor.compressor,YuiJavaScriptCompressor,28,64,1,1,10,17,7,7,6,7
-htmlcompressor,com.googlecode.htmlcompressor.compressor,HtmlCompressor,576,2125,89,177,113,539,100,129,31,65
+htmlcompressor,com.googlecode.htmlcompressor.compressor,HtmlCompressor,577,2125,89,177,113,539,100,129,31,65
 htmlcompressor,com.googlecode.htmlcompressor.compressor,XmlCompressor,9,216,4,10,3,55,7,15,3,12
 htmlcompressor,com.googlecode.htmlcompressor.compressor,YuiCssCompressor,11,35,0,0,4,10,1,4,1,4
 htmlcompressor,com.googlecode.htmlcompressor.compressor,ClosureJavaScriptCompressor,96,133,7,7,28,34,19,5,13,4
-htmlcompressor,com.googlecode.htmlcompressor.analyzer,HtmlAnalyzer,653,0,2,0,143,0,12,0,11,0
+htmlcompressor,com.googlecode.htmlcompressor.analyzer,HtmlAnalyzer,725,0,50,0,167,0,36,0,11,0
 htmlcompressor,com.googlecode.htmlcompressor.velocity,CssCompressorDirective,92,0,2,0,25,0,6,0,5,0
 htmlcompressor,com.googlecode.htmlcompressor.velocity,JavaScriptCompressorDirective,171,0,8,0,45,0,9,0,5,0
 htmlcompressor,com.googlecode.htmlcompressor.velocity,XmlCompressorDirective,80,0,0,0,20,0,6,0,6,0
 htmlcompressor,com.googlecode.htmlcompressor.velocity,HtmlCompressorDirective,236,0,8,0,57,0,10,0,6,0
 htmlcompressor,com.googlecode.htmlcompressor,CmdLineCompressor.CompressorFileFilter,95,0,14,0,18,0,9,0,2,0
-htmlcompressor,com.googlecode.htmlcompressor,CmdLineCompressor,1485,0,136,0,297,0,82,0,14,0
+htmlcompressor,com.googlecode.htmlcompressor,CmdLineCompressor,1472,0,136,0,293,0,82,0,14,0

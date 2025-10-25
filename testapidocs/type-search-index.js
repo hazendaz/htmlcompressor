@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"com.googlecode.htmlcompressor.compressor","l":"HtmlCompressorTest"},{"p":"com.googlecode.htmlcompressor.compressor","l":"XmlCompressorTest"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html","k":"18"},{"p":"com.googlecode.htmlcompressor.compressor","l":"HtmlCompressorTest"},{"p":"com.googlecode.htmlcompressor.compressor","l":"XmlCompressorTest"}];updateSearchResults();
