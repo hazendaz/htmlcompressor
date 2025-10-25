@@ -389,7 +389,7 @@ public class CmdLineCompressor {
             } else {
                 logger.info("""
                         ERROR: For CSS or JavaScript compression using YUICompressor additional jar file
-                        called yuicompressor.jar must be present\n" + "in the same directory as HtmlCompressor jar
+                        called yuicompressor.jar must be present in the same directory as HtmlCompressor jar
                         """);
             }
             logger.trace("", e);
@@ -782,12 +782,12 @@ public class CmdLineCompressor {
                  --remove-style-attr           Remove TYPE attribute from STYLE tags
                  --remove-link-attr            Remove TYPE attribute from LINK tags
                  --remove-script-attr          Remove TYPE and LANGUAGE from SCRIPT tags
-                 --remove-form-attr            Remove METHOD=\"GET\" from FORM tags
-                 --remove-input-attr           Remove TYPE=\"TEXT\" from INPUT tags
+                 --remove-form-attr            Remove METHOD="GET" from FORM tags
+                 --remove-input-attr           Remove TYPE="TEXT" from INPUT tags
                  --simple-bool-attr            Remove values from boolean tag attributes
-                 --remove-js-protocol          Remove \"javascript:\" from inline event handlers
-                 --remove-http-protocol        Remove \"http:\" from tag attributes
-                 --remove-https-protocol       Remove \"https:\" from tag attributes
+                 --remove-js-protocol          Remove "javascript:" from inline event handlers
+                 --remove-http-protocol        Remove "http:" from tag attributes
+                 --remove-https-protocol       Remove "https:" from tag attributes
                  --remove-surrounding-spaces <min|max|all|custom_list>
                                                Predefined or custom comma separated list of tags
                  --compress-js                 Enable inline JavaScript compression
