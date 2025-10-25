@@ -61,8 +61,6 @@ import jargs.gnu.CmdLineParser.OptionException;
  * To view a list of all available parameters please run with <code>-?</code> option:
  * <p>
  * <code>java -jar htmlcompressor.jar -?</code>
- *
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  */
 public class CmdLineCompressor {
 

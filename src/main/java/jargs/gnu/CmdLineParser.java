@@ -28,10 +28,6 @@ import java.util.Locale;
  * allows options with associated values (-d 2, --debug 2, --debug=2). Option processing can be explicitly terminated by
  * the argument '--'.
  *
- * @author Steve Purcell
- *
- * @version $Revision$
- *
  * @see <a href="https://github.com/purcell/jargs/tree/master/src/examples/java/com/sanityinc/jargs/examples">jargs
  *      examples</a>
  */
@@ -113,8 +109,6 @@ public class CmdLineParser {
     /**
      * Thrown when the parsed commandline contains multiple concatenated short options, such as -abcd, where one is
      * unknown. <code>getMessage()</code> returns an english human-readable error string.
-     *
-     * @author Vidar Holen
      */
     public static class UnknownSuboptionException extends UnknownOptionException {
 
@@ -150,8 +144,6 @@ public class CmdLineParser {
     /**
      * Thrown when the parsed commandline contains multiple concatenated short options, such as -abcd, where one or more
      * requires a value. <code>getMessage()</code> returns an english human-readable error string.
-     *
-     * @author Vidar Holen
      */
     public static class NotFlagException extends UnknownOptionException {
 

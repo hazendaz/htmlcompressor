@@ -33,8 +33,6 @@ import org.slf4j.LoggerFactory;
  * JSP tag that compresses an JavaScript content within &lt;compress:js&gt; tags. All JavaScript-related properties from
  * {@link HtmlCompressor} are supported.
  *
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
- *
  * @see HtmlCompressor
  * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
  * @see <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a>

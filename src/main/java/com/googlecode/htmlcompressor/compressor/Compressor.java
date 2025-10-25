@@ -17,8 +17,6 @@ package com.googlecode.htmlcompressor.compressor;
 
 /**
  * Interface describing compressor classes.
- *
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  */
 public interface Compressor {
     /**

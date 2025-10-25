@@ -37,8 +37,6 @@ import org.mozilla.javascript.ErrorReporter;
  * Content inside &lt;script&gt; or &lt;style&gt; tags could be optionally compressed using
  * <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a> or
  * <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a> libraries.
- *
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  */
 public class HtmlCompressor implements Compressor {
 

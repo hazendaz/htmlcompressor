@@ -32,8 +32,6 @@ import org.apache.velocity.runtime.parser.node.Node;
  * Velocity directive that compresses an XML content within #compressXml ... #end block. Compression parameters are set
  * by default.
  *
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
- *
  * @see XmlCompressor
  */
 public class XmlCompressorDirective extends Directive {

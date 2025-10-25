@@ -32,8 +32,6 @@ import org.slf4j.LoggerFactory;
  * <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>. All CSS-related properties from
  * {@link HtmlCompressor} are supported.
  *
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
- *
  * @see HtmlCompressor
  * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
  */

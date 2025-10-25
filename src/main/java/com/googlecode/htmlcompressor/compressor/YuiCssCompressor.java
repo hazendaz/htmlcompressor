@@ -28,8 +28,6 @@ import org.slf4j.LoggerFactory;
  * Basic CSS compressor implementation using <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI
  * Compressor</a> that could be used by {@link HtmlCompressor} for inline CSS compression.
  *
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
- *
  * @see HtmlCompressor#setCssCompressor(Compressor)
  * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
  */

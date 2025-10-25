@@ -26,8 +26,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Class that compresses provided source with different compression settings and displays page size gains in a report.
- *
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
  */
 public class HtmlAnalyzer {
 

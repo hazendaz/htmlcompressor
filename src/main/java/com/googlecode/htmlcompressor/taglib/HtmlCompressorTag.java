@@ -33,8 +33,6 @@ import org.slf4j.LoggerFactory;
  * JSP tag that compresses an HTML content within &lt;compress:html&gt;. Compression parameters are set by default (no
  * JavaScript and CSS compression).
  *
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
- *
  * @see HtmlCompressor
  */
 public class HtmlCompressorTag extends BodyTagSupport {

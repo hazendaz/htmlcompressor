@@ -39,8 +39,6 @@ import org.slf4j.LoggerFactory;
  * Basic JavaScript compressor implementation using <a href="http://code.google.com/closure/compiler/">Google Closure
  * Compiler</a> that could be used by {@link HtmlCompressor} for inline JavaScript compression.
  *
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
- *
  * @see HtmlCompressor#setJavaScriptCompressor(Compressor)
  * @see <a href="http://code.google.com/closure/compiler/">Google Closure Compiler</a>
  */

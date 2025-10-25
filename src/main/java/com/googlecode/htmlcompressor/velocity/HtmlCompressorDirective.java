@@ -34,8 +34,6 @@ import org.apache.velocity.runtime.parser.node.Node;
  * Velocity directive that compresses an HTML content within #compressHtml ... #end block. Compression parameters are
  * set by default (no JavaScript and CSS compression).
  *
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
- *
  * @see HtmlCompressor
  */
 public class HtmlCompressorDirective extends Directive {

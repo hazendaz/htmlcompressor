@@ -30,8 +30,6 @@ import org.slf4j.LoggerFactory;
  * Basic JavaScript compressor implementation using <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI
  * Compressor</a> that could be used by {@link HtmlCompressor} for inline JavaScript compression.
  *
- * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
- *
  * @see HtmlCompressor#setJavaScriptCompressor(Compressor)
  * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
  */
@@ -75,8 +73,6 @@ public class YuiJavaScriptCompressor implements Compressor {
     /**
      * Default <code>ErrorReporter</code> implementation that uses <code>System.err</code> stream for error reporting.
      * Used by YUI Compressor to log errors during JavaScript compression.
-     *
-     * @author <a href="mailto:serg472@gmail.com">Sergiy Kovalchuk</a>
      *
      * @see <a href="http://developer.yahoo.com/yui/compressor/">Yahoo YUI Compressor</a>
      * @see <a href="http://www.mozilla.org/rhino/apidocs/org/mozilla/javascript/ErrorReporter.html">ErrorReporter
