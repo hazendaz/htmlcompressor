@@ -835,7 +835,7 @@ public class CmdLineCompressor {
          * @param withDirs
          *            the with dirs
          */
-        public CompressorFileFilter(String type, String filemask, boolean withDirs) {
+        CompressorFileFilter(String type, String filemask, boolean withDirs) {
 
             this.withDirs = withDirs;
 
