@@ -84,7 +84,7 @@
     <scm>
         <connection>scm:git:ssh://git@github.com/hazendaz/htmlcompressor.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/hazendaz/htmlcompressor.git</developerConnection>
-        <tag>htmlcompressor-1.12.0</tag>
+        <tag>HEAD</tag>
         <url>https://github.com/hazendaz/htmlcompressor/</url>
     </scm>
     <issueManagement>
