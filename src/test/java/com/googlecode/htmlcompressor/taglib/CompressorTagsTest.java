@@ -474,6 +474,7 @@ class CompressorTagsTest {
         }
 
         @Override
+        @SuppressWarnings("ql/confusing-overloading")
         public void print(char[] s) {
             if (s != null)
                 sink.append(s);
@@ -486,6 +487,7 @@ class CompressorTagsTest {
         }
 
         @Override
+        @SuppressWarnings("ql/confusing-overloading")
         public void print(Object obj) {
             sink.append(obj);
         }
@@ -526,6 +528,7 @@ class CompressorTagsTest {
         }
 
         @Override
+        @SuppressWarnings("ql/confusing-overloading")
         public void println(char[] x) {
             if (x != null)
                 sink.append(x);
@@ -540,6 +543,7 @@ class CompressorTagsTest {
         }
 
         @Override
+        @SuppressWarnings("ql/confusing-overloading")
         public void println(Object x) {
             sink.append(x).append('\n');
         }
@@ -633,6 +637,7 @@ class CompressorTagsTest {
         }
 
         @Override
+        @SuppressWarnings("ql/confusing-overloading")
         public void print(char[] s) {
         }
 
@@ -643,6 +648,7 @@ class CompressorTagsTest {
         }
 
         @Override
+        @SuppressWarnings("ql/confusing-overloading")
         public void print(Object obj) {
         }
 
@@ -675,6 +681,7 @@ class CompressorTagsTest {
         }
 
         @Override
+        @SuppressWarnings("ql/confusing-overloading")
         public void println(char[] x) {
         }
 
@@ -683,6 +690,7 @@ class CompressorTagsTest {
         }
 
         @Override
+        @SuppressWarnings("ql/confusing-overloading")
         public void println(Object x) {
         }
 
@@ -836,6 +844,7 @@ class CompressorTagsTest {
         }
 
         @Override
+        @SuppressWarnings("ql/confusing-overloading")
         public void handlePageException(Throwable t) throws ServletException, IOException {
         }
     }

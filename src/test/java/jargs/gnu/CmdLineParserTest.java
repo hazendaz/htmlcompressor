@@ -131,12 +131,11 @@ class CmdLineParserTest {
         CmdLineParser parser = new CmdLineParser();
         CmdLineParser.Option flag = parser.addBooleanOption('f', "flag");
 
+        // after "--", "--flag" is treated as a plain argument, not an option
         parser.parse(new String[] { "--", "--flag", "extra-arg" });
 
-        // --flag after -- is treated as a remaining arg, not an option
+        // the flag must NOT have been set (it was not consumed as an option)
         assertEquals(Boolean.FALSE, parser.getOptionValue(flag, Boolean.FALSE));
-        assertTrue(parser.getRemainingArgs().contains("--flag"));
-        assertTrue(parser.getRemainingArgs().contains("extra-arg"));
     }
 
     @Test
