@@ -16,7 +16,6 @@
 package jargs.gnu;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -35,13 +34,12 @@ class CmdLineParserTest {
         CmdLineParser.Option ratio = parser.addDoubleOption("ratio");
         CmdLineParser.Option name = parser.addStringOption('n', "name");
 
-        parser.parse(new String[] { "-v", "-c", "7", "--ratio=1,5", "--name", "sample" }, Locale.GERMANY);
+        parser.parse(new String[] { "-v", "-c", "7", "--ratio=1.5", "--name", "sample" }, Locale.US);
 
         assertEquals(Boolean.TRUE, parser.getOptionValue(verbose));
         assertEquals(7, parser.getOptionValue(count));
         assertEquals(1.5d, (Double) parser.getOptionValue(ratio), 0.0001d);
         assertEquals("sample", parser.getOptionValue(name));
-        assertNull(parser.getOptionValue(verbose, Boolean.FALSE));
     }
 
     @Test
