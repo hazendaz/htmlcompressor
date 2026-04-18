@@ -16,6 +16,7 @@
 package jargs.gnu;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -100,5 +101,67 @@ class CmdLineParserTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> new CmdLineParser.Option.StringOption((String) null));
         assertEquals("Null longForm not allowed", exception.getMessage());
+    }
+
+    @Test
+    void testLongOptionShortAndLongForm() throws Exception {
+        CmdLineParser parser = new CmdLineParser();
+        CmdLineParser.Option sizeShort = parser.addLongOption('s', "size");
+        CmdLineParser.Option sizeLong = parser.addLongOption("max-size");
+
+        parser.parse(new String[] { "-s", "100", "--max-size", "200" });
+
+        assertEquals(100L, parser.getOptionValue(sizeShort));
+        assertEquals(200L, parser.getOptionValue(sizeLong));
+    }
+
+    @Test
+    void testLongOptionIllegalValue() {
+        CmdLineParser parser = new CmdLineParser();
+        CmdLineParser.Option count = parser.addLongOption('n', "num");
+
+        CmdLineParser.IllegalOptionValueException ex = assertThrows(CmdLineParser.IllegalOptionValueException.class,
+                () -> parser.parse(new String[] { "-n", "not-a-long" }));
+        assertEquals(count, ex.getOption());
+        assertEquals("not-a-long", ex.getValue());
+    }
+
+    @Test
+    void testDoubleDashEndsOptionParsing() throws Exception {
+        CmdLineParser parser = new CmdLineParser();
+        CmdLineParser.Option flag = parser.addBooleanOption('f', "flag");
+
+        parser.parse(new String[] { "--", "--flag", "extra-arg" });
+
+        // --flag after -- is treated as a remaining arg, not an option
+        assertEquals(Boolean.FALSE, parser.getOptionValue(flag, Boolean.FALSE));
+        assertTrue(parser.getRemainingArgs().contains("--flag"));
+        assertTrue(parser.getRemainingArgs().contains("extra-arg"));
+    }
+
+    @Test
+    void testGetOptionValuesReturnsAllOccurrences() throws Exception {
+        CmdLineParser parser = new CmdLineParser();
+        CmdLineParser.Option include = parser.addStringOption('i', "include");
+
+        parser.parse(new String[] { "-i", "one", "-i", "two", "--include", "three" });
+
+        assertEquals(java.util.List.of("one", "two", "three"), parser.getOptionValues(include));
+    }
+
+    @Test
+    void testExceptionMessageAndOptionAccessors() throws Exception {
+        CmdLineParser parser = new CmdLineParser();
+
+        CmdLineParser.UnknownOptionException uoe = assertThrows(CmdLineParser.UnknownOptionException.class,
+                () -> parser.parse(new String[] { "--bogus" }));
+        assertNotNull(uoe.getMessage());
+        assertEquals("--bogus", uoe.getOptionName());
+
+        // IllegalOptionValueException getMessage
+        parser.addIntegerOption('n', "num");
+        CmdLineParser.IllegalOptionValueException ive = assertThrows(CmdLineParser.IllegalOptionValueException.class,
+                () -> parser.parse(new String[] { "-n", "NaN" }));
+        assertNotNull(ive.getMessage());
     }
 }
