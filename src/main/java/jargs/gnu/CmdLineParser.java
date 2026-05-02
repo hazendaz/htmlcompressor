@@ -864,8 +864,7 @@ public class CmdLineParser {
             otherArgs.add(argv[position]);
         }
 
-        this.remainingArgs = new ArrayList<>(otherArgs.size());
-        otherArgs.addAll(remainingArgs);
+        this.remainingArgs = new ArrayList<>(otherArgs);
     }
 
     /**

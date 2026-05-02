@@ -136,6 +136,9 @@ class CmdLineParserTest {
 
         // the flag must NOT have been set (it was not consumed as an option)
         assertEquals(Boolean.FALSE, parser.getOptionValue(flag, Boolean.FALSE));
+        // args after -- are available as remaining args
+        assertTrue(parser.getRemainingArgs().contains("--flag"));
+        assertTrue(parser.getRemainingArgs().contains("extra-arg"));
     }
 
     @Test

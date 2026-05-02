@@ -325,13 +325,14 @@ class CmdLineCompressorTest {
     @Test
     void testCompressHtmlDirectory() throws IOException {
         Path inputDir = tmpDir.resolve("indir");
-        Path outputDir = tmpDir.resolve("outdir/");
+        Path outputDir = tmpDir.resolve("outdir");
+        String outputDirArg = outputDir + "/";
         Files.createDirectories(inputDir);
 
         Files.writeString(inputDir.resolve("a.html"), SAMPLE_HTML);
         Files.writeString(inputDir.resolve("b.html"), SAMPLE_HTML);
 
-        CmdLineCompressor c = new CmdLineCompressor(new String[] { "-o", outputDir.toString(), inputDir.toString() });
+        CmdLineCompressor c = new CmdLineCompressor(new String[] { "-o", outputDirArg, inputDir.toString() });
         c.process();
 
         assertTrue(Files.exists(outputDir));
@@ -343,14 +344,14 @@ class CmdLineCompressorTest {
     void testCompressHtmlDirectoryRecursive() throws IOException {
         Path inputDir = tmpDir.resolve("recIn");
         Path subDir = inputDir.resolve("sub");
-        Path outputDir = tmpDir.resolve("recOut/");
+        Path outputDir = tmpDir.resolve("recOut");
+        String outputDirArg = outputDir + "/";
         Files.createDirectories(subDir);
 
         Files.writeString(inputDir.resolve("root.html"), SAMPLE_HTML);
         Files.writeString(subDir.resolve("child.html"), SAMPLE_HTML);
 
-        CmdLineCompressor c = new CmdLineCompressor(
-                new String[] { "-r", "-o", outputDir.toString(), inputDir.toString() });
+        CmdLineCompressor c = new CmdLineCompressor(new String[] { "-r", "-o", outputDirArg, inputDir.toString() });
         c.process();
 
         // Recursively collected at least one file at the root level
@@ -360,14 +361,15 @@ class CmdLineCompressorTest {
     @Test
     void testCompressHtmlDirectoryWithFileMask() throws IOException {
         Path inputDir = tmpDir.resolve("masked");
-        Path outputDir = tmpDir.resolve("maskedOut/");
+        Path outputDir = tmpDir.resolve("maskedOut");
+        String outputDirArg = outputDir + "/";
         Files.createDirectories(inputDir);
 
         Files.writeString(inputDir.resolve("keep.html"), SAMPLE_HTML);
         Files.writeString(inputDir.resolve("skip.xml"), SAMPLE_XML);
 
         CmdLineCompressor c = new CmdLineCompressor(
-                new String[] { "-m", "*.html", "-o", outputDir.toString(), inputDir.toString() });
+                new String[] { "-m", "*.html", "-o", outputDirArg, inputDir.toString() });
         c.process();
 
         // only .html file should be in output
@@ -379,13 +381,14 @@ class CmdLineCompressorTest {
     @Test
     void testCompressXmlDirectoryWithXmlType() throws IOException {
         Path inputDir = tmpDir.resolve("xmlin");
-        Path outputDir = tmpDir.resolve("xmlout/");
+        Path outputDir = tmpDir.resolve("xmlout");
+        String outputDirArg = outputDir + "/";
         Files.createDirectories(inputDir);
 
         Files.writeString(inputDir.resolve("a.xml"), SAMPLE_XML);
 
         CmdLineCompressor c = new CmdLineCompressor(
-                new String[] { "--type", "xml", "-o", outputDir.toString(), inputDir.toString() });
+                new String[] { "--type", "xml", "-o", outputDirArg, inputDir.toString() });
         c.process();
 
         assertTrue(Files.exists(outputDir));
@@ -395,14 +398,14 @@ class CmdLineCompressorTest {
     void testMultipleInputFilesToDirectoryOutput() throws IOException {
         Path f1 = tmpDir.resolve("one.html");
         Path f2 = tmpDir.resolve("two.html");
-        Path outputDir = tmpDir.resolve("multi/");
+        Path outputDir = tmpDir.resolve("multi");
+        String outputDirArg = outputDir + "/";
         Files.createDirectories(outputDir);
 
         Files.writeString(f1, SAMPLE_HTML);
         Files.writeString(f2, SAMPLE_HTML);
 
-        CmdLineCompressor c = new CmdLineCompressor(
-                new String[] { "-o", outputDir.toString(), f1.toString(), f2.toString() });
+        CmdLineCompressor c = new CmdLineCompressor(new String[] { "-o", outputDirArg, f1.toString(), f2.toString() });
         c.process();
 
         long count = Files.list(outputDir).count();
@@ -542,14 +545,15 @@ class CmdLineCompressorTest {
     @Test
     void testXmlTypeDirectoryNoMaskFiltersXmlFiles() throws IOException {
         Path inputDir = tmpDir.resolve("xmlmix");
-        Path outputDir = tmpDir.resolve("xmlmixout/");
+        Path outputDir = tmpDir.resolve("xmlmixout");
+        String outputDirArg = outputDir + "/";
         Files.createDirectories(inputDir);
 
         Files.writeString(inputDir.resolve("data.xml"), SAMPLE_XML);
         Files.writeString(inputDir.resolve("page.html"), SAMPLE_HTML);
 
         CmdLineCompressor c = new CmdLineCompressor(
-                new String[] { "--type", "xml", "-o", outputDir.toString(), inputDir.toString() });
+                new String[] { "--type", "xml", "-o", outputDirArg, inputDir.toString() });
         c.process();
 
         // Only .xml file should appear in output
