@@ -120,7 +120,7 @@ public class HtmlCompressorStatistics {
 
     @Override
     public String toString() {
-        return String.format("Time=%d, Preserved=%d, Original={%s}, Compressed={%s}", time, preservedSize,
+        return "Time=%d, Preserved=%d, Original={%s}, Compressed={%s}".formatted(time, preservedSize,
                 originalMetrics.toString(), compressedMetrics.toString());
     }
 }
