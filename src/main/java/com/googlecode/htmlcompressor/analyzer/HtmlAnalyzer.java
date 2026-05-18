@@ -318,7 +318,7 @@ public class HtmlAnalyzer {
         if (logger.isInfoEnabled()) {
             logger.info("\n");
             logger.info("=".repeat(80));
-            logger.info(String.format("%-25s | %-16s | %-16s | %-12s |", "         Setting", "Incremental Gain",
+            logger.info("%-25s | %-16s | %-16s | %-12s |".formatted("         Setting", "Incremental Gain",
                     "   Total Gain", " Page Size"));
             logger.info("\n");
             logger.info("=".repeat(80));
