@@ -132,8 +132,8 @@ public class HtmlMetrics {
 
     @Override
     public String toString() {
-        return String.format("Filesize=%d, Empty Chars=%d, Script Size=%d, Style Size=%d, Event Handler Size=%d",
-                filesize, emptyChars, inlineScriptSize, inlineStyleSize, inlineEventSize);
+        return "Filesize=%d, Empty Chars=%d, Script Size=%d, Style Size=%d, Event Handler Size=%d".formatted(filesize,
+                emptyChars, inlineScriptSize, inlineStyleSize, inlineEventSize);
     }
 
 }
