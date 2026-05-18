@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HtmlCompressorTag.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">htmlcompressor</a> &gt; <a href="index.source.html" class="el_package">com.googlecode.htmlcompressor.taglib</a> &gt; <span class="el_source">HtmlCompressorTag.java</span></div><h1>HtmlCompressorTag.java</h1><pre class="source lang-java linenums">/*
- *    Copyright 2009-2025 the original author or authors.
+ *    Copyright 2009-2026 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  *    you may not use this file except in compliance with the License.
@@ -20,11 +20,11 @@ import com.googlecode.htmlcompressor.compressor.ClosureJavaScriptCompressor;
 import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
 import com.googlecode.htmlcompressor.compressor.YuiJavaScriptCompressor;
 
-import java.io.IOException;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.tagext.BodyContent;
+import jakarta.servlet.jsp.tagext.BodyTagSupport;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.BodyContent;
-import javax.servlet.jsp.tagext.BodyTagSupport;
+import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,24 +35,24 @@ import org.slf4j.LoggerFactory;
  *
  * @see HtmlCompressor
  */
-<span class="nc" id="L38">public class HtmlCompressorTag extends BodyTagSupport {</span>
+<span class="fc" id="L38">public class HtmlCompressorTag extends BodyTagSupport {</span>
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
     /** The Constant logger. */
-<span class="nc" id="L44">    private static final Logger logger = LoggerFactory.getLogger(HtmlCompressorTag.class);</span>
+<span class="fc" id="L44">    private static final Logger logger = LoggerFactory.getLogger(HtmlCompressorTag.class);</span>
 
     /** The enabled. */
-<span class="nc" id="L47">    private boolean enabled = true;</span>
+<span class="fc" id="L47">    private boolean enabled = true;</span>
 
     // default settings
 
     /** The remove comments. */
-<span class="nc" id="L52">    private boolean removeComments = true;</span>
+<span class="fc" id="L52">    private boolean removeComments = true;</span>
 
     /** The remove multi spaces. */
-<span class="nc" id="L55">    private boolean removeMultiSpaces = true;</span>
+<span class="fc" id="L55">    private boolean removeMultiSpaces = true;</span>
 
     // optional settings
 
@@ -102,7 +102,7 @@ import org.slf4j.LoggerFactory;
     private boolean compressCss;
 
     /** The js compressor. */
-<span class="nc" id="L105">    private String jsCompressor = HtmlCompressor.JS_COMPRESSOR_YUI;</span>
+<span class="fc" id="L105">    private String jsCompressor = HtmlCompressor.JS_COMPRESSOR_YUI;</span>
 
     // YUICompressor settings
 
@@ -116,69 +116,69 @@ import org.slf4j.LoggerFactory;
     private boolean yuiJsDisableOptimizations;
 
     /** The yui js line break. */
-<span class="nc" id="L119">    private int yuiJsLineBreak = -1;</span>
+<span class="fc" id="L119">    private int yuiJsLineBreak = -1;</span>
 
     /** The yui css line break. */
-<span class="nc" id="L122">    private int yuiCssLineBreak = -1;</span>
+<span class="fc" id="L122">    private int yuiCssLineBreak = -1;</span>
 
     // Closure compressor settings
 
     /** The closure opt level. */
-<span class="nc" id="L127">    private String closureOptLevel = ClosureJavaScriptCompressor.COMPILATION_LEVEL_SIMPLE;</span>
+<span class="fc" id="L127">    private String closureOptLevel = ClosureJavaScriptCompressor.COMPILATION_LEVEL_SIMPLE;</span>
 
     @Override
     public int doEndTag() throws JspException {
 
-<span class="nc" id="L132">        BodyContent bodyContent = getBodyContent();</span>
-<span class="nc" id="L133">        String content = bodyContent.getString();</span>
+<span class="fc" id="L132">        BodyContent bodyContent = getBodyContent();</span>
+<span class="fc" id="L133">        String content = bodyContent.getString();</span>
 
-<span class="nc" id="L135">        HtmlCompressor htmlCompressor = new HtmlCompressor();</span>
-<span class="nc" id="L136">        htmlCompressor.setEnabled(enabled);</span>
-<span class="nc" id="L137">        htmlCompressor.setRemoveComments(removeComments);</span>
-<span class="nc" id="L138">        htmlCompressor.setRemoveMultiSpaces(removeMultiSpaces);</span>
-<span class="nc" id="L139">        htmlCompressor.setRemoveIntertagSpaces(removeIntertagSpaces);</span>
-<span class="nc" id="L140">        htmlCompressor.setRemoveQuotes(removeQuotes);</span>
-<span class="nc" id="L141">        htmlCompressor.setPreserveLineBreaks(preserveLineBreaks);</span>
-<span class="nc" id="L142">        htmlCompressor.setCompressJavaScript(compressJavaScript);</span>
-<span class="nc" id="L143">        htmlCompressor.setCompressCss(compressCss);</span>
-<span class="nc" id="L144">        htmlCompressor.setYuiJsNoMunge(yuiJsNoMunge);</span>
-<span class="nc" id="L145">        htmlCompressor.setYuiJsPreserveAllSemiColons(yuiJsPreserveAllSemiColons);</span>
-<span class="nc" id="L146">        htmlCompressor.setYuiJsDisableOptimizations(yuiJsDisableOptimizations);</span>
-<span class="nc" id="L147">        htmlCompressor.setYuiJsLineBreak(yuiJsLineBreak);</span>
-<span class="nc" id="L148">        htmlCompressor.setYuiCssLineBreak(yuiCssLineBreak);</span>
+<span class="fc" id="L135">        HtmlCompressor htmlCompressor = new HtmlCompressor();</span>
+<span class="fc" id="L136">        htmlCompressor.setEnabled(enabled);</span>
+<span class="fc" id="L137">        htmlCompressor.setRemoveComments(removeComments);</span>
+<span class="fc" id="L138">        htmlCompressor.setRemoveMultiSpaces(removeMultiSpaces);</span>
+<span class="fc" id="L139">        htmlCompressor.setRemoveIntertagSpaces(removeIntertagSpaces);</span>
+<span class="fc" id="L140">        htmlCompressor.setRemoveQuotes(removeQuotes);</span>
+<span class="fc" id="L141">        htmlCompressor.setPreserveLineBreaks(preserveLineBreaks);</span>
+<span class="fc" id="L142">        htmlCompressor.setCompressJavaScript(compressJavaScript);</span>
+<span class="fc" id="L143">        htmlCompressor.setCompressCss(compressCss);</span>
+<span class="fc" id="L144">        htmlCompressor.setYuiJsNoMunge(yuiJsNoMunge);</span>
+<span class="fc" id="L145">        htmlCompressor.setYuiJsPreserveAllSemiColons(yuiJsPreserveAllSemiColons);</span>
+<span class="fc" id="L146">        htmlCompressor.setYuiJsDisableOptimizations(yuiJsDisableOptimizations);</span>
+<span class="fc" id="L147">        htmlCompressor.setYuiJsLineBreak(yuiJsLineBreak);</span>
+<span class="fc" id="L148">        htmlCompressor.setYuiCssLineBreak(yuiCssLineBreak);</span>
 
-<span class="nc" id="L150">        htmlCompressor.setSimpleDoctype(simpleDoctype);</span>
-<span class="nc" id="L151">        htmlCompressor.setRemoveScriptAttributes(removeScriptAttributes);</span>
-<span class="nc" id="L152">        htmlCompressor.setRemoveStyleAttributes(removeStyleAttributes);</span>
-<span class="nc" id="L153">        htmlCompressor.setRemoveLinkAttributes(removeLinkAttributes);</span>
-<span class="nc" id="L154">        htmlCompressor.setRemoveFormAttributes(removeFormAttributes);</span>
-<span class="nc" id="L155">        htmlCompressor.setRemoveInputAttributes(removeInputAttributes);</span>
-<span class="nc" id="L156">        htmlCompressor.setSimpleBooleanAttributes(simpleBooleanAttributes);</span>
-<span class="nc" id="L157">        htmlCompressor.setRemoveJavaScriptProtocol(removeJavaScriptProtocol);</span>
-<span class="nc" id="L158">        htmlCompressor.setRemoveHttpProtocol(removeHttpProtocol);</span>
-<span class="nc" id="L159">        htmlCompressor.setRemoveHttpsProtocol(removeHttpsProtocol);</span>
+<span class="fc" id="L150">        htmlCompressor.setSimpleDoctype(simpleDoctype);</span>
+<span class="fc" id="L151">        htmlCompressor.setRemoveScriptAttributes(removeScriptAttributes);</span>
+<span class="fc" id="L152">        htmlCompressor.setRemoveStyleAttributes(removeStyleAttributes);</span>
+<span class="fc" id="L153">        htmlCompressor.setRemoveLinkAttributes(removeLinkAttributes);</span>
+<span class="fc" id="L154">        htmlCompressor.setRemoveFormAttributes(removeFormAttributes);</span>
+<span class="fc" id="L155">        htmlCompressor.setRemoveInputAttributes(removeInputAttributes);</span>
+<span class="fc" id="L156">        htmlCompressor.setSimpleBooleanAttributes(simpleBooleanAttributes);</span>
+<span class="fc" id="L157">        htmlCompressor.setRemoveJavaScriptProtocol(removeJavaScriptProtocol);</span>
+<span class="fc" id="L158">        htmlCompressor.setRemoveHttpProtocol(removeHttpProtocol);</span>
+<span class="fc" id="L159">        htmlCompressor.setRemoveHttpsProtocol(removeHttpsProtocol);</span>
 
-<span class="nc bnc" id="L161" title="All 4 branches missed.">        if (compressJavaScript &amp;&amp; jsCompressor.equalsIgnoreCase(HtmlCompressor.JS_COMPRESSOR_CLOSURE)) {</span>
-<span class="nc" id="L162">            ClosureJavaScriptCompressor closureCompressor = new ClosureJavaScriptCompressor();</span>
-<span class="nc bnc" id="L163" title="All 2 branches missed.">            if (closureOptLevel.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_ADVANCED)) {</span>
-<span class="nc" id="L164">                closureCompressor.setCompilationLevel(CompilationLevel.ADVANCED_OPTIMIZATIONS);</span>
-<span class="nc bnc" id="L165" title="All 2 branches missed.">            } else if (closureOptLevel.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_WHITESPACE)) {</span>
-<span class="nc" id="L166">                closureCompressor.setCompilationLevel(CompilationLevel.WHITESPACE_ONLY);</span>
+<span class="pc bpc" id="L161" title="1 of 4 branches missed.">        if (compressJavaScript &amp;&amp; jsCompressor.equalsIgnoreCase(HtmlCompressor.JS_COMPRESSOR_CLOSURE)) {</span>
+<span class="fc" id="L162">            ClosureJavaScriptCompressor closureCompressor = new ClosureJavaScriptCompressor();</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">            if (closureOptLevel.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_ADVANCED)) {</span>
+<span class="fc" id="L164">                closureCompressor.setCompilationLevel(CompilationLevel.ADVANCED_OPTIMIZATIONS);</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">            } else if (closureOptLevel.equalsIgnoreCase(ClosureJavaScriptCompressor.COMPILATION_LEVEL_WHITESPACE)) {</span>
+<span class="fc" id="L166">                closureCompressor.setCompilationLevel(CompilationLevel.WHITESPACE_ONLY);</span>
             } else {
-<span class="nc" id="L168">                closureCompressor.setCompilationLevel(CompilationLevel.SIMPLE_OPTIMIZATIONS);</span>
+<span class="fc" id="L168">                closureCompressor.setCompilationLevel(CompilationLevel.SIMPLE_OPTIMIZATIONS);</span>
             }
-<span class="nc" id="L170">            htmlCompressor.setJavaScriptCompressor(closureCompressor);</span>
+<span class="fc" id="L170">            htmlCompressor.setJavaScriptCompressor(closureCompressor);</span>
         }
 
         try {
-<span class="nc" id="L174">            bodyContent.clear();</span>
-<span class="nc" id="L175">            bodyContent.append(htmlCompressor.compress(content));</span>
-<span class="nc" id="L176">            bodyContent.writeOut(pageContext.getOut());</span>
+<span class="fc" id="L174">            bodyContent.clear();</span>
+<span class="fc" id="L175">            bodyContent.append(htmlCompressor.compress(content));</span>
+<span class="fc" id="L176">            bodyContent.writeOut(pageContext.getOut());</span>
 <span class="nc" id="L177">        } catch (IOException e) {</span>
 <span class="nc" id="L178">            logger.error(&quot;&quot;, e);</span>
-<span class="nc" id="L179">        }</span>
+<span class="fc" id="L179">        }</span>
 
-<span class="nc" id="L181">        return super.doEndTag();</span>
+<span class="fc" id="L181">        return super.doEndTag();</span>
     }
 
     /**
@@ -190,8 +190,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setCompressJavaScript(boolean)
      */
     public void setCompressJavaScript(boolean compressJavaScript) {
-<span class="nc" id="L193">        this.compressJavaScript = compressJavaScript;</span>
-<span class="nc" id="L194">    }</span>
+<span class="fc" id="L193">        this.compressJavaScript = compressJavaScript;</span>
+<span class="fc" id="L194">    }</span>
 
     /**
      * Sets the compress css.
@@ -202,8 +202,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setCompressCss(boolean)
      */
     public void setCompressCss(boolean compressCss) {
-<span class="nc" id="L205">        this.compressCss = compressCss;</span>
-<span class="nc" id="L206">    }</span>
+<span class="fc" id="L205">        this.compressCss = compressCss;</span>
+<span class="fc" id="L206">    }</span>
 
     /**
      * Sets the yui js no munge.
@@ -214,8 +214,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setYuiJsNoMunge(boolean)
      */
     public void setYuiJsNoMunge(boolean yuiJsNoMunge) {
-<span class="nc" id="L217">        this.yuiJsNoMunge = yuiJsNoMunge;</span>
-<span class="nc" id="L218">    }</span>
+<span class="fc" id="L217">        this.yuiJsNoMunge = yuiJsNoMunge;</span>
+<span class="fc" id="L218">    }</span>
 
     /**
      * Sets the yui js preserve all semi colons.
@@ -226,8 +226,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setYuiJsPreserveAllSemiColons(boolean)
      */
     public void setYuiJsPreserveAllSemiColons(boolean yuiJsPreserveAllSemiColons) {
-<span class="nc" id="L229">        this.yuiJsPreserveAllSemiColons = yuiJsPreserveAllSemiColons;</span>
-<span class="nc" id="L230">    }</span>
+<span class="fc" id="L229">        this.yuiJsPreserveAllSemiColons = yuiJsPreserveAllSemiColons;</span>
+<span class="fc" id="L230">    }</span>
 
     /**
      * Sets the yui js disable optimizations.
@@ -238,8 +238,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setYuiJsDisableOptimizations(boolean)
      */
     public void setYuiJsDisableOptimizations(boolean yuiJsDisableOptimizations) {
-<span class="nc" id="L241">        this.yuiJsDisableOptimizations = yuiJsDisableOptimizations;</span>
-<span class="nc" id="L242">    }</span>
+<span class="fc" id="L241">        this.yuiJsDisableOptimizations = yuiJsDisableOptimizations;</span>
+<span class="fc" id="L242">    }</span>
 
     /**
      * Sets the yui js line break.
@@ -250,8 +250,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setYuiJsLineBreak(int)
      */
     public void setYuiJsLineBreak(int yuiJsLineBreak) {
-<span class="nc" id="L253">        this.yuiJsLineBreak = yuiJsLineBreak;</span>
-<span class="nc" id="L254">    }</span>
+<span class="fc" id="L253">        this.yuiJsLineBreak = yuiJsLineBreak;</span>
+<span class="fc" id="L254">    }</span>
 
     /**
      * Sets the yui css line break.
@@ -262,8 +262,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setYuiCssLineBreak(int)
      */
     public void setYuiCssLineBreak(int yuiCssLineBreak) {
-<span class="nc" id="L265">        this.yuiCssLineBreak = yuiCssLineBreak;</span>
-<span class="nc" id="L266">    }</span>
+<span class="fc" id="L265">        this.yuiCssLineBreak = yuiCssLineBreak;</span>
+<span class="fc" id="L266">    }</span>
 
     /**
      * Sets the removes the quotes.
@@ -274,8 +274,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setRemoveQuotes(boolean)
      */
     public void setRemoveQuotes(boolean removeQuotes) {
-<span class="nc" id="L277">        this.removeQuotes = removeQuotes;</span>
-<span class="nc" id="L278">    }</span>
+<span class="fc" id="L277">        this.removeQuotes = removeQuotes;</span>
+<span class="fc" id="L278">    }</span>
 
     /**
      * Sets the preserve line breaks.
@@ -286,8 +286,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setPreserveLineBreaks(boolean)
      */
     public void setPreserveLineBreaks(boolean preserveLineBreaks) {
-<span class="nc" id="L289">        this.preserveLineBreaks = preserveLineBreaks;</span>
-<span class="nc" id="L290">    }</span>
+<span class="fc" id="L289">        this.preserveLineBreaks = preserveLineBreaks;</span>
+<span class="fc" id="L290">    }</span>
 
     /**
      * Sets the enabled.
@@ -298,8 +298,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setEnabled(boolean)
      */
     public void setEnabled(boolean enabled) {
-<span class="nc" id="L301">        this.enabled = enabled;</span>
-<span class="nc" id="L302">    }</span>
+<span class="fc" id="L301">        this.enabled = enabled;</span>
+<span class="fc" id="L302">    }</span>
 
     /**
      * Sets the removes the comments.
@@ -310,8 +310,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setRemoveComments(boolean)
      */
     public void setRemoveComments(boolean removeComments) {
-<span class="nc" id="L313">        this.removeComments = removeComments;</span>
-<span class="nc" id="L314">    }</span>
+<span class="fc" id="L313">        this.removeComments = removeComments;</span>
+<span class="fc" id="L314">    }</span>
 
     /**
      * Sets the removes the multi spaces.
@@ -322,8 +322,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setRemoveMultiSpaces(boolean)
      */
     public void setRemoveMultiSpaces(boolean removeMultiSpaces) {
-<span class="nc" id="L325">        this.removeMultiSpaces = removeMultiSpaces;</span>
-<span class="nc" id="L326">    }</span>
+<span class="fc" id="L325">        this.removeMultiSpaces = removeMultiSpaces;</span>
+<span class="fc" id="L326">    }</span>
 
     /**
      * Sets the removes the intertag spaces.
@@ -334,8 +334,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setRemoveIntertagSpaces(boolean)
      */
     public void setRemoveIntertagSpaces(boolean removeIntertagSpaces) {
-<span class="nc" id="L337">        this.removeIntertagSpaces = removeIntertagSpaces;</span>
-<span class="nc" id="L338">    }</span>
+<span class="fc" id="L337">        this.removeIntertagSpaces = removeIntertagSpaces;</span>
+<span class="fc" id="L338">    }</span>
 
     /**
      * Sets JavaScript compressor implementation that will be used to compress inline JavaScript in HTML.
@@ -350,8 +350,8 @@ import org.slf4j.LoggerFactory;
      * @see &lt;a href=&quot;http://code.google.com/closure/compiler/&quot;&gt;Google Closure Compiler&lt;/a&gt;
      */
     public void setJsCompressor(String jsCompressor) {
-<span class="nc" id="L353">        this.jsCompressor = jsCompressor;</span>
-<span class="nc" id="L354">    }</span>
+<span class="fc" id="L353">        this.jsCompressor = jsCompressor;</span>
+<span class="fc" id="L354">    }</span>
 
     /**
      * Sets level of optimization if &lt;a href=&quot;http://code.google.com/closure/compiler/&quot;&gt;Google Closure Compiler&lt;/a&gt; is
@@ -364,8 +364,8 @@ import org.slf4j.LoggerFactory;
      * @see ClosureJavaScriptCompressor#setCompilationLevel(CompilationLevel)
      */
     public void setClosureOptLevel(String closureOptLevel) {
-<span class="nc" id="L367">        this.closureOptLevel = closureOptLevel;</span>
-<span class="nc" id="L368">    }</span>
+<span class="fc" id="L367">        this.closureOptLevel = closureOptLevel;</span>
+<span class="fc" id="L368">    }</span>
 
     /**
      * Sets the simple doctype.
@@ -376,8 +376,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setSimpleDoctype(boolean)
      */
     public void setSimpleDoctype(boolean simpleDoctype) {
-<span class="nc" id="L379">        this.simpleDoctype = simpleDoctype;</span>
-<span class="nc" id="L380">    }</span>
+<span class="fc" id="L379">        this.simpleDoctype = simpleDoctype;</span>
+<span class="fc" id="L380">    }</span>
 
     /**
      * Sets the removes the script attributes.
@@ -388,8 +388,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setRemoveScriptAttributes(boolean)
      */
     public void setRemoveScriptAttributes(boolean removeScriptAttributes) {
-<span class="nc" id="L391">        this.removeScriptAttributes = removeScriptAttributes;</span>
-<span class="nc" id="L392">    }</span>
+<span class="fc" id="L391">        this.removeScriptAttributes = removeScriptAttributes;</span>
+<span class="fc" id="L392">    }</span>
 
     /**
      * Sets the removes the style attributes.
@@ -400,8 +400,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setRemoveStyleAttributes(boolean)
      */
     public void setRemoveStyleAttributes(boolean removeStyleAttributes) {
-<span class="nc" id="L403">        this.removeStyleAttributes = removeStyleAttributes;</span>
-<span class="nc" id="L404">    }</span>
+<span class="fc" id="L403">        this.removeStyleAttributes = removeStyleAttributes;</span>
+<span class="fc" id="L404">    }</span>
 
     /**
      * Sets the removes the link attributes.
@@ -412,8 +412,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setRemoveLinkAttributes(boolean)
      */
     public void setRemoveLinkAttributes(boolean removeLinkAttributes) {
-<span class="nc" id="L415">        this.removeLinkAttributes = removeLinkAttributes;</span>
-<span class="nc" id="L416">    }</span>
+<span class="fc" id="L415">        this.removeLinkAttributes = removeLinkAttributes;</span>
+<span class="fc" id="L416">    }</span>
 
     /**
      * Sets the removes the form attributes.
@@ -424,8 +424,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setRemoveFormAttributes(boolean)
      */
     public void setRemoveFormAttributes(boolean removeFormAttributes) {
-<span class="nc" id="L427">        this.removeFormAttributes = removeFormAttributes;</span>
-<span class="nc" id="L428">    }</span>
+<span class="fc" id="L427">        this.removeFormAttributes = removeFormAttributes;</span>
+<span class="fc" id="L428">    }</span>
 
     /**
      * Sets the removes the input attributes.
@@ -436,8 +436,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setRemoveInputAttributes(boolean)
      */
     public void setRemoveInputAttributes(boolean removeInputAttributes) {
-<span class="nc" id="L439">        this.removeInputAttributes = removeInputAttributes;</span>
-<span class="nc" id="L440">    }</span>
+<span class="fc" id="L439">        this.removeInputAttributes = removeInputAttributes;</span>
+<span class="fc" id="L440">    }</span>
 
     /**
      * Sets the simple boolean attributes.
@@ -448,8 +448,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setSimpleBooleanAttributes(boolean)
      */
     public void setSimpleBooleanAttributes(boolean simpleBooleanAttributes) {
-<span class="nc" id="L451">        this.simpleBooleanAttributes = simpleBooleanAttributes;</span>
-<span class="nc" id="L452">    }</span>
+<span class="fc" id="L451">        this.simpleBooleanAttributes = simpleBooleanAttributes;</span>
+<span class="fc" id="L452">    }</span>
 
     /**
      * Sets the removes the java script protocol.
@@ -460,8 +460,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setRemoveJavaScriptProtocol(boolean)
      */
     public void setRemoveJavaScriptProtocol(boolean removeJavaScriptProtocol) {
-<span class="nc" id="L463">        this.removeJavaScriptProtocol = removeJavaScriptProtocol;</span>
-<span class="nc" id="L464">    }</span>
+<span class="fc" id="L463">        this.removeJavaScriptProtocol = removeJavaScriptProtocol;</span>
+<span class="fc" id="L464">    }</span>
 
     /**
      * Sets the removes the http protocol.
@@ -472,8 +472,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setRemoveHttpProtocol(boolean)
      */
     public void setRemoveHttpProtocol(boolean removeHttpProtocol) {
-<span class="nc" id="L475">        this.removeHttpProtocol = removeHttpProtocol;</span>
-<span class="nc" id="L476">    }</span>
+<span class="fc" id="L475">        this.removeHttpProtocol = removeHttpProtocol;</span>
+<span class="fc" id="L476">    }</span>
 
     /**
      * Sets the removes the https protocol.
@@ -484,8 +484,8 @@ import org.slf4j.LoggerFactory;
      * @see HtmlCompressor#setRemoveHttpsProtocol(boolean)
      */
     public void setRemoveHttpsProtocol(boolean removeHttpsProtocol) {
-<span class="nc" id="L487">        this.removeHttpsProtocol = removeHttpsProtocol;</span>
-<span class="nc" id="L488">    }</span>
+<span class="fc" id="L487">        this.removeHttpsProtocol = removeHttpsProtocol;</span>
+<span class="fc" id="L488">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

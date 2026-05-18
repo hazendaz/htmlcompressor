@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HtmlCompressor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">htmlcompressor</a> &gt; <a href="index.source.html" class="el_package">com.googlecode.htmlcompressor.compressor</a> &gt; <span class="el_source">HtmlCompressor.java</span></div><h1>HtmlCompressor.java</h1><pre class="source lang-java linenums">/*
- *    Copyright 2009-2025 the original author or authors.
+ *    Copyright 2009-2026 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  *    you may not use this file except in compliance with the License.
@@ -901,12 +901,12 @@ import org.mozilla.javascript.ErrorReporter;
         // remove spaces around provided tags
 <span class="fc bfc" id="L902" title="All 2 branches covered.">        if (removeSurroundingSpaces != null) {</span>
             Pattern pattern;
-<span class="pc bpc" id="L904" title="1 of 2 branches missed.">            if (removeSurroundingSpaces.equalsIgnoreCase(BLOCK_TAGS_MIN)) {</span>
-<span class="nc" id="L905">                pattern = surroundingSpacesMinPattern;</span>
-<span class="pc bpc" id="L906" title="1 of 2 branches missed.">            } else if (removeSurroundingSpaces.equalsIgnoreCase(BLOCK_TAGS_MAX)) {</span>
-<span class="nc" id="L907">                pattern = surroundingSpacesMaxPattern;</span>
-<span class="pc bpc" id="L908" title="1 of 2 branches missed.">            } else if (removeSurroundingSpaces.equalsIgnoreCase(ALL_TAGS)) {</span>
-<span class="nc" id="L909">                pattern = surroundingSpacesAllPattern;</span>
+<span class="fc bfc" id="L904" title="All 2 branches covered.">            if (removeSurroundingSpaces.equalsIgnoreCase(BLOCK_TAGS_MIN)) {</span>
+<span class="fc" id="L905">                pattern = surroundingSpacesMinPattern;</span>
+<span class="fc bfc" id="L906" title="All 2 branches covered.">            } else if (removeSurroundingSpaces.equalsIgnoreCase(BLOCK_TAGS_MAX)) {</span>
+<span class="fc" id="L907">                pattern = surroundingSpacesMaxPattern;</span>
+<span class="fc bfc" id="L908" title="All 2 branches covered.">            } else if (removeSurroundingSpaces.equalsIgnoreCase(ALL_TAGS)) {</span>
+<span class="fc" id="L909">                pattern = surroundingSpacesAllPattern;</span>
             } else {
 <span class="fc" id="L911">                pattern = Pattern.compile(</span>
 <span class="fc" id="L912">                        &quot;\\s*(&lt;/?(?:&quot; + removeSurroundingSpaces.replace(&quot;,&quot;, &quot;|&quot;) + &quot;)(?:&gt;|[\\s/][^&gt;]*&gt;))\\s*&quot;,</span>
@@ -1027,7 +1027,7 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected String removeComments(String html) {
         // remove comments
-<span class="pc bpc" id="L1030" title="1 of 2 branches missed.">        if (removeComments) {</span>
+<span class="fc bfc" id="L1030" title="All 2 branches covered.">        if (removeComments) {</span>
 <span class="fc" id="L1031">            html = commentPattern.matcher(html).replaceAll(&quot;&quot;);</span>
         }
 <span class="fc" id="L1033">        return html;</span>
@@ -1154,8 +1154,8 @@ import org.mozilla.javascript.ErrorReporter;
      */
     protected String simpleBooleanAttributes(String html) {
         // simplify boolean attributes
-<span class="pc bpc" id="L1157" title="1 of 2 branches missed.">        if (simpleBooleanAttributes) {</span>
-<span class="nc" id="L1158">            html = booleanAttrPattern.matcher(html).replaceAll(&quot;$1$2$4&quot;);</span>
+<span class="fc bfc" id="L1157" title="All 2 branches covered.">        if (simpleBooleanAttributes) {</span>
+<span class="fc" id="L1158">            html = booleanAttrPattern.matcher(html).replaceAll(&quot;$1$2$4&quot;);</span>
         }
 <span class="fc" id="L1160">        return html;</span>
     }
@@ -1513,7 +1513,7 @@ import org.mozilla.javascript.ErrorReporter;
     protected String compressCssStyles(String source) {
 
         // set default css compressor
-<span class="pc bpc" id="L1516" title="1 of 2 branches missed.">        if (cssCompressor == null) {</span>
+<span class="fc bfc" id="L1516" title="All 2 branches covered.">        if (cssCompressor == null) {</span>
 <span class="fc" id="L1517">            YuiCssCompressor yuiCssCompressor = new YuiCssCompressor();</span>
 <span class="fc" id="L1518">            yuiCssCompressor.setLineBreak(yuiCssLineBreak);</span>
 
@@ -2335,7 +2335,7 @@ import org.mozilla.javascript.ErrorReporter;
      *            a comma separated list of tags around which spaces will be removed
      */
     public void setRemoveSurroundingSpaces(String tagList) {
-<span class="pc bpc" id="L2338" title="2 of 4 branches missed.">        if (tagList != null &amp;&amp; tagList.isEmpty()) {</span>
+<span class="pc bpc" id="L2338" title="1 of 4 branches missed.">        if (tagList != null &amp;&amp; tagList.isEmpty()) {</span>
 <span class="nc" id="L2339">            tagList = null;</span>
         }
 <span class="fc" id="L2341">        this.removeSurroundingSpaces = tagList;</span>

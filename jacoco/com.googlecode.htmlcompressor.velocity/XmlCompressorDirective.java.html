@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>XmlCompressorDirective.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">htmlcompressor</a> &gt; <a href="index.source.html" class="el_package">com.googlecode.htmlcompressor.velocity</a> &gt; <span class="el_source">XmlCompressorDirective.java</span></div><h1>XmlCompressorDirective.java</h1><pre class="source lang-java linenums">/*
- *    Copyright 2009-2025 the original author or authors.
+ *    Copyright 2009-2026 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  *    you may not use this file except in compliance with the License.
@@ -34,51 +34,51 @@ import org.apache.velocity.runtime.parser.node.Node;
  *
  * @see XmlCompressor
  */
-<span class="nc" id="L37">public class XmlCompressorDirective extends Directive {</span>
+<span class="fc" id="L37">public class XmlCompressorDirective extends Directive {</span>
 
     /** The Constant xmlCompressor. */
-<span class="nc" id="L40">    private static final XmlCompressor xmlCompressor = new XmlCompressor();</span>
+<span class="fc" id="L40">    private static final XmlCompressor xmlCompressor = new XmlCompressor();</span>
 
     @Override
     public String getName() {
-<span class="nc" id="L44">        return &quot;compressXml&quot;;</span>
+<span class="fc" id="L44">        return &quot;compressXml&quot;;</span>
     }
 
     @Override
     public int getType() {
-<span class="nc" id="L49">        return BLOCK;</span>
+<span class="fc" id="L49">        return BLOCK;</span>
     }
 
     @Override
     public void init(RuntimeServices rs, InternalContextAdapter context, Node node) throws TemplateInitException {
-<span class="nc" id="L54">        super.init(rs, context, node);</span>
-<span class="nc" id="L55">        log = rs.getLog();</span>
+<span class="fc" id="L54">        super.init(rs, context, node);</span>
+<span class="fc" id="L55">        log = rs.getLog();</span>
 
         // set compressor properties
-<span class="nc" id="L58">        xmlCompressor.setEnabled(rs.getBoolean(&quot;userdirective.compressXml.enabled&quot;, true));</span>
-<span class="nc" id="L59">        xmlCompressor.setRemoveComments(rs.getBoolean(&quot;userdirective.compressXml.removeComments&quot;, true));</span>
-<span class="nc" id="L60">        xmlCompressor.setRemoveIntertagSpaces(rs.getBoolean(&quot;userdirective.compressXml.removeIntertagSpaces&quot;, true));</span>
-<span class="nc" id="L61">    }</span>
+<span class="fc" id="L58">        xmlCompressor.setEnabled(rs.getBoolean(&quot;userdirective.compressXml.enabled&quot;, true));</span>
+<span class="fc" id="L59">        xmlCompressor.setRemoveComments(rs.getBoolean(&quot;userdirective.compressXml.removeComments&quot;, true));</span>
+<span class="fc" id="L60">        xmlCompressor.setRemoveIntertagSpaces(rs.getBoolean(&quot;userdirective.compressXml.removeIntertagSpaces&quot;, true));</span>
+<span class="fc" id="L61">    }</span>
 
     @Override
     public boolean render(InternalContextAdapter context, Writer writer, Node node)
             throws IOException, MethodInvocationException {
 
         // render content
-<span class="nc" id="L68">        StringWriter content = new StringWriter();</span>
-<span class="nc" id="L69">        node.jjtGetChild(0).render(context, content);</span>
+<span class="fc" id="L68">        StringWriter content = new StringWriter();</span>
+<span class="fc" id="L69">        node.jjtGetChild(0).render(context, content);</span>
 
         // compress
         try {
-<span class="nc" id="L73">            writer.write(xmlCompressor.compress(content.toString()));</span>
+<span class="fc" id="L73">            writer.write(xmlCompressor.compress(content.toString()));</span>
 <span class="nc" id="L74">        } catch (Exception e) {</span>
 <span class="nc" id="L75">            writer.write(content.toString());</span>
 <span class="nc" id="L76">            String msg = &quot;Failed to compress content: &quot; + content.toString();</span>
 <span class="nc" id="L77">            log.error(msg, e);</span>
 <span class="nc" id="L78">            throw new RuntimeException(msg, e);</span>
 
-<span class="nc" id="L80">        }</span>
-<span class="nc" id="L81">        return true;</span>
+<span class="fc" id="L80">        }</span>
+<span class="fc" id="L81">        return true;</span>
 
     }
 

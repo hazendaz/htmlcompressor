@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClosureJavaScriptCompressor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">htmlcompressor</a> &gt; <a href="index.source.html" class="el_package">com.googlecode.htmlcompressor.compressor</a> &gt; <span class="el_source">ClosureJavaScriptCompressor.java</span></div><h1>ClosureJavaScriptCompressor.java</h1><pre class="source lang-java linenums">/*
- *    Copyright 2009-2025 the original author or authors.
+ *    Copyright 2009-2026 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  *    you may not use this file except in compliance with the License.
@@ -59,16 +59,16 @@ public class ClosureJavaScriptCompressor implements Compressor {
     // Closure compiler default settings
 
     /** The compiler options. */
-<span class="pc" id="L62">    private CompilerOptions compilerOptions = new CompilerOptions();</span>
+<span class="fc" id="L62">    private CompilerOptions compilerOptions = new CompilerOptions();</span>
 
     /** The compilation level. */
-<span class="pc" id="L65">    private CompilationLevel compilationLevel = CompilationLevel.SIMPLE_OPTIMIZATIONS;</span>
+<span class="fc" id="L65">    private CompilationLevel compilationLevel = CompilationLevel.SIMPLE_OPTIMIZATIONS;</span>
 
     /** The logging level (note: closure compiler still uses java util logging, don't import Level. */
-<span class="pc" id="L68">    private java.util.logging.Level loggingLevel = java.util.logging.Level.SEVERE;</span>
+<span class="fc" id="L68">    private java.util.logging.Level loggingLevel = java.util.logging.Level.SEVERE;</span>
 
     /** The warning level. */
-<span class="pc" id="L71">    private WarningLevel warningLevel = WarningLevel.DEFAULT;</span>
+<span class="fc" id="L71">    private WarningLevel warningLevel = WarningLevel.DEFAULT;</span>
 
     /** The custom externs only. */
     private boolean customExternsOnly;
@@ -79,9 +79,9 @@ public class ClosureJavaScriptCompressor implements Compressor {
     /**
      * Instantiates a new closure java script compressor.
      */
-<span class="nc" id="L82">    public ClosureJavaScriptCompressor() {</span>
+<span class="fc" id="L82">    public ClosureJavaScriptCompressor() {</span>
         // Required for override.
-<span class="nc" id="L84">    }</span>
+<span class="fc" id="L84">    }</span>
 
     /**
      * Instantiates a new closure java script compressor.
@@ -104,7 +104,7 @@ public class ClosureJavaScriptCompressor implements Compressor {
 
         // prepare externs
 <span class="fc" id="L106">        List&lt;SourceFile&gt; externsList = new ArrayList&lt;&gt;();</span>
-<span class="pc bpc" id="L107" title="1 of 2 branches missed.">        if (compilationLevel.equals(CompilationLevel.ADVANCED_OPTIMIZATIONS)) {</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        if (compilationLevel.equals(CompilationLevel.ADVANCED_OPTIMIZATIONS)) {</span>
             // default externs
 <span class="pc bpc" id="L109" title="1 of 2 branches missed.">            if (!customExternsOnly) {</span>
                 try {
@@ -125,7 +125,7 @@ public class ClosureJavaScriptCompressor implements Compressor {
             }
         } else {
             // empty externs
-<span class="nc" id="L128">            externsList.add(SourceFile.fromCode(&quot;externs.js&quot;, &quot;&quot;));</span>
+<span class="fc" id="L128">            externsList.add(SourceFile.fromCode(&quot;externs.js&quot;, &quot;&quot;));</span>
         }
 
 <span class="fc" id="L131">        Compiler.setLoggingLevel(loggingLevel);</span>
@@ -200,8 +200,8 @@ public class ClosureJavaScriptCompressor implements Compressor {
      *      &quot;http://closure-compiler.googlecode.com/svn/trunk/javadoc/com/google/javascript/jscomp/CompilationLevel.html&quot;&gt;CompilationLevel&lt;/a&gt;
      */
     public void setCompilationLevel(CompilationLevel compilationLevel) {
-<span class="nc" id="L203">        this.compilationLevel = compilationLevel;</span>
-<span class="nc" id="L204">    }</span>
+<span class="fc" id="L203">        this.compilationLevel = compilationLevel;</span>
+<span class="fc" id="L204">    }</span>
 
     /**
      * Returns options that are used by the Closure compiler.
