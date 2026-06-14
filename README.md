@@ -31,7 +31,7 @@ Please refer to [htmlcompressor](https://code.google.com/p/htmlcompressor/) for 
 - Compiled binaries will be placed in /target subdirectory
 
 ## CHANGELOG ##
-- Changelog for 1.5.3 and before found [here](CHANGELOG.md)
+- Changelog for 1.5.3 and before found [here](CHANGELOG.md).  The remainder is in github releases.
 
 ## Looking to help ##
 - A lot of documentation is still at google code, a good getting started pull request would be to work on translate that data over.  The original export only exported the issues and source code.  Thus far the TODO wiki is 100% copied over, The change log is copied over too but missing links.  Need all documentation copied over.
