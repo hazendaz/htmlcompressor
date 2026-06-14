@@ -13,25 +13,25 @@ Small, fast and very easy to use Java library that minifies given HTML or XML so
 
 ## PACKAGE CONTENT ##
 - ```/bin``` contains main ${project.artifactId}-${project.version}.jar binary, as well as several extra jars (could be useful for IDE integration)
-- ```/doc``` javadocs
-- ```/src``` sources
 - ```/lib``` dependencies (for using with a command line compressor or non-Maven projects)
+- ```/src``` sources
 - ```pom.xml``` Maven POM file
+- ```README.md``` this file
 
 ## USAGE ##
 - For java projects add ${project.artifactId}-${project.version}.jar library to your project's classpath
 - For a command line usage run: ```java -jar ${project.artifactId}-${project.version}.jar -h``` to get a brief description of available parameters.
 
-Please refer to http://code.google.com/p/htmlcompressor/ for the detailed documentation.
+Please refer to [htmlcompressor](https://code.google.com/p/htmlcompressor/) for the detailed documentation.
 
 ## PROJECT BUILD ##
-- Install JDK 11+ (https://www.oracle.com/java/technologies/downloads/)
-- Install Maven 3.9.1+ (http://maven.apache.org/download.html)
+- Install JDK 21+ (https://www.oracle.com/java/technologies/downloads/)
+- Install Maven 3.9.16+ (http://maven.apache.org/download.html)
 - Run build.bat or build.sh
 - Compiled binaries will be placed in /target subdirectory
 
 ## CHANGELOG ##
-- Changelog for 1.5.3 and before found [here](CHANGELOG.md)
+- Changelog for 1.5.3 and before found [here](CHANGELOG.md).  The remainder is in github releases.
 
 ## Looking to help ##
-- A lot of docuemntation is still at google code, a good getting started pull request would be to work on translate that data over.  The original export only exported the issues and source code.  Thus far the TODO wiki is 100% copied over, The change log is copied over too but missing links.  Need all documentation copied over.
+- A lot of documentation is still at google code, a good getting started pull request would be to work on translate that data over.  The original export only exported the issues and source code.  Thus far the TODO wiki is 100% copied over, The change log is copied over too but missing links.  Need all documentation copied over.
