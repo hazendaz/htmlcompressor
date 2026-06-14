@@ -22,7 +22,7 @@ Small, fast and very easy to use Java library that minifies given HTML or XML so
 - For java projects add ${project.artifactId}-${project.version}.jar library to your project's classpath
 - For a command line usage run: ```java -jar ${project.artifactId}-${project.version}.jar -h``` to get a brief description of available parameters.
 
-Please refer to http://code.google.com/p/htmlcompressor/ for the detailed documentation.
+Please refer to [htmlcompressor](https://code.google.com/p/htmlcompressor/) for the detailed documentation.
 
 ## PROJECT BUILD ##
 - Install JDK 21+ (https://www.oracle.com/java/technologies/downloads/)
