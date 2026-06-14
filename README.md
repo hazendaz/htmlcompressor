@@ -25,8 +25,8 @@ Small, fast and very easy to use Java library that minifies given HTML or XML so
 Please refer to http://code.google.com/p/htmlcompressor/ for the detailed documentation.
 
 ## PROJECT BUILD ##
-- Install JDK 11+ (https://www.oracle.com/java/technologies/downloads/)
-- Install Maven 3.9.1+ (http://maven.apache.org/download.html)
+- Install JDK 21+ (https://www.oracle.com/java/technologies/downloads/)
+- Install Maven 3.9.16+ (http://maven.apache.org/download.html)
 - Run build.bat or build.sh
 - Compiled binaries will be placed in /target subdirectory
 
@@ -34,4 +34,4 @@ Please refer to http://code.google.com/p/htmlcompressor/ for the detailed docume
 - Changelog for 1.5.3 and before found [here](CHANGELOG.md)
 
 ## Looking to help ##
-- A lot of docuemntation is still at google code, a good getting started pull request would be to work on translate that data over.  The original export only exported the issues and source code.  Thus far the TODO wiki is 100% copied over, The change log is copied over too but missing links.  Need all documentation copied over.
+- A lot of documentation is still at google code, a good getting started pull request would be to work on translate that data over.  The original export only exported the issues and source code.  Thus far the TODO wiki is 100% copied over, The change log is copied over too but missing links.  Need all documentation copied over.
